@@ -27,22 +27,30 @@ var playlist = {
 
 var songs = [
   {
-    "id": "s1001",
+    "_id": "s1001",
     "title": "The Meters - Cissy Strut",
     "url": "youtube/song.mp4",
     "imgUrl": "https://i.ytimg.com/vi/4_iC0MyIykM/mqdefault.jpg",
-    "addedBy": '{minimal-user}'
+    "tags": [
+      "Funk",
+      "Happy"
+    ],
+    artist: 'Artist name'
+
   },
   {
-    "id": "mUkfiLjooxs",
+    "_id": "mUkfiLjooxs",
     "title": "The JB's - Pass The Peas",
     "url": "youtube/song.mp4",
     "imgUrl": "https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg",
-    "addedBy": { '_id': 'xxx', }
+    "tags": [
+      "Funk",
+      "Happy"
+    ],
+    "artist" : 'Artist name'
   },
-  {
 
-  }
+
 ]
 
 const user = {
