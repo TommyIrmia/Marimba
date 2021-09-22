@@ -1,0 +1,25 @@
+// BASICS
+@import "./basics/base.scss";
+
+// CMPS
+@import "./cmps/app-filter.scss";
+@import "./cmps/app-footer.scss";
+@import "./cmps/media-player.scss";
+@import "./cmps/nav-bar.scss";
+@import "./cmps/playlist-actions.scss";
+@import "./cmps/playlist-hero.scss";
+@import "./cmps/playlist-list.scss";
+@import "./cmps/playlist-preview.scss";
+@import "./cmps/track-list.scss";
+@import "./cmps/track-preview.scss";
+
+// PAGES
+@import "./pages/about-page.scss";
+@import "./pages/create-playlist.scss";
+@import "./pages/home-page.scss";
+@import "./pages/login-signup.scss";
+@import "./pages/playlist.page.scss";
+@import "./pages/user-profile.scss";
+
+// SETUP
+@import "./setup/_functions.scss";
