@@ -5,21 +5,21 @@
 @import "./basics/base.scss";
 
 // PAGES
-@import "./pages/about-page.scss";
-@import "./pages/create-playlist.scss";
-@import "./pages/home-page.scss";
-@import "./pages/login-signup.scss";
-@import "./pages/playlist.page.scss";
-@import "./pages/user-profile.scss";
+@import "./pages/AboutPage.scss";
+@import "./pages/CreatePlaylist";
+@import "./pages/HomePage.scss";
+@import "./pages/LoginSignup.scss";
+@import "./pages/PlaylistPage.scss";
+@import "./pages/UserProfile.scss";
 
 // CMPS
-@import "./cmps/app-filter.scss";
-@import "./cmps/app-footer.scss";
-@import "./cmps/media-player.scss";
-@import "./cmps/nav-bar.scss";
-@import "./cmps/playlist-actions.scss";
-@import "./cmps/playlist-hero.scss";
-@import "./cmps/playlist-list.scss";
-@import "./cmps/playlist-preview.scss";
-@import "./cmps/track-list.scss";
-@import "./cmps/track-preview.scss";
+@import "./cmps/AppFilter.scss";
+@import "./cmps/AppFooter.scss";
+@import "./cmps/MediaPlayer.scss";
+@import "./cmps/NavBar.scss";
+@import "./cmps/PlaylistActions.scss";
+@import "./cmps/PlaylistHero.scss";
+@import "./cmps/PlaylistList.scss";
+@import "./cmps/PlaylistPreview.scss";
+@import "./cmps/TrackList.scss";
+@import "./cmps//TrackPreview.scss";
