@@ -16,6 +16,7 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
+          hi its Naama
         </a>
       </header>
     </div>
