@@ -1,5 +1,16 @@
+// SETUP
+@import "./setup/_functions.scss";
+
 // BASICS
 @import "./basics/base.scss";
+
+// PAGES
+@import "./pages/about-page.scss";
+@import "./pages/create-playlist.scss";
+@import "./pages/home-page.scss";
+@import "./pages/login-signup.scss";
+@import "./pages/playlist.page.scss";
+@import "./pages/user-profile.scss";
 
 // CMPS
 @import "./cmps/app-filter.scss";
@@ -12,14 +23,3 @@
 @import "./cmps/playlist-preview.scss";
 @import "./cmps/track-list.scss";
 @import "./cmps/track-preview.scss";
-
-// PAGES
-@import "./pages/about-page.scss";
-@import "./pages/create-playlist.scss";
-@import "./pages/home-page.scss";
-@import "./pages/login-signup.scss";
-@import "./pages/playlist.page.scss";
-@import "./pages/user-profile.scss";
-
-// SETUP
-@import "./setup/_functions.scss";
