@@ -6,11 +6,8 @@ import routes from './routes'
 
 import { AppHeader } from './cmps/AppHeader';
 import { NavBar } from './cmps/NavBar';
-<<<<<<< HEAD
 import { StationDetails } from './pages/StationDetails';
-=======
 import { MediaPlayer } from './cmps/MediaPlayer';
->>>>>>> 744b5cada5b72179fe9b19f2dd1724d8147a0dca
 
 export class App extends React.Component {
 
