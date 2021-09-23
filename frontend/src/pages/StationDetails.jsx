@@ -6,21 +6,21 @@ export class StationDetails extends Component {
     render() {
         return (
             <section className="StationDetails">
-            <StationHero/>
-            <StationActions/>
-            <h3>s</h3>
-            <h3>s</h3>
-            <h3>s</h3>
-            <h3>s</h3>
-            <h3>s</h3>
-            <h3>s</h3>
-            <h3>s</h3>
-            <h3>s</h3>
-            <h3>s</h3>
-            <h3>s</h3>
-            <h3>s</h3>
-            <h3>s</h3>
-            <h3>s</h3>
+                <StationHero />
+                <StationActions />
+                <h3>s</h3>
+                <h3>s</h3>
+                <h3>s</h3>
+                <h3>s</h3>
+                <h3>s</h3>
+                <h3>s</h3>
+                <h3>s</h3>
+                <h3>s</h3>
+                <h3>s</h3>
+                <h3>s</h3>
+                <h3>s</h3>
+                <h3>s</h3>
+                <h3>s</h3>
             </section>
         )
     }
