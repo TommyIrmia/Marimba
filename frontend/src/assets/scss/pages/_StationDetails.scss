@@ -1,0 +1,8 @@
+.StationDetails{
+    $station-details-color: rgb(213, 136, 31);
+    background: linear-gradient(
+        darken($station-details-color, 40%) 70%,
+        darken($station-details-color, 50%) 90%,
+        darken($station-details-color, 60%) 100%,
+    );
+}

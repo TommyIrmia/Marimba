@@ -1,0 +1,14 @@
+.StationActions{
+    $station-details-color: rgb(213, 136, 31);
+    background: linear-gradient(
+        darken($station-details-color, 25%) 0%,
+        darken($station-details-color, 30%) 10%,
+        darken($station-details-color, 35%) 50%,
+        darken($station-details-color, 40%) 80%,
+    );
+
+    height: rem(170px);
+    // max-width:95%;
+    // margin:0 auto;
+    border-bottom: 1px solid rgba(177, 153, 153, 0.123);
+}

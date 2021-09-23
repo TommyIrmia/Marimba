@@ -1,42 +1,62 @@
-.StationHero{
+.StationHero {
+    $station-details-color: rgb(213, 136, 31);
+    background: linear-gradient(
+        $station-details-color 10%,
+        darken($station-details-color, 7%) 50%,
+        darken($station-details-color, 13%) 80%,
+        darken($station-details-color, 20%) 90%
+    );
+
     width: 100%;
-    height: rem(424px);
-    border-bottom: 1px solid black;
+    height: rem(415px);
+    // border-bottom: 1px solid rgba(0, 0, 0, 0.301);
     position: relative;
 
-    .logo{
+    .logo {
         width: 30px;
-        h1{
-            font-size:rem(12px);
+        h1 {
+            font-size: rem(12px);
         }
     }
 
-    .img-container{
+    .img-container {
         height: rem(290px);
         width: rem(290px);
-        background-color:rgba(213 136 31);
-        bottom:rem(28px);
-        left:rem(38px);
-        position:absolute;
+        background-color: rgb(213, 136, 31);
+        bottom: rem(28px);
+        left: rem(38px);
+        position: absolute;
         display: inline-block;
-        
+        padding:rem(5px);
+        .logo{
+            h1{
+                display: none;
+            }
+        }
     }
 
-    .info-container{
-        height: rem(235px);
-        position:absolute;
-        bottom:rem(28px);
+    .info-container {
+        height: rem(182px);
+        position: absolute;
+        bottom: rem(28px);
         left: 355px;
 
-        h5{
+        h5 {
             text-transform: uppercase;
+            letter-spacing: rem(-0.7px);
         }
 
-        .hero-title{
-            font-size:rem(100px);
+        .hero-title {
+            font-size: rem(100px);
             font-family: gotham-bold;
+            letter-spacing: rem(-7.5px);
         }
 
+        p{
+            margin-bottom: rem(15px);
+        }
         
     }
+
+   
 }
