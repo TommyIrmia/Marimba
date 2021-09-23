@@ -35,7 +35,7 @@ var songs = [
       "Funk",
       "Happy"
     ],
-    artist: 'Artist name'
+    "artist": "Artist name"
 
   },
   {
@@ -47,7 +47,7 @@ var songs = [
       "Funk",
       "Happy"
     ],
-    "artist" : 'Artist name'
+    "artist" : "Artist name"
   },
 
 

@@ -9,22 +9,46 @@ body {
   font-family: gotham-light;
 }
 
-h1,h2,h3,h4,h5,h6 {
-    margin: 0;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
 }
 
 button {
-    border: 0;
-    background-color: transparent;
-    cursor: pointer;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 a {
-    color: $clr7;
-    text-decoration: none;
-    font-family: gotham-bold;
-    &:hover {
-        text-decoration: underline;
-        cursor: pointer;
-    }
+  color: $clr7;
+  text-decoration: none;
+  font-family: gotham-bold;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.logo {
+  width: 50px;
+  img {
+    filter: invert(61%) sepia(81%) saturate(506%) hue-rotate(86deg)
+      brightness(83%) contrast(83%);
+    height: inherit;
+    width: inherit;
+  }
+
+  h1 {
+    font-family: gotham;
+    text-align: center;
+    font-size: 0.63rem;
+    position: relative;
+    bottom: 5px;
+    color: #93ebb2;
+  }
 }

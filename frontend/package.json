@@ -16,13 +16,9 @@
     "react-redux": "^7.2.5",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
-<<<<<<< HEAD
-    "redux-thunk": "^2.3.0",
-=======
     "redux": "^4.1.1",
     "redux-thunk": "^2.3.0",
     "sass": "^1.42.1",
->>>>>>> c9c62c307c55aac9a70a6dd53ebe325294790384
     "web-vitals": "^1.1.2"
   },
   "scripts": {

@@ -1,11 +1,11 @@
+import { Logo } from './cmps/Logo.jsx';
 
 export const App = () => {
 
   return (
     <div className="App">
+      <Logo />
 
-      <h1>Marimba</h1>
-      <h2>Marimba</h2>
       <a>Based on your recent listening</a>
     </div>
   );
