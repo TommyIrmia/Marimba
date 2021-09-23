@@ -5,6 +5,7 @@ import routes from './routes'
 
 
 import { AppHeader } from './cmps/AppHeader';
+import { NavBar } from './cmps/NavBar';
 
 export class App extends React.Component {
 
@@ -12,10 +13,10 @@ export class App extends React.Component {
 
   render() {
     return (
-      <div className="app">
+      <div className="app main-layout">
         <AppHeader />
+        <NavBar />
         <main className="main-app">
-          {/* <NavBar /> */}
           <Switch>
             {routes.map(route => <Route key={route.path} exact component={route.component} path={route.path} />)}
           </Switch>

@@ -3,7 +3,7 @@ import { Logo } from './Logo'
 
 export function AppHeader() {
     return (
-        <div className="app-header">
+        <div className="app-header full">
             <Logo />
         </div>
     )
