@@ -3,5 +3,36 @@
   position: fixed;
   height: 100vh;
   width: 200px;
-  background-color: #000;  
+  background-color: #000;
+  color: $clr2;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+
+  .logo {
+    margin-inline-start: 30px;
+    // align-self: center;
+  }
+  ul {
+    margin-top: 20px;
+    li {
+      //   margin-bottom: 20px;
+      font-family: gotham-bold;
+      transition: 0.5s;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      &:hover {
+        color: $clr7;
+        cursor: pointer;
+      }
+      &:last-child {
+        border-bottom: 2px solid gray;
+      }
+    }
+  }
+  span {
+    font-size: rem(25px);
+    margin-right: 1rem;
+  }
 }

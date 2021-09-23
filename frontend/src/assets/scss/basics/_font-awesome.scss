@@ -1,17 +1,33 @@
 @font-face {
-    font-family: awe-reg;
-    src: url("../../font-awesome/fa-regular-400.ttf");
-  }
-  
-  @font-face {
-    font-family: awe-solid;
-    src: url("../../font-awesome/fa-solid-900.ttf");
-  }
-  
-  .far::before {
-    font-family: awe-reg;
-  }
-  
-  .fas::before {
-    font-family: awe-solid;
-  }
+  font-family: awe-reg;
+  src: url("../../fonts/font-awesome/fa-regular-400.ttf");
+}
+
+@font-face {
+  font-family: awe-solid;
+  src: url("../../fonts/font-awesome/fa-solid-900.ttf");
+}
+
+.far::before {
+  font-family: awe-reg;
+}
+
+.fas::before {
+  font-family: awe-solid;
+}
+
+.fab::before {
+  font-family: awe-reg;
+}
+
+.fas.fa-home::before {
+  content: "\f015";
+}
+
+.fas.fa-plus-square::before {
+  content: "\f0fe";
+}
+
+.fas.fa-heart::before {
+  content: "\f004";
+}

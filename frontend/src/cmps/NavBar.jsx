@@ -9,11 +9,11 @@ export class NavBar extends Component {
                 <Logo />
 
                 <ul className="clean-list">
-                    <li>Home</li>
-                    <li>My Library</li>
-                    <br/>
-                    <li>Create Playlist</li>
-                    <li>Liked Songs</li>
+                    <li><span className="fas fa-home"></span>Home</li>
+                    <li><span>||\</span>My Library</li>
+                    <br />
+                    <li><span className="fas fa-plus-square"></span>Create Playlist</li>
+                    <li><span className="fas fa-heart"></span>Liked Songs</li>
                 </ul>
             </nav>
         )

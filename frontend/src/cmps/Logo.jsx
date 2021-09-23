@@ -5,7 +5,10 @@ export function Logo() {
     return (
         <div className="logo">
             <img src={logo} />
-            <h1>Marimba</h1>
+            <div>
+                <h1>Marimba</h1>
+                <p>Stay Tuned</p>
+            </div>
         </div>
     )
 }
