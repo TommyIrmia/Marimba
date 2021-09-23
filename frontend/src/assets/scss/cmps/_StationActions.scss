@@ -1,14 +1,45 @@
-.StationActions{
+.actions-container {
     $station-details-color: rgb(213, 136, 31);
     background: linear-gradient(
         darken($station-details-color, 25%) 0%,
         darken($station-details-color, 30%) 10%,
         darken($station-details-color, 35%) 50%,
-        darken($station-details-color, 40%) 80%,
+        darken($station-details-color, 40%) 80%
     );
+}
 
+.StationActions {
     height: rem(170px);
-    // max-width:95%;
-    // margin:0 auto;
     border-bottom: 1px solid rgba(177, 153, 153, 0.123);
+    position: relative;
+
+    .btns-actions {
+        width: rem(288px);
+        height: rem(70px);
+        position: absolute;
+        top: rem(28px);
+        justify-content: space-between;
+        align-items: center;
+
+        .play-btn {
+            color: $clr7;
+            text-align: center;
+            width: rem(50px);
+            height: rem(50px);
+            border-radius: 50%;
+            background-color: $clr5;
+            font-size: 1.5rem;
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+
+        .btn-action {
+            font-size: rem(30px);
+            color: $clr8;
+            &:hover {
+                color: $clr7;
+            }
+        }
+    }
 }

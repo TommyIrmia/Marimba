@@ -1,4 +1,4 @@
-.StationHero {
+.hero-container{
     $station-details-color: rgb(213, 136, 31);
     background: linear-gradient(
         $station-details-color 10%,
@@ -6,10 +6,11 @@
         darken($station-details-color, 13%) 80%,
         darken($station-details-color, 20%) 90%
     );
+}
 
-    width: 100%;
+
+.StationHero {
     height: rem(415px);
-    // border-bottom: 1px solid rgba(0, 0, 0, 0.301);
     position: relative;
 
     .logo {
@@ -24,7 +25,7 @@
         width: rem(290px);
         background-color: rgb(213, 136, 31);
         bottom: rem(28px);
-        left: rem(38px);
+        // left: rem(38px);
         position: absolute;
         display: inline-block;
         padding:rem(5px);
