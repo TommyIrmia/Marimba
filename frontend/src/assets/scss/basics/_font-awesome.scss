@@ -16,6 +16,10 @@
   font-family: awe-solid;
 }
 
+.fas::after {
+  font-family: awe-solid;
+}
+
 .fab::before {
   font-family: awe-reg;
 }
@@ -77,7 +81,10 @@
   content: "\f007";
 }
 
-.fas.fa-sort-down::before {
+// .fas.fa-sort-down::before {
+//   content: "\f0dd";
+// }
+.fas.fa-sort-down::after {
   content: "\f0dd";
 }
 
@@ -87,4 +94,8 @@
 
 .far.fa-arrow-alt-circle-down::before {
   content: "\f358";
+}
+
+.fas.fa-search::before {
+  content: "\f002";
 }
