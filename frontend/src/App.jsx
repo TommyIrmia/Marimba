@@ -6,6 +6,7 @@ import routes from './routes'
 
 import { AppHeader } from './cmps/AppHeader';
 import { NavBar } from './cmps/NavBar';
+import { MediaPlayer } from './cmps/MediaPlayer';
 
 export class App extends React.Component {
 
@@ -20,8 +21,8 @@ export class App extends React.Component {
           <Switch>
             {routes.map(route => <Route key={route.path} exact component={route.component} path={route.path} />)}
           </Switch>
-          {/* <MediaPlayer /> */}
         </main>
+        <MediaPlayer />
         {/* <AppFooter /> */}
       </div>
 

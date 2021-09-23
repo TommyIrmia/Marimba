@@ -20,8 +20,8 @@ p {
 }
 
 button {
-  //   border: 0;
-  //   background-color: transparent;
+  border: 0;
+  background-color: transparent;
   cursor: pointer;
 }
 
@@ -30,7 +30,6 @@ a {
   text-decoration: none;
   font-family: gotham-bold;
   &:hover {
-    text-decoration: underline;
     cursor: pointer;
   }
 }
@@ -51,14 +50,8 @@ a {
     text-align: center;
     font-size: 1rem;
     position: relative;
-    bottom: 5px;
     color: #93ebb2;
     position: relative;
-    top: 7px;
-  }
-  p {
-    position: relative;
-    top: 6px;
-    font-size: 0.73rem;
+    top: 2px;
   }
 }

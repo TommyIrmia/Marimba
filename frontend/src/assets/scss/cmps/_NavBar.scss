@@ -1,38 +1,48 @@
 .nav-bar {
-  grid-column: 1;
   position: fixed;
   height: 100vh;
   width: 200px;
   background-color: #000;
-  color: $clr2;
   padding: 20px 10px;
   display: flex;
   flex-direction: column;
 
-  .logo {
-    margin-inline-start: 30px;
-    // align-self: center;
-  }
   ul {
-    margin-top: 20px;
+    margin-top: 2rem;
+    border-bottom: 2px solid gray;
+
     li {
-      //   margin-bottom: 20px;
+      color: inherit;
+      background-color: inherit;
+      border-radius: 0.5rem;
       font-family: gotham-bold;
       transition: 0.5s;
       padding: 10px;
       display: flex;
       align-items: center;
+      gap: 1rem;
       &:hover {
         color: $clr7;
         cursor: pointer;
+        text-shadow: 0 0 2px $clr7;
       }
-      &:last-child {
-        border-bottom: 2px solid gray;
+
+      .symbol {
+        font-size: rem(25px);
+        width: 26px;
       }
     }
-  }
-  span {
-    font-size: rem(25px);
-    margin-right: 1rem;
+
+    a {
+      color: $clr2;
+      &.chosen {
+        color: $clr7;
+        background-color: $clr4;
+      }
+    }
+
+    .logo {
+      margin-inline-start: 30px;
+    }
   }
 }
