@@ -56,3 +56,11 @@
     @include aspect-ratio(9, 16);
   }
   
+
+  // clean
+
+  .clean-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
