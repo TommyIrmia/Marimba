@@ -1,26 +1,33 @@
-import { Logo } from './cmps/Logo.jsx';
+import React from 'react';
+import { Route, Switch } from 'react-router';
 
-export const App = () => {
+import routes from './routes'
 
-  return (
-    <div className="App">
-      <Logo />
 
-      <div className="player-container">
-        <iframe frameBorder="0"
-          allowFullScreen="1"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          title="YouTube video player"
-          width="100%"
-          height="100%"
-          src="https://www.youtube.com/embed/CHekNnySAfM?autoplay=1&amp;mute=0&amp;controls=0&amp;origin=https%3A%2F%2Fca-beatbox.herokuapp.com&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;iv_load_policy=3&amp;modestbranding=1&amp;enablejsapi=1&amp;widgetid=3"
-          id="widget4"></iframe>
+import { AppHeader } from './cmps/AppHeader';
+import { NavBar } from './cmps/NavBar';
+
+export class App extends React.Component {
+
+
+
+  render() {
+    return (
+      <div className="app main-layout">
+        <AppHeader />
+        <NavBar />
+        <main className="main-app">
+          <Switch>
+            {routes.map(route => <Route key={route.path} exact component={route.component} path={route.path} />)}
+          </Switch>
+          {/* <MediaPlayer /> */}
+        </main>
+        {/* <AppFooter /> */}
       </div>
 
-      <a>Based on your recent listening</a>
-    </div>
+    );
 
-  );
+  }
 }
 
 
