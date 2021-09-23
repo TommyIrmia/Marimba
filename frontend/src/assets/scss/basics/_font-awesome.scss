@@ -32,6 +32,47 @@
   content: "\f004";
 }
 
+<<<<<<< HEAD
 .far.fa-circle::before {
   content: "\f111";
+=======
+.far.fa-heart::before {
+  content: "\f004";
+}
+
+.fas.fa-play::before {
+  content: "\f04b";
+}
+
+.fas.fa-pause::before {
+  content: "\f04c";
+}
+
+.fas.fa-step-backward::before {
+  content: "\f048";
+}
+
+.fas.fa-step-forward::before {
+  content: "\f051";
+}
+
+.fas.fa-random::before {
+  content: "\f074";
+}
+
+.fas.fa-redo::before {
+  content: "\f01e";
+}
+
+.fas.fa-volume-up::before {
+  content: "\f028";
+}
+
+.fas.fa-volume-down::before {
+  content: "\f027";
+}
+
+.fas.fa-volume-mute::before {
+  content: "\f6a9";
+>>>>>>> 744b5cada5b72179fe9b19f2dd1724d8147a0dca
 }
