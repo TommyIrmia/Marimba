@@ -1,13 +1,8 @@
 // SETUP
-<<<<<<< HEAD
-@import "./setup/functions.scss";
-@import "./setup/mixins.scss";
-=======
 @import "setup/variables.scss";
-@import "setup/_functions.scss";
+@import "setup/functions.scss";
 @import "setup/mixin.scss";
 @import "setup/typography";
->>>>>>> c9c62c307c55aac9a70a6dd53ebe325294790384
 
 // BASICS
 @import "basics/helpers.scss";
