@@ -1,0 +1,17 @@
+@font-face {
+    font-family: awe-reg;
+    src: url("../../font-awesome/fa-regular-400.ttf");
+  }
+  
+  @font-face {
+    font-family: awe-solid;
+    src: url("../../font-awesome/fa-solid-900.ttf");
+  }
+  
+  .far::before {
+    font-family: awe-reg;
+  }
+  
+  .fas::before {
+    font-family: awe-solid;
+  }
