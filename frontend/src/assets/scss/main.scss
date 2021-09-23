@@ -12,20 +12,21 @@
 
 // PAGES
 @import "pages/AboutPage.scss";
-@import "pages/CreatePlaylist";
+@import "pages/CreateStation";
 @import "pages/HomePage.scss";
 @import "pages/LoginSignup.scss";
-@import "pages/PlaylistPage.scss";
+@import "pages/StationDetails.scss";
 @import "pages/UserProfile.scss";
 
 // CMPS
 @import "cmps/AppFilter.scss";
 @import "cmps/AppFooter.scss";
+@import "cmps/AppHeader.scss";
 @import "cmps/MediaPlayer.scss";
 @import "cmps/NavBar.scss";
-@import "cmps/PlaylistActions.scss";
-@import "cmps/PlaylistHero.scss";
-@import "cmps/PlaylistList.scss";
-@import "cmps/PlaylistPreview.scss";
+@import "cmps/StationActions.scss";
+@import "cmps/StationHero.scss";
+@import "cmps/StationList.scss";
+@import "cmps/StationPreview.scss";
 @import "cmps/TrackList.scss";
 @import "cmps/TrackPreview.scss";

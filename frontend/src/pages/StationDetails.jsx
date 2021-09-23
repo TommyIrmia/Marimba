@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 
-export class PlaylistPage extends Component {
+export class StationDetails extends Component {
     render() {
         return (
-            <section className="PlaylistPage">
-                
+            <section className="station-details">
+
             </section>
         )
     }
