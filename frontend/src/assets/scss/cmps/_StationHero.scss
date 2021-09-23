@@ -1,42 +1,39 @@
-.StationHero{
-    width: 100%;
-    height: rem(424px);
-    border-bottom: 1px solid black;
-    position: relative;
+.StationHero {
+  width: 100%;
+  height: rem(424px);
+  border-bottom: 1px solid black;
+  position: relative;
 
-    .logo{
-        width: 30px;
-        h1{
-            font-size:rem(12px);
-        }
+  .logo {
+    width: 30px;
+    h1 {
+      font-size: rem(12px);
+    }
+  }
+
+  .img-container {
+    height: rem(290px);
+    width: rem(290px);
+    background-color: rgba(213 136 31);
+    bottom: rem(28px);
+    left: rem(38px);
+    position: absolute;
+    display: inline-block;
+  }
+
+  .info-container {
+    height: rem(235px);
+    position: absolute;
+    bottom: rem(28px);
+    left: 355px;
+
+    h5 {
+      text-transform: uppercase;
     }
 
-    .img-container{
-        height: rem(290px);
-        width: rem(290px);
-        background-color:rgba(213 136 31);
-        bottom:rem(28px);
-        left:rem(38px);
-        position:absolute;
-        display: inline-block;
-        
+    .hero-title {
+      font-size: rem(100px);
+      font-family: gotham-bold;
     }
-
-    .info-container{
-        height: rem(235px);
-        position:absolute;
-        bottom:rem(28px);
-        left: 355px;
-
-        h5{
-            text-transform: uppercase;
-        }
-
-        .hero-title{
-            font-size:rem(100px);
-            font-family: gotham-bold;
-        }
-
-        
-    }
+  }
 }
