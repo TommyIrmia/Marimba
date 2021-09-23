@@ -3,7 +3,6 @@ import { Route, Switch } from 'react-router';
 
 import routes from './routes'
 
-
 import { AppHeader } from './cmps/AppHeader';
 import { NavBar } from './cmps/NavBar';
 import { StationDetails } from './pages/StationDetails';
