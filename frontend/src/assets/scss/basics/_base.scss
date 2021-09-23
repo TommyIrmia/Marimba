@@ -1,0 +1,30 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $clr1;
+  margin: 0;
+  color: $clr7;
+  font-family: gotham-light;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    margin: 0;
+}
+
+button {
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+a {
+    color: $clr7;
+    text-decoration: none;
+    font-family: gotham-bold;
+    &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}

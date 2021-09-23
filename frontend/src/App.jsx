@@ -1,5 +1,6 @@
 
 export const App = () => {
+
   return (
     <div className="App">
       {/* <div className="player-container">
@@ -12,6 +13,10 @@ export const App = () => {
        src="https://www.youtube.com/embed/CHekNnySAfM?autoplay=1&amp;mute=0&amp;controls=0&amp;origin=https%3A%2F%2Fca-beatbox.herokuapp.com&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;iv_load_policy=3&amp;modestbranding=1&amp;enablejsapi=1&amp;widgetid=3" 
        id="widget4"></iframe>
       </div> */}
+
+      <h1>Marimba</h1>
+      <h2>Marimba</h2>
+      <a>Based on your recent listening</a>
     </div>
     
   );
