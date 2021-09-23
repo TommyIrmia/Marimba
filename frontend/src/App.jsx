@@ -1,3 +1,4 @@
+import { Logo } from './cmps/Logo.jsx';
 
 export const App = () => {
 
@@ -14,8 +15,6 @@ export const App = () => {
        id="widget4"></iframe>
       </div>
 
-      <h1>Marimba</h1>
-      <h2>Marimba</h2>
       <a>Based on your recent listening</a>
     </div>
     
