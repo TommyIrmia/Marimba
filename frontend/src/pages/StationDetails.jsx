@@ -4,8 +4,8 @@ import { StationActions } from './../cmps/StationActions';
 import { TrackSearch } from '../cmps/TrackSearch';
 export class StationDetails extends Component {
 
-    state={
-         isSearch: false,
+    state = {
+        isSearch: false,
     }
 
     inputRef = React.createRef()
@@ -19,11 +19,11 @@ export class StationDetails extends Component {
         this.setState({ isSearch: false });
     }
 
-   
+
 
 
     render() {
-        const {isSearch} = this.state;
+        const { isSearch } = this.state;
         return (
             <section className="StationDetails">
                 <div onClick={this.onCloseSerach} className={(isSearch ? "screen" : "")}></div>
@@ -48,9 +48,9 @@ export class StationDetails extends Component {
                 <h3>s</h3>
                 <h3>s</h3>
                 <h3>s</h3>
-                <TrackSearch/>
+                <TrackSearch />
             </section>
-           
+
         )
     }
 }
