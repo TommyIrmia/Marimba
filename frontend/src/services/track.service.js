@@ -24,8 +24,7 @@ export const trackService = {
     query,
     getById,
     add,
-    remove,
-    setTrackToFormat
+    remove
 }
 
 
@@ -49,19 +48,6 @@ function remove(trackId) {
 }
 function add(track) {
     return storageService.post(STORAGE_KEY, track)
-}
-
-function setTrackToFormat(TrackToSET) {
-    if (TrackToSET) {
-        track = {
-            id: TrackToSET.items.videoId,
-            title: TrackToSET.snippet.title,
-            url: "youtube/song.mp4",
-            imgUrl: TrackToSET.snippet.thumbnails.defualt.url,
-            addBy: 'Naama'
-        }
-    }
-    else console.log('got no track!')
 }
 
 function _saveTracksToStorage() {

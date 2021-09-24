@@ -1,7 +1,7 @@
-import { TrackPreview } from './track-preview.jsx'
+import { SuggestTrackPreview } from "./SuggestTrackPreview"
 
 export function SuggestTrackList({ tracks, onAddTrack }) {
-    if (!tracks.length) return <div>No Tracks Right Now....</div>
+    if (!tracks) return <div>No Tracks Right Now....</div>
     return (
         <section className="tracks-list">
             {tracks.map(track => <SuggestTrackPreview key={track._id}

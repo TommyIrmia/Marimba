@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { StationHero } from './../cmps/StationHero';
 import { StationActions } from './../cmps/StationActions';
-
+import { TrackSearch } from '../cmps/TrackSearch';
 export class StationDetails extends Component {
     render() {
         return (
@@ -21,7 +21,9 @@ export class StationDetails extends Component {
                 <h3>s</h3>
                 <h3>s</h3>
                 <h3>s</h3>
+                <TrackSearch/>
             </section>
+           
         )
     }
 }
