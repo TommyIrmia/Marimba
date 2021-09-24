@@ -16,7 +16,11 @@ export class TrackSearch extends React.Component {
 
     render() {
         return (
-            <SuggestTrackList tracks={this.state.tracks} />
+            <div className="search-tracks">
+                <h4>To search other tracks</h4>
+                <h2>Suggested</h2>
+                <SuggestTrackList tracks={this.state.tracks} />
+            </div>
         )
     }
 }
