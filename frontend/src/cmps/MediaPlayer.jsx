@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import YouTube from 'react-youtube';
-import logo from '../assets/imgs/logo3.png';
-import Slider from '@mui/material/Slider';
+import imgSrc from '../assets/imgs/logo3.png';
+import { TrackDetails } from './TrackDetails.jsx';
+import { PlayerActions } from './PlayerActions.jsx';
+import { VolumeController } from './VolumeController';
 
 export class MediaPlayer extends Component {
     station = [{
@@ -28,6 +30,7 @@ export class MediaPlayer extends Component {
         currSongIdx: 0,
         songLength: '',
         currDuration: 0,
+        volume: 70
     }
 
     timeInter;
@@ -42,17 +45,21 @@ export class MediaPlayer extends Component {
         if (nextIdx < 0) {
             this.state.player.stopVideo()
             this.state.player.playVideo()
-            this.setState({ songLength: this.state.player.getDuration() })
             nextIdx = 0;
         };
         if (nextIdx >= this.station.length) nextIdx = 0;
         this.setState({ currSongIdx: nextIdx })
-        // this.setState({ songLength: this.state.player.getDuration() })
     }
 
     onStateChange = (ev) => {
-        if (ev.data === 2 || !this.state.isPlaying) return
+        const songLength = ev.target.getDuration()
+        this.setState({ songLength })
+        if (ev.data === 2 || !this.state.isPlaying) {
+            this.setState({ currDuration: ev.target.getCurrentTime() })
+            return
+        }
         ev.target.playVideo()
+
     }
 
     onTogglePlay = () => {
@@ -61,7 +68,6 @@ export class MediaPlayer extends Component {
                 this.state.player.pauseVideo()
                 clearInterval(this.timeInter)
             })
-
         } else {
             this.setState({ isPlaying: true }, () => {
                 this.state.player.playVideo()
@@ -77,10 +83,14 @@ export class MediaPlayer extends Component {
         if (this.state.isMute) {
             this.setState({ isMute: false }, () => {
                 this.state.player.unMute();
+                console.log(this.state.player.getVolume());
+                this.setState({ volume: this.state.player.getVolume() })
             })
         } else {
             this.setState({ isMute: true }, () => {
-                this.state.player.mute();
+                this.state.player.mute()
+                this.setState({ volume: 0 })
+                // this.state.player.mute();
             })
         }
     }
@@ -88,20 +98,18 @@ export class MediaPlayer extends Component {
     onVolumeChange = (ev) => {
         const volume = ev.target.value
         this.state.player.setVolume(volume)
+        this.setState({ volume })
     }
 
-    getTimeFormat = (duration) => {
-        let min = Math.floor(duration / 60)
-        if (min < 10) min = '0' + min;
-        let sec = Math.ceil(duration % 60)
-        if (sec < 10) sec = '0' + sec;
-
-        return (min + ':' + sec)
+    onDurationChange = (ev) => {
+        const duration = ev.target.value
+        this.state.player.seekTo(duration)
+        this.setState({ currDuration: duration })
     }
+
 
     render() {
-        const { isPlaying, currSongIdx, isMute, player, songLength, currDuration } = this.state
-        if (player) console.log('songLength', songLength);
+        const { isPlaying, currSongIdx, isMute, songLength, currDuration, volume } = this.state
 
         return (
             <div className="media-player">
@@ -118,51 +126,15 @@ export class MediaPlayer extends Component {
                     onStateChange={(ev) => this.onStateChange(ev)}      // defaults -> noop
                 />
 
-                <div className="song-details flex align-center">
-                    <div className="artist-img"> <img src={logo} /> </div>
-                    <div className="song-info">
-                        <p>{this.station[currSongIdx].songName}</p>
-                        <p>{this.station[currSongIdx].artist}</p>
-                    </div>
-                    <div className="song-actions">
-                        <button className="far fa-heart"></button>
-                    </div>
-                </div>
+                <TrackDetails imgSrc={imgSrc} currTrack={this.station[currSongIdx]} />
 
+                <PlayerActions onChangeSong={this.onChangeSong} currSongIdx={currSongIdx}
+                    isPlaying={isPlaying} songLength={songLength} currDuration={currDuration}
+                    onDurationChange={this.onDurationChange} onTogglePlay={this.onTogglePlay} />
 
-                <div className="player-actions flex">
-                    <button className="action-btn fas fa-random"></button>
-                    <button className="action-btn fas fa-step-backward"
-                        onClick={() => this.onChangeSong(-1, currSongIdx)}></button>
+                <VolumeController isMute={isMute} onToggleMute={this.onToggleMute}
+                    volume={volume} onVolumeChange={this.onVolumeChange} />
 
-                    <button className={"play-btn " + (isPlaying ? "fas fa-pause" : "fas fa-play")}
-                        onClick={this.onTogglePlay}>
-                    </button>
-
-                    <button className="action-btn fas fa-step-forward"
-                        onClick={() => this.onChangeSong(1, currSongIdx)}></button>
-                    <button className="action-btn fas fa-redo"></button>
-
-
-                    <div className="progress-bar">
-                        total time : {this.getTimeFormat(songLength)} currDuration : {this.getTimeFormat(currDuration)}
-                    </div>
-
-                </div>
-
-
-                <div className="volume-controller flex align-center">
-                    <button className={isMute ? "fas fa-volume-mute" : "fas fa-volume-up"}
-                        onClick={() => this.onToggleMute()}></button>
-                    <Slider
-                        className="volume-slider"
-                        size="medium"
-                        defaultValue={70}
-                        onChange={this.onVolumeChange}
-                        aria-label="Medium"
-                        valueLabelDisplay="auto"
-                    />
-                </div>
             </div>
         )
     }

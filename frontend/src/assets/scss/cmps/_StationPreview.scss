@@ -1,1 +1,83 @@
+.station-preview {
+  position: relative;
+  min-width: 220px;
+  max-width: 240px;
+  height: 320px;
+  background-color: $clr3;
+  border-radius: 5px;
+  padding: 20px;
+  transition: background-color 0.3s ease;
 
+  .station-img {
+    position: relative;
+    height: 85%;
+    width: 100%;
+    .play-btn {
+      opacity: 0;
+      position: absolute;
+      bottom: 15px;
+      right: 10px;
+      text-align: center;
+      background-color: $clr5;
+      height: 50px;
+      line-height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      &:hover {
+        transform: scale(1.1);
+      }
+      transition: 0.5s;
+    }
+    
+    img {
+      height: inherit;
+      width: inherit;
+      object-fit: cover;
+      border-radius: 1rem;
+      box-shadow: 0 3px 30px 1px black;
+    }
+  }
+  
+  &:hover {
+    background-color: $clr4;
+    .station-img {
+      .play-btn {
+        bottom: 45px;
+        opacity: 1;
+      }
+    }
+  }
+
+  .station-like {
+    color: $clr2;
+    font-size: 1.5rem;
+    position: absolute;
+    bottom: 25px;
+    right: 20px;
+    &:hover {
+      color: $clr7;
+    }
+  }
+
+  .station-info {
+    position: relative;
+    top: -15px;
+    font-size: 1rem;
+    h1 {
+      margin-bottom: 10px;
+    }
+    h2 {
+      position: relative;
+      top: 5px;
+      font-size: rem(15px);
+      text-align: right;
+      font-family: gotham;
+      color: $clr2;
+    }
+    p {
+      font-family: gotham;
+      color: $clr2;
+      font-size: rem(14px);
+    }
+  }
+}
