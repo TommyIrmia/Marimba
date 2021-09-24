@@ -1,0 +1,11 @@
+.SuggestTrack {
+  height: rem(45px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  button {
+    border: 1px solid seashell;
+    border-radius: 0.5rem;
+    color: seashell;
+  }
+}
