@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import { AppFilter } from './AppFilter';
 
 export class StationActions extends Component {
     render() {
         const isPlaying = false;
-        const isInputShown = true;
+        const {isSearch,onSearch,inputRef} = this.props;
         return (
             <main className="actions-container">
                 <section className="StationActions playlist-layout">
@@ -14,13 +15,8 @@ export class StationActions extends Component {
                         <button className="far fa-arrow-alt-circle-down btn-action"></button>
                         <button className="fas fa-ellpsis-h btn-action"></button>
                     </div>
-                    <div className="filter-container">
-                    <button className={"fas fa-search btn-search " + (isInputShown ? "invisible" : "")}></button>
-                    {/* <button  className="fas fa-search btn-search" ></button> */}
-                    <button className="fas fa-sort-down btn-sort" >Custom order</button>
-                    <input  className={(isInputShown ? "show" : "unshow")} 
-                    type="text" placeholder="Search in playlist"/>
-                    </div>
+                  
+                    <AppFilter inputRef={inputRef} onSearch={onSearch} isSearch={isSearch} />
                 </section>
             </main>
         )

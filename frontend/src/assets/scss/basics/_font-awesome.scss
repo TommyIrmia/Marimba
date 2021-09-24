@@ -81,12 +81,16 @@
   content: "\f007";
 }
 
-// .fas.fa-sort-down::before {
-//   content: "\f0dd";
-// }
-.fas.fa-sort-down::after {
+.fas.fa-sort-down::before {
   content: "\f0dd";
 }
+
+.fas.fa-sort-up::before {
+  content: "\f0de";
+}
+// .fas.fa-sort-down::after {
+//   content: "\f0dd";
+// }
 
 .fas.fa-ellpsis-h::before {
   content: "\f141";
