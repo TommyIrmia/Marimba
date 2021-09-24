@@ -58,10 +58,11 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        // padding: 0 20px;
-        padding: 0;
+        padding: 0 20px;
+        // padding: 0;
+        // text-indent: center;
         margin: 0;
-        top: 16px;
+        top: 30px;
 
         .sort-li{
             padding: 20px 0;
@@ -69,7 +70,7 @@
 
             &:hover {
                 cursor: pointer;
-                background-color:white;
+                background-color:rgba(255, 255, 255, 0.459);
             }
         }
     }

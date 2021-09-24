@@ -26,7 +26,7 @@ export class AppFilter extends Component {
                 <div onClick={() => {
                     this.onToggleSort()
                 }} className="sort-container">
-                    <p>{option}</p>
+                    <div>{option}</div>
                     <div className={(isSort) ? 'fas fa-sort-up' : 'fas fa-sort-down'}
                     ></div>
                 </div>
