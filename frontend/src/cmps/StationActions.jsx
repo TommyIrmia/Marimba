@@ -4,7 +4,7 @@ import { AppFilter } from './AppFilter';
 export class StationActions extends Component {
     render() {
         const isPlaying = false;
-        const {isSearch,onSearch,inputRef} = this.props;
+        const { isSearch, onSearch, inputRef } = this.props;
         return (
             <main className="actions-container">
                 <section className="StationActions playlist-layout">
@@ -15,8 +15,14 @@ export class StationActions extends Component {
                         <button className="far fa-arrow-alt-circle-down btn-action"></button>
                         <button className="fas fa-ellpsis-h btn-action"></button>
                     </div>
-                  
+
                     <AppFilter inputRef={inputRef} onSearch={onSearch} isSearch={isSearch} />
+
+                    <div className="preview-info flex">
+                        <small className="info-title" >title</small>
+                        <small className="info-date" >date added</small>
+                        <small className="info-duration" className="far fa-clock" ></small>
+                    </div>
                 </section>
             </main>
         )

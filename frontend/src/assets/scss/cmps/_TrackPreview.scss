@@ -1,0 +1,36 @@
+.track-container {
+    align-items: center;
+    gap: 100px;
+
+    &:hover{
+        background-color:rgba(255, 255, 255, 0.123);
+    }
+    
+    .TrackPreview {
+        align-items: center;
+        gap: 10px;
+        min-width: 500px;
+        
+        img {
+            width: rem(70px);
+        }
+        
+        .play-btn {
+            color: $clr7;
+        }
+
+    }
+
+    .track-date{
+        width: -webkit-fill-available;
+    }
+
+    .preview-actions{
+
+        gap: 10px;
+
+        .btn-like{
+            color: $clr7;
+        }
+    }
+}
