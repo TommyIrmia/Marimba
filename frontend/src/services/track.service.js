@@ -47,7 +47,7 @@ function remove(trackId) {
     return storageService.remove(STORAGE_KEY, trackId)
 }
 function add(track) {
-        return storageService.post(STORAGE_KEY, track)
+    return storageService.post(STORAGE_KEY, track)
 }
 
 function _saveTracksToStorage() {
