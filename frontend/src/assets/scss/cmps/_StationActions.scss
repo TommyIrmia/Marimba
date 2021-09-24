@@ -1,0 +1,98 @@
+.actions-container {
+    $station-details-color: rgb(213, 136, 31);
+    background: linear-gradient(
+        darken($station-details-color, 25%) 0%,
+        darken($station-details-color, 30%) 10%,
+        darken($station-details-color, 35%) 50%,
+        darken($station-details-color, 40%) 80%
+    );
+}
+
+.StationActions {
+    height: rem(170px);
+    border-bottom: 1px solid rgba(177, 153, 153, 0.123);
+    position: relative;
+
+    .btns-actions {
+        width: rem(288px);
+        height: rem(70px);
+        position: absolute;
+        top: rem(28px);
+        justify-content: space-between;
+        align-items: center;
+
+        .play-btn {
+            color: $clr7;
+            text-align: center;
+            width: rem(50px);
+            height: rem(50px);
+            border-radius: 50%;
+            background-color: $clr5;
+            font-size: 1.5rem;
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+
+        .btn-action {
+            font-size: rem(30px);
+            color: $clr8;
+            &:hover {
+                color: $clr7;
+            }
+        }
+    }
+
+    .filter-container {
+        width: rem(195px);
+        height: rem(30px);
+        // background-color: salmon;
+        position: absolute;
+        right: 0;
+        top: rem(45px);
+
+        .btn-search {
+            color: $clr8;
+            width: rem(30px);
+            height: rem(30px);
+            
+            .invisible {
+                //    visibility: hidden;
+                //    opacity: 100%;
+                // display: none;
+                // color: aqua;
+            }
+
+            &:hover {
+                color: $clr7;
+                border-radius: 50%;
+                background-color: rgba(255, 255, 255, 0.363);
+            }
+        }
+
+        .btn-sort {
+            color: $clr8;
+            &:hover {
+                color: $clr7;
+            }
+        }
+
+        input {
+            background-color: rgba(255, 255, 255, 0.103);
+            height: rem(30px);
+            border-radius: rem(4.5px);
+            position: absolute;
+
+            transition: transform 0.6s;
+        }
+        .unshow {
+            transform: translateX(-100px);
+            z-index: -1;
+        }
+
+        .show {
+            transform: translateX(-263px);
+            z-index: 0;
+        }
+    }
+}
