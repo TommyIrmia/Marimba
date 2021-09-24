@@ -1,0 +1,26 @@
+.station-list {
+  .station-genre {
+    font-size: rem(20px);
+    padding: 10px 0 30px;
+    a {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    p {
+      text-transform: uppercase;
+      font-size: rem(15px);
+      color: $clr2;
+    }
+  }
+
+  .stations {
+    max-height: 340px;
+    gap: 24px;
+    margin-bottom: 40px;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-auto-rows: 0;
+    grid-template-rows: 1fr;
+    overflow-y: hidden;
+  }
+}

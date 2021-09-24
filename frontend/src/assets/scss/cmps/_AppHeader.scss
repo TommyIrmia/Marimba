@@ -1,21 +1,22 @@
 .app-header {
-    height: 60px;
-    background-color: $clr6;
+  height: 60px;
+  background-color: $clr6;
+  grid-row: 1;
 
-    .user-container {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        width: rem(120px);
-        height: rem(40px);
-        background-color: #121212c5;
-        border-radius: 20px;
-        position: absolute;
-        top: rem(18px);
-        left:rem(38px);
+  .user-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: rem(120px);
+    height: rem(40px);
+    background-color: #121212c5;
+    border-radius: 20px;
+    position: absolute;
+    top: rem(18px);
+    left: rem(38px);
 
-        .user-name {
-            font-family: gotham-bold;
-        }
+    .user-name {
+      font-family: gotham-bold;
     }
+  }
 }

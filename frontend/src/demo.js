@@ -3,7 +3,7 @@
 
 var playlist = {
   "_id": "5c09",
-  "name": "Funky Monks",
+  "name": "Reggae",
   "tags": [
     "Funk",
     "Happy"
@@ -12,46 +12,70 @@ var playlist = {
   "createdBy": {
     "_id": "u101",
     "fullname": "Puki Ben David",
-    "imgUrl": "http://some-photo/"
+    "imgUrl": "https://i.ytimg.com/vi/4_iC0MyIykM/mqdefault.jpg"
   },
   "likedByUsers": [{
     '_id': 'xdasd',
     'firstname': 'asd',
     'lastname': 'sdsa',
     'imgUrl': 'asdasd.co.il'
-  },
-    '{minimal-user}'
+  }, {
+    '_id': 'xdasd',
+    'firstname': 'asd',
+    'lastname': 'sdsa',
+    'imgUrl': 'asdasd.co.il'
+  }, {
+    '_id': 'xdasd',
+    'firstname': 'asd',
+    'lastname': 'sdsa',
+    'imgUrl': 'asdasd.co.il'
+  }, {
+    '_id': 'xdasd',
+    'firstname': 'asd',
+    'lastname': 'sdsa',
+    'imgUrl': 'asdasd.co.il'
+  }
   ],
-  "songs": ['s1001', 'mUkfiLjooxs']
+  "songs": [
+    {
+      "_id": "s1001",
+      "title": "Is This Love",
+      "trackId": "CHekNnySAfM",
+      "imgUrl": "https://i.ytimg.com/vi/4_iC0MyIykM/mqdefault.jpg",
+      "tags": [
+        "Funk",
+        "Happy"
+      ],
+      "artist": "Bob Marley"
+
+    },
+    {
+      "_id": "mUkfiLjooxs",
+      "title": "Rise Up",
+      "trackId": "HHk_4cur2nw",
+      "imgUrl": "https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg",
+      "tags": [
+        "Funk",
+        "Happy"
+      ],
+      "artist": "Tomorrow People"
+    },
+    {
+      "_id": "mUkfiLjooxs",
+      "title": "Three Little Birds",
+      "trackId": "CuNJ5j2fybo",
+      "imgUrl": "https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg",
+      "tags": [
+        "Funk",
+        "Happy"
+      ],
+      "artist": "Bob Marley"
+    },
+
+
+  ]
 }
 
-var songs = [
-  {
-    "_id": "s1001",
-    "title": "The Meters - Cissy Strut",
-    "url": "youtube/song.mp4",
-    "imgUrl": "https://i.ytimg.com/vi/4_iC0MyIykM/mqdefault.jpg",
-    "tags": [
-      "Funk",
-      "Happy"
-    ],
-    "artist": "Artist name"
-
-  },
-  {
-    "_id": "mUkfiLjooxs",
-    "title": "The JB's - Pass The Peas",
-    "url": "youtube/song.mp4",
-    "imgUrl": "https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg",
-    "tags": [
-      "Funk",
-      "Happy"
-    ],
-    "artist" : "Artist name"
-  },
-
-
-]
 
 const user = {
   "_id": "xxxxxxx",
