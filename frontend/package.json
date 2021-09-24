@@ -3,13 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-<<<<<<< HEAD
     "@emotion/react": "^11.4.1",
     "@emotion/style": "^0.8.0",
     "@emotion/styled": "^11.3.0",
-=======
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.14.5",
->>>>>>> 681e671abb4eb0334b854f09cb875e271f54ffb2
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@mui/material": "^5.0.1",
