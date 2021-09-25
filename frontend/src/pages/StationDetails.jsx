@@ -40,7 +40,7 @@ export class _StationDetails extends Component {
     }
 
     onSetFilter = async (filterBy) => {
-        this.props.loadTrack(filterBy)
+       await this.props.loadTracks(filterBy)
     }
 
     onRemoveTrack = async (trackId) => {

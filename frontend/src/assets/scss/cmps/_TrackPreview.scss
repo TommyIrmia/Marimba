@@ -1,37 +1,44 @@
 .track-container {
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 5px;
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.123);
+  }
+
+  .TrackPreview {
     align-items: center;
-    gap: 100px;
+    gap: 10px;
+    width: 400px;
+    margin: 10px;
 
-    &:hover{
-        background-color:rgba(255, 255, 255, 0.123);
-    }
-    
-    .TrackPreview {
-        align-items: center;
-        gap: 10px;
-        min-width: 480px;
-        margin-bottom: rem(10px);
-        
-        img {
-            width: rem(70px);
-        }
-        
-        .play-btn {
-            color: $clr7;
-        }
-
+    .track-img-container {
+      height: 40px;
+      width: 40px;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
 
-    .track-date{
-        width: -webkit-fill-available;
+    .play-btn {
+      color: $clr7;
     }
+  }
 
-    .preview-actions{
+  .track-date {
+    width: 200px;
+    text-align: center;
+  }
 
-        gap: 10px;
-
-        .btn-like,.btn-remove{
-            color: $clr7;
-        }
+  .preview-actions {
+    gap: 10px;
+    width: 100px;
+    .btn-like,
+    .btn-remove {
+      color: $clr7;
     }
+  }
 }
