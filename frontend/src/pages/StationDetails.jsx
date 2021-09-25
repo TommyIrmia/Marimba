@@ -44,6 +44,7 @@ export class _StationDetails extends Component {
     }
 
     onRemoveTrack = async (trackId) => {
+        console.log(trackId);
         try {
             await this.props.onRemoveTrack(trackId)
         } catch (err) {
