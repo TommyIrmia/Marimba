@@ -31,7 +31,7 @@ function query(entityType, delay = 1200) {
             "id": 'kTJczUoc26U',
             "title": 'The Kid LAROI, Justin Bieber - STAY (Official Video)',
             "url": "youtube/song.mp4",
-            "imgUrl": 'https://i.ytimg.com/vi/kTJczUoc26U/default.jpg',
+            "imgUrl": 'https://i.ytimg.com/vi/kTJczUoc26U/mqdefault.jpg',
             "addedBy": 'Tomer',
             "addedAt":1607110465663
         },
@@ -39,7 +39,7 @@ function query(entityType, delay = 1200) {
             "id": "tQ0yjYUFKAE",
             "title": "Justin Bieber - Peaches ft. Daniel Caesar, Giveon",
             "url": "youtube/song.mp4",
-            "imgUrl": "https://i.ytimg.com/vi/tQ0yjYUFKAE/default.jpg",
+            "imgUrl": "https://i.ytimg.com/vi/tQ0yjYUFKAE/mqdefault.jpg",
             "addedBy": 'Tomer',
             "addedAt":1607110465663
         },
@@ -47,7 +47,7 @@ function query(entityType, delay = 1200) {
             "id": 'kffacxfA7G4',
             "title": 'Justin Bieber - Baby (Official Music Video) ft. Ludacris',
             "url": "youtube/song.mp4",
-            "imgUrl": 'https://i.ytimg.com/vi/kffacxfA7G4/default.jpg',
+            "imgUrl": 'https://i.ytimg.com/vi/kffacxfA7G4/mqdefault.jpg',
             "addedBy": 'tommy',
             "addedAt":1607110465663
         }
@@ -99,7 +99,7 @@ function put(entityType, updatedEntity) {
 function remove(entityType, entityId) {
     return query(entityType)
         .then(entities => {
-            const idx = entities.findIndex(entity => entity._id === entityId)
+            const idx = entities.findIndex(entity => entity.id === entityId)
             entities.splice(idx, 1)
             save(entityType, entities)
         })
