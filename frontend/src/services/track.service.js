@@ -15,6 +15,27 @@ var initialTracks =
             "url": "youtube/song.mp4",
             "imgUrl": "https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg",
             "addedBy": 'Tomer'
+        },
+        {
+            "id": 'kTJczUoc26U',
+            "title": 'The Kid LAROI, Justin Bieber - STAY (Official Video)',
+            "url": "youtube/song.mp4",
+            "imgUrl": 'https://i.ytimg.com/vi/kTJczUoc26U/default.jpg',
+            "addedBy": 'Tomer'
+        },
+        {
+            "id": "tQ0yjYUFKAE",
+            "title": "Justin Bieber - Peaches ft. Daniel Caesar, Giveon",
+            "url": "youtube/song.mp4",
+            "imgUrl": "https://i.ytimg.com/vi/tQ0yjYUFKAE/default.jpg",
+            "addedBy": 'Tomer'
+        },
+        {
+            "id": 'kffacxfA7G4',
+            "title": 'Justin Bieber - Baby (Official Music Video) ft. Ludacris',
+            "url": "youtube/song.mp4",
+            "imgUrl": 'https://i.ytimg.com/vi/kffacxfA7G4/default.jpg',
+            "addedBy": 'Tomer'
         }
     ]
 
@@ -37,7 +58,9 @@ function query() {
         }
 
     })
-    return Promise.resolve(tracks)
+   
+    return tracks
+
 }
 function getById(trackId) {
     return asyncStorageService.get(STORAGE_KEY, trackId)
