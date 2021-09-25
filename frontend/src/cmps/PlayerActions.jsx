@@ -32,7 +32,7 @@ export class PlayerActions extends Component {
                 <button className="action-btn fas fa-redo"></button>
 
                 <div className="duration-controller flex align-center">
-                    <p>{this.getTimeFormat(songLength)}</p>
+                    <p>{this.getTimeFormat(currDuration)}</p>
                     <Slider
                         className="duration-slider"
                         size="medium"
@@ -43,7 +43,7 @@ export class PlayerActions extends Component {
                         onChange={onDurationChange}
                         aria-label="Medium"
                     />
-                    <p>{this.getTimeFormat(currDuration)}</p>
+                    <p>{this.getTimeFormat(songLength)}</p>
                 </div>
             </div>
         )

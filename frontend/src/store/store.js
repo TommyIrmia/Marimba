@@ -3,11 +3,14 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 import thunk from 'redux-thunk'
 
-
-
+import { stationReducer } from './station.reducer.js'
+import { tracksReducer } from './tracks.reducer.js'
+import { mediaPlayerReducer } from './mediaplayer.reducer.js'
 
 const rootReducer = combineReducers({
-    
+    stationModule: stationReducer,
+    tracksModule: tracksReducer,
+    mediaPlayerModule: mediaPlayerReducer,
 })
 
 

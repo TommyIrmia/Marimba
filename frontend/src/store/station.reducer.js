@@ -1,13 +1,13 @@
 
 
 const initialState = {
-   
+    station: []
 }
 
-export function playlistReducer(state = initialState, action) {
-    
+export function stationReducer(state = initialState, action) {
+
     switch (action.type) {
-      
+
         default:
     }
 

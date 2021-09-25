@@ -14,6 +14,7 @@ async function query(search = 'Beatels') {
     const videos = await storageService.load(KEY)
     if (videos) {
         console.log('from cache');
+        console.log('videos', videos)
         return videos;
     }
     try {

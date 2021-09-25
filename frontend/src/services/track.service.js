@@ -4,35 +4,40 @@ var initialTracks =
     [
         {
             "id": "A_MjCqQoLLA",
-            "title": "Hey Jude- Beatels",
+            "title": "Hey Jude",
+            "artist": "Beatels",
             "url": "youtube/song.mp4",
             "imgUrl": "https://i.ytimg.com/vi/4_iC0MyIykM/mqdefault.jpg",
             "addedBy": 'Naama'
         },
         {
             "id": "m2uTFF_3MaA",
-            "title": "Yellow Submarine- Beatels",
+            "title": "Yellow Submarine",
+            "artist": "Beatels",
             "url": "youtube/song.mp4",
             "imgUrl": "https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg",
             "addedBy": 'Tomer'
         },
         {
             "id": 'kTJczUoc26U',
-            "title": 'The Kid LAROI, Justin Bieber - STAY (Official Video)',
+            "title": 'STAY (Official Video)',
+            "artist": "The Kid LAROI, Justin Bieber",
             "url": "youtube/song.mp4",
             "imgUrl": 'https://i.ytimg.com/vi/kTJczUoc26U/default.jpg',
             "addedBy": 'Tomer'
         },
         {
             "id": "tQ0yjYUFKAE",
-            "title": "Justin Bieber - Peaches ft. Daniel Caesar, Giveon",
+            "title": "Peaches ft. Daniel Caesar, Giveon",
+            "artist": "Justin Bieber",
             "url": "youtube/song.mp4",
             "imgUrl": "https://i.ytimg.com/vi/tQ0yjYUFKAE/default.jpg",
             "addedBy": 'Tomer'
         },
         {
             "id": 'kffacxfA7G4',
-            "title": 'Justin Bieber - Baby (Official Music Video) ft. Ludacris',
+            "title": 'Baby (Official Music Video) ft. Ludacris',
+            "artist": "Justin Bieber",
             "url": "youtube/song.mp4",
             "imgUrl": 'https://i.ytimg.com/vi/kffacxfA7G4/default.jpg',
             "addedBy": 'Tomer'
@@ -45,7 +50,8 @@ export const trackService = {
     query,
     getById,
     add,
-    remove
+    remove,
+    getIdxById
 }
 
 
@@ -58,10 +64,15 @@ function query() {
         }
 
     })
-   
+
     return tracks
 
 }
+async function getIdxById(trackId) {
+    const idx = await storageService.getIdx(STORAGE_KEY, trackId)
+    return idx
+}
+
 function getById(trackId) {
     return storageService.get(STORAGE_KEY, trackId)
 }
