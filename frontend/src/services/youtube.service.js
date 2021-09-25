@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { storageService } from './storage.service'
-import { asyncStorageService } from './async-storage.service'
-const API = 'AIzaSyD-E_jzpERvidArciPXVn9hWEvqp_RbBTA'
+import { sessionService } from './session.service'
+import { asyncSessionService } from './async-session.service'
+const API = 'AIzaSyAkH_U9S48kAw-de7ZN7sj-JoTfKM58cXI'
 const KEY = 'cacheVideos'
 
 
@@ -11,21 +11,23 @@ export const youtubeService = {
     deleteTrackFromCache
 }
 
-async function query(search = 'Beatels') {
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${API}&q=${search}`
-    const tracks = await storageService.load(KEY)
+async function query(name = 'Beatels') {
+    const key=`${KEY}${name}`
+    const search= `${name} music`
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${API}&q=${search}&maxResults=20`
+    const tracks = await sessionService.load(key)
     if (tracks) {
         console.log('from cache');
-        return tracks;
+        return tracks.slice(0,5);
     }
     try {
         const res = await axios.get(url)
         const videos = res.data.items;
         const tracks=await setTVideoToTrack(videos)
-        storageService.save(KEY, tracks)
+        sessionService.save(key, tracks)
         console.log(videos)
 
-        return tracks;
+        return tracks.slice(0,5);
     } catch (err) {
         console.log('Had Error:', err);
     }
@@ -52,8 +54,9 @@ function setTVideoToTrack(videos) {
     else console.log('got no track!')
 }
 
-async function deleteTrackFromCache(track) {
-    await asyncStorageService.remove(track.id);
+async function deleteTrackFromCache(name, track) {
+    const key=`${KEY}${name}`
+    await asyncSessionService.remove(key, track.id);
 }
 
 
