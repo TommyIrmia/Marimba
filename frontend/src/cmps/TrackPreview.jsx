@@ -22,6 +22,7 @@ export class _TrackPreview extends Component {
     render() {
         const { track, onRemoveTrack } = this.props
         const { isPlaying } = this.state
+        console.log('track: ', track);
         const title = track.title.replace(/\(([^)]+)\)/g, '');
         const date = utilService.getTime(track.addedAt)
         console.log('date', date);
