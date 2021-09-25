@@ -8,7 +8,7 @@ export class SuggestTrackPreview extends React.Component{
     render(){
         const track=this.props.track;
         return (
-            <section className="suggest-track-container flex playlist-layout">
+            <section className="suggest-track-container flex">
                 <section className="SuggestTrackPreview flex">
                     <div>
                         <img src={track.imgUrl} alt='trackImg' />
