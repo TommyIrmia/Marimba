@@ -24,7 +24,9 @@
 
       .play-btn {
         color: $clr7;
-        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: rem(50px);
         height: rem(50px);
         border-radius: 50%;
@@ -42,6 +44,13 @@
           color: $clr7;
         }
       }
+
+      .btn-liked{
+        color: $clr5;
+        &:hover {
+          color: $clr5;
+        }
+      }
     }
 
     .preview-info {
@@ -51,19 +60,35 @@
       text-transform: uppercase;
       justify-content: space-between;
       text-align: center;
+      
       .info-title {
         width: 400px;
         text-align: left;
         text-indent: 43px;
+        
       }
-
+      
       .info-date {
         text-indent: 20px;
         width: 200px;
       }
-
+      
       .info-duration {
+        margin-inline-end: 20px;
         width: 100px;
+      }
+
+      .duration{
+        font-size:rem(17px);
+      }
+
+      .title,.date,.duration{
+        color: #ffffffa8;
+
+        &:hover {
+          cursor: pointer;
+          color: $clr7;
+        }
       }
     }
   }

@@ -9,7 +9,7 @@
 }
 
 .StationHero {
-    height: rem(415px);
+    height: rem(380px);
     position: relative;
 
     .logo {
@@ -20,14 +20,19 @@
     }
 
     .img-container {
-        height: rem(290px);
+        // height: rem(290px);
         width: rem(290px);
-        background-color: rgb(213, 136, 31);
+        // background-color: rgb(213, 136, 31);
         bottom: rem(28px);
-        // left: rem(38px);
         position: absolute;
         display: inline-block;
         padding: rem(5px);
+
+        img{
+            width: inherit;
+            height: inherit;
+        }
+
         .logo {
             h1 {
                 display: none;
@@ -55,5 +60,17 @@
 
     p {
         margin-bottom: rem(15px);
+    }
+}
+
+@media (max-width: 1230px) {
+
+    .info-container {
+    
+        .hero-title {
+            font-size: rem(70px);
+            font-family: gotham-bold;
+            letter-spacing: rem(-6.5px);
+        }
     }
 }

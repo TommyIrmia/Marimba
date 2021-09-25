@@ -9,8 +9,7 @@
 
   .TrackPreview {
     align-items: center;
-    gap: 10px;
-    width: 400px;
+    width: 450px;
     margin: 10px;
 
     .track-img-container {
@@ -24,7 +23,14 @@
     }
 
     .play-btn {
+      width: 15px;
+      margin-inline-end: 15px;
       color: $clr7;
+    }
+
+    .num-idx{
+      width: 15px;
+      margin-inline-end: 15px;
     }
   }
 
@@ -32,13 +38,28 @@
     width: 200px;
     text-align: center;
   }
-
+  
   .preview-actions {
+    margin-inline-end: 20px;
     gap: 10px;
+    display: flex;
     width: 100px;
+
     .btn-like,
     .btn-remove {
       color: $clr7;
+    }
+
+    .btn-liked{
+      color: $clr5;
+    }
+
+    .btn-hidden{
+      visibility: hidden;
+    }
+
+    .track-duration{
+      margin: auto;
     }
   }
 }
