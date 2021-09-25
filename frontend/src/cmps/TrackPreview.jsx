@@ -1,38 +1,79 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { utilService } from './../services/util.service';
-import { onPlayTrack } from '../store/mediaplayer.actions.js'
+import { onPlayTrack, onTogglePlay, setCurrDuration } from '../store/mediaplayer.actions.js'
+import useForkRef from '@mui/utils/useForkRef';
 
 export class _TrackPreview extends Component {
 
     state = {
         isPlaying: false,
     }
+    timeInter;
+
+    componentDidMount() {
+        const { track } = this.props;
+        track.isPlaying = false;
+    }
+
+    componentDidUpdate() {
+        console.log('did update?');
+        const { tracks, currSongIdx, track, player } = this.props
+        const isPlaying = (tracks[currSongIdx].id === track.id) ? true : false;
+        track.isPlaying = isPlaying
+    }
 
     onPlayTrack = async (trackId) => {
         try {
-            await this.props.onPlayTrack(trackId)
-            this.setState({ isPlaying: this.props.isPlaying })
-            this.props.player.playVideo()
+            this.props.onPlayTrack(trackId)
+            this.onPlay()
+            this.setState({ isPlaying: true })
         } catch (err) {
             throw err
         }
     }
 
+    onPauseTrack = () => {
+        this.props.onTogglePlay(false)
+        this.setState({ isPlaying: false })
+        clearInterval(this.timeInter)
+        this.props.player.pauseVideo()
+    }
+
+    onPlay = () => {
+        this.props.onTogglePlay(true)
+        this.timeInter = setInterval(() => {
+            const currDuration = this.props.player.getCurrentTime()
+            this.props.setCurrDuration(currDuration)
+        }, 1000)
+        // this.props.player.playVideo()
+    }
+
+    // checkIsPlaying = () => {
+    //     if (tracks[currSongIdx].id === track.id) {
+    //         console.log('!!!');
+    //         this.setState({ isPlaying: true })
+    //     } else {
+    //         console.log('???');
+    //         this.setState({ isPlaying: false })
+    //     }
+    // }
+
     render() {
         const { track, onRemoveTrack } = this.props
-        const { isPlaying } = this.state
-        console.log('track: ', track);
+        const { isPlaying } = this.props.track
         const title = track.title.replace(/\(([^)]+)\)/g, '');
         const date = utilService.getTime(track.addedAt)
-
         return (
             <section className="track-container flex playlist-layout">
 
                 <section className="TrackPreview flex">
-                    <button onClick={() => this.onPlayTrack(track.id)}
-                        className={"play-btn " + (isPlaying ? "fas fa-pause" : "fas fa-play")}>
-                    </button>
+                    {isPlaying && <button onClick={() => this.onPauseTrack(track.id)}
+                        className={"play-btn fas fa-pause"}>
+                    </button>}
+                    {!isPlaying && <button onClick={() => this.onPlayTrack(track.id)}
+                        className={"play-btn fas fa-play"}>
+                    </button>}
 
                     <div className="track-img-container">
                         <img src={track.imgUrl} alt="trackImg" />
@@ -59,6 +100,7 @@ export class _TrackPreview extends Component {
 
 function mapStateToProps(state) {
     return {
+        tracks: state.tracksModule.tracks,
         player: state.mediaPlayerModule.player,
         isPlaying: state.mediaPlayerModule.isPlaying,
         currSongIdx: state.mediaPlayerModule.currSongIdx,
@@ -67,6 +109,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
     onPlayTrack,
+    onTogglePlay,
+    setCurrDuration
 }
 
 

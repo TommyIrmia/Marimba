@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { loadTracks } from '../store/tracks.actions.js'
-import { setPlayer, setSongIdx, onTogglePlay } from '../store/mediaplayer.actions.js'
+import { setPlayer, setSongIdx, onTogglePlay, setCurrDuration } from '../store/mediaplayer.actions.js'
 import YouTube from 'react-youtube';
 import imgSrc from '../assets/imgs/logo3.png';
 import { TrackDetails } from './TrackDetails.jsx';
@@ -14,7 +14,6 @@ export class _MediaPlayer extends Component {
     state = {
         isMute: false,
         songLength: '',
-        currDuration: 0,
         volume: 70
     }
 
@@ -41,11 +40,8 @@ export class _MediaPlayer extends Component {
     onStateChange = (ev) => {
         const songLength = ev.target.getDuration()
         this.setState({ songLength })
-        if (ev.data === 2 || !this.props.isPlaying) {
-            this.setState({ currDuration: ev.target.getCurrentTime() })
-            return
-        }
         console.log('data', ev.data);
+        if (ev.data === 2) return
         ev.target.playVideo()
     }
 
@@ -68,7 +64,7 @@ export class _MediaPlayer extends Component {
         this.props.player.playVideo()
         this.timeInter = setInterval(() => {
             const currDuration = this.props.player.getCurrentTime()
-            this.setState({ currDuration })
+            this.props.setCurrDuration(currDuration)
         }, 1000)
     }
 
@@ -96,13 +92,13 @@ export class _MediaPlayer extends Component {
     onDurationChange = (ev) => {
         const duration = ev.target.value
         this.props.player.seekTo(duration)
-        this.setState({ currDuration: duration })
+        this.props.setCurrDuration(duration)
     }
 
 
     render() {
-        const { isMute, songLength, currDuration, volume } = this.state
-        const { tracks, currSongIdx, isPlaying } = this.props
+        const { isMute, songLength, volume } = this.state
+        const { tracks, currSongIdx, currDuration, isPlaying } = this.props
         if (!tracks.length) return <div></div>
         return (
             <div className="media-player">
@@ -139,13 +135,15 @@ function mapStateToProps(state) {
         player: state.mediaPlayerModule.player,
         isPlaying: state.mediaPlayerModule.isPlaying,
         currSongIdx: state.mediaPlayerModule.currSongIdx,
+        currDuration: state.mediaPlayerModule.currDuration,
     }
 }
 const mapDispatchToProps = {
     loadTracks,
     setPlayer,
     setSongIdx,
-    onTogglePlay
+    onTogglePlay,
+    setCurrDuration
 }
 
 
