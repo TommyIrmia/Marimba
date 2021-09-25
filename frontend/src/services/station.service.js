@@ -1,4 +1,4 @@
-import { storageService } from './async-storage.service.js'
+import { asyncStorageService } from './async-storage.service.js'
 
 export const stationService = {
     query,
@@ -395,5 +395,5 @@ function getGenres() {
 }
 
 function _saveStationsToStorage() {
-    storageService.save(STORAGE_KEY, initialStations)
+    asyncStorageService.save(STORAGE_KEY, initialStations)
 }

@@ -1,28 +1,31 @@
 import axios from 'axios'
 import { storageService } from './storage.service'
+import { asyncStorageService } from './async-storage.service'
 const API = 'AIzaSyD-E_jzpERvidArciPXVn9hWEvqp_RbBTA'
 const KEY = 'cacheVideos'
 
 
 export const youtubeService = {
     query,
-    setTVideoToTrack
+    setTVideoToTrack,
+    deleteTrackFromCache
 }
 
 async function query(search = 'Beatels') {
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${API}&q=${search}`
-    const videos = await storageService.load(KEY)
-    if (videos) {
+    const tracks = await storageService.load(KEY)
+    if (tracks) {
         console.log('from cache');
-        return videos;
+        return tracks;
     }
     try {
         const res = await axios.get(url)
         const videos = res.data.items;
-        storageService.save(KEY, videos)
+        const tracks=await setTVideoToTrack(videos)
+        storageService.save(KEY, tracks)
         console.log(videos)
 
-        return videos;
+        return tracks;
     } catch (err) {
         console.log('Had Error:', err);
     }
@@ -46,6 +49,10 @@ function setTVideoToTrack(videos) {
 
     }
     else console.log('got no track!')
+}
+
+async function deleteTrackFromCache(track) {
+    await asyncStorageService.remove(track.id);
 }
 
 
