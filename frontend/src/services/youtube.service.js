@@ -1,5 +1,7 @@
 import axios from 'axios'
+import { storageService } from './storage.service'
 const API = 'AIzaSyD-E_jzpERvidArciPXVn9hWEvqp_RbBTA'
+const KEY = 'cacheVideos'
 
 
 export const youtubeService = {
@@ -9,10 +11,17 @@ export const youtubeService = {
 
 async function query(search = 'Beatels') {
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${API}&q=${search}`
+    const videos = await storageService.load(KEY)
+    if (videos) {
+        console.log('from cache');
+        return videos;
+    }
     try {
         const res = await axios.get(url)
         const videos = res.data.items;
+        storageService.save(KEY, videos)
         console.log(videos)
+
         return videos;
     } catch (err) {
         console.log('Had Error:', err);
