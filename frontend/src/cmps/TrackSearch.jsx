@@ -9,8 +9,15 @@ export class TrackSearch extends React.Component {
     }
 
     async componentDidMount() {
-        const videos = await youtubeService.query();
-        const tracks = await youtubeService.setTVideoToTrack(videos);
+        const tracks = await youtubeService.query();
+        this.setState({ tracks: tracks });
+        console.log(this.state.tracks);
+    }
+
+    removeAddedTrack = async (track) => {
+        console.log('removing added track');
+        await youtubeService.deleteTrackFromCache(track);
+        const tracks = await youtubeService.query();
         this.setState({ tracks: tracks });
     }
 
@@ -19,7 +26,7 @@ export class TrackSearch extends React.Component {
             <div className="TrackSearch">
                 <h4>To search other tracks</h4>
                 <h2>Suggested</h2>
-                <SuggestTrackList tracks={this.state.tracks} onAddTrack={this.props.onAddTrack} />
+                <SuggestTrackList tracks={this.state.tracks} onAddTrack={this.props.onAddTrack} removeAddedTrack={this.removeAddedTrack} />
             </div>
         )
     }

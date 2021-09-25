@@ -1,5 +1,5 @@
 
-import { storageService } from './async-storage.service.js'
+import { asyncStorageService } from './async-storage.service.js'
 
 
 const STORAGE_KEY = 'track'
@@ -43,14 +43,14 @@ function query(filterBy) {
 
 }
 function getById(trackId) {
-    return storageService.get(STORAGE_KEY, trackId)
+    return asyncStorageService.get(STORAGE_KEY, trackId)
 }
 function remove(trackId) {
     // return Promise.reject('Not now!');
-    return storageService.remove(STORAGE_KEY, trackId)
+    return asyncStorageService.remove(STORAGE_KEY, trackId)
 }
 function add(track) {
-    return storageService.post(STORAGE_KEY, track)
+    return asyncStorageService.post(STORAGE_KEY, track)
 }
 
 // function _saveTracksToStorage() {
