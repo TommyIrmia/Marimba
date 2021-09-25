@@ -10,12 +10,8 @@ export class StationDetails extends Component {
     state = {
         isSearch: false,
         isPlaying: false,
-        tracks: [
-          
-        ],
-        filter:{
-            title: '',
-        }
+        tracks: [],
+      
     }
 
     inputRef = React.createRef()
@@ -25,6 +21,7 @@ export class StationDetails extends Component {
     }
 
     async loadTracks (){
+        
         console.log('loading tracks');
         const tracks = await trackService.query();
         this.setState({ tracks });
@@ -44,7 +41,16 @@ export class StationDetails extends Component {
         this.loadTracks();
     }
 
+    onSetFilter = async (filterBy) => {
+      const tracks = await trackService.query(filterBy);
+      this.setState({ tracks });
+    }
 
+    onRemoveTrack = async (trackId) => {
+        // console.log('trackId',trackId);
+        await trackService.remove(trackId)
+        console.log('track removed❌');
+    }
 
 
     render() {
@@ -54,8 +60,8 @@ export class StationDetails extends Component {
             <main className="StationDetails">
                 <div onClick={this.onCloseSerach} className={(isSearch ? "screen" : "")}></div>
                 <StationHero />
-                <StationActions inputRef={this.inputRef} onSearch={this.onSearch} isSearch={isSearch} />
-                <TrackList isPlaying={isPlaying} tracks={tracks} />
+                <StationActions onSetFilter={this.onSetFilter} inputRef={this.inputRef} onSearch={this.onSearch} isSearch={isSearch} />
+                <TrackList onRemoveTrack={this.onRemoveTrack} isPlaying={isPlaying} tracks={tracks} />
 
                 <h3>s</h3>
                 <h3>s</h3>

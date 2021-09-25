@@ -1,43 +1,6 @@
 
 import { storageService } from './async-storage.service.js'
-var initialTracks =
-    [
-        {
-            "id": "A_MjCqQoLLA",
-            "title": "Hey Jude- Beatels",
-            "url": "youtube/song.mp4",
-            "imgUrl": "https://i.ytimg.com/vi/4_iC0MyIykM/mqdefault.jpg",
-            "addedBy": 'Naama'
-        },
-        {
-            "id": "m2uTFF_3MaA",
-            "title": "Yellow Submarine- Beatels",
-            "url": "youtube/song.mp4",
-            "imgUrl": "https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg",
-            "addedBy": 'Tomer'
-        },
-        {
-            "id": 'kTJczUoc26U',
-            "title": 'The Kid LAROI, Justin Bieber - STAY (Official Video)',
-            "url": "youtube/song.mp4",
-            "imgUrl": 'https://i.ytimg.com/vi/kTJczUoc26U/default.jpg',
-            "addedBy": 'Tomer'
-        },
-        {
-            "id": "tQ0yjYUFKAE",
-            "title": "Justin Bieber - Peaches ft. Daniel Caesar, Giveon",
-            "url": "youtube/song.mp4",
-            "imgUrl": "https://i.ytimg.com/vi/tQ0yjYUFKAE/default.jpg",
-            "addedBy": 'Tomer'
-        },
-        {
-            "id": 'kffacxfA7G4',
-            "title": 'Justin Bieber - Baby (Official Music Video) ft. Ludacris',
-            "url": "youtube/song.mp4",
-            "imgUrl": 'https://i.ytimg.com/vi/kffacxfA7G4/default.jpg',
-            "addedBy": 'Tomer'
-        }
-    ]
+
 
 const STORAGE_KEY = 'track'
 
@@ -49,17 +12,34 @@ export const trackService = {
 }
 
 
-function query() {
-    const tracks = storageService.query(STORAGE_KEY).then(tracks => {
-        if (tracks.length) return tracks
-        else {
-            _saveTracksToStorage()
-            return initialTracks
-        }
+function query(filterBy) {
+    console.log('filterBy', filterBy);
+    if (!filterBy) return storageService.query(STORAGE_KEY)
 
-    })
-   
-    return tracks
+    const { title, sort } = filterBy
+
+    return storageService.query(STORAGE_KEY)
+        .then(tracks => {
+            if (title) {
+                tracks = tracks.filter(track => {
+                    return track.title.toLowerCase().includes(title.toLowerCase());
+                })
+            }
+            if (sort === 'Title') {
+                tracks = tracks.sort((a, b) => {
+                    var titleB = b.title.toLowerCase();
+                    var titleA = a.title.toLowerCase();
+                    return titleB > titleA ? -1 : 1;
+                })
+            }
+            if (sort === 'Date added') {
+                tracks = tracks.sort((a, b) => {
+                    return a.addedAt > b.addedAt ? -1 : 1;
+                })
+            }
+            return tracks
+        })
+
 
 }
 function getById(trackId) {
@@ -73,6 +53,6 @@ function add(track) {
     return storageService.post(STORAGE_KEY, track)
 }
 
-function _saveTracksToStorage() {
-    storageService.save(STORAGE_KEY, initialTracks)
-}
+// function _saveTracksToStorage() {
+//     storageService.save(STORAGE_KEY, initialTracks)
+// }

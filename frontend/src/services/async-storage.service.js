@@ -9,7 +9,48 @@ export const storageService = {
 }
 
 function query(entityType, delay = 1200) {
-    var entities = JSON.parse(localStorage.getItem(entityType)) || []
+    var entities = JSON.parse(localStorage.getItem(entityType)) ||  [
+        {
+            "id": "A_MjCqQoLLA",
+            "title": "Hey Jude- Beatels",
+            "url": "youtube/song.mp4",
+            "imgUrl": "https://i.ytimg.com/vi/4_iC0MyIykM/mqdefault.jpg",
+            "addedBy": 'Naama',
+            "addedAt":1607110465663
+        },
+        {
+            "id": "m2uTFF_3MaA",
+            "title": "Yellow Submarine- Beatels",
+            "url": "youtube/song.mp4",
+            "imgUrl": "https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg",
+            "addedBy": 'Tomer',
+            "addedAt":1607110465663
+        },
+        {
+            "id": 'kTJczUoc26U',
+            "title": 'The Kid LAROI, Justin Bieber - STAY (Official Video)',
+            "url": "youtube/song.mp4",
+            "imgUrl": 'https://i.ytimg.com/vi/kTJczUoc26U/default.jpg',
+            "addedBy": 'Tomer',
+            "addedAt":1607110465663
+        },
+        {
+            "id": "tQ0yjYUFKAE",
+            "title": "Justin Bieber - Peaches ft. Daniel Caesar, Giveon",
+            "url": "youtube/song.mp4",
+            "imgUrl": "https://i.ytimg.com/vi/tQ0yjYUFKAE/default.jpg",
+            "addedBy": 'Tomer',
+            "addedAt":1607110465663
+        },
+        {
+            "id": 'kffacxfA7G4',
+            "title": 'Justin Bieber - Baby (Official Music Video) ft. Ludacris',
+            "url": "youtube/song.mp4",
+            "imgUrl": 'https://i.ytimg.com/vi/kffacxfA7G4/default.jpg',
+            "addedBy": 'tommy',
+            "addedAt":1607110465663
+        }
+    ]
 
     return new Promise((resolve, reject)=>{
         setTimeout(()=>{

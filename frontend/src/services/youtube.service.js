@@ -38,7 +38,8 @@ function setTVideoToTrack(videos) {
                 title: video.snippet.title,
                 url: "youtube/song.mp4",
                 imgUrl: video.snippet.thumbnails.default.url,
-                addBy: 'Naama'
+                addBy: 'Naama',
+                addedAt:Date.now()
             }
             return track
         })

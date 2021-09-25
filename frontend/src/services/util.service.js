@@ -1,7 +1,8 @@
 export const utilService = {
     makeId,
     makeLorem,
-    getRandomIntInclusive
+    getRandomIntInclusive,
+    getTime
 }
 
 function makeId(length = 6) {
@@ -29,4 +30,63 @@ function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+}
+
+function getTime ( date ) {
+
+    const time = new Date(date)
+
+    const createdAt = time.getDate() + '/' + (time.getMonth()+1) + '/' + time.getFullYear()
+
+    var seconds = Math.floor(( new Date() - date ) / 1000 );
+
+    var interval = Math.floor( seconds / 31536000 );
+
+    if ( interval >= 1 ) {
+
+        return createdAt
+    }
+    
+
+    interval = Math.floor( seconds / 2592000 );
+    if ( interval === 1 ) {
+
+        return interval + " month ago";
+    }
+    if ( interval > 1 ) {
+
+        return createdAt
+    }
+
+    interval = Math.floor( seconds / 86400 );
+    if ( interval === 1 ) {
+
+        return interval + " day ago";
+    }
+    if ( interval > 1 ) {
+
+        return interval + " days ago";
+    }
+
+    interval = Math.floor( seconds / 3600 );
+    if ( interval === 1 ) {
+
+        return interval + " hour ago";
+    }
+    if ( interval > 1 ) {
+
+        return interval + " hours ago";
+    }
+
+    interval = Math.floor( seconds / 60 );
+    if ( interval === 1 ) {
+
+        return interval + " minute ago";
+    }
+    if ( interval > 1 ) {
+
+        return interval + " minutes ago";
+    }
+
+    return Math.floor(seconds) + " seconds ago";
 }
