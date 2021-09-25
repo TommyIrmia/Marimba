@@ -4,6 +4,7 @@ const initialState = {
     player: null,
     isPlaying: false,
     currSongIdx: 0,
+    currDuration: 0,
 }
 
 export function mediaPlayerReducer(state = initialState, action) {
@@ -14,6 +15,8 @@ export function mediaPlayerReducer(state = initialState, action) {
             return { ...state, currSongIdx: action.currSongIdx }
         case 'TOGGLE_ISPLAYING':
             return { ...state, isPlaying: action.isPlaying }
+        case 'SET_DURATION':
+            return { ...state, currDuration: action.currDuration }
         default:
     }
 

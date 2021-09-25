@@ -47,12 +47,26 @@ export function onPlayTrack(trackId) {
     return async (dispatch) => {
         try {
             const idx = await trackService.getIdxById(trackId)
+            console.log('idx', idx)
             dispatch({
                 type: 'SET_SONG',
                 currSongIdx: idx
             })
         } catch (err) {
             console.log('From actions - Can not set song idx', err)
+        }
+    }
+}
+
+export function setCurrDuration(duration) {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: 'SET_DURATION',
+                currDuration: duration
+            })
+        } catch (err) {
+            console.log('From actions - can not set duration')
         }
     }
 }
