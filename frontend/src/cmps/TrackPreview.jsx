@@ -8,8 +8,6 @@ export class _TrackPreview extends Component {
 
     state = {
         isPlaying: false,
-        isHover: false,
-        isLiked: false,
     }
     timeInter;
 
@@ -21,6 +19,7 @@ export class _TrackPreview extends Component {
     componentDidUpdate() {
         console.log('did update?');
         const { tracks, currSongIdx, track, player } = this.props
+        console.log(player);
         const isPlaying = (tracks[currSongIdx].id === track.id) ? true : false;
         track.isPlaying = isPlaying
     }
@@ -35,13 +34,6 @@ export class _TrackPreview extends Component {
         }
     }
 
-    onLike = () =>{
-        const { isLiked } = this.state;
-        this.setState({isLiked: !isLiked})
-    }
-
-    
-
     onPauseTrack = () => {
         this.props.onTogglePlay(false)
         this.setState({ isPlaying: false })
@@ -55,38 +47,21 @@ export class _TrackPreview extends Component {
             const currDuration = this.props.player.getCurrentTime()
             this.props.setCurrDuration(currDuration)
         }, 1000)
-        // this.props.player.playVideo()
     }
 
-    // checkIsPlaying = () => {
-    //     if (tracks[currSongIdx].id === track.id) {
-    //         console.log('!!!');
-    //         this.setState({ isPlaying: true })
-    //     } else {
-    //         console.log('???');
-    //         this.setState({ isPlaying: false })
-    //     }
-    // }
-
     render() {
-        const {isHover,isLiked} = this.state
-        const { track, onRemoveTrack,idx } = this.props
+        const { track, onRemoveTrack } = this.props
         const { isPlaying } = this.props.track
         const title = track.title.replace(/\(([^)]+)\)/g, '');
         const date = utilService.getTime(track.addedAt)
         return (
-            <section className="track-container flex playlist-layout"
-                onMouseEnter={() => this.setState({ isHover: true })}
-                onMouseLeave={() => this.setState({ isHover: false })}>
+            <section className="track-container flex playlist-layout">
 
                 <section className="TrackPreview flex">
-                  
-
-                    {!isHover && <div className="num-idx" >{idx + 1}</div>}
-                    { isHover && isPlaying && <button onClick={() => this.onPauseTrack(track.id)}
+                    {isPlaying && <button onClick={() => this.onPauseTrack(track.id)}
                         className={"play-btn fas fa-pause"}>
                     </button>}
-                    { isHover && !isPlaying && <button onClick={() => this.onPlayTrack(track.id)}
+                    {!isPlaying && <button onClick={() => this.onPlayTrack(track.id)}
                         className={"play-btn fas fa-play"}>
                     </button>}
 
@@ -100,13 +75,11 @@ export class _TrackPreview extends Component {
                 <div className="track-date">{date}</div>
 
                 <div className="preview-actions flex" >
-                    <button onClick={this.onLike} className={` btn-like  ${(isHover ? "" : "btn-hidden")} 
-                     ${(isLiked ? "fas fa-heart btn-liked" : "far fa-heart")}`}></button>
-
-                    <p className={(isHover) ? '' : 'track-duration'} >3:59</p>
+                    <button className="far fa-heart btn-like"></button>
+                    <p>3:59</p>
                     <button onClick={() => {
                         onRemoveTrack(track.id)
-                    }} className={"far fa-trash-alt btn-remove" + (isHover ? "" : "btn-hidden")}></button>
+                    }} className="far fa-trash-alt btn-remove"></button>
 
                 </div>
 
