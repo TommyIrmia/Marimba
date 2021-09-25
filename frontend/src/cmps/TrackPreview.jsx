@@ -21,8 +21,8 @@ export class _TrackPreview extends Component {
     componentDidUpdate() {
         console.log('did update?');
         const { tracks, currSongIdx, track, player } = this.props
-        console.log(player.getPlayerState());
-        if (player.getPlayerState() === 5) return
+        // console.log(player.getPlayerState());
+        // if (player.getPlayerState() === 5) return
         const isPlaying = (tracks[currSongIdx].id === track.id) ? true : false;
         track.isPlaying = isPlaying
     }
