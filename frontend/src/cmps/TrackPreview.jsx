@@ -25,7 +25,6 @@ export class _TrackPreview extends Component {
         console.log('track: ', track);
         const title = track.title.replace(/\(([^)]+)\)/g, '');
         const date = utilService.getTime(track.addedAt)
-        console.log('date', date);
 
         return (
             <section className="track-container flex playlist-layout">
@@ -34,7 +33,7 @@ export class _TrackPreview extends Component {
                     <button onClick={() => this.onPlayTrack(track.id)}
                         className={"play-btn " + (isPlaying ? "fas fa-pause" : "fas fa-play")}>
                     </button>
-                    <div> <img src={track.imgUrl} alt="trackImg" /> </div>
+                    <img src={track.imgUrl} alt="trackImg" />
                     <div> {title}  -  {track.artist} </div>
                 </section>
                 <div className="track-date">{date}</div>

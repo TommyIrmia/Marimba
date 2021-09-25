@@ -40,7 +40,7 @@ function setTVideoToTrack(videos) {
                 id: video.id.videoId,
                 title: video.snippet.title,
                 url: "youtube/song.mp4",
-                imgUrl: video.snippet.thumbnails.default.url,
+                imgUrl: video.snippet.thumbnails.medium.url,
                 addBy: 'Naama',
                 addedAt:Date.now()
             }
