@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { loadTracks, onAddTrack } from '../store/tracks.actions.js'
+import { loadTracks, onAddTrack, onRemoveTrack } from '../store/tracks.actions.js'
 import { StationHero } from './../cmps/StationHero';
 import { StationActions } from './../cmps/StationActions';
 import { TrackSearch } from '../cmps/TrackSearch';
@@ -14,15 +14,12 @@ export class _StationDetails extends Component {
     state = {
         isSearch: false,
         isPlaying: false,
-        filter: {
-            title: '',
-        }
     }
 
     inputRef = React.createRef()
 
-    async componentDidMount() {
-        await this.loadTracks();
+    componentDidMount() {
+        this.loadTracks();
     }
 
     loadTracks = () => {
@@ -42,6 +39,18 @@ export class _StationDetails extends Component {
         this.props.onAddTrack(track);
     }
 
+    onSetFilter = async (filterBy) => {
+        this.props.loadTrack(filterBy)
+    }
+
+    onRemoveTrack = async (trackId) => {
+        try {
+            await this.props.onRemoveTrack(trackId)
+        } catch (err) {
+            throw err
+        }
+    }
+
 
     render() {
         const { isSearch, isPlaying } = this.state;
@@ -51,8 +60,8 @@ export class _StationDetails extends Component {
             <main className="StationDetails">
                 <div onClick={this.onCloseSerach} className={(isSearch ? "screen" : "")}></div>
                 <StationHero />
-                <StationActions inputRef={this.inputRef} onSearch={this.onSearch} isSearch={isSearch} />
-                <TrackList isPlaying={isPlaying} tracks={tracks} />
+                <StationActions onSetFilter={this.onSetFilter} inputRef={this.inputRef} onSearch={this.onSearch} isSearch={isSearch} />
+                <TrackList onRemoveTrack={this.onRemoveTrack} isPlaying={isPlaying} tracks={tracks} />
 
                 <TrackSearch onAddTrack={this.onAddTrack} />
             </main>
@@ -68,7 +77,8 @@ function mapStateToProps(state) {
 }
 const mapDispatchToProps = {
     loadTracks,
-    onAddTrack
+    onAddTrack,
+    onRemoveTrack
 }
 
 

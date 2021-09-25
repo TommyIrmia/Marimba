@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { utilService } from './../services/util.service';
 import { onPlayTrack } from '../store/mediaplayer.actions.js'
 
 export class _TrackPreview extends Component {
@@ -19,9 +20,11 @@ export class _TrackPreview extends Component {
     }
 
     render() {
-        const { track } = this.props
+        const { track, onRemoveTrack } = this.props
         const { isPlaying } = this.state
         const title = track.title.replace(/\(([^)]+)\)/g, '');
+        const date = utilService.getTime(track.addedAt)
+        console.log('date', date);
 
         return (
             <section className="track-container flex playlist-layout">
@@ -33,12 +36,14 @@ export class _TrackPreview extends Component {
                     <div> <img src={track.imgUrl} alt="trackImg" /> </div>
                     <div> {title}  -  {track.artist} </div>
                 </section>
-
-                <div className="track-date">jul 31,2019</div>
-
+                <div className="track-date">{date}</div>
                 <div className="preview-actions flex" >
                     <button className="far fa-heart btn-like"></button>
                     <p>3:59</p>
+                    <button onClick={() => {
+                        onRemoveTrack(track.id)
+                    }} className="far fa-trash-alt btn-remove"></button>
+
                 </div>
 
             </section>
@@ -53,6 +58,7 @@ function mapStateToProps(state) {
         currSongIdx: state.mediaPlayerModule.currSongIdx,
     }
 }
+
 const mapDispatchToProps = {
     onPlayTrack,
 }

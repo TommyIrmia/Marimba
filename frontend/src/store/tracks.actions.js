@@ -1,9 +1,9 @@
 import { trackService } from "../services/track.service.js";
 
-export function loadTracks() {
+export function loadTracks(filterBy) {
     return async (dispatch) => {
         try {
-            const tracks = await trackService.query()
+            const tracks = await trackService.query(filterBy)
             console.log('Tracks from actions:', tracks)
             dispatch({
                 type: 'SET_TRACKS',

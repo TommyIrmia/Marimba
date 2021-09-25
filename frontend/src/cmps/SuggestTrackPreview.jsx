@@ -1,16 +1,28 @@
-
-export function SuggestTrackPreview({ track, onAddTrack }) {
-    console.log('img url:', track.imgUrl);
-    console.log(onAddTrack);
-    return (
-        <section className="track-container flex playlist-layout">
-        <div className="SuggestTrack flex space-between">
-            <span>
-            <img src={track.imgUrl} alt='trackImg'/>
-            <span>{track.title}</span>
-            </span>
-                <button onClick={()=>onAddTrack(track)}>Add</button>
-        </div>
-        </section>
-    )
+import React from "react";
+export class SuggestTrackPreview extends React.Component{
+    state={};
+    onClick(track){
+        this.props.onAddTrack(track);
+        this.props.removeAddedTrack(track);
+    }
+    render(){
+        const track=this.props.track;
+        return (
+            <section className="suggest-track-container flex playlist-layout">
+                <section className="SuggestTrackPreview flex">
+                    <div>
+                        <img src={track.imgUrl} alt='trackImg' />
+                    </div>
+                    <div>
+                        {track.title}
+                    </div>
+                </section>
+                <section className="previewAlbum">
+                    <p>Album</p>
+                </section>
+    
+                <button onClick={()=>this.onClick(track)}>Add</button>
+            </section>
+        )
+    }
 }

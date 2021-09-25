@@ -46,9 +46,7 @@ export function onTogglePlay(isPlaying) {
 export function onPlayTrack(trackId) {
     return async (dispatch) => {
         try {
-            console.log('from actions', trackId);
             const idx = await trackService.getIdxById(trackId)
-            console.log('Track idx is set', idx)
             dispatch({
                 type: 'SET_SONG',
                 currSongIdx: idx
