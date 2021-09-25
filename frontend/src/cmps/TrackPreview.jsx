@@ -33,10 +33,16 @@ export class _TrackPreview extends Component {
                     <button onClick={() => this.onPlayTrack(track.id)}
                         className={"play-btn " + (isPlaying ? "fas fa-pause" : "fas fa-play")}>
                     </button>
-                    <img src={track.imgUrl} alt="trackImg" />
-                    <div> {title}  -  {track.artist} </div>
+
+                    <div className="track-img-container">
+                        <img src={track.imgUrl} alt="trackImg" />
+                    </div>
+
+                    <div> {title} </div>
                 </section>
+
                 <div className="track-date">{date}</div>
+
                 <div className="preview-actions flex" >
                     <button className="far fa-heart btn-like"></button>
                     <p>3:59</p>
