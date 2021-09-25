@@ -11,31 +11,18 @@ export class StationDetails extends Component {
         isSearch: false,
         isPlaying: false,
         tracks: [
-            // {
-            //     id: 'kTJczUoc26U',
-            //     title: 'The Kid LAROI, Justin Bieber - STAY (Official Video)',
-            //     // url: "youtube/song.mp4",
-            //     imgUrl: 'https://i.ytimg.com/vi/kTJczUoc26U/default.jpg',
-            // },
-            // {
-            //     id: 'tQ0yjYUFKAE',
-            //     title: 'Justin Bieber - Peaches ft. Daniel Caesar, Giveon',
-            //     // url: "youtube/song.mp4",
-            //     imgUrl: 'https://i.ytimg.com/vi/tQ0yjYUFKAE/default.jpg',
-            // },
-            // {
-            //     id: 'kffacxfA7G4',
-            //     title: 'Justin Bieber - Baby (Official Music Video) ft. Ludacris',
-            //     // url: "youtube/song.mp4",
-            //     imgUrl: 'https://i.ytimg.com/vi/kffacxfA7G4/default.jpg',
-            // }
+          
         ],
+        filter:{
+            title: '',
+        }
     }
 
     inputRef = React.createRef()
 
     async componentDidMount() {
-        const tracks = await trackService.query();
+        const {filter} = this.state
+        const tracks = await trackService.query(filter);
         this.setState({ tracks });
     }
 
