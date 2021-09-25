@@ -21,8 +21,12 @@ export class StationDetails extends Component {
     inputRef = React.createRef()
 
     async componentDidMount() {
-        const {filter} = this.state
-        const tracks = await trackService.query(filter);
+        await this.loadTracks();
+    }
+
+    async loadTracks (){
+        console.log('loading tracks');
+        const tracks = await trackService.query();
         this.setState({ tracks });
     }
 
@@ -33,6 +37,11 @@ export class StationDetails extends Component {
 
     onCloseSerach = () => {
         this.setState({ isSearch: false });
+    }
+
+    onAddTrack = async (track) => {
+        await trackService.add(track);
+        this.loadTracks();
     }
 
 
@@ -47,7 +56,7 @@ export class StationDetails extends Component {
                 <StationHero />
                 <StationActions inputRef={this.inputRef} onSearch={this.onSearch} isSearch={isSearch} />
                 <TrackList isPlaying={isPlaying} tracks={tracks} />
-               
+
                 <h3>s</h3>
                 <h3>s</h3>
                 <h3>s</h3>
@@ -66,7 +75,7 @@ export class StationDetails extends Component {
                 <h3>s</h3>
                 <h3>s</h3>
                 <h3>s</h3>
-                <TrackSearch />
+                <TrackSearch onAddTrack={this.onAddTrack} />
             </main>
 
         )

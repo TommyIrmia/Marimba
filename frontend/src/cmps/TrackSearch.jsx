@@ -19,7 +19,7 @@ export class TrackSearch extends React.Component {
             <div className="TrackSearch">
                 <h4>To search other tracks</h4>
                 <h2>Suggested</h2>
-                <SuggestTrackList tracks={this.state.tracks} />
+                <SuggestTrackList tracks={this.state.tracks} onAddTrack={this.props.onAddTrack} />
             </div>
         )
     }
