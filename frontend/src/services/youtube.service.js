@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { sessionService } from './session.service'
 import { asyncSessionService } from './async-session.service'
+import { trackService } from './track.service';
 const API = 'AIzaSyAkH_U9S48kAw-de7ZN7sj-JoTfKM58cXI'
 const KEY = 'cacheVideos'
 
@@ -8,26 +9,30 @@ const KEY = 'cacheVideos'
 export const youtubeService = {
     query,
     setTVideoToTrack,
-    deleteTrackFromCache
+    deleteTrackFromCache,
+    getDuration
 }
 
 async function query(name = 'Beatels') {
-    const key=`${KEY}${name}`
-    const search= `${name} music`
+    const key = `${KEY}${name}`
+    const search = `${name} music`
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${API}&q=${search}&maxResults=20`
     const tracks = await sessionService.load(key)
     if (tracks) {
         console.log('from cache');
-        return tracks.slice(0,5);
+        return tracks.slice(0, 5);
     }
     try {
         const res = await axios.get(url)
         const videos = res.data.items;
-        const tracks=await setTVideoToTrack(videos)
-        sessionService.save(key, tracks)
-        console.log(videos)
+        const tracks = await setTVideoToTrack(videos)
+        const duration = await getDuration(tracks)
 
-        return tracks.slice(0,5);
+        const allTraksInfo = tracks.map((item, i) => Object.assign({}, item, duration[i]));
+
+        sessionService.save(key, allTraksInfo)
+
+        return allTraksInfo.slice(0, 5);
     } catch (err) {
         console.log('Had Error:', err);
     }
@@ -44,7 +49,7 @@ function setTVideoToTrack(videos) {
                 url: "youtube/song.mp4",
                 imgUrl: video.snippet.thumbnails.medium.url,
                 addBy: 'Naama',
-                addedAt:Date.now()
+                addedAt: Date.now()
             }
             return track
         })
@@ -54,8 +59,53 @@ function setTVideoToTrack(videos) {
     else console.log('got no track!')
 }
 
+async function getDuration(tracks) {
+    let trackId = tracks.map(track => (
+        `id=${track.id}`
+    ))
+    trackId = trackId.join('&')
+    console.log(trackId);
+
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&${trackId}&key=${API}`
+    const duration = await sessionService.load('duration')
+    if (duration) {
+        console.log('from cache');
+        return duration;
+    }
+    try {
+        const res = await axios.get(url)
+        const data = res.data.items;
+        const duration = _setdurationToFormat(data)
+
+        
+        sessionService.save('duration', duration)
+
+        return duration
+    } catch (err) {
+        console.log('Had Error:', err);
+    }
+}
+
+function _setdurationToFormat(tracks) {
+
+    try {
+        return tracks.map((track) => {
+            let duration = track.contentDetails.duration.replace(/[mh]/gi, ':')
+            duration = duration.replace(/[pts]/gi, '')
+
+            var durationData = {
+                id: track.id,
+                duration,
+            }
+            return durationData
+        })
+    } catch (err) {
+        console.log('not found duration', err);
+    }
+}
+
 async function deleteTrackFromCache(name, track) {
-    const key=`${KEY}${name}`
+    const key = `${KEY}${name}`
     await asyncSessionService.remove(key, track.id);
 }
 
