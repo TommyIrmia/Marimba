@@ -21,6 +21,8 @@ export class _TrackPreview extends Component {
     componentDidUpdate() {
         console.log('did update?');
         const { tracks, currSongIdx, track, player } = this.props
+        // console.log(player.getPlayerState());
+        // if (player.getPlayerState() === 5) return
         const isPlaying = (tracks[currSongIdx].id === track.id) ? true : false;
         track.isPlaying = isPlaying
     }
@@ -72,6 +74,7 @@ export class _TrackPreview extends Component {
         const {isHover,isLiked} = this.state
         const { track, onRemoveTrack,idx } = this.props
         const { isPlaying } = this.props.track
+
         const title = track.title.replace(/\(([^)]+)\)/g, '');
         const date = utilService.getTime(track.addedAt)
         return (
@@ -79,7 +82,7 @@ export class _TrackPreview extends Component {
                 onMouseEnter={() => this.setState({ isHover: true })}
                 onMouseLeave={() => this.setState({ isHover: false })}>
 
-                <section className="TrackPreview flex">
+                <section title={title} className="TrackPreview flex">
                   
 
                     {!isHover && <div className="num-idx" >{idx + 1}</div>}
@@ -94,7 +97,7 @@ export class _TrackPreview extends Component {
                         <img src={track.imgUrl} alt="trackImg" />
                     </div>
 
-                    <div> {title} </div>
+                    <div  className="track-title" > {title} </div>
                 </section>
 
                 <div className="track-date">{date}</div>
@@ -103,10 +106,10 @@ export class _TrackPreview extends Component {
                     <button onClick={this.onLike} className={` btn-like  ${(isHover ? "" : "btn-hidden")} 
                      ${(isLiked ? "fas fa-heart btn-liked" : "far fa-heart")}`}></button>
 
-                    <p className={(isHover) ? '' : 'track-duration'} >3:59</p>
+                    <p className={(isHover) ? '' : 'track-duration'} >{track.duration}</p>
                     <button onClick={() => {
                         onRemoveTrack(track.id)
-                    }} className={"far fa-trash-alt btn-remove" + (isHover ? "" : "btn-hidden")}></button>
+                    }} className={"far fa-trash-alt btn-remove " + (isHover ? "" : "btn-hidden")}></button>
 
                 </div>
 

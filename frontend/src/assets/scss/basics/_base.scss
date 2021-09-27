@@ -9,6 +9,11 @@ body {
   font-family: gotham-light;
 }
 
+::selection {
+  background-color: $clr5;
+  color:$clr7;
+}
+
 h1,
 h2,
 h3,

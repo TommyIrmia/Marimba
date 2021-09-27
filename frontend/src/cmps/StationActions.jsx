@@ -37,7 +37,7 @@ export class StationActions extends Component {
                     <div className="preview-info flex">
 
                         <div  onClick={()=>{
-                            this.onSetSort('title');
+                            this.onSetSort('Title');
                         }}  className="info-title" >
                            <small className="title" >title</small> </div>
 

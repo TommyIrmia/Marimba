@@ -26,15 +26,16 @@ function query(filterBy) {
                 })
             }
             if (sort === 'Title') {
-                tracks = tracks.sort((a, b) => {
-                    var titleB = b.title.toLowerCase();
-                    var titleA = a.title.toLowerCase();
-                    return titleB > titleA ? -1 : 1;
-                })
+                return tracks.sort((a, b) => a.title.localeCompare(b.title))
             }
             if (sort === 'Date added') {
                 tracks = tracks.sort((a, b) => {
                     return a.addedAt > b.addedAt ? -1 : 1;
+                })
+            }
+            if (sort === 'Duration') {
+                tracks = tracks.sort((a, b) => {
+                    return a.duration < b.duration ? -1 : 1;
                 })
             }
             return tracks
