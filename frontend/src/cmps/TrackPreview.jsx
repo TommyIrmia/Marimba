@@ -54,19 +54,19 @@ export class _TrackPreview extends Component {
                         <img src={track.imgUrl} alt="trackImg" />
                     </div>
 
-                    <div className={isPlaying ? 'green' : ''}> {title} </div>
+                    <div className={'track-title' + (isPlaying ? 'green' : '')}> {title} </div>
                 </section>
 
                 <div className="track-date">{date}</div>
 
                 <div className="preview-actions flex" >
                     <button onClick={this.onLike} className={` btn-like  ${(isHover ? "" : "btn-hidden")} 
-                     ${(isLiked ? "fas fa-heart btn-liked" : "far fa-heart")}`}></button>
+                     ${(isLiked ? "fas fa-heart btn-liked" : "far fa-heart")}`}>
+                    </button>
 
-                    <p className={(isHover) ? '' : 'track-duration'} >3:59</p>
-
-                    <button onClick={() => { onRemoveTrack(track.id) }}
-                        className={"far fa-trash-alt btn-remove" + (isHover ? "" : "btn-hidden")}>
+                    <p className={(isHover) ? '' : 'track-duration'} >{track.duration}</p>
+                    <button onClick={() => onRemoveTrack(track.id)}
+                        className={"far fa-trash-alt btn-remove " + (isHover ? "" : "btn-hidden")}>
                     </button>
 
                 </div>
