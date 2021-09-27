@@ -36,9 +36,9 @@ export class _StationDetails extends Component {
     }
 
     onAddTrack = (track) => {
-       const newTreck = {...track}
-        newTreck.addedAt = Date.now()
-        this.props.onAddTrack(newTreck);
+       const newTrack = {...track}
+        newTrack.addedAt = Date.now()
+        this.props.onAddTrack(newTrack);
     }
 
     onSetFilter = async (filterBy) => {

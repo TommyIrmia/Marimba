@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 export function StationPreview({ station }) {
-    return (<Link to="/">
+    return (<Link to="/station">
         <div className="station-preview">
 
             <div className="station-img">

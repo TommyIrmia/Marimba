@@ -9,24 +9,26 @@ export const asyncStorageService = {
     getIdx
 }
 
-function query(entityType, delay = 1200) {
+function query(entityType, delay = 400) {
     var entities = JSON.parse(localStorage.getItem(entityType)) ||  [
         {
             "id": "A_MjCqQoLLA",
-            "title": "Hey Jude- Beatels",
+            "title": "Hey Jude - Beatels",
             "url": "youtube/song.mp4",
             "imgUrl": "https://i.ytimg.com/vi/4_iC0MyIykM/mqdefault.jpg",
             "addedBy": 'Naama',
             "addedAt":1607110465663,
+            "isPlaying" : false,
             "duration":'8:10'
         },
         {
             "id": "m2uTFF_3MaA",
-            "title": "Yellow Submarine- Beatels",
+            "title": "Yellow Submarine - Beatels",
             "url": "youtube/song.mp4",
             "imgUrl": "https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg",
             "addedBy": 'Tomer',
             "addedAt":1607110465663,
+            "isPlaying" : false,
             "duration":'2:46'
         },
         {
@@ -36,6 +38,7 @@ function query(entityType, delay = 1200) {
             "imgUrl": 'https://i.ytimg.com/vi/kTJczUoc26U/mqdefault.jpg',
             "addedBy": 'Tomer',
             "addedAt":1607110465663,
+            "isPlaying" : false,
             "duration":'2:38'
         },
         {
@@ -45,6 +48,7 @@ function query(entityType, delay = 1200) {
             "imgUrl": "https://i.ytimg.com/vi/tQ0yjYUFKAE/mqdefault.jpg",
             "addedBy": 'Tomer',
             "addedAt":1607110465663,
+            "isPlaying" : false,
             "duration":'3:18'
         },
         {
@@ -54,6 +58,7 @@ function query(entityType, delay = 1200) {
             "imgUrl": 'https://i.ytimg.com/vi/kffacxfA7G4/mqdefault.jpg',
             "addedBy": 'tommy',
             "addedAt":1607110465663,
+            "isPlaying" : false,
             "duration":'3:40'
         }
     ]
@@ -94,7 +99,7 @@ function post(entityType, newEntity) {
 function put(entityType, updatedEntity) {
     return query(entityType)
         .then(entities => {
-            const idx = entities.findIndex(entity => entity._id === updatedEntity._id)
+            const idx = entities.findIndex(entity => entity.id === updatedEntity.id)
             entities.splice(idx, 1, updatedEntity)
             save(entityType, entities)
             return updatedEntity

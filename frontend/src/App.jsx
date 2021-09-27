@@ -23,7 +23,7 @@ export class App extends React.Component {
             <Route path="/station" component={StationDetails} />
           </Switch>
         </main>
-        <MediaPlayer />
+        <MediaPlayer /> 
         {/* <AppFooter /> */}
       </div>
 
