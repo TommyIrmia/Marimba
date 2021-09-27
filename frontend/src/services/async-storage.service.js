@@ -18,7 +18,8 @@ function query(entityType, delay = 400) {
             "imgUrl": "https://i.ytimg.com/vi/4_iC0MyIykM/mqdefault.jpg",
             "addedBy": 'Naama',
             "addedAt":1607110465663,
-            "isPlaying" : false
+            "isPlaying" : false,
+            "duration":'8:10'
         },
         {
             "id": "m2uTFF_3MaA",
@@ -27,7 +28,8 @@ function query(entityType, delay = 400) {
             "imgUrl": "https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg",
             "addedBy": 'Tomer',
             "addedAt":1607110465663,
-            "isPlaying" : false
+            "isPlaying" : false,
+            "duration":'2:46'
         },
         {
             "id": 'kTJczUoc26U',
@@ -36,7 +38,8 @@ function query(entityType, delay = 400) {
             "imgUrl": 'https://i.ytimg.com/vi/kTJczUoc26U/mqdefault.jpg',
             "addedBy": 'Tomer',
             "addedAt":1607110465663,
-            "isPlaying" : false
+            "isPlaying" : false,
+            "duration":'2:38'
         },
         {
             "id": "tQ0yjYUFKAE",
@@ -45,7 +48,8 @@ function query(entityType, delay = 400) {
             "imgUrl": "https://i.ytimg.com/vi/tQ0yjYUFKAE/mqdefault.jpg",
             "addedBy": 'Tomer',
             "addedAt":1607110465663,
-            "isPlaying" : false
+            "isPlaying" : false,
+            "duration":'3:18'
         },
         {
             "id": 'kffacxfA7G4',
@@ -54,7 +58,8 @@ function query(entityType, delay = 400) {
             "imgUrl": 'https://i.ytimg.com/vi/kffacxfA7G4/mqdefault.jpg',
             "addedBy": 'tommy',
             "addedAt":1607110465663,
-            "isPlaying" : false
+            "isPlaying" : false,
+            "duration":'3:40'
         }
     ]
 

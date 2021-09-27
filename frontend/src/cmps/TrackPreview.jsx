@@ -4,13 +4,13 @@ import { utilService } from './../services/util.service';
 import { onPlayTrack, onTogglePlay, setCurrDuration } from '../store/mediaplayer.actions.js'
 import useForkRef from '@mui/utils/useForkRef';
 import equi from '../assets/imgs/equi.gif';
+
 export class _TrackPreview extends Component {
 
     state = {
         isHover: false,
         isLiked: false,
     }
-    timeInter;
 
     componentDidMount() {
     }
@@ -42,7 +42,7 @@ export class _TrackPreview extends Component {
                 onMouseEnter={() => this.setState({ isHover: true })}
                 onMouseLeave={() => this.setState({ isHover: false })}>
 
-                <section className="TrackPreview flex">
+                <section title={title} className="TrackPreview flex">
 
                     {!isHover && <div className="num-idx" >
                         {!isPlaying ? (idx + 1) : <img src={equi} />}

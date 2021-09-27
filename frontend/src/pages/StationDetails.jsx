@@ -4,7 +4,7 @@ import { loadTracks, onAddTrack, onRemoveTrack } from '../store/tracks.actions.j
 import { StationHero } from './../cmps/StationHero';
 import { StationActions } from './../cmps/StationActions';
 import { TrackSearch } from '../cmps/TrackSearch';
-// import { youtubeService } from './../services/youtube.service';
+import { youtubeService } from './../services/youtube.service';
 import { TrackList } from './../cmps/TrackList';
 
 

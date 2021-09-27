@@ -17,6 +17,7 @@
     .track-img-container {
       height: 40px;
       width: 40px;
+      margin-inline-end: 10px;
       img {
         width: 100%;
         height: 100%;
@@ -43,6 +44,12 @@
         object-fit: cover;
         // mix-blend-mode: multiply;
       }
+    }
+
+    .track-title{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 

@@ -11,9 +11,28 @@ export class TrackSearch extends React.Component {
     }
 
     async componentDidMount() {
+        await this.loadTracks();
+        console.log(this.state.tracks);
+    }
+
+    loadTracks= async()=>{
         const tracks = await youtubeService.query(this.state.searchKey);
         this.setState({ tracks: tracks });
-        console.log(this.state.tracks);
+    }
+
+    handleChange = async ({ target }) => {
+        const value = target.value;
+        await this.setState({ ...this.state, searchKey: value })
+        await this.loadTracks();
+    }
+
+    toggleSearch = async() => {
+        const isSearch = !(this.state.isSearch)
+        const searchKey = isSearch? '' : 'Ariana';
+        console.log('search key', searchKey);
+        await this.setState({...this.state, searchKey: searchKey, isSearch: isSearch})
+        console.log('search key', this.state.searchKey);
+        this.loadTracks();
     }
 
     removeAddedTrack = async (track) => {
@@ -24,12 +43,22 @@ export class TrackSearch extends React.Component {
     }
 
     render() {
+        const { isSearch } = this.state;
         return (
             <div className="TrackSearch playlist-layout">
-                <h4>To search other tracks</h4>
-                <h2>Suggested</h2>
+                {!isSearch && <div className="SuggestedTracks">
+                    <h4 onClick={this.toggleSearch}>To search other tracks</h4>
+                    <h2>Suggested</h2>
+                </div>}
+
+                {isSearch && <div className="SuggestedTrackSearch">
+                    <button onClick={this.toggleSearch}>X</button>
+                    <h2>Lets look for something to add to your station!</h2>
+                    <input type="search" name="search" placeholder="Look for songs or artists" onChange={this.handleChange} />
+                </div>}
                 <SuggestTrackList tracks={this.state.tracks} onAddTrack={this.props.onAddTrack} removeAddedTrack={this.removeAddedTrack} />
             </div>
+
         )
     }
 }
