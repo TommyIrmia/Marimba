@@ -12,9 +12,6 @@ export class _TrackPreview extends Component {
         isLiked: false,
     }
 
-    componentDidMount() {
-    }
-
     onPlayTrack = async (trackIdx) => {
         await this.props.onPlayTrack(trackIdx)
         this.props.player.playVideo()
@@ -22,7 +19,6 @@ export class _TrackPreview extends Component {
 
     onPauseTrack = () => {
         this.props.player.pauseVideo()
-        // clearInterval(this.timeInter)
     }
 
 
@@ -68,9 +64,10 @@ export class _TrackPreview extends Component {
                      ${(isLiked ? "fas fa-heart btn-liked" : "far fa-heart")}`}></button>
 
                     <p className={(isHover) ? '' : 'track-duration'} >3:59</p>
-                    <button onClick={() => {
-                        onRemoveTrack(track.id)
-                    }} className={"far fa-trash-alt btn-remove" + (isHover ? "" : "btn-hidden")}></button>
+
+                    <button onClick={() => { onRemoveTrack(track.id) }}
+                        className={"far fa-trash-alt btn-remove" + (isHover ? "" : "btn-hidden")}>
+                    </button>
 
                 </div>
 

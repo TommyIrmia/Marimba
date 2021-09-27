@@ -20,10 +20,6 @@ export class _MediaPlayer extends Component {
 
     timeInter;
 
-    componentDidMount() {
-        console.log('?');
-    }
-
     onReady = (ev) => {
         if (ev.data === 2) return // if on pause
         this.setState({ songLength: ev.target.getDuration() })
@@ -57,7 +53,6 @@ export class _MediaPlayer extends Component {
                 this.props.setCurrDuration(currDuration)
             }, 1000)
         }
-
     }
 
     onChangeSong = (diff, currIdx) => {
@@ -75,19 +70,10 @@ export class _MediaPlayer extends Component {
 
     onTogglePlay = () => {
         if (this.props.isPlaying) {
-            this.onPause()
+            this.props.player.pauseVideo()
         } else {
-            this.onPlay()
+            this.props.player.playVideo()
         }
-    }
-
-    onPause = () => {
-        this.props.player.pauseVideo()
-
-    }
-
-    onPlay = () => {
-        this.props.player.playVideo()
     }
 
     onToggleMute = () => {
@@ -123,7 +109,7 @@ export class _MediaPlayer extends Component {
         // if (!tracks.length) return <div></div>
         return (
             <div className="media-player">
-                {tracks.length ? <YouTube
+                {tracks?.length ? <YouTube
                     videoId={tracks[currSongIdx].id}                  // defaults -> null
                     id={tracks[currSongIdx].id}                       // defaults -> null
                     className={'youtube-player'}                // defaults -> null
