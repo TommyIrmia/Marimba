@@ -12,6 +12,7 @@ export const youtubeService = {
 }
 
 async function query(name = 'Beatels') {
+    if(name==='') return
     const key=`${KEY}${name}`
     const search= `${name} music`
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${API}&q=${search}&maxResults=20`
