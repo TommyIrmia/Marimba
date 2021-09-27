@@ -2,7 +2,7 @@
   align-items: center;
   justify-content: space-between;
   border-radius: 5px;
-  
+
   &:hover {
     background-color: rgba(255, 255, 255, 0.123);
   }
@@ -11,7 +11,9 @@
     align-items: center;
     width: 450px;
     margin: 10px;
-
+    .green {
+      color: $clr5;
+    }
     .track-img-container {
       height: 40px;
       width: 40px;
@@ -28,9 +30,19 @@
       color: $clr7;
     }
 
-    .num-idx{
+    .num-idx {
+      position: relative;
       width: 15px;
       margin-inline-end: 15px;
+      img {
+        position: absolute;
+        width: 170%;
+        top: -35px;
+        left: -7px;
+        height: 70px;
+        object-fit: cover;
+        // mix-blend-mode: multiply;
+      }
     }
   }
 
@@ -38,7 +50,7 @@
     width: 200px;
     text-align: center;
   }
-  
+
   .preview-actions {
     margin-inline-end: 20px;
     gap: 10px;
@@ -50,15 +62,15 @@
       color: $clr7;
     }
 
-    .btn-liked{
+    .btn-liked {
       color: $clr5;
     }
 
-    .btn-hidden{
+    .btn-hidden {
       visibility: hidden;
     }
 
-    .track-duration{
+    .track-duration {
       margin: auto;
     }
   }

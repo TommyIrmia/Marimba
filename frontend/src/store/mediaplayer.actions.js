@@ -1,5 +1,3 @@
-import { trackService } from "../services/track.service.js"
-
 
 export function setPlayer(player) {
     return async (dispatch) => {
@@ -43,10 +41,9 @@ export function onTogglePlay(isPlaying) {
     }
 }
 
-export function onPlayTrack(trackId) {
+export function onPlayTrack(idx) {
     return async (dispatch) => {
         try {
-            const idx = await trackService.getIdxById(trackId)
             console.log('idx', idx)
             dispatch({
                 type: 'SET_SONG',

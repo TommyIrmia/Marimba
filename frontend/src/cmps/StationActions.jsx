@@ -4,22 +4,22 @@ import { AppFilter } from './AppFilter';
 export class StationActions extends Component {
 
     state = {
-        isPlaying : false,
+        isPlaying: false,
         isLiked: false,
     }
 
-    onSetSort=(sort) => {
-        this.props.onSetFilter({sort})
+    onSetSort = (sort) => {
+        this.props.onSetFilter({ sort })
     }
 
     onLike = () => {
         const { isLiked } = this.state
-        this.setState({isLiked: !isLiked})
+        this.setState({ isLiked: !isLiked })
     }
 
     render() {
         const { isSearch, onSearch, inputRef, onSetFilter } = this.props;
-        const {isPlaying,isLiked} = this.state;
+        const { isPlaying, isLiked } = this.state;
         return (
             <main className="actions-container">
                 <section className="StationActions playlist-layout">
@@ -36,21 +36,21 @@ export class StationActions extends Component {
 
                     <div className="preview-info flex">
 
-                        <div  onClick={()=>{
+                        <div onClick={() => {
                             this.onSetSort('title');
-                        }}  className="info-title" >
-                           <small className="title" >title</small> </div>
+                        }} className="info-title" >
+                            <small className="title" >title</small> </div>
 
-                        <div  onClick={()=>{
+                        <div onClick={() => {
                             this.onSetSort('Date added');
-                        }}  className="info-date" >
-                           <small className="date" >date added</small> </div>
+                        }} className="info-date" >
+                            <small className="date" >date added</small> </div>
 
-                        <div  onClick={()=>{
+                        <div onClick={() => {
                             this.onSetSort('Duration');
-                        }}  className="info-duration" >
-                           <small className="far fa-clock duration" ></small> </div>
-                        
+                        }} className="info-duration" >
+                            <small className="far fa-clock duration" ></small> </div>
+
                     </div>
                 </section>
             </main>

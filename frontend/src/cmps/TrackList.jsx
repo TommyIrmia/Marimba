@@ -2,7 +2,6 @@ import React from 'react'
 import { TrackPreview } from './TrackPreview';
 
 export  function TrackList({isPlaying,tracks,onRemoveTrack}) {
-    console.log(tracks);
     return (
         <section className="TrackList">
              {tracks.map((track, idx) => (

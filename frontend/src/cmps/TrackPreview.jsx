@@ -3,77 +3,38 @@ import { connect } from 'react-redux'
 import { utilService } from './../services/util.service';
 import { onPlayTrack, onTogglePlay, setCurrDuration } from '../store/mediaplayer.actions.js'
 import useForkRef from '@mui/utils/useForkRef';
-
+import equi from '../assets/imgs/equi.gif';
 export class _TrackPreview extends Component {
 
     state = {
-        isPlaying: false,
         isHover: false,
         isLiked: false,
     }
     timeInter;
 
     componentDidMount() {
-        const { track } = this.props;
-        track.isPlaying = false;
     }
 
-    componentDidUpdate() {
-        console.log('did update?');
-        const { tracks, currSongIdx, track, player } = this.props
-        // console.log(player.getPlayerState());
-        // if (player.getPlayerState() === 5) return
-        const isPlaying = (tracks[currSongIdx].id === track.id) ? true : false;
-        track.isPlaying = isPlaying
+    onPlayTrack = async (trackIdx) => {
+        await this.props.onPlayTrack(trackIdx)
+        this.props.player.playVideo()
     }
-
-    onPlayTrack = async (trackId) => {
-        try {
-            this.props.onPlayTrack(trackId)
-            this.onPlay()
-            this.setState({ isPlaying: true })
-        } catch (err) {
-            throw err
-        }
-    }
-
-    onLike = () =>{
-        const { isLiked } = this.state;
-        this.setState({isLiked: !isLiked})
-    }
-
-    
 
     onPauseTrack = () => {
-        this.props.onTogglePlay(false)
-        this.setState({ isPlaying: false })
-        clearInterval(this.timeInter)
         this.props.player.pauseVideo()
+        // clearInterval(this.timeInter)
     }
 
-    onPlay = () => {
-        this.props.onTogglePlay(true)
-        this.timeInter = setInterval(() => {
-            const currDuration = this.props.player.getCurrentTime()
-            this.props.setCurrDuration(currDuration)
-        }, 1000)
-        // this.props.player.playVideo()
-    }
 
-    // checkIsPlaying = () => {
-    //     if (tracks[currSongIdx].id === track.id) {
-    //         console.log('!!!');
-    //         this.setState({ isPlaying: true })
-    //     } else {
-    //         console.log('???');
-    //         this.setState({ isPlaying: false })
-    //     }
-    // }
+    onLike = () => {
+        const { isLiked } = this.state;
+        this.setState({ isLiked: !isLiked })
+    }
 
     render() {
-        const {isHover,isLiked} = this.state
-        const { track, onRemoveTrack,idx } = this.props
-        const { isPlaying } = this.props.track
+        const { isHover, isLiked } = this.state
+        const { track, onRemoveTrack, idx } = this.props
+        const { isPlaying } = track
         const title = track.title.replace(/\(([^)]+)\)/g, '');
         const date = utilService.getTime(track.addedAt)
         return (
@@ -82,13 +43,14 @@ export class _TrackPreview extends Component {
                 onMouseLeave={() => this.setState({ isHover: false })}>
 
                 <section className="TrackPreview flex">
-                  
 
-                    {!isHover && <div className="num-idx" >{idx + 1}</div>}
-                    { isHover && isPlaying && <button onClick={() => this.onPauseTrack(track.id)}
+                    {!isHover && <div className="num-idx" >
+                        {!isPlaying ? (idx + 1) : <img src={equi} />}
+                    </div>}
+                    {isHover && isPlaying && <button onClick={() => this.onPauseTrack(track.id)}
                         className={"play-btn fas fa-pause"}>
                     </button>}
-                    { isHover && !isPlaying && <button onClick={() => this.onPlayTrack(track.id)}
+                    {isHover && !isPlaying && <button onClick={() => this.onPlayTrack(idx)}
                         className={"play-btn fas fa-play"}>
                     </button>}
 
@@ -96,7 +58,7 @@ export class _TrackPreview extends Component {
                         <img src={track.imgUrl} alt="trackImg" />
                     </div>
 
-                    <div> {title} </div>
+                    <div className={isPlaying ? 'green' : ''}> {title} </div>
                 </section>
 
                 <div className="track-date">{date}</div>

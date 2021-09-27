@@ -45,4 +45,16 @@ export function onAddTrack(track) {
     }
 }
 
-
+export function onUpdateTrack(track) {
+    return async (dispatch) => {
+        try {
+            const savedTrack = await trackService.update(track)
+            dispatch({
+                type: 'UPDATE_TRACK',
+                track: savedTrack
+            })
+        } catch (err) {
+            console.error('Can not update track', err)
+        }
+    }
+}

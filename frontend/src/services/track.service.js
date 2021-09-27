@@ -8,7 +8,8 @@ export const trackService = {
     getById,
     add,
     remove,
-    getIdxById
+    getIdxById,
+    update
 }
 
 
@@ -55,6 +56,10 @@ function remove(trackId) {
 }
 function add(track) {
     return asyncStorageService.post(STORAGE_KEY, track)
+}
+
+function update(track) {
+    return asyncStorageService.put(STORAGE_KEY, track)
 }
 
 // function _saveTracksToStorage() {
