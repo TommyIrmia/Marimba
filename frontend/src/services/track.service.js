@@ -55,6 +55,7 @@ function remove(trackId) {
     return asyncStorageService.remove(STORAGE_KEY, trackId)
 }
 function add(track) {
+    console.log(track);
     return asyncStorageService.post(STORAGE_KEY, track)
 }
 
