@@ -9,7 +9,7 @@ import { TrackList } from './../cmps/TrackList';
 
 
 
-export class _StationDetails extends Component {
+class _StationDetails extends Component {
 
     state = {
         isSearch: false,
@@ -22,8 +22,13 @@ export class _StationDetails extends Component {
         this.loadTracks();
     }
 
-    loadTracks = () => {
-        this.props.loadTracks()
+    loadTracks = async () => {
+        try {
+            const { stationId } = this.props.match.params
+            await this.props.loadTracks(stationId)
+        } catch (err) {
+            throw err
+        }
     }
 
     onSearch = () => {
@@ -35,34 +40,42 @@ export class _StationDetails extends Component {
         this.setState({ isSearch: false });
     }
 
-    onAddTrack = (track) => {
-       const newTrack = {...track}
-        newTrack.addedAt = Date.now()
-        this.props.onAddTrack(newTrack);
-    }
-
-    onSetFilter = async (filterBy) => {
-       await this.props.loadTracks(filterBy)
-    }
-
-    onRemoveTrack = async (trackId) => {
-        console.log(trackId);
+    onAddTrack = async (track) => {
         try {
-            await this.props.onRemoveTrack(trackId)
+            const { stationId } = this.props.match.params
+            const newTrack = { ...track }
+            newTrack.addedAt = Date.now()
+            await this.props.onAddTrack(newTrack, stationId);
         } catch (err) {
             throw err
         }
     }
 
+    onRemoveTrack = async (trackId) => {
+        try {
+            const { stationId } = this.props.match.params
+            await this.props.onRemoveTrack(trackId, stationId)
+        } catch (err) {
+            throw err
+        }
+    }
+
+    onSetFilter = async (filterBy) => {
+        const { stationId } = this.props.match.params
+        await this.props.loadTracks(stationId, filterBy)
+    }
+
+
 
     render() {
         const { isSearch, isPlaying } = this.state;
         const { tracks } = this.props
+        const { stationId } = this.props.match.params
         if (!tracks) return <div> loading...</div>;
         return (
             <main className="StationDetails">
                 <div onClick={this.onCloseSerach} className={(isSearch ? "screen" : "")}></div>
-                <StationHero />
+                <StationHero stationId={stationId} />
                 <StationActions onSetFilter={this.onSetFilter} inputRef={this.inputRef} onSearch={this.onSearch} isSearch={isSearch} />
                 <TrackList onRemoveTrack={this.onRemoveTrack} isPlaying={isPlaying} tracks={tracks} />
 

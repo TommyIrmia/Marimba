@@ -20,10 +20,10 @@ export class App extends React.Component {
         <main className="main-app">
           <Switch>
             {routes.map(route => <Route key={route.path} exact component={route.component} path={route.path} />)}
-            <Route path="/station" component={StationDetails} />
+            <Route path="/station/:stationId" component={StationDetails} />
           </Switch>
         </main>
-        <MediaPlayer /> 
+        <MediaPlayer />
         {/* <AppFooter /> */}
       </div>
 

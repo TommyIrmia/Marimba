@@ -54,7 +54,7 @@ export class _TrackPreview extends Component {
                         <img src={track.imgUrl} alt="trackImg" />
                     </div>
 
-                    <div className={'track-title' + (isPlaying ? 'green' : '')}> {title} </div>
+                    <div className={'track-title ' + (isPlaying ? 'green' : '')}> {title} </div>
                 </section>
 
                 <div className="track-date">{date}</div>

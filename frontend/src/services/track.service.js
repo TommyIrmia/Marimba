@@ -1,68 +1,62 @@
 
 import { asyncStorageService } from './async-storage.service.js'
+import { stationService } from './station.service.js';
 
 const STORAGE_KEY = 'track'
 
 export const trackService = {
     query,
-    getById,
-    add,
-    remove,
-    getIdxById,
-    update
 }
+//     getById,
+//     // add,
+//     remove,
+//     getIdxById,
+//     update
+// }
 
 
-function query(filterBy) {
+
+async function query(stationId, filterBy) {
     console.log('filterBy', filterBy);
-    if (!filterBy) return asyncStorageService.query(STORAGE_KEY)
+    if (!filterBy) return stationService.getById(stationId)
 
     const { title, sort } = filterBy
 
-    return asyncStorageService.query(STORAGE_KEY)
-        .then(tracks => {
-            if (title) {
-                tracks = tracks.filter(track => {
-                    return track.title.toLowerCase().includes(title.toLowerCase());
-                })
-            }
-            if (sort === 'Title') {
-                return tracks.sort((a, b) => a.title.localeCompare(b.title))
-            }
-            if (sort === 'Date added') {
-                tracks = tracks.sort((a, b) => {
-                    return a.addedAt > b.addedAt ? -1 : 1;
-                })
-            }
-            if (sort === 'Duration') {
-                tracks = tracks.sort((a, b) => {
-                    return a.duration < b.duration ? -1 : 1;
-                })
-            }
-            return tracks
-        })
+    let { tracks } = await stationService.getById(stationId)
+    if (title) {
+        tracks = tracks.filter(track => track.title.toLowerCase().includes(title.toLowerCase()))
+    }
+    if (sort === 'Title') {
+        tracks.sort((a, b) => a.title.localeCompare(b.title))
+    }
+    if (sort === 'Date added') {
+        tracks.sort((a, b) => a.addedAt > b.addedAt ? -1 : 1)
+    }
+    if (sort === 'Duration') {
+        tracks.sort((a, b) => a.duration < b.duration ? -1 : 1)
+    }
+    return tracks
 }
 
-async function getIdxById(trackId) {
-    const idx = await asyncStorageService.getIdx(STORAGE_KEY, trackId)
-    return idx
-}
+// async function getIdxById(trackId) {
+//     return await asyncStorageService.getIdx(STORAGE_KEY, trackId)
+// }
 
-function getById(trackId) {
-    return asyncStorageService.get(STORAGE_KEY, trackId)
-}
-function remove(trackId) {
-    // return Promise.reject('Not now!');
-    return asyncStorageService.remove(STORAGE_KEY, trackId)
-}
-function add(track) {
-    return asyncStorageService.post(STORAGE_KEY, track)
-}
+// function getById(trackId) {
+//     return asyncStorageService.get(STORAGE_KEY, trackId)
+// }
+// function remove(trackId) {
+//     // return Promise.reject('Not now!');
+//     return asyncStorageService.remove(STORAGE_KEY, trackId)
+// }
+// // function add(track) {
+// //     return stationService.post(STORAGE_KEY, track)
+// // }
 
-function update(track) {
-    return asyncStorageService.put(STORAGE_KEY, track)
-}
+// function update(track) {
+//     return asyncStorageService.put(STORAGE_KEY, track)
+// }
 
-// function _saveTracksToStorage() {
-//     asyncStorageService.save(STORAGE_KEY, initialTracks)
+// // function _saveTracksToStorage() {
+// //     asyncStorageService.save(STORAGE_KEY, initialTracks)
 // }
