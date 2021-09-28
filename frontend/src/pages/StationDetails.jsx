@@ -44,7 +44,7 @@ class _StationDetails extends Component {
         this.setState({ isSearch: true });
     }
 
-    onCloseSerach = () => {
+    onCloseSearch = () => {
         this.setState({ isSearch: false });
     }
 
@@ -82,12 +82,10 @@ class _StationDetails extends Component {
             this.props.setSongIdx(0)
             await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         }
-        // this.setState({ isPlaying: true })
     }
 
     onPauseTrack = () => {
         this.props.player.pauseVideo()
-        // this.setState({ isPlaying: false })
     }
 
 
@@ -101,7 +99,7 @@ class _StationDetails extends Component {
         if (!tracks) return <div> loading...</div>;
         return (
             <main className="StationDetails">
-                <div onClick={this.onCloseSerach} className={(isSearch ? "screen" : "")}></div>
+                <div onClick={this.onCloseSearch} className={(isSearch ? "screen" : "")}></div>
                 <StationHero stationId={stationId} />
                 <StationActions onSetFilter={this.onSetFilter} inputRef={this.inputRef}
                     onSearch={this.onSearch} isSearch={isSearch} isPlaying={isPlaying} tracks={tracks}

@@ -9,7 +9,7 @@
   ul {
     margin-top: 2rem;
     border-bottom: 2px solid gray;
-    
+
     li {
       font-family: gotham;
       font-size: 0.9rem;
@@ -41,9 +41,8 @@
         background-color: $clr4;
       }
     }
-
-    .logo {
-      margin-inline-start: 30px;
-    }
+  }
+  .logo {
+    margin-inline-start: 50px;
   }
 }

@@ -8,6 +8,7 @@ import { TrackDetails } from './TrackDetails.jsx';
 import { PlayerActions } from './PlayerActions.jsx';
 import { VolumeController } from './VolumeController';
 import { utilService } from '../services/util.service.js';
+import { stationService } from '../services/station.service.js';
 
 
 export class _MediaPlayer extends Component {
@@ -19,6 +20,7 @@ export class _MediaPlayer extends Component {
         initialPlay: false,
         isRepeat: false,
         isShuffle: false,
+        stationName: '',
     }
 
     timerIntervalId;
@@ -26,7 +28,7 @@ export class _MediaPlayer extends Component {
 
     onReady = (ev) => {
         if (ev.data === 2) return // if on pause
-        this.setState({ songLength: ev.target.getDuration() })
+        // this.setState({ songLength: ev.target.getDuration() })
         this.props.setPlayer(ev.target)
         this.props.player.playVideo()
     }
@@ -38,6 +40,7 @@ export class _MediaPlayer extends Component {
     onStateChange = (ev) => {
         const songLength = ev.target.getDuration()
         this.setState({ songLength })
+        this.getStationName()
 
         if (ev.data === 5) ev.target.playVideo()
 
@@ -64,6 +67,26 @@ export class _MediaPlayer extends Component {
         }
     }
 
+    onTogglePlay = async () => {
+        await this.isInitialPlay()
+        if (this.props.player) {
+            if (this.props.isPlaying) {
+                this.props.player.pauseVideo()
+            } else {
+                this.props.player.playVideo()
+            }
+        }
+    }
+
+
+    isInitialPlay = async () => {
+        if (!this.state.initialPlay) {
+            this.setState({ initialPlay: true }, async () => {
+                await this.props.loadTracksToPlayer(this.props.tracks)
+            })
+        }
+    }
+
     onChangeSong = (diff, currIdx) => {
         if (this.state.isRepeat) {
             this.props.player.stopVideo()
@@ -86,28 +109,22 @@ export class _MediaPlayer extends Component {
             nextIdx = 0;
             return
         };
+
         if (nextIdx >= this.props.currentTracks.length) nextIdx = 0;
         this.props.setSongIdx(nextIdx)
         this.props.player.playVideo()
     }
 
-    onTogglePlay = async () => {
-        await this.isInitialPlay()
-        if (this.props.player) {
-            if (this.props.isPlaying) {
-                this.props.player.pauseVideo()
-            } else {
-                this.props.player.playVideo()
-            }
-        }
+    onVolumeChange = (ev) => {
+        const volume = ev.target.value
+        this.props.player.setVolume(volume)
+        this.setState({ volume })
     }
 
-    isInitialPlay = async () => {
-        if (!this.state.initialPlay) {
-            this.setState({ initialPlay: true }, async () => {
-                await this.props.loadTracksToPlayer(this.props.tracks)
-            })
-        }
+    onDurationChange = (ev) => {
+        const duration = ev.target.value
+        this.props.player.seekTo(duration)
+        this.props.setCurrDuration(duration)
     }
 
     onToggleMute = () => {
@@ -124,18 +141,6 @@ export class _MediaPlayer extends Component {
         }
     }
 
-    onVolumeChange = (ev) => {
-        const volume = ev.target.value
-        this.props.player.setVolume(volume)
-        this.setState({ volume })
-    }
-
-    onDurationChange = (ev) => {
-        const duration = ev.target.value
-        this.props.player.seekTo(duration)
-        this.props.setCurrDuration(duration)
-    }
-
     onToggleRepeat = () => {
         this.setState({ isRepeat: !this.state.isRepeat })
     }
@@ -148,9 +153,15 @@ export class _MediaPlayer extends Component {
         })
     }
 
+    getStationName = async () => {
+        const { stationId } = this.props
+        if (!stationId) return
+        const station = await stationService.getById(stationId)
+        this.setState({ stationName: station.name })
+    }
 
     render() {
-        const { isMute, songLength, volume, isRepeat, isShuffle } = this.state
+        const { isMute, songLength, volume, isRepeat, isShuffle, stationName } = this.state
         const { currSongIdx, currDuration, isPlaying, currentTracks } = this.props
         // if (!tracks.length) return <div></div>
         return (
@@ -174,7 +185,7 @@ export class _MediaPlayer extends Component {
                     onStateChange={(ev) => this.onStateChange(ev)}      // defaults -> noop
                 /> : ''}
 
-                <TrackDetails imgSrc={imgSrc} currTrack={currentTracks[currSongIdx]} />
+                <TrackDetails imgSrc={imgSrc} currTrack={currentTracks[currSongIdx]} stationName={stationName} />
 
                 <PlayerActions onChangeSong={this.onChangeSong} currSongIdx={currSongIdx}
                     isPlaying={isPlaying} songLength={songLength} currDuration={currDuration}
@@ -198,6 +209,7 @@ function mapStateToProps(state) {
         currSongIdx: state.mediaPlayerModule.currSongIdx,
         currDuration: state.mediaPlayerModule.currDuration,
         currentTracks: state.mediaPlayerModule.currentTracks,
+        stationId: state.mediaPlayerModule.stationId
     }
 }
 const mapDispatchToProps = {
