@@ -78,7 +78,6 @@ export class _MediaPlayer extends Component {
         }
     }
 
-
     isInitialPlay = async () => {
         if (!this.state.initialPlay) {
             this.setState({ initialPlay: true }, async () => {
