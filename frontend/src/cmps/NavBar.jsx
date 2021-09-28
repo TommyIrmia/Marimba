@@ -25,7 +25,7 @@ export class NavBar extends Component {
                         </li>
                     </NavLink>
 
-                    <NavLink to="/createstation" activeClassName="chosen">
+                    <NavLink to="/station/new" activeClassName="chosen">
                         <li>
                             <div className="symbol fas fa-plus-square"></div>
                             <div className="text">Create Playlist</div>

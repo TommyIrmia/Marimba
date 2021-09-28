@@ -156,6 +156,7 @@ export class _MediaPlayer extends Component {
         const { stationId } = this.props
         if (!stationId) return
         const station = await stationService.getById(stationId)
+        if (!station) return
         this.setState({ stationName: station.name })
     }
 

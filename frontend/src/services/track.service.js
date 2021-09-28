@@ -14,8 +14,11 @@ export const trackService = {
 
 
 async function query(stationId, filterBy) {
-    if (!filterBy) return stationService.getById(stationId)
-
+    console.log('filterBy', filterBy);
+    if (!filterBy) {
+        if (stationId === 'new') return {tracks:[]};
+        else return stationService.getById(stationId);
+    }
     const { title, sort } = filterBy
 
     let { tracks } = await stationService.getById(stationId)
