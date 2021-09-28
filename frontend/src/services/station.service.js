@@ -1,4 +1,5 @@
 import { asyncStorageService } from './async-storage.service.js'
+import { utilService } from './util.service.js'
 
 export const stationService = {
     query,
@@ -8,6 +9,7 @@ export const stationService = {
     removeStation,
     addTrackToStation,
     removeTrackFromStation,
+    saveEmptyStation
 }
 
 const STORAGE_KEY = 'station'
@@ -394,7 +396,25 @@ async function addStation(station) {
     }
 }
 
-
+async function saveEmptyStation(){
+    const id=utilService.makeId();
+    const newStation={"_id": id,
+    "name": "New Station",
+    "description": "What's the best way to describe your station?",
+    "tags": [],
+    "imgUrl": "",
+    "createdAt": Date.now(),
+    "createdBy": {
+        "_id": "u101",
+        "fullname": "Puki Ben David",
+        "imgUrl": "https://i.ytimg.com/vi/4_iC0MyIykM/mqdefault.jpg"
+    },
+    "likedByUsers": [],
+    "tracks": []
+    }
+    asyncStorageService.save(STORAGE_KEY, newStation);
+    return id;
+}
 async function getById(stationId) {
     try {
         return await asyncStorageService.get(STORAGE_KEY, stationId)
