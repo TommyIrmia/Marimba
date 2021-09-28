@@ -1,51 +1,53 @@
 .TrackSearch {
-    min-height: 70vh;
-    h4 {
-        padding: 15px;
-        position: absolute;
-        right: 0;
-        cursor: pointer;
-    }
-    h2 {
-        padding-top: rem(75px);
-        line-height: rem(70px);
-    }
+  min-height: 70vh;
+  h4 {
+    padding: 15px;
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+  }
+  h2 {
+    padding-top: rem(75px);
+    line-height: rem(70px);
+  }
 
-    .search-header-container {
-        width: 100%;
-        h2 {
-            padding-top: 0;
-        }
-        .close-button {
-            color: #ffff;
-            background-color: none;
-            font-size: 1.2rem;
-            border: 0;
-            font-family: gotham-light;
-        }
+  .search-header-container {
+    border-top: 1px solid $clr2;
+    margin-top: 70px;
+    width: 100%;
+    h2 {
+      padding-top: 0;
     }
-    .search-Warrper {
-        background-color: rgba(255, 255, 255, 0.1);
-        border: 0;
-        border-radius: 4px;
-        color: rgba(184, 179, 179, 0.7);
-        height: 40px;
-        opacity: 1;
-        padding: 8px 10px;
-        max-width: 550px;
-        .fas.fa-search {
-            justify-self: flex-start;
-            padding: 10px 12px;
-            pointer-events: none;
-        }
-        .search-input {
-            background-color: rgba(0, 0, 0, 0);
-            border: 0;
-            font-size: 1rem;
-            color: #ffff;
-            &:focus {
-               outline: 0;
-            }
-        }
+    .close-button {
+      color: #ffff;
+      background-color: none;
+      font-size: 1.2rem;
+      border: 0;
+      font-family: gotham-light;
     }
+  }
+  .search-Warrper {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 0;
+    border-radius: 4px;
+    color: rgba(184, 179, 179, 0.7);
+    height: 40px;
+    opacity: 1;
+    padding: 8px 10px;
+    max-width: 550px;
+    .fas.fa-search {
+      justify-self: flex-start;
+      padding: 10px 12px;
+      pointer-events: none;
+    }
+    .search-input {
+      background-color: rgba(0, 0, 0, 0);
+      border: 0;
+      font-size: 1rem;
+      color: #ffff;
+      &:focus {
+        outline: 0;
+      }
+    }
+  }
 }
