@@ -10,35 +10,42 @@ export class TrackSearch extends React.Component {
         isSearch: true
     }
 
-    async componentDidMount() {
-        await this.loadTracks();
-        console.log(this.state.tracks);
+    componentDidMount() {
+        this.loadTracks();
     }
 
     loadTracks = async () => {
-        const tracks = await youtubeService.query(this.state.searchKey, this.state.isSearch);
+        const { isSearch, searchKey } = this.state
+        const tracks = await youtubeService.query(searchKey, isSearch)
         this.setState({ tracks: tracks });
     }
 
-    handleChange = async ({ target }) => {
-        const value = target.value;
-        this.setState({ ...this.state, searchKey: value },async()=>{await this.loadTracks()})
+    debouncedLoadTracks = youtubeService.debounce(this.loadTracks, 1000)
+
+    handleChange = ({ target }) => {
+        const { value } = target;
+        this.setState({ ...this.state, searchKey: value }, () => {
+            this.debouncedLoadTracks()
+        })
     }
 
     toggleSearch = async () => {
         const isSearch = !(this.state.isSearch)
         const searchKey = isSearch ? '' : 'Ariana';
-        console.log('search key', searchKey);
-        await this.setState({ ...this.state, searchKey: searchKey, isSearch: isSearch })
-        console.log('search key', this.state.searchKey);
-        this.loadTracks();
+        this.setState({ ...this.state, searchKey: searchKey, isSearch: isSearch }, () => {
+            this.loadTracks();
+        })
     }
 
     removeAddedTrack = async (track) => {
         console.log('removing added track');
-        await youtubeService.deleteTrackFromCache(this.state.searchKey, track);
-        const tracks = await youtubeService.query(this.state.searchKey);
-        this.setState({ tracks: tracks });
+        try {
+            await youtubeService.deleteTrackFromCache(this.state.searchKey, track);
+            const tracks = await youtubeService.query(this.state.searchKey);
+            this.setState({ tracks: tracks });
+        } catch (err) {
+            throw err;
+        }
     }
 
     render() {
@@ -57,10 +64,10 @@ export class TrackSearch extends React.Component {
                     </div>
                     <div className="search-Warrper flex align-center">
                         <div className="fas fa-search"></div>
-                        <input className="search-input" type="text" 
-                        placeholder="Look for songs or artists" 
-                        value={this.state.searchKey}
-                        onChange={this.handleChange} />
+                        <input className="search-input" type="text"
+                            placeholder="Look for songs or artists"
+                            value={this.state.searchKey}
+                            onChange={this.handleChange} />
                     </div>
                 </div>}
                 <SuggestTrackList tracks={this.state.tracks} onAddTrack={this.props.onAddTrack} removeAddedTrack={this.removeAddedTrack} />
