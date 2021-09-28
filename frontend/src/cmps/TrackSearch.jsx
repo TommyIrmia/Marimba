@@ -6,8 +6,8 @@ import { SuggestTrackList } from './SuggestTrackList'
 export class TrackSearch extends React.Component {
     state = {
         tracks: [],
-        searchKey: 'Ariana',
-        isSearch: false
+        searchKey: '',
+        isSearch: true
     }
 
     async componentDidMount() {
@@ -15,22 +15,21 @@ export class TrackSearch extends React.Component {
         console.log(this.state.tracks);
     }
 
-    loadTracks= async()=>{
+    loadTracks = async () => {
         const tracks = await youtubeService.query(this.state.searchKey);
         this.setState({ tracks: tracks });
     }
 
     handleChange = async ({ target }) => {
         const value = target.value;
-        await this.setState({ ...this.state, searchKey: value })
-        await this.loadTracks();
+        this.setState({ ...this.state, searchKey: value },async()=>{await this.loadTracks()})
     }
 
-    toggleSearch = async() => {
+    toggleSearch = async () => {
         const isSearch = !(this.state.isSearch)
-        const searchKey = isSearch? '' : 'Ariana';
+        const searchKey = isSearch ? '' : 'Ariana';
         console.log('search key', searchKey);
-        await this.setState({...this.state, searchKey: searchKey, isSearch: isSearch})
+        await this.setState({ ...this.state, searchKey: searchKey, isSearch: isSearch })
         console.log('search key', this.state.searchKey);
         this.loadTracks();
     }
@@ -52,9 +51,17 @@ export class TrackSearch extends React.Component {
                 </div>}
 
                 {isSearch && <div className="SuggestedTrackSearch">
-                    <button onClick={this.toggleSearch}>X</button>
-                    <h2>Lets look for something to add to your station!</h2>
-                    <input type="search" name="search" placeholder="Look for songs or artists" onChange={this.handleChange} />
+                    <div className="search-header-container flex align-center space-between">
+                        <h2>Lets look for something to add to your station</h2>
+                        <button className="close-button" onClick={this.toggleSearch}>X</button>
+                    </div>
+                    <div className="search-Warrper flex align-center">
+                        <div className="fas fa-search"></div>
+                        <input className="search-input" type="text" 
+                        placeholder="Look for songs or artists" 
+                        value={this.state.searchKey}
+                        onChange={this.handleChange} />
+                    </div>
                 </div>}
                 <SuggestTrackList tracks={this.state.tracks} onAddTrack={this.props.onAddTrack} removeAddedTrack={this.removeAddedTrack} />
             </div>
