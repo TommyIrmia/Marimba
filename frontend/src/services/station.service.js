@@ -10,7 +10,8 @@ export const stationService = {
     addTrackToStation,
     removeTrackFromStation,
     saveEmptyStation,
-    saveNewStation
+    saveNewStation,
+    saveDataFromHero
 }
 
 const STORAGE_KEY = 'station'
@@ -415,6 +416,7 @@ async function saveEmptyStation() {
     }]
     asyncStorageService.save('newStation', newStation);
 }
+
 async function getById(stationId) {
     try {
         return await asyncStorageService.get(STORAGE_KEY, stationId)
@@ -443,12 +445,26 @@ async function removeTrackFromStation(trackId, stationId) {
         console.log('Can not remove track from station', err)
     }
 }
+
 async function saveNewStation() {
     const id = utilService.makeId();
     let newStation = await asyncStorageService.get('newStation', 'new');
     newStation._id = id;
     await asyncStorageService.post(STORAGE_KEY, newStation);
     return id;
+}
+
+async function saveDataFromHero(stationId, data) {
+    console.log('from save data', stationId);
+    const station = await getById(stationId)
+    console.log('from save data', station);
+    const updatedStation = {
+        ...station,
+        name: data.title,
+        imgUrl: data.img,
+        description: data.desc
+    }
+    await asyncStorageService.put(STORAGE_KEY, updatedStation)
 }
 
 async function getGenres() {

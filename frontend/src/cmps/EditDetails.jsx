@@ -35,12 +35,12 @@ export default class EditDetails extends Component {
     render() {
         const { isHover, hero } = this.state;
         const { img, title, desc } = this.state.hero;
-        const { onEdit,onCloseEdit } = this.props;
+        const { onEdit, onCloseEdit, saveDataFromHero } = this.props;
         return (
             <main className="edit-container" >
                 <div className="header-edit flex" >
-                <h3>Edit details</h3>
-                <button onClick={onCloseEdit} >X</button>
+                    <h3>Edit details</h3>
+                    <button onClick={onCloseEdit} >X</button>
                 </div>
                 <section className="EditDetails grid" >
                     <label className="img-edit"
@@ -60,13 +60,14 @@ export default class EditDetails extends Component {
                     </label>
 
                     <input type="text" name="title" onChange={this.handleChange}
-                       maxlength="14" placeholder={title} value={title} autoComplete="off" />
+                        maxlength="14" placeholder={title} value={title} autoComplete="off" />
 
                     <textarea placeholder="Add an optional description"
-                       maxlength="60" name="desc" value={desc} onChange={this.handleChange} ></textarea>
+                        maxlength="60" name="desc" value={desc} onChange={this.handleChange} ></textarea>
                 </section>
                 <button onClick={() => {
                     onEdit(hero)
+                    saveDataFromHero(hero)
                 }} className="btn-save">Save</button>
             </main>
         )

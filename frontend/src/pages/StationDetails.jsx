@@ -85,6 +85,16 @@ class _StationDetails extends Component {
         await this.props.loadTracks(stationId, filterBy)
     }
 
+    saveDataFromHero = async (data) => {
+        let stationId = this.state.id
+        if (stationId === 'new') {
+            stationId = await stationService.saveNewStation();
+            console.log('from front', stationId);
+            this.setState({ ...this.state, id: stationId });
+        }
+        await stationService.saveDataFromHero(stationId, data)
+    }
+
     onPlayTrack = async () => {
         const { stationId } = this.props.match.params
         if (this.props.stationId === stationId) {
@@ -114,7 +124,7 @@ class _StationDetails extends Component {
 
                 {!isEditable && <StationHero stationId={stationId} />}
 
-                {isEditable && <EditHero />}
+                {isEditable && <EditHero saveDataFromHero={this.saveDataFromHero} />}
 
                 <StationActions onSetFilter={this.onSetFilter} inputRef={this.inputRef}
                     onSearch={this.onSearch} isSearch={isSearch} isPlaying={isPlaying} tracks={tracks}
@@ -122,7 +132,7 @@ class _StationDetails extends Component {
                 />
 
                 <TrackList onRemoveTrack={this.onRemoveTrack} tracks={tracks} stationId={stationId} />
-                
+
                 <TrackSearch onAddTrack={this.onAddTrack} />
             </main>
 

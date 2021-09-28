@@ -10,8 +10,8 @@ export default class EditHero extends Component {
         isEdit: false,
         hero: {
             img: '',
-            title:'My playlist #1',
-            desc:''
+            title: 'My playlist #1',
+            desc: ''
         }
     }
 
@@ -26,20 +26,20 @@ export default class EditHero extends Component {
         }
     }
 
-    onEdit = (hero) =>{
-        this.setState((prevState) => ({ ...prevState.hero,hero }))
-        this.setState({isEdit:false})
+    onEdit = (hero) => {
+        this.setState((prevState) => ({ ...prevState.hero, hero }))
+        this.setState({ isEdit: false })
     }
 
-    onCloseEdit = () =>{
-        this.setState({isEdit:false}) 
+    onCloseEdit = () => {
+        this.setState({ isEdit: false })
     }
-   
+
 
     render() {
-        const { isHover,isEdit,hero } = this.state;
-        const { img,title,desc } = this.state.hero;
-        console.log('hero',hero);
+        const { isHover, isEdit, hero } = this.state;
+        const { img, title, desc } = this.state.hero;
+        const { saveDataFromHero } = this.props
         return (
             <main className="EditHero-container">
 
@@ -48,7 +48,7 @@ export default class EditHero extends Component {
                         onMouseEnter={() => this.setState({ isHover: true })}
                         onMouseLeave={() => this.setState({ isHover: false })}>
 
-                        { img && <img src={img} alt="img" />}
+                        {img && <img src={img} alt="img" />}
 
                         {<input hidden type="file" name="img" id="img"
                             defaultValue={img} onChange={this.handleImgChange} />}
@@ -60,8 +60,8 @@ export default class EditHero extends Component {
                         </div>}
                     </label>
 
-                    <div onClick={()=>{
-                        this.setState({isEdit: true})
+                    <div onClick={() => {
+                        this.setState({ isEdit: true })
                     }} className="info-container">
                         <h5>playlist</h5>
                         <h1 title={title} className="hero-title">{title}</h1>
@@ -71,7 +71,7 @@ export default class EditHero extends Component {
                 </section>
 
 
-                { isEdit && <EditDetails onCloseEdit={this.onCloseEdit} onEdit={this.onEdit} hero={hero} />}
+                {isEdit && <EditDetails onCloseEdit={this.onCloseEdit} onEdit={this.onEdit} hero={hero} saveDataFromHero={saveDataFromHero} />}
             </main>
         )
     }
