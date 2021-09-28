@@ -17,6 +17,7 @@ export class StationActions extends Component {
     }
 
     isTrackPlaying = (tracks) => {
+        if(!tracks) return false
         const track = tracks.find(track => track.isPlaying)
         return track
     }
