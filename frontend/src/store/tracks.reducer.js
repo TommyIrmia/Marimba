@@ -8,10 +8,11 @@ export function tracksReducer(state = initialState, action) {
     let tracks;
     switch (action.type) {
         case 'SET_TRACKS':
-            tracks = action.tracks.map(track => {
-                track.isPlaying = false
-                return track
-            })
+            tracks = action.tracks
+            // .map(track => {
+            //     track.isPlaying = false
+            //     return track
+            // })
             return { ...state, tracks }
         case 'REMOVE_TRACK':
             tracks = state.tracks.filter(track => track.id !== action.trackId)

@@ -1,8 +1,5 @@
 
-import { asyncStorageService } from './async-storage.service.js'
 import { stationService } from './station.service.js';
-
-const STORAGE_KEY = 'track'
 
 export const trackService = {
     query,
@@ -17,7 +14,6 @@ export const trackService = {
 
 
 async function query(stationId, filterBy) {
-    console.log('filterBy', filterBy);
     if (!filterBy) return stationService.getById(stationId)
 
     const { title, sort } = filterBy

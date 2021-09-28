@@ -4,8 +4,6 @@ import { asyncSessionService } from './async-session.service'
 const API = 'AIzaSyBxKvDDUfdV3UMlGaO60Vn0HS6EyOnMtQo'
 const KEY = 'cacheVideos'
 
-const debounceQuery = debounce(query, 3000);
-
 export const youtubeService = {
     query,
     setTVideoToTrack: getTracks,
@@ -101,7 +99,7 @@ function _setdurationToFormat(tracks) {
         const minutes = +splitDuration[0]
         let seconds = +splitDuration[1]
         if (seconds < 10) seconds = '0' + seconds;
-
+        console.log(seconds);
         return {
             id: track.id,
             minutes,
@@ -114,9 +112,7 @@ function _setdurationToFormat(tracks) {
 
 function debounce(func, wait) {
     let timeout;
-    console.log('debouncing')
     return async function executedFunction(...args) {
-        console.log('executing')
         const later = () => {
             clearTimeout(timeout);
             func(...args);

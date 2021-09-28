@@ -6,7 +6,7 @@ export function StationPreview({ station }) {
         <div className="station-preview">
 
             <div className="station-img">
-                <img src={station.imgUrl} />
+                <img src={station.imgUrl} alt="station" />
                 <div className="play-btn fas fa-play"></div>
             </div>
 

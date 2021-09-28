@@ -3,7 +3,7 @@ import { youtubeService } from '../services/youtube.service'
 
 import { SuggestTrackList } from './SuggestTrackList'
 
-export class TrackSearch extends React.Component {
+export class TrackSearch extends Component {
     state = {
         tracks: [],
         searchKey: '',

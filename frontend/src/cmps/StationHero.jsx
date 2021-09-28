@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { stationService } from '../services/station.service.js'
 
-import { Logo } from './Logo'
 
 export class StationHero extends Component {
 
@@ -19,7 +18,6 @@ export class StationHero extends Component {
     }
 
     render() {
-        const url = 'https://i.scdn.co/image/ab67706f000000035918ed120609487bbca4d873'
         const { station } = this.state
         if (!station) return <div>Loading</div>
         return (
@@ -27,7 +25,6 @@ export class StationHero extends Component {
                 <div className="StationHero playlist-layout">
 
                     <div className="img-container"><img src={station.imgUrl} alt="img" /> </div>
-                    {/* <div className="img-container"><Logo className="logo" /> <img src={url} alt="img" /> </div> */}
 
                     <div className="info-container">
                         <h5>playlist</h5>

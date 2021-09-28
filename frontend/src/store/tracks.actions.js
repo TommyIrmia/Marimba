@@ -4,11 +4,16 @@ import { trackService } from "../services/track.service.js";
 export function loadTracks(stationId, filterBy) {
     return async (dispatch) => {
         try {
-            const station = await trackService.query(stationId, filterBy)
-            console.log('Tracks from actions:', station.tracks)
+            let tracks;
+            if (!stationId) tracks = []
+            else {
+                const station = await trackService.query(stationId, filterBy)
+                tracks = station.tracks
+            }
+            console.log('Tracks from actions:', tracks)
             dispatch({
                 type: 'SET_TRACKS',
-                tracks: station.tracks
+                tracks
             })
         } catch (err) {
             console.log('From actions - Cannot load tracks', err)

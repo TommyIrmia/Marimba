@@ -13,6 +13,24 @@ export function setPlayer(player) {
     }
 }
 
+export function loadTracksToPlayer(tracks, stationId) {
+    return async (dispatch) => {
+        try {
+            console.log('Loaded tracks to player', tracks, stationId)
+            dispatch({
+                type: 'SET_TRACKS_TO_PLAYER',
+                tracks
+            })
+            dispatch({
+                type: 'SET_STATION_ID',
+                stationId
+            })
+        } catch (err) {
+            console.log('Can not load tracks to player', err)
+        }
+    }
+}
+
 export function setSongIdx(idx) {
     return async (dispatch) => {
         try {

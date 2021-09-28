@@ -40,6 +40,12 @@
       &:hover {
         color: $clr7;
       }
+      &.green {
+        color: $clr5;
+        &:hover {
+          color: darkgreen;
+        }
+      }
     }
 
     .play-btn {

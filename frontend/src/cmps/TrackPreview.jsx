@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { utilService } from './../services/util.service';
-import { onPlayTrack, onTogglePlay, setCurrDuration } from '../store/mediaplayer.actions.js'
-import useForkRef from '@mui/utils/useForkRef';
+import { onPlayTrack, loadTracksToPlayer } from '../store/mediaplayer.actions.js'
+import { onUpdateTrack } from '../store/tracks.actions.js'
 import equi from '../assets/imgs/equi.gif';
 
 export class _TrackPreview extends Component {
@@ -12,9 +12,24 @@ export class _TrackPreview extends Component {
         isLiked: false,
     }
 
+    componentDidMount() {
+        const { track, player } = this.props
+        if (player) {
+            const { video_id } = player.getVideoData()
+            if (video_id === track.id) {
+                track.isPlaying = true
+                this.props.onUpdateTrack(track)
+            }
+        }
+    }
+
     onPlayTrack = async (trackIdx) => {
+        const { tracks, stationId, player } = this.props
+        await this.props.loadTracksToPlayer(tracks, stationId)
         await this.props.onPlayTrack(trackIdx)
-        this.props.player.playVideo()
+        if (player) {
+            player.playVideo()
+        }
     }
 
     onPauseTrack = () => {
@@ -43,7 +58,7 @@ export class _TrackPreview extends Component {
                 <section title={title} className="TrackPreview flex">
 
                     {!isHover && <div className="num-idx" >
-                        {!isPlaying ? (idx + 1) : <img src={equi} />}
+                        {!isPlaying ? (idx + 1) : <img src={equi} alt="playing gif" />}
                     </div>}
                     {isHover && isPlaying && <button onClick={() => this.onPauseTrack(track.id)}
                         className={"play-btn fas fa-pause"}>
@@ -82,15 +97,13 @@ function mapStateToProps(state) {
     return {
         tracks: state.tracksModule.tracks,
         player: state.mediaPlayerModule.player,
-        isPlaying: state.mediaPlayerModule.isPlaying,
-        currSongIdx: state.mediaPlayerModule.currSongIdx,
     }
 }
 
 const mapDispatchToProps = {
     onPlayTrack,
-    onTogglePlay,
-    setCurrDuration
+    loadTracksToPlayer,
+    onUpdateTrack,
 }
 
 

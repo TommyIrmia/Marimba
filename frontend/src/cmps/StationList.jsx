@@ -1,10 +1,9 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { stationService } from '../services/station.service.js'
 import { StationPreview } from './StationPreview.jsx'
 
-class _StationList extends React.Component {
+export class StationList extends React.Component {
 
     state = {
         stations: []
@@ -40,12 +39,4 @@ class _StationList extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-    }
-}
-const mapDispatchToProps = {
-}
 
-
-export const StationList = connect(mapStateToProps, mapDispatchToProps)(_StationList)

@@ -5,6 +5,8 @@ const initialState = {
     isPlaying: false,
     currSongIdx: 0,
     currDuration: 0,
+    currentTracks: [],
+    stationId: ''
 }
 
 export function mediaPlayerReducer(state = initialState, action) {
@@ -17,9 +19,13 @@ export function mediaPlayerReducer(state = initialState, action) {
             return { ...state, isPlaying: action.isPlaying }
         case 'SET_DURATION':
             return { ...state, currDuration: action.currDuration }
+        case 'SET_TRACKS_TO_PLAYER':
+            return { ...state, currentTracks: action.tracks }
+        case 'SET_STATION_ID':
+            return { ...state, stationId: action.stationId }
         default:
+            return state;
     }
 
-    return state;
 
 }

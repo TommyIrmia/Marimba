@@ -4,7 +4,6 @@ import { AppFilter } from './AppFilter';
 export class StationActions extends Component {
 
     state = {
-        isPlaying: false,
         isLiked: false,
     }
 
@@ -17,14 +16,31 @@ export class StationActions extends Component {
         this.setState({ isLiked: !isLiked })
     }
 
+    isTrackPlaying = (tracks) => {
+        const track = tracks.find(track => track.isPlaying)
+        return track
+    }
+
     render() {
-        const { isSearch, onSearch, inputRef, onSetFilter } = this.props;
-        const { isPlaying, isLiked } = this.state;
+        const { isSearch, onSearch, inputRef, onSetFilter, onPauseTrack, onPlayTrack, tracks } = this.props;
+        const { isLiked } = this.state;
+
         return (
             <main className="actions-container">
                 <section className="StationActions playlist-layout">
                     <div className="btns-actions flex">
-                        <button className={"play-btn " + (isPlaying ? "fas fa-pause" : "fas fa-play")}></button>
+
+                        {!this.isTrackPlaying(tracks) && <button onClick={() => {
+                            onPlayTrack()
+                        }}
+                            className="play-btn fas fa-play">
+                        </button>}
+
+                        {this.isTrackPlaying(tracks) && <button onClick={() => {
+                            onPauseTrack()
+                        }}
+                            className="play-btn fas fa-pause">
+                        </button>}
 
                         <button onClick={this.onLike} className={"btn-action " + (isLiked ? "fas fa-heart btn-liked" : "far fa-heart")}></button>
 
@@ -36,10 +52,10 @@ export class StationActions extends Component {
 
                     <div className="preview-info flex">
 
-                        <div  onClick={()=>{
+                        <div onClick={() => {
                             this.onSetSort('Title');
-                        }}  className="info-title" >
-                           <small className="title" >title</small> </div>
+                        }} className="info-title" >
+                            <small className="title" >title</small> </div>
 
                         <div onClick={() => {
                             this.onSetSort('Date added');
