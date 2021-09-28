@@ -9,7 +9,8 @@ export const stationService = {
     removeStation,
     addTrackToStation,
     removeTrackFromStation,
-    saveEmptyStation
+    saveEmptyStation,
+    saveNewStation
 }
 
 const STORAGE_KEY = 'station'
@@ -396,24 +397,23 @@ async function addStation(station) {
     }
 }
 
-async function saveEmptyStation(){
-    const id=utilService.makeId();
-    const newStation={"_id": id,
-    "name": "New Station",
-    "description": "What's the best way to describe your station?",
-    "tags": [],
-    "imgUrl": "",
-    "createdAt": Date.now(),
-    "createdBy": {
-        "_id": "u101",
-        "fullname": "Puki Ben David",
-        "imgUrl": "https://i.ytimg.com/vi/4_iC0MyIykM/mqdefault.jpg"
-    },
-    "likedByUsers": [],
-    "tracks": []
-    }
-    asyncStorageService.save(STORAGE_KEY, newStation);
-    return id;
+async function saveEmptyStation() {
+    const newStation = [{
+        "_id": 'new',
+        "name": "New Station",
+        "description": "What's the best way to describe your station?",
+        "tags": ["Happy"],
+        "imgUrl": "",
+        "createdAt": Date.now(),
+        "createdBy": {
+            "_id": "u101",
+            "fullname": "Puki Ben David",
+            "imgUrl": "https://i.ytimg.com/vi/4_iC0MyIykM/mqdefault.jpg"
+        },
+        "likedByUsers": [],
+        "tracks": []
+    }]
+    asyncStorageService.save('newStation', newStation);
 }
 async function getById(stationId) {
     try {
@@ -442,6 +442,13 @@ async function removeTrackFromStation(trackId, stationId) {
     } catch (err) {
         console.log('Can not remove track from station', err)
     }
+}
+async function saveNewStation() {
+    const id = utilService.makeId();
+    let newStation = await asyncStorageService.get('newStation', 'new');
+    newStation._id = id;
+    await asyncStorageService.post(STORAGE_KEY, newStation);
+    return id;
 }
 
 async function getGenres() {

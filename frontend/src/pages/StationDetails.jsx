@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { loadTracks, onAddTrack, onRemoveTrack } from '../store/tracks.actions.js'
 import { StationHero } from './../cmps/StationHero';
+import EditHero from './../cmps/EditHero';
 import { StationActions } from './../cmps/StationActions';
 import { TrackSearch } from '../cmps/TrackSearch';
 import { youtubeService } from './../services/youtube.service';
@@ -15,17 +16,22 @@ class _StationDetails extends Component {
     state = {
         isSearch: false,
         isPlaying: false,
-        isEditable: true,
+        isEditable: false,
         id: ''
     }
 
     inputRef = React.createRef()
 
     async componentDidMount() {
+        let isEditable = false;
         let { stationId } = this.props.match.params
-        if (stationId === 'new') stationId = await stationService.saveEmptyStation();
-        this.setState({ ...this.state, id: stationId }, this.loadTracks)
+        if (stationId === 'new') {
+            stationService.saveEmptyStation();
+            isEditable = true;
+        }
+        this.setState({ ...this.state, isEditable: isEditable, id: stationId }, this.loadTracks)
     }
+git
 
     loadTracks = async () => {
         try {
@@ -45,8 +51,13 @@ class _StationDetails extends Component {
     }
 
     onAddTrack = async (track) => {
+        let stationId = this.state.id
+        if (stationId === 'new') {
+            stationId = await stationService.saveNewStation();
+            this.setState({ ...this.state, id: stationId });
+        }
         try {
-            const { stationId } = this.props.match.params
+            console.log("station id:", stationId);
             const newTrack = { ...track }
             newTrack.addedAt = Date.now()
             await this.props.onAddTrack(newTrack, stationId);
@@ -79,11 +90,11 @@ class _StationDetails extends Component {
         return (
             <main className="StationDetails">
                 <div onClick={this.onCloseSerach} className={(isSearch ? "screen" : "")}></div>
-                {isEditable && <StationHero stationId={stationId} />}
+                {!isEditable && <StationHero stationId={stationId} />}
+                {isEditable && <EditHero />}
                 <StationActions onSetFilter={this.onSetFilter} inputRef={this.inputRef} onSearch={this.onSearch} isSearch={isSearch} />
                 <TrackList onRemoveTrack={this.onRemoveTrack} isPlaying={isPlaying} tracks={tracks} />
-
-                {isEditable && <TrackSearch onAddTrack={this.onAddTrack} />}
+                <TrackSearch onAddTrack={this.onAddTrack} />
             </main>
 
         )
