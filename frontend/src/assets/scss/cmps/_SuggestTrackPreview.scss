@@ -1,30 +1,15 @@
-@import "./TrackPreview";
 
-.suggest-track-container {
-  align-items: center;
-  gap: 100px;
-
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.123);
-  }
-
-  .SuggestTrackPreview {
-    align-items: center;
-    gap: 10px;
-    min-width: 500px;
-
-    img {
-      width: rem(70px);
-    }
-  }
-
-  button {
-    border: 1px solid seashell;
-    border-radius: 0.5rem;
-    color: seashell;
+  .add-button {
+    border: 1px solid rgba(255, 255, 255, 0.123);
+    border-radius: 30px;
+    color: #ffff;
     display: flex;
+    font-size: 16px;
+    font-family: gotham-light;
+    padding: 5px 10px;
     &:hover {
-      background-color: rgba(255, 255, 255, 0.123);
+      border:1px solid seashell;
+      transform: scale(1.07);
     }
   }
-}
+

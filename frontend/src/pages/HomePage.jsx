@@ -19,7 +19,6 @@ export class HomePage extends Component {
         } catch (err) {
             console.log('From home-page, can not get genres', err)
         }
-
     }
     render() {
         const { genres } = this.state

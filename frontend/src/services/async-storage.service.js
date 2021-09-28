@@ -10,76 +10,12 @@ export const asyncStorageService = {
 }
 
 function query(entityType, delay = 400) {
-    var entities = JSON.parse(localStorage.getItem(entityType)) ||  [
-        {
-            "id": "A_MjCqQoLLA",
-            "title": "Hey Jude - Beatels",
-            "url": "youtube/song.mp4",
-            "imgUrl": "https://i.ytimg.com/vi/4_iC0MyIykM/mqdefault.jpg",
-            "addedBy": 'Naama',
-            "addedAt":1607110465663,
-            "isPlaying" : false,
-            "duration":'8:10',
-            "minutes":8,
-            "seconds":10
-        },
-        {
-            "id": "m2uTFF_3MaA",
-            "title": "Yellow Submarine - Beatels",
-            "url": "youtube/song.mp4",
-            "imgUrl": "https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg",
-            "addedBy": 'Tomer',
-            "addedAt":1607110465663,
-            "isPlaying" : false,
-            "duration":'2:46',
-            "minutes":2,
-            "seconds":46
-        },
-        {
-            "id": 'kTJczUoc26U',
-            "title": 'The Kid LAROI, Justin Bieber - STAY (Official Video)',
-            "url": "youtube/song.mp4",
-            "imgUrl": 'https://i.ytimg.com/vi/kTJczUoc26U/mqdefault.jpg',
-            "addedBy": 'Tomer',
-            "addedAt":1607110465663,
-            "isPlaying" : false,
-            "duration":'2:38',
-            "minutes":2,
-            "seconds":38
-        },
-        {
-            "id": "tQ0yjYUFKAE",
-            "title": "Justin Bieber - Peaches ft. Daniel Caesar, Giveon",
-            "url": "youtube/song.mp4",
-            "imgUrl": "https://i.ytimg.com/vi/tQ0yjYUFKAE/mqdefault.jpg",
-            "addedBy": 'Tomer',
-            "addedAt":1607110465663,
-            "isPlaying" : false,
-            "duration":'3:18',
-            "minutes":3,
-            "seconds":18
-        },
-        {
-            "id": 'kffacxfA7G4',
-            "title": 'Justin Bieber - Baby (Official Music Video) ft. Ludacris',
-            "url": "youtube/song.mp4",
-            "imgUrl": 'https://i.ytimg.com/vi/kffacxfA7G4/mqdefault.jpg',
-            "addedBy": 'tommy',
-            "addedAt":1607110465663,
-            "isPlaying" : false,
-            "duration":'3:40',
-            "minutes":3,
-            "seconds":40
-        }
-    ]
-
+    var entities = JSON.parse(localStorage.getItem(entityType))
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            // reject('OOOOPs')
             resolve(entities)
         }, delay)
     })
-    // return Promise.resolve(entities)
 }
 
 
@@ -109,7 +45,7 @@ function post(entityType, newEntity) {
 function put(entityType, updatedEntity) {
     return query(entityType)
         .then(entities => {
-            const idx = entities.findIndex(entity => entity.id === updatedEntity.id)
+            const idx = entities.findIndex(entity => entity._id === updatedEntity._id)
             entities.splice(idx, 1, updatedEntity)
             save(entityType, entities)
             return updatedEntity
