@@ -1,15 +1,14 @@
-
-  .add-button {
-    border: 1px solid rgba(255, 255, 255, 0.123);
-    border-radius: 30px;
-    color: #ffff;
-    display: flex;
-    font-size: 16px;
-    font-family: gotham-light;
-    padding: 5px 10px;
-    &:hover {
-      border:1px solid seashell;
-      transform: scale(1.07);
-    }
+.add-button {
+  border: 1px solid rgba(255, 255, 255, 0.123);
+  border-radius: 30px;
+  color: #ffff;
+  display: flex;
+  font-size: 16px;
+  font-family: gotham-light;
+  padding: 8px 20px;
+  margin-inline-end: 10px;
+  &:hover {
+    border: 1px solid seashell;
+    transform: scale(1.07);
   }
-
+}

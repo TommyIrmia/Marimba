@@ -56,8 +56,8 @@ const initialStations = [
                 "addedAt": 1607110465663,
                 "isPlaying": false,
                 "duration": '8:10',
-                "minutes":8, 
-                "seconds":10
+                "minutes": 8,
+                "seconds": 10
             },
             {
                 "id": "m2uTFF_3MaA",
@@ -71,8 +71,8 @@ const initialStations = [
                 "addedAt": 1607110465663,
                 "isPlaying": false,
                 "duration": '2:46',
-                "minutes":2, 
-                "seconds":46
+                "minutes": 2,
+                "seconds": 46
             },
             {
                 "id": 'kTJczUoc26U',
@@ -86,8 +86,8 @@ const initialStations = [
                 "addedAt": 1607110465663,
                 "isPlaying": false,
                 "duration": '2:38',
-                "minutes":2, 
-                "seconds":38
+                "minutes": 2,
+                "seconds": 38
             },
             {
                 "id": "tQ0yjYUFKAE",
@@ -101,8 +101,8 @@ const initialStations = [
                 "addedAt": 1607110465663,
                 "isPlaying": false,
                 "duration": '3:18',
-                "minutes":3, 
-                "seconds":18
+                "minutes": 3,
+                "seconds": 18
             },
             {
                 "id": 'kffacxfA7G4',
@@ -116,8 +116,8 @@ const initialStations = [
                 "addedAt": 1607110465663,
                 "isPlaying": false,
                 "duration": '3:40',
-                "minutes":3, 
-                "seconds":40
+                "minutes": 3,
+                "seconds": 40
             }
         ]
     },
@@ -177,7 +177,9 @@ const initialStations = [
                 },
                 "addedAt": 1607110465663,
                 "isPlaying": false,
-                "duration": '2:57'
+                "duration": '2:57',
+                "minutes": 2,
+                "seconds": 57
             },
             {
                 "id": "QYh6mYIJG2Y",
@@ -190,7 +192,9 @@ const initialStations = [
                 },
                 "addedAt": 1604110465663,
                 "isPlaying": false,
-                "duration": '3:04'
+                "duration": '3:04',
+                "minutes": 3,
+                "seconds": 4
             },
             {
                 "id": 'gl1aHhXnN1k',
@@ -203,7 +207,9 @@ const initialStations = [
                 },
                 "addedAt": 1600110465663,
                 "isPlaying": false,
-                "duration": '5:30'
+                "duration": '5:30',
+                "minutes": 5,
+                "seconds": 30
             },
             {
                 "id": "kHLHSlExFis",
@@ -216,7 +222,9 @@ const initialStations = [
                 },
                 "addedAt": 1607110465663,
                 "isPlaying": false,
-                "duration": '4:01'
+                "duration": '4:01',
+                "minutes": 4,
+                "seconds": 1
             },
             {
                 "id": 'ffxKSjUwKdU',
@@ -229,7 +237,9 @@ const initialStations = [
                 },
                 "addedAt": 1607110465663,
                 "isPlaying": false,
-                "duration": '3:58'
+                "duration": '3:58',
+                "minutes": 3,
+                "seconds": 58
             }
         ]
     },
@@ -284,7 +294,9 @@ const initialStations = [
                 },
                 "addedAt": 1603110465663,
                 "isPlaying": false,
-                "duration": '3:20'
+                "duration": '3:20',
+                "minutes": 3,
+                "seconds": 20
             },
             {
                 "id": "HQliEKPg1Qk",
@@ -297,7 +309,9 @@ const initialStations = [
                 },
                 "addedAt": 1577110465663,
                 "isPlaying": false,
-                "duration": '2:59'
+                "duration": '2:59',
+                "minutes": 2,
+                "seconds": 59
             },
             {
                 "id": 'P00HMxdsVZI',
@@ -310,7 +324,9 @@ const initialStations = [
                 },
                 "addedAt": 1527110465663,
                 "isPlaying": false,
-                "duration": '3:01'
+                "duration": '3:01',
+                "minutes": 3,
+                "seconds": 1
             },
             {
                 "id": "4P9XUrniiK4",
@@ -323,7 +339,9 @@ const initialStations = [
                 },
                 "addedAt": 1607110465663,
                 "isPlaying": false,
-                "duration": '3:06'
+                "duration": '3:06',
+                "minutes": 3,
+                "seconds": 6
             },
             {
                 "id": 'SmbmeOgWsqE',
@@ -336,7 +354,9 @@ const initialStations = [
                 },
                 "addedAt": 1607110465663,
                 "isPlaying": false,
-                "duration": '2:45'
+                "duration": '2:45',
+                "minutes": 2,
+                "seconds": 45
             }
         ]
     },
