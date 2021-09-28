@@ -1,10 +1,10 @@
 .hero-container {
-    $station-details-color: rgb(213, 136, 31);
+    
     background: linear-gradient(
-        $station-details-color 10%,
-        darken($station-details-color, 7%) 50%,
-        darken($station-details-color, 13%) 80%,
-        darken($station-details-color, 20%) 90%
+        $bgc1 10%,
+        darken($bgc1, 7%) 50%,
+        darken($bgc1, 13%) 80%,
+        darken($bgc1, 20%) 90%
     );
 }
 

@@ -14,9 +14,9 @@ export const youtubeService = {
 }
 
 async function query(name = 'Beatels') {
-    if(name==='') return
-    const key=`${KEY}${name}`
-    const search= `${name} music`
+    if (name === '') return
+    const key = `${KEY}${name}`
+    const search = `${name} music`
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${API}&q=${search}&maxResults=20`
     const tracks = await sessionService.load(key)
     if (tracks) {
@@ -28,9 +28,7 @@ async function query(name = 'Beatels') {
         const videos = res.data.items;
         const tracks = await setTVideoToTrack(videos)
         const duration = await getDuration(tracks)
-
         const allTraksInfo = tracks.map((item, i) => Object.assign({}, item, duration[i]));
-
         sessionService.save(key, allTraksInfo)
 
         return allTraksInfo.slice(0, 5);
@@ -78,7 +76,7 @@ async function getDuration(tracks) {
         const data = res.data.items;
         const duration = _setdurationToFormat(data)
 
-        
+
         sessionService.save('duration', duration)
 
         return duration
@@ -92,13 +90,19 @@ function _setdurationToFormat(tracks) {
     try {
         return tracks.map((track) => {
             let duration = track.contentDetails.duration.replace(/[mh]/gi, ':')
-            duration = duration.replace(/[pts]/gi, '')
+            duration = duration.replace(/[a-z]/gi, '')
+            const splitDuration = duration.split(':')
+            if (splitDuration.length > 2) return;
+            const minutes = +splitDuration[0]
+            let seconds = +splitDuration[1]
+            if (seconds < 10) seconds = '0' + seconds;
 
-            var durationData = {
+            return {
                 id: track.id,
+                minutes,
+                seconds,
                 duration,
             }
-            return durationData
         })
     } catch (err) {
         console.log('not found duration', err);

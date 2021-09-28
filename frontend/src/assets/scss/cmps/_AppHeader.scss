@@ -1,7 +1,9 @@
 .app-header {
   height: 60px;
-  background-color: $clr6;
+  background-color: $bgc1;
   grid-row: 1;
+  transition: background-color 0.6s;
+  position: relative;
 
   .user-container {
     display: flex;
@@ -9,14 +11,64 @@
     align-items: center;
     width: rem(120px);
     height: rem(40px);
+    color: $clr8;
     background-color: #121212c5;
     border-radius: 20px;
     position: absolute;
-    top: rem(18px);
-    left: rem(38px);
+    top: rem(10px);
+    right: rem(100px);
+
+    &:hover {
+      color: $clr7;
+      background-color: $clr1;
+      cursor: pointer;
+    }
 
     .user-name {
       font-family: gotham-bold;
     }
+  }
+  .options-container {
+    width: rem(200px);
+    position: absolute;
+    background-color:#282828;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    text-indent: 10px;
+    margin: 0;
+    top: 60px;
+    right: 100px;
+
+    .user-options {
+      padding: 10px 0;
+      width: 100%;
+      z-index: 1;
+
+
+      &:hover {
+        cursor: pointer;
+        background-color: rgba(255, 255, 255, 0.219);
+      }
+    }
+  }
+}
+
+html:not([data-scroll="0"]) {
+  .app-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #000;
+  }
+  .user-container{
+    background-color: #000;
+  }
+}
+
+html:not(:not([data-scroll="100"])) {
+  .app-header {
+    background-color: #121212b0;
   }
 }

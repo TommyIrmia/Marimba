@@ -1,10 +1,9 @@
 .actions-container {
-  $station-details-color: rgb(213, 136, 31);
   background: linear-gradient(
-    darken($station-details-color, 25%) 0%,
-    darken($station-details-color, 30%) 10%,
-    darken($station-details-color, 35%) 50%,
-    darken($station-details-color, 45%) 90%
+    darken($bgc1, 25%) 0%,
+    darken($bgc1, 30%) 10%,
+    darken($bgc1, 35%) 50%,
+    darken($bgc1, 45%) 90%
   );
 
   margin-bottom: 20px;

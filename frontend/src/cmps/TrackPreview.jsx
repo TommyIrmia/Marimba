@@ -31,7 +31,9 @@ export class _TrackPreview extends Component {
         const { isHover, isLiked } = this.state
         const { track, onRemoveTrack, idx } = this.props
         const { isPlaying } = track
-        const title = track.title.replace(/\(([^)]+)\)/g, '');
+
+        let title = track.title.replace(/\(([^)]+)\)/g, '');
+        title = title.replace('&#39;', '\'');
         const date = utilService.getTime(track.addedAt)
         return (
             <section className="track-container flex playlist-layout"
@@ -64,7 +66,7 @@ export class _TrackPreview extends Component {
                      ${(isLiked ? "fas fa-heart btn-liked" : "far fa-heart")}`}>
                     </button>
 
-                    <p className={(isHover) ? '' : 'track-duration'} >{track.duration}</p>
+                    <p className={(isHover) ? '' : 'track-duration'} >{track.minutes}:{track.seconds}</p>
                     <button onClick={() => onRemoveTrack(track.id)}
                         className={"far fa-trash-alt btn-remove " + (isHover ? "" : "btn-hidden")}>
                     </button>

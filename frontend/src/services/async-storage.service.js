@@ -19,7 +19,9 @@ function query(entityType, delay = 400) {
             "addedBy": 'Naama',
             "addedAt":1607110465663,
             "isPlaying" : false,
-            "duration":'8:10'
+            "duration":'8:10',
+            "minutes":8,
+            "seconds":10
         },
         {
             "id": "m2uTFF_3MaA",
@@ -29,7 +31,9 @@ function query(entityType, delay = 400) {
             "addedBy": 'Tomer',
             "addedAt":1607110465663,
             "isPlaying" : false,
-            "duration":'2:46'
+            "duration":'2:46',
+            "minutes":2,
+            "seconds":46
         },
         {
             "id": 'kTJczUoc26U',
@@ -39,7 +43,9 @@ function query(entityType, delay = 400) {
             "addedBy": 'Tomer',
             "addedAt":1607110465663,
             "isPlaying" : false,
-            "duration":'2:38'
+            "duration":'2:38',
+            "minutes":2,
+            "seconds":38
         },
         {
             "id": "tQ0yjYUFKAE",
@@ -49,7 +55,9 @@ function query(entityType, delay = 400) {
             "addedBy": 'Tomer',
             "addedAt":1607110465663,
             "isPlaying" : false,
-            "duration":'3:18'
+            "duration":'3:18',
+            "minutes":3,
+            "seconds":18
         },
         {
             "id": 'kffacxfA7G4',
@@ -59,7 +67,9 @@ function query(entityType, delay = 400) {
             "addedBy": 'tommy',
             "addedAt":1607110465663,
             "isPlaying" : false,
-            "duration":'3:40'
+            "duration":'3:40',
+            "minutes":3,
+            "seconds":40
         }
     ]
 
