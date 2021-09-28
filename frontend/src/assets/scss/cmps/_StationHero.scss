@@ -1,76 +1,80 @@
 .hero-container {
-    $station-details-color: rgb(213, 136, 31);
-    background: linear-gradient(
-        $station-details-color 10%,
-        darken($station-details-color, 7%) 50%,
-        darken($station-details-color, 13%) 80%,
-        darken($station-details-color, 20%) 90%
-    );
+  $station-details-color: rgb(213, 136, 31);
+  background: linear-gradient(
+    $station-details-color 10%,
+    darken($station-details-color, 7%) 50%,
+    darken($station-details-color, 13%) 80%,
+    darken($station-details-color, 20%) 90%
+  );
 }
 
 .StationHero {
-    height: rem(380px);
-    position: relative;
+  height: rem(330px);
+  position: relative;
+
+  .logo {
+    width: 30px;
+    h1 {
+      font-size: rem(12px);
+    }
+  }
+
+  .img-container {
+    height: rem(250px);
+    width: rem(250px);
+    // background-color: rgb(213, 136, 31);
+    position: absolute;
+    bottom: rem(40px);
+    display: inline-block;
+    padding: rem(5px);
+
+    img {
+      width: inherit;
+      height: inherit;
+      object-fit: cover;
+      object-position: center center;
+      box-shadow: 0 4px 60px rgb(0 0 0 / 50%);
+    }
 
     .logo {
-        width: 30px;
-        h1 {
-            font-size: rem(12px);
-        }
+      h1 {
+        display: none;
+      }
     }
-
-    .img-container {
-        // height: rem(290px);
-        width: rem(290px);
-        // background-color: rgb(213, 136, 31);
-        bottom: rem(28px);
-        position: absolute;
-        display: inline-block;
-        padding: rem(5px);
-
-        img{
-            width: inherit;
-            height: inherit;
-        }
-
-        .logo {
-            h1 {
-                display: none;
-            }
-        }
-    }
+  }
 }
 
 .info-container {
-    height: rem(182px);
-    position: absolute;
-    bottom: rem(28px);
-    left: 355px;
+  height: rem(182px);
+  position: absolute;
+  bottom: 28px;
+  left: 300px;
+  @media (max-width: 1230px) {
+    bottom: -5px;
+  }
+  h5 {
+    text-transform: uppercase;
+    letter-spacing: rem(-0.7px);
+  }
 
-    h5 {
-        text-transform: uppercase;
-        letter-spacing: rem(-0.7px);
-    }
+  .hero-title {
+    text-indent: -6px;
+    font-size: rem(100px);
+    font-family: gotham-bold;
+    letter-spacing: rem(-5px);
+  }
 
-    .hero-title {
-        font-size: rem(100px);
-        font-family: gotham-bold;
-        letter-spacing: rem(-7.5px);
-    }
-
-    p {
-        margin-bottom: rem(15px);
-    }
+  p {
+    margin-bottom: rem(15px);
+  }
 }
 
 @media (max-width: 1230px) {
-
-    .info-container {
-    
-        .hero-title {
-            font-size: rem(70px);
-            font-family: gotham-bold;
-            letter-spacing: rem(-6.5px);
-        }
+  .info-container {
+    .hero-title {
+      font-size: rem(70px);
+      font-family: gotham-bold;
+      letter-spacing: rem(-6.5px);
     }
+  }
 }

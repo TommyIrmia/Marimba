@@ -37,6 +37,7 @@ async function query(name = 'Beatels') {
         return allTraksInfo.slice(0, 5);
     } catch (err) {
         console.log('Had Error:', err);
+        throw err
     }
 }
 
@@ -48,8 +49,8 @@ async function _onGetVideos(url) {
 function setTVideoToTrack(videos) {
     console.log('videos to set:', videos)
     if (videos) {
-        var tracks = videos.map((video) => {
-            var track = {
+        const tracks = videos.map((video) => {
+            return {
                 id: video.id.videoId,
                 title: video.snippet.title,
                 url: "youtube/song.mp4",
@@ -57,7 +58,6 @@ function setTVideoToTrack(videos) {
                 addBy: 'Naama',
                 addedAt: Date.now()
             }
-            return track
         })
         return tracks;
 
@@ -79,10 +79,9 @@ async function getDuration(tracks) {
         return duration;
     }
     try {
-        const res = await axios.get(url)
-        const data = res.data.items;
-        const duration = _setdurationToFormat(data)
-
+        const { data } = await axios.get(url)
+        const { items } = data;
+        const duration = _setdurationToFormat(items)
 
         sessionService.save('duration', duration)
 
@@ -98,12 +97,10 @@ function _setdurationToFormat(tracks) {
         return tracks.map((track) => {
             let duration = track.contentDetails.duration.replace(/[mh]/gi, ':')
             duration = duration.replace(/[pts]/gi, '')
-
-            var durationData = {
+            return {
                 id: track.id,
                 duration,
             }
-            return durationData
         })
     } catch (err) {
         console.log('not found duration', err);

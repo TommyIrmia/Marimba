@@ -18,7 +18,7 @@ export class _MediaPlayer extends Component {
         volume: 70
     }
 
-    timeInter;
+    timerIntervalId;
 
     onReady = (ev) => {
         if (ev.data === 2) return // if on pause
@@ -26,19 +26,21 @@ export class _MediaPlayer extends Component {
         this.props.setPlayer(ev.target)
     }
 
-
+    componentWillUnmount() {
+        clearInterval(this.timerIntervalId)
+    }
 
     onStateChange = (ev) => {
         const songLength = ev.target.getDuration()
         this.setState({ songLength })
 
         const currTrack = { ...this.props.tracks[this.props.currSongIdx] }
-
+        console.log('player state', ev.data);
         if (ev.data === 2) {
             currTrack.isPlaying = false;
             this.props.onTogglePlay(false)
             this.props.onUpdateTrack(currTrack)
-            clearInterval(this.timeInter)
+            clearInterval(this.timerIntervalId)
             return
         }
 
@@ -48,7 +50,7 @@ export class _MediaPlayer extends Component {
             currTrack.isPlaying = true;
             this.props.onTogglePlay(true)
             this.props.onUpdateTrack(currTrack)
-            this.timeInter = setInterval(() => {
+            this.timerIntervalId = setInterval(() => {
                 const currDuration = this.props.player.getCurrentTime()
                 this.props.setCurrDuration(currDuration)
             }, 1000)
@@ -65,7 +67,7 @@ export class _MediaPlayer extends Component {
         };
         if (nextIdx >= this.props.tracks.length) nextIdx = 0;
         this.props.setSongIdx(nextIdx)
-        this.onPlay()
+        this.props.player.playVideo()
     }
 
     onTogglePlay = () => {
@@ -110,9 +112,15 @@ export class _MediaPlayer extends Component {
         return (
             <div className="media-player">
                 {tracks?.length ? <YouTube
+                    opts={{
+                        playerVars: {
+                            origin: 'http://localhost:3000'
+                        }
+                    }
+                    }
                     videoId={tracks[currSongIdx].id}                  // defaults -> null
                     id={tracks[currSongIdx].id}                       // defaults -> null
-                    className={'youtube-player'}                // defaults -> null
+                    className="youtube-player"              // defaults -> null
                     containerClassName={'player-container'}       // defaults -> ''
                     onReady={this.onReady}                    // defaults -> noop
                     // onPlay={onPlaySong(}                     // defaults -> noop
@@ -146,7 +154,6 @@ function mapStateToProps(state) {
     }
 }
 const mapDispatchToProps = {
-    loadTracks,
     onUpdateTrack,
     setPlayer,
     setSongIdx,

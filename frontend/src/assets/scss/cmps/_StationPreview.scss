@@ -28,7 +28,7 @@
       }
       transition: 0.5s;
     }
-    
+
     img {
       height: inherit;
       width: inherit;
@@ -37,7 +37,7 @@
       box-shadow: 0 3px 30px 1px black;
     }
   }
-  
+
   &:hover {
     background-color: $clr4;
     .station-img {
@@ -49,13 +49,24 @@
   }
 
   .station-like {
-    color: $clr2;
-    font-size: 1.3rem;
     position: absolute;
-    bottom: 25px;
+    bottom: 10px;
     right: 20px;
-    &:hover {
-      color: $clr7;
+    button {
+      color: $clr2;
+      font-size: 1.3rem;
+      &:hover {
+        color: $clr7;
+      }
+    }
+    h2 {
+      // width: 30px;
+      // position: relative;
+      // top: 5px;
+      font-size: rem(12px);
+      text-align: center;
+      font-family: gotham-light;
+      color: $clr2;
     }
   }
 
@@ -66,14 +77,6 @@
     h1 {
       font-size: 1rem;
       margin-bottom: 10px;
-    }
-    h2 {
-      position: relative;
-      top: 5px;
-      font-size: rem(14px);
-      text-align: right;
-      font-family: gotham;
-      color: $clr2;
     }
     p {
       font-family: gotham;
