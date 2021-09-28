@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 
 import { uploadImg } from '../services/cloudinary.service';
-import EditInfoHero from './EditInfoHero';
+import EditDetails from './EditDetails';
 
 export default class EditHero extends Component {
 
     state = {
         isHover: false,
-        isEditing: false,
+        isEdit: false,
         hero: {
             img: '',
-            title:'',
+            title:'My playlist #1',
             desc:''
         }
     }
@@ -26,9 +26,20 @@ export default class EditHero extends Component {
         }
     }
 
+    onEdit = (hero) =>{
+        this.setState((prevState) => ({ ...prevState.hero,hero }))
+        this.setState({isEdit:false})
+    }
+
+    onCloseEdit = () =>{
+        this.setState({isEdit:false}) 
+    }
+   
+
     render() {
-        const { isHover,isEditing } = this.state;
-        const { img } = this.state.hero;
+        const { isHover,isEdit,hero } = this.state;
+        const { img,title,desc } = this.state.hero;
+        console.log('hero',hero);
         return (
             <main className="EditHero-container">
 
@@ -49,16 +60,18 @@ export default class EditHero extends Component {
                         </div>}
                     </label>
 
-                    <div className="info-container">
+                    <div onClick={()=>{
+                        this.setState({isEdit: true})
+                    }} className="info-container">
                         <h5>playlist</h5>
-                        <h1 className="hero-title">My playlist #1</h1>
-                        <p>description</p>
+                        <h1 title={title} className="hero-title">{title}</h1>
+                        <p>{desc}</p>
                         <p>maker</p>
                     </div>
                 </section>
 
 
-                { isEditing && <EditInfoHero/>}
+                { isEdit && <EditDetails onCloseEdit={this.onCloseEdit} onEdit={this.onEdit} hero={hero} />}
             </main>
         )
     }
