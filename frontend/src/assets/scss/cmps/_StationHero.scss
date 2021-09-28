@@ -1,14 +1,6 @@
 .hero-container {
-    
-    background: linear-gradient(
-        $bgc1 10%,
-        darken($bgc1, 7%) 50%,
-        darken($bgc1, 13%) 80%,
-        darken($bgc1, 20%) 90%
-    );
+  background: linear-gradient($bgc1 10%, darken($bgc1, 7%) 50%, darken($bgc1, 13%) 80%, darken($bgc1, 20%) 90%);
 }
-
-
 
 .StationHero {
   height: rem(330px);
@@ -70,8 +62,8 @@
     margin-bottom: rem(15px);
   }
 
-  .station-maker{
-    margin-top:rem(20px);
+  .station-maker {
+    margin-top: rem(20px);
   }
 }
 

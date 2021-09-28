@@ -16,10 +16,14 @@ export class PlayerActions extends Component {
 
 
     render() {
-        const { onChangeSong, songLength, currDuration, onDurationChange, onTogglePlay, currSongIdx, isPlaying } = this.props
+        const { onChangeSong, songLength, currDuration, onDurationChange, onTogglePlay,
+            currSongIdx, isPlaying, onToggleRepeat, isRepeat, onToggleShuffle, isShuffle } = this.props
         return (
             <div className="player-actions flex">
-                <button className="action-btn fas fa-random"></button>
+                <button onClick={() => onToggleShuffle()}
+                    className={"action-btn fas fa-random " + (isShuffle ? 'green' : '')}></button>
+
+
                 <button className="action-btn fas fa-step-backward"
                     onClick={() => onChangeSong(-1, currSongIdx)}></button>
 
@@ -29,7 +33,9 @@ export class PlayerActions extends Component {
 
                 <button className="action-btn fas fa-step-forward"
                     onClick={() => onChangeSong(1, currSongIdx)}></button>
-                <button className="action-btn fas fa-redo"></button>
+
+                <button onClick={() => { onToggleRepeat() }}
+                    className={"action-btn fas fa-redo " + (isRepeat ? 'green' : '')}></button>
 
                 <div className="duration-controller flex align-center">
                     <p>{this.getTimeFormat(currDuration)}</p>

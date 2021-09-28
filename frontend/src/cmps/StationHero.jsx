@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { stationService } from '../services/station.service.js'
 
-import { Logo } from './Logo'
 
 export class StationHero extends Component {
 

@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { loadTracks, onAddTrack, onRemoveTrack } from '../store/tracks.actions.js'
+import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
 import { StationHero } from './../cmps/StationHero';
 import EditHero from './../cmps/EditHero';
 import { StationActions } from './../cmps/StationActions';
 import { TrackSearch } from '../cmps/TrackSearch';
-import { youtubeService } from './../services/youtube.service';
 import { TrackList } from './../cmps/TrackList';
 import { stationService } from '../services/station.service.js';
 
@@ -32,6 +32,10 @@ class _StationDetails extends Component {
         this.setState({ ...this.state, isEditable: isEditable, id: stationId }, this.loadTracks)
     }
 git
+
+    componentWillUnmount() {
+        this.props.loadTracks()
+    }
 
     loadTracks = async () => {
         try {
@@ -61,6 +65,7 @@ git
             const newTrack = { ...track }
             newTrack.addedAt = Date.now()
             await this.props.onAddTrack(newTrack, stationId);
+            await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         } catch (err) {
             throw err
         }
@@ -80,12 +85,30 @@ git
         await this.props.loadTracks(stationId, filterBy)
     }
 
+    onPlayTrack = async () => {
+        const { stationId } = this.props.match.params
+        if (this.props.stationId === stationId) {
+            this.props.player.playVideo()
+        } else {
+            this.props.setSongIdx(0)
+            await this.props.loadTracksToPlayer(this.props.tracks, stationId)
+        }
+        // this.setState({ isPlaying: true })
+    }
+
+    onPauseTrack = () => {
+        this.props.player.pauseVideo()
+        // this.setState({ isPlaying: false })
+    }
+
+
 
 
     render() {
         const { isSearch, isPlaying, isEditable } = this.state;
         const { tracks } = this.props
         const { stationId } = this.props.match.params
+
         if (!tracks) return <div> loading...</div>;
         return (
             <main className="StationDetails">
@@ -103,13 +126,18 @@ git
 
 function mapStateToProps(state) {
     return {
-        tracks: state.tracksModule.tracks
+        player: state.mediaPlayerModule.player,
+        tracks: state.tracksModule.tracks,
+        stationId: state.mediaPlayerModule.stationId,
+        isPlaying: state.mediaPlayerModule.isPlaying,
     }
 }
 const mapDispatchToProps = {
     loadTracks,
     onAddTrack,
-    onRemoveTrack
+    onRemoveTrack,
+    loadTracksToPlayer,
+    setSongIdx
 }
 
 

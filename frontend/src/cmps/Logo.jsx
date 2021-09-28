@@ -4,7 +4,7 @@ import logo from '../assets/imgs/logo3.png';
 export function Logo() {
     return (
         <div className="logo">
-            <img src={logo} />
+            <img src={logo} alt="Marimba logo" />
             <h1>Marimba</h1>
         </div>
     )
