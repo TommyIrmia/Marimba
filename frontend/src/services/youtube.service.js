@@ -13,7 +13,7 @@ export const youtubeService = {
     getDuration
 }
 
-async function query(name = 'Beatels') {
+async function query(name = 'Beatels', isSearch) {
     if (name === '') return
     const key = `${KEY}${name}`
     const search = `${name} music`
@@ -24,7 +24,9 @@ async function query(name = 'Beatels') {
         return tracks.slice(0, 5);
     }
     try {
-        const res = await debounceGetVideos(url);
+        let res;
+        if(isSearch) res = await debounceGetVideos(url);
+        else  res=await _onGetVideos(url);
         console.log('came back from debounce', res);
         const videos = res.data.items;
         const tracks = await setTVideoToTrack(videos)
