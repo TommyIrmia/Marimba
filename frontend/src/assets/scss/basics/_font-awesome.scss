@@ -8,6 +8,11 @@
   src: url("../../fonts/font-awesome/fa-solid-900.ttf");
 }
 
+@font-face {
+  font-family: awe-brands;
+  src: url("../../fonts/font-awesome/fa-brands-400.ttf");
+}
+
 .far::before {
   font-family: awe-reg;
 }
@@ -16,12 +21,12 @@
   font-family: awe-solid;
 }
 
-.fas::after {
-  font-family: awe-solid;
+.fab::before {
+  font-family: awe-brands;
 }
 
-.fab::before {
-  font-family: awe-reg;
+.fas::after {
+  font-family: awe-solid;
 }
 
 .fas.fa-home::before {
@@ -110,4 +115,12 @@
 
 .far.fa-trash-alt::before {
   content: "\f2ed";
+}
+
+.fab.fa-itunes-note::before {
+  content: "\f3b5";
+}
+
+.fas.fa-pencil-alt::before {
+  content: "\f303";
 }

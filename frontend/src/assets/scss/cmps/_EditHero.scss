@@ -1,0 +1,46 @@
+.EditHero-container {
+    background: linear-gradient(
+        $bgc2 10%,
+        darken($bgc2, 10%) 30%,
+        darken($bgc2, 17%) 50%,
+        darken($bgc2, 20%) 70%,
+        darken($bgc2, 30%) 90%
+    );
+
+    .img-edit-container {
+        height: rem(250px);
+        width: rem(250px);
+        background-color: rgb(40, 40, 40);
+        position: absolute;
+        bottom: rem(40px);
+        display: inline-block;
+        // padding: rem(5px);
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            // object-position: center center;
+            box-shadow: 0 4px 60px rgb(0 0 0 / 50%);
+        }
+
+        .img-awesome {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 10px;
+        }
+
+        .note {
+            font-size: rem(80px);
+        }
+
+        .pencil {
+            font-size: rem(50px);
+        }
+    }
+}

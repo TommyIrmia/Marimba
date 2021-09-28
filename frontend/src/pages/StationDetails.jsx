@@ -6,6 +6,7 @@ import { StationHero } from './../cmps/StationHero';
 import { StationActions } from './../cmps/StationActions';
 import { TrackSearch } from '../cmps/TrackSearch';
 import { TrackList } from './../cmps/TrackList';
+import { stationService } from '../services/station.service.js';
 
 
 
@@ -14,12 +15,16 @@ class _StationDetails extends Component {
     state = {
         isSearch: false,
         isPlaying: false,
+        isEditable: true,
+        id: ''
     }
 
     inputRef = React.createRef()
 
-    componentDidMount() {
-        this.loadTracks();
+    async componentDidMount() {
+        let { stationId } = this.props.match.params
+        if (stationId === 'new') stationId = await stationService.saveEmptyStation();
+        this.setState({ ...this.state, id: stationId }, this.loadTracks)
     }
 
     componentWillUnmount() {
@@ -28,8 +33,7 @@ class _StationDetails extends Component {
 
     loadTracks = async () => {
         try {
-            const { stationId } = this.props.match.params
-            await this.props.loadTracks(stationId)
+            await this.props.loadTracks(this.state.id)
         } catch (err) {
             throw err
         }
@@ -90,7 +94,7 @@ class _StationDetails extends Component {
 
 
     render() {
-        const { isSearch, isPlaying } = this.state;
+        const { isSearch, isPlaying, isEditable } = this.state;
         const { tracks } = this.props
         const { stationId } = this.props.match.params
 
@@ -105,7 +109,7 @@ class _StationDetails extends Component {
                 />
                 <TrackList onRemoveTrack={this.onRemoveTrack} tracks={tracks} stationId={stationId} />
 
-                <TrackSearch onAddTrack={this.onAddTrack} />
+                {isEditable && <TrackSearch onAddTrack={this.onAddTrack} />}
             </main>
 
         )

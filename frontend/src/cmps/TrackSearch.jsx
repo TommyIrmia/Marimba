@@ -14,9 +14,9 @@ export class TrackSearch extends Component {
         this.loadTracks();
     }
 
-    loadTracks = async () => {
-        const { isSearch, searchKey } = this.state
-        const tracks = await youtubeService.query(searchKey, isSearch)
+    loadTracks = async (id) => {
+        const { searchKey } = this.state
+        const tracks = await youtubeService.query(searchKey)
         this.setState({ tracks: tracks });
     }
 

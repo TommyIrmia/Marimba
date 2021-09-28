@@ -1,0 +1,106 @@
+.edit-container {
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    width: 550px;
+    height: 380px;
+    background-color: rgb(40, 40, 40);
+    padding: 25px;
+    border-radius: rem(8px);
+
+    .header-edit{
+
+        justify-content: space-between;
+
+        button{
+            color: $clr8;
+            font-size:rem(18px);
+            
+            &:hover {
+                color: $clr7;
+                background-color: $clr8;
+                border-radius: 50%;
+            }
+        }
+    }
+
+    .EditDetails {
+        width: 450px;
+        margin-top: 40px;
+
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 17%;
+        grid-template-areas:
+            "img input"
+            "img textarea";
+        > * {
+            box-shadow: 0 0 4px #000000b5;
+        }
+
+        input,
+        textarea {
+            width: rem(240px);
+            background-color: rgb(62, 62, 62);
+            color: $clr7;
+            border-radius: rem(6px);
+        }
+        input {
+            height: rem(35px);
+            grid-area: input;
+        }
+
+        textarea {
+            height: rem(155px);
+            resize: none;
+            grid-area: textarea;
+        }
+
+        .img-edit {
+            height: 220px;
+            width: 240px;
+            position: relative;
+            margin-inline-end: 25px;
+
+            img {
+                width: 100%;
+                height: inherit;
+                object-fit: cover;
+                object-position: center center;
+                box-shadow: 0 4px 60px rgb(0 0 0 / 50%);
+            }
+
+            .img-awesome {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                
+                flex-wrap: wrap;
+                justify-content: space-around;
+                gap: 10px;
+            }
+
+            .note {
+                font-size: rem(50px);
+            }
+    
+            .pencil {
+                font-size: rem(30px);
+            }
+            p{
+                font-size: rem(13px);
+            }
+        }
+    }
+
+    .btn-save {
+        background-color: $clr7;
+        position: absolute;
+        bottom: 25px;
+        right: 25px;
+        width: rem(75px);
+        height: rem(30px);
+        border-radius: rem(12px);
+    }
+}
