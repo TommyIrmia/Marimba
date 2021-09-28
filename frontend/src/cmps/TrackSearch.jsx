@@ -16,7 +16,7 @@ export class TrackSearch extends React.Component {
     }
 
     loadTracks = async () => {
-        const tracks = await youtubeService.query(this.state.searchKey, isSearch);
+        const tracks = await youtubeService.query(this.state.searchKey, this.state.isSearch);
         this.setState({ tracks: tracks });
     }
 
