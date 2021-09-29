@@ -20,7 +20,7 @@ export class App extends React.Component {
         <main className="main-app">
           <Switch>
             {routes.map(route => <Route key={route.path} exact component={route.component} path={route.path} />)}
-            <Route path="/station/:stationId" component={StationDetails} />
+            <Route path="/station/:stationId" component={(props) => <StationDetails {...props} key={window.location.pathname}/>} />
           </Switch>
         </main>
         <MediaPlayer />

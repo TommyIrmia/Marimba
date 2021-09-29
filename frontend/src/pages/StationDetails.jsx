@@ -33,18 +33,6 @@ class _StationDetails extends Component {
         this.setState({ ...this.state, isEditable: isEditable, id: stationId }, this.loadTracks)
     }
 
-    componentDidUpdate(prevProps){
-        if(prevProps.match.params.id!==this.props.match.params.id){
-            let isEditable = false;
-            let { stationId } = this.props.match.params
-            if (stationId === 'new') {
-                stationService.saveEmptyStation();
-                isEditable = true;
-            }
-            this.setState({ ...this.state, isEditable: isEditable, id: stationId }, this.loadTracks) 
-        }
-    }
-
     componentWillUnmount() {
         this.props.loadTracks()
     }
