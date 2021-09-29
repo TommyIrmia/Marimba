@@ -9,9 +9,9 @@ export default class EditDetails extends Component {
     state = {
         isHover: false,
         isSelect: false,
-        selectBy:{genre:'Hits'},
         genres: [],
         hero: {
+            genre:'Hits',
             img: this.props.hero.img,
             title: this.props.hero.title,
             desc: this.props.hero.desc,
@@ -47,7 +47,7 @@ export default class EditDetails extends Component {
     }
 
     onSelect = (genre) => {
-        this.setState((prevState) => ({...prevState,selectBy: { ...prevState.selectBy, genre } }))
+        this.setState((prevState) => ({...prevState,hero: { ...prevState.hero, genre } }))
         this.setState({isSelect:false})
     }
 
@@ -57,7 +57,7 @@ export default class EditDetails extends Component {
     }
 
     render() {
-        const { isHover, hero, genres, isSelect,selectBy } = this.state;
+        const { isHover, hero, genres, isSelect} = this.state;
         const { img, title, desc } = this.state.hero;
         const { onEdit, onToggleEdit, saveDataFromHero } = this.props;
         return (
@@ -87,7 +87,7 @@ export default class EditDetails extends Component {
                         maxLength="14" placeholder={title} value={title} autoComplete="off" />
                         
                     <div onClick={this.onToggleSelect} title="Select genre" className="select-container flex">
-                        <div>{selectBy.genre}</div>
+                        <div>{hero.genre}</div>
                         <div className={(isSelect) ? 'fas fa-sort-up' : 'fas fa-sort-down'}></div>
 
                         {isSelect && <ul className="options-container flex" >

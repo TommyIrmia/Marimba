@@ -26,7 +26,7 @@ export class StationHero extends Component {
         if (!station) return <div>Loading</div>
         const bgc =  "rgb(213, 136, 31)";
         return (
-            <main style={{ backgroundColor: `linear-gradient(${bgc} 10%, darken(${bgc}, 7%) 50%, darken(${bgc}, 13%) 80%, darken(${bgc}, 20%) 90%) `}} className="hero-container">
+            <main style={{ background: `linear-gradient(${bgc} 10%, darken(${bgc}, 7%) 50%, darken(${bgc}, 13%) 80%, darken(${bgc}, 20%) 90%) `}} className="hero-container">
                 <div className="StationHero playlist-layout">
 
                     <div className="img-container"><img src={station.imgUrl} alt="img" /> </div>
