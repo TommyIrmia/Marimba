@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Draggable } from 'react-beautiful-dnd'
 import { utilService } from './../services/util.service';
 import { onPlayTrack, loadTracksToPlayer } from '../store/mediaplayer.actions.js'
-import { onUpdateTrack } from '../store/tracks.actions.js'
+import { onAddTrack, onUpdateTrack } from '../store/tracks.actions.js'
 import equi from '../assets/imgs/equi.gif';
 
 export class _TrackPreview extends Component {
@@ -39,7 +39,9 @@ export class _TrackPreview extends Component {
 
     onLike = () => {
         const { isLiked } = this.state;
+        const {track}=this.props;
         this.setState({ isLiked: !isLiked })
+        this.props.onAddTrack(track, 'liked')
     }
 
     render() {
@@ -109,6 +111,7 @@ const mapDispatchToProps = {
     onPlayTrack,
     loadTracksToPlayer,
     onUpdateTrack,
+    onAddTrack
 }
 
 

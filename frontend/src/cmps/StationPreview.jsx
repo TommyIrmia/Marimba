@@ -28,6 +28,7 @@ class _StationPreview extends React.Component {
         } else return false
     }
 
+
     render() {
         const { station, isPlaying } = this.props
         return (

@@ -20,6 +20,7 @@ class _StationDetails extends Component {
         isPlaying: false,
         isEditable: false,
         isEditTitle: false,
+        isLikedStation: false,
         id: ''
     }
 
