@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 
 import { uploadImg } from '../services/cloudinary.service';
 import EditDetails from './EditDetails';
+import { stationService } from './../services/station.service';
 
 export default class EditHero extends Component {
 
     state = {
         isHover: false,
         isEdit: false,
+        genres: [],
         hero: {
             img: '',
             title: 'My playlist #1',
@@ -15,6 +17,14 @@ export default class EditHero extends Component {
         }
     }
 
+    componentDidMount() {
+        this.onGetGenres()
+    }
+
+    onGetGenres = async () => {
+        const genres = await stationService.getGenres()
+        this.setState({ genres })
+    }
 
     handleImgChange = async (ev) => {
         const field = ev.target.name;
@@ -28,18 +38,15 @@ export default class EditHero extends Component {
 
     onEdit = (hero) => {
         this.setState((prevState) => ({ ...prevState.hero, hero }))
-        this.setState({ isEdit: false })
-    }
-
-    onCloseEdit = () => {
-        this.setState({ isEdit: false })
+        this.props.onToggleEdit();
     }
 
 
     render() {
-        const { isHover, isEdit, hero } = this.state;
+        const { isHover, hero,genres } = this.state;
         const { img, title, desc } = this.state.hero;
-        const { saveDataFromHero } = this.props
+        const { saveDataFromHero, onToggleEdit, isEditTitle } = this.props
+        console.log('genres', genres);
         return (
             <main className="EditHero-container">
 
@@ -61,7 +68,7 @@ export default class EditHero extends Component {
                     </label>
 
                     <div onClick={() => {
-                        this.setState({ isEdit: true })
+                        onToggleEdit()
                     }} className="info-container">
                         <h5>playlist</h5>
                         <h1 title={title} className="hero-title">{title}</h1>
@@ -71,7 +78,7 @@ export default class EditHero extends Component {
                 </section>
 
 
-                {isEdit && <EditDetails onCloseEdit={this.onCloseEdit} onEdit={this.onEdit} hero={hero} saveDataFromHero={saveDataFromHero} />}
+                {isEditTitle && <EditDetails onToggleEdit={onToggleEdit} onEdit={this.onEdit} hero={hero} saveDataFromHero={saveDataFromHero} />}
             </main>
         )
     }

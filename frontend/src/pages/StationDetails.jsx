@@ -17,6 +17,7 @@ class _StationDetails extends Component {
         isSearch: false,
         isPlaying: false,
         isEditable: false,
+        isEditTitle: false,
         id: ''
     }
 
@@ -121,11 +122,13 @@ class _StationDetails extends Component {
         this.props.player.pauseVideo()
     }
 
-
-
+    onToggleEdit = () => {
+        const {isEditTitle} = this.state
+        this.setState({ isEditTitle: !isEditTitle })
+    }
 
     render() {
-        const { isSearch, isPlaying, isEditable } = this.state;
+        const { isSearch, isPlaying, isEditable,isEditTitle } = this.state;
         const { tracks } = this.props
         const { stationId } = this.props.match.params
 
@@ -133,10 +136,11 @@ class _StationDetails extends Component {
         return (
             <main className="StationDetails">
                 <div onClick={this.onCloseSearch} className={(isSearch ? "screen" : "")}></div>
+                <div onClick={this.onToggleEdit} className={(isEditTitle ? "dark screen" : "")}></div>
 
                 {!isEditable && <StationHero stationId={stationId} />}
 
-                {isEditable && <EditHero saveDataFromHero={this.saveDataFromHero} />}
+                {isEditable && <EditHero isEditTitle={isEditTitle} onToggleEdit={this.onToggleEdit} saveDataFromHero={this.saveDataFromHero} />}
 
                 <StationActions onSetFilter={this.onSetFilter} inputRef={this.inputRef}
                     onSearch={this.onSearch} isSearch={isSearch} isPlaying={isPlaying} tracks={tracks}

@@ -50,9 +50,11 @@ function getTracks(videos) {
     console.log('videos to set:', videos)
     if (videos) {
         const tracks = videos.map((video) => {
+            let title = video.snippet.title.replace(/\(([^)]+)\)/g, '');
+            title = title.replace('&#39;', '\'');
             return {
                 id: video.id.videoId,
-                title: video.snippet.title,
+                title,
                 url: "youtube/song.mp4",
                 imgUrl: video.snippet.thumbnails.medium.url,
                 addBy: 'Naama',
