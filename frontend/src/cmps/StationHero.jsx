@@ -13,8 +13,12 @@ export class StationHero extends Component {
     }
 
     loadStation = async () => {
-        const station = await stationService.getById(this.props.stationId)
-        this.setState({ station })
+        try {
+            const station = await stationService.getById(this.props.stationId)
+            this.setState({ station })
+        } catch (err) {
+            throw err
+        }
     }
 
     render() {

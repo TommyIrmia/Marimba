@@ -22,7 +22,7 @@ class _StationDetails extends Component {
 
     inputRef = React.createRef()
 
-    async componentDidMount() {
+    componentDidMount() {
         let isEditable = false;
         let { stationId } = this.props.match.params
         if (stationId === 'new') {
@@ -31,7 +31,6 @@ class _StationDetails extends Component {
         }
         this.setState({ ...this.state, isEditable: isEditable, id: stationId }, this.loadTracks)
     }
-    git
 
     componentWillUnmount() {
         this.props.loadTracks()
@@ -61,10 +60,10 @@ class _StationDetails extends Component {
             this.setState({ ...this.state, id: stationId });
         }
         try {
-            console.log("station id:", stationId);
             const newTrack = { ...track }
             newTrack.addedAt = Date.now()
             await this.props.onAddTrack(newTrack, stationId);
+            if (stationId !== this.props.stationId) return
             await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         } catch (err) {
             throw err
@@ -83,13 +82,17 @@ class _StationDetails extends Component {
     onSetFilter = async (filterBy) => {
         const { stationId } = this.props.match.params
         await this.props.loadTracks(stationId, filterBy)
+        console.log(filterBy);
+        if (filterBy.sort !== 'Custom order') {
+            await this.props.setSongIdx(0)
+            await this.props.loadTracksToPlayer(this.props.tracks, stationId)
+        }
     }
 
     saveDataFromHero = async (data) => {
         let stationId = this.state.id
         if (stationId === 'new') {
             stationId = await stationService.saveNewStation();
-            console.log('from front', stationId);
             this.setState({ ...this.state, id: stationId });
         }
         await stationService.saveDataFromHero(stationId, data)
@@ -100,7 +103,7 @@ class _StationDetails extends Component {
         if (this.props.stationId === stationId) {
             this.props.player.playVideo()
         } else {
-            this.props.setSongIdx(0)
+            await this.props.setSongIdx(0)
             await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         }
     }
@@ -108,8 +111,6 @@ class _StationDetails extends Component {
     onPauseTrack = () => {
         this.props.player.pauseVideo()
     }
-
-
 
 
     render() {
@@ -133,7 +134,7 @@ class _StationDetails extends Component {
 
                 <TrackList onRemoveTrack={this.onRemoveTrack} tracks={tracks} stationId={stationId} />
 
-                <TrackSearch onAddTrack={this.onAddTrack} />
+                <TrackSearch onAddTrack={this.onAddTrack} stationId={stationId} />
             </main>
 
         )

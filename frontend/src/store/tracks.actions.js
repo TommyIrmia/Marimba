@@ -6,10 +6,7 @@ export function loadTracks(stationId, filterBy) {
         try {
             let tracks;
             if (!stationId) tracks = []
-            else {
-                const station = await trackService.query(stationId, filterBy)
-                tracks = station.tracks
-            }
+            else tracks = await trackService.query(stationId, filterBy)
             console.log('Tracks from actions:', tracks)
             dispatch({
                 type: 'SET_TRACKS',

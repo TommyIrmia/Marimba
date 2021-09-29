@@ -20,6 +20,13 @@ export class NavBar extends Component {
 
                     <NavLink to="/" >
                         <li>
+                            <div className="symbol fas fa-search"></div>
+                            <div className="text">Search</div>
+                        </li>
+                    </NavLink>
+
+                    <NavLink to="/" >
+                        <li>
                             <div className="symbol">||\</div>
                             <div className="text">My Library</div>
                         </li>

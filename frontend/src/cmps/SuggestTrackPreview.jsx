@@ -1,16 +1,18 @@
 import React from "react";
-export class SuggestTrackPreview extends React.Component{
-    state={};
-    onClick(track){
+export class SuggestTrackPreview extends React.Component {
+    state = {};
+
+    onAddTrack(track) {
         this.props.onAddTrack(track);
         this.props.removeAddedTrack(track);
     }
-    render(){
-        const track=this.props.track;
+    
+    render() {
+        const track = this.props.track;
         return (
             <section className="track-container flex">
                 <section className="TrackPreview flex">
-                <div className="track-img-container">
+                    <div className="track-img-container">
                         <img src={track.imgUrl} alt="trackImg" />
                     </div>
                     <div className="track-title">
@@ -20,8 +22,8 @@ export class SuggestTrackPreview extends React.Component{
                 <section className="previewAlbum">
                     <p>Album</p>
                 </section>
-    
-                <button className='add-button' onClick={()=>this.onClick(track)}>Add</button>
+
+                <button className='add-button' onClick={() => this.onAddTrack(track)}>Add</button>
             </section>
         )
     }

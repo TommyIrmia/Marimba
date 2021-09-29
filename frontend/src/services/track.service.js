@@ -14,26 +14,24 @@ export const trackService = {
 
 
 async function query(stationId, filterBy) {
-    console.log('filterBy', filterBy);
     if (!filterBy) {
-        if (stationId === 'new') return {tracks:[]};
-        else return stationService.getById(stationId);
+        if (stationId === 'new') return []
+        else {
+            const station = await stationService.getById(stationId);
+            return station.tracks
+        }
     }
+
     const { title, sort } = filterBy
 
     let { tracks } = await stationService.getById(stationId)
     if (title) {
         tracks = tracks.filter(track => track.title.toLowerCase().includes(title.toLowerCase()))
     }
-    if (sort === 'Title') {
-        tracks.sort((a, b) => a.title.localeCompare(b.title))
-    }
-    if (sort === 'Date added') {
-        tracks.sort((a, b) => a.addedAt > b.addedAt ? -1 : 1)
-    }
-    if (sort === 'Duration') {
-        tracks.sort((a, b) => a.duration < b.duration ? -1 : 1)
-    }
+    if (sort === 'Title') tracks.sort((a, b) => a.title.localeCompare(b.title))
+    if (sort === 'Date added') tracks.sort((a, b) => a.addedAt > b.addedAt ? -1 : 1)
+    if (sort === 'Duration') tracks.sort((a, b) => a.duration < b.duration ? -1 : 1)
+    console.log('tracks after filter', tracks);
     return tracks
 }
 

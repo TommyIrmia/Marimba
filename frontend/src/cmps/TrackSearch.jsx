@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { stationService } from '../services/station.service';
 import { youtubeService } from '../services/youtube.service'
 
 import { SuggestTrackList } from './SuggestTrackList'
@@ -31,14 +32,21 @@ export class TrackSearch extends Component {
 
     toggleSearch = async () => {
         const isSearch = !(this.state.isSearch)
-        const searchKey = isSearch ? '' : 'Ariana';
+        const searchKey = isSearch ? '' : await this.suggestByStationName();
         this.setState({ ...this.state, searchKey: searchKey, isSearch: isSearch }, () => {
             this.loadTracks();
         })
     }
 
+    suggestByStationName = async () => {
+        const { stationId } = this.props
+        if (!stationId) return
+        const station = await stationService.getById(stationId)
+        if (!station) return
+        return station.name
+    }
+
     removeAddedTrack = async (track) => {
-        console.log('removing added track');
         try {
             await youtubeService.deleteTrackFromCache(this.state.searchKey, track);
             const tracks = await youtubeService.query(this.state.searchKey);
@@ -49,7 +57,7 @@ export class TrackSearch extends Component {
     }
 
     render() {
-        const { isSearch } = this.state;
+        const { isSearch, searchKey, tracks } = this.state;
         return (
             <div className="TrackSearch playlist-layout">
                 {!isSearch && <div className="SuggestedTracks">
@@ -66,11 +74,12 @@ export class TrackSearch extends Component {
                         <div className="fas fa-search"></div>
                         <input className="search-input" type="text"
                             placeholder="Look for songs or artists"
-                            value={this.state.searchKey}
+                            value={searchKey}
                             onChange={this.handleChange} />
                     </div>
                 </div>}
-                <SuggestTrackList tracks={this.state.tracks} onAddTrack={this.props.onAddTrack} removeAddedTrack={this.removeAddedTrack} />
+
+                <SuggestTrackList tracks={tracks} onAddTrack={this.props.onAddTrack} removeAddedTrack={this.removeAddedTrack} />
             </div>
 
         )
