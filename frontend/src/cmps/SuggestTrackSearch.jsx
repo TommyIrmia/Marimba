@@ -21,7 +21,7 @@ export class SuggestedTrackSearch extends React.Component {
     handleChange = async({ target }) => {
         const value = target.value;
         this.setState({...state, searchKey:value})
-        this.loadTracks();
+        await this.loadTracks();
     }
 
     removeAddedTrack = async (track) => {

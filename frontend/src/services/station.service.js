@@ -403,8 +403,8 @@ async function saveEmptyStation() {
         "_id": 'new',
         "name": "New Station",
         "description": "What's the best way to describe your station?",
-        "tags": ["Happy"],
-        "imgUrl": "",
+        "tags": ["All"],
+        "imgUrl": "../assets/imgs/logo3.png",
         "createdAt": Date.now(),
         "createdBy": {
             "_id": "u101",
@@ -427,6 +427,7 @@ async function getById(stationId) {
 
 async function addTrackToStation(track, stationId) {
     try {
+        console.log("adding track back:", track);
         const station = await asyncStorageService.get(STORAGE_KEY, stationId)
         station.tracks.push(track)
         return await asyncStorageService.put(STORAGE_KEY, station)

@@ -31,7 +31,18 @@ class _StationDetails extends Component {
         }
         this.setState({ ...this.state, isEditable: isEditable, id: stationId }, this.loadTracks)
     }
-    git
+
+    componentDidUpdate(prevProps){
+        if(prevProps.match.params.id!==this.props.match.params.id){
+            let isEditable = false;
+            let { stationId } = this.props.match.params
+            if (stationId === 'new') {
+                stationService.saveEmptyStation();
+                isEditable = true;
+            }
+            this.setState({ ...this.state, isEditable: isEditable, id: stationId }, this.loadTracks) 
+        }
+    }
 
     componentWillUnmount() {
         this.props.loadTracks()
@@ -63,6 +74,7 @@ class _StationDetails extends Component {
         try {
             console.log("station id:", stationId);
             const newTrack = { ...track }
+            console.log("got track to on add track:", newTrack);
             newTrack.addedAt = Date.now()
             await this.props.onAddTrack(newTrack, stationId);
             await this.props.loadTracksToPlayer(this.props.tracks, stationId)
