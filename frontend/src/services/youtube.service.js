@@ -12,44 +12,36 @@ export const youtubeService = {
     debounce
 }
 
-async function query(name = 'Beatles') {
-    console.log(name);
+async function query(name) {
     if (!name) return
     const key = `${KEY}${name}`
     const search = `${name} music`
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${API}&q=${search}&maxResults=20&videoDuration=short`
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${API}&q=${search}&maxResults=50`
 
-    const tracks = await sessionService.load(key)
-    console.log('from cache', tracks);
-    if (tracks) return tracks.slice(0, 5)
+    let tracks = await sessionService.load(key)
+    if (tracks) {
+        console.log('Got suggestions from cache');
+        return tracks.slice(0, 5)
+    }
 
     try {
-        const res = await _onGetVideos(url);
-        const videos = res.data.items;
-        console.log('videos in youtube service', videos);
-        const tracks = await getTracks(videos)
-        console.log('tracks stright from youtube', tracks)
+        const { data } = await axios.get(url)
+        tracks = getTracks(data.items)
         const duration = await getDuration(tracks)
         const updatedTracks = tracks.map((item, i) => Object.assign({}, item, duration[i]));
-        console.log('updated tracks', updatedTracks)
-        sessionService.save(key, updatedTracks)
+        const filteredTracks = updatedTracks.filter(track => track.duration)
 
-        return updatedTracks.slice(0, 5);
+        sessionService.save(key, filteredTracks)
+        return filteredTracks.slice(0, 5);
     } catch (err) {
         console.log('Had Error:', err);
         throw err
     }
 }
 
-async function _onGetVideos(url) {
-    console.log('getting videos');
-    return await axios.get(url)
-}
-
 function getTracks(videos) {
-    console.log('videos to set:', videos)
     if (videos) {
-        const tracks = videos.map((video) => {
+        return videos.map((video) => {
             let title = video.snippet.title.replace(/\(([^)]+)\)/g, '');
             title = title.replace('&#39;', '\'');
             return {
@@ -61,7 +53,6 @@ function getTracks(videos) {
                 addedAt: Date.now()
             }
         })
-        return tracks;
     }
     else console.log('got no track!')
 }
@@ -78,12 +69,10 @@ async function getDuration(tracks) {
     trackId = trackId.join('&')
 
     const url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&${trackId}&key=${API}`
-  
 
     try {
         const { data } = await axios.get(url)
-        const { items } = data;
-        const duration = _setdurationToFormat(items)
+        const duration = _setdurationToFormat(data.items)
         return duration
     } catch (err) {
         console.log('Had Error:', err);
@@ -92,14 +81,19 @@ async function getDuration(tracks) {
 
 function _setdurationToFormat(tracks) {
     return tracks.map((track) => {
+        if (track.contentDetails.duration.includes('H') || track.contentDetails.duration === 'P0D') return null
+
         let duration = track.contentDetails.duration.replace(/[mh]/gi, ':')
         duration = duration.replace(/[a-z]/gi, '')
+
         const splitDuration = duration.split(':')
-        if (splitDuration.length > 2) return;
+        if (splitDuration.length > 2 || splitDuration[0] >= 10) return null
+
         const minutes = +splitDuration[0]
         let seconds = +splitDuration[1]
         if (seconds < 10) seconds = '0' + seconds;
-        console.log(seconds);
+        if (!seconds) seconds = '00';
+
         return {
             id: track.id,
             minutes,
