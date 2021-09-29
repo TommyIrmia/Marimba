@@ -465,7 +465,6 @@ async function saveDataFromHero(stationId, data) {
     station.tags.push(tags)
 
     console.log('station from data',station);
-    data.img = (data.img === "") ? logo : data.img
     const updatedStation = {
         ...station,
         name: data.title,
