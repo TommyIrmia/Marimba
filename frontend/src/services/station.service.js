@@ -23,7 +23,7 @@ const initialStations = [
         "name": "Liked songs",
         "description": "All your liked songs are here",
         "tags": ["Liked"],
-        "imgUrl":'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0xMiAyMS41OTNjLTUuNjMtNS41MzktMTEtMTAuMjk3LTExLTE0LjQwMiAwLTMuNzkxIDMuMDY4LTUuMTkxIDUuMjgxLTUuMTkxIDEuMzEyIDAgNC4xNTEuNTAxIDUuNzE5IDQuNDU3IDEuNTktMy45NjggNC40NjQtNC40NDcgNS43MjYtNC40NDcgMi41NCAwIDUuMjc0IDEuNjIxIDUuMjc0IDUuMTgxIDAgNC4wNjktNS4xMzYgOC42MjUtMTEgMTQuNDAybTUuNzI2LTIwLjU4M2MtMi4yMDMgMC00LjQ0NiAxLjA0Mi01LjcyNiAzLjIzOC0xLjI4NS0yLjIwNi0zLjUyMi0zLjI0OC01LjcxOS0zLjI0OC0zLjE4MyAwLTYuMjgxIDIuMTg3LTYuMjgxIDYuMTkxIDAgNC42NjEgNS41NzEgOS40MjkgMTIgMTUuODA5IDYuNDMtNi4zOCAxMi0xMS4xNDggMTItMTUuODA5IDAtNC4wMTEtMy4wOTUtNi4xODEtNi4yNzQtNi4xODEiLz48L3N2Zz4=',
+        "imgUrl":'https://svg-clipart.com/svg/heart/mP6A3zM-white-line-heart-vector.svg',
         "createdAt": Date.now(),
         "createdBy": {
             "_id": "u101",
@@ -447,6 +447,7 @@ async function addTrackToStation(track, stationId) {
     try {
         console.log("adding track back:", track);
         const station = await asyncStorageService.get(STORAGE_KEY, stationId)
+        console.log('station got in back', station);
         station.tracks.push(track)
         return await asyncStorageService.put(STORAGE_KEY, station)
     } catch (err) {
