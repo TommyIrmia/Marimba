@@ -26,9 +26,12 @@ async function query(name = 'Beatles') {
     try {
         const res = await _onGetVideos(url);
         const videos = res.data.items;
+        console.log('videos in youtube service', videos);
         const tracks = await getTracks(videos)
+        console.log('tracks stright from youtube', tracks)
         const duration = await getDuration(tracks)
         const updatedTracks = tracks.map((item, i) => Object.assign({}, item, duration[i]));
+        console.log('updated tracks', updatedTracks)
         sessionService.save(key, updatedTracks)
 
         return updatedTracks.slice(0, 5);
@@ -47,9 +50,11 @@ function getTracks(videos) {
     console.log('videos to set:', videos)
     if (videos) {
         const tracks = videos.map((video) => {
+            let title = video.snippet.title.replace(/\(([^)]+)\)/g, '');
+            title = title.replace('&#39;', '\'');
             return {
                 id: video.id.videoId,
-                title: video.snippet.title,
+                title,
                 url: "youtube/song.mp4",
                 imgUrl: video.snippet.thumbnails.medium.url,
                 addBy: 'Naama',
@@ -73,17 +78,12 @@ async function getDuration(tracks) {
     trackId = trackId.join('&')
 
     const url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&${trackId}&key=${API}`
-    const duration = await sessionService.load('duration')
-    if (duration) {
-        console.log('from cache');
-        return duration;
-    }
+  
 
     try {
         const { data } = await axios.get(url)
         const { items } = data;
         const duration = _setdurationToFormat(items)
-        sessionService.save('duration', duration)
         return duration
     } catch (err) {
         console.log('Had Error:', err);

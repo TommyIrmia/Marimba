@@ -199,7 +199,7 @@ const initialStations = [
                 "isPlaying": false,
                 "duration": '3:04',
                 "minutes": 3,
-                "seconds": 4
+                "seconds": '0'+4
             },
             {
                 "id": 'gl1aHhXnN1k',
@@ -229,7 +229,7 @@ const initialStations = [
                 "isPlaying": false,
                 "duration": '4:01',
                 "minutes": 4,
-                "seconds": 1
+                "seconds": '0'+1
             },
             {
                 "id": 'ffxKSjUwKdU',
@@ -332,7 +332,7 @@ const initialStations = [
                 "isPlaying": false,
                 "duration": '3:01',
                 "minutes": 3,
-                "seconds": 1
+                "seconds": '0'+1
             },
             {
                 "id": "4P9XUrniiK4",
@@ -347,7 +347,7 @@ const initialStations = [
                 "isPlaying": false,
                 "duration": '3:06',
                 "minutes": 3,
-                "seconds": 6
+                "seconds": '0'+6
             },
             {
                 "id": 'SmbmeOgWsqE',
@@ -405,8 +405,8 @@ async function saveEmptyStation() {
         "_id": 'new',
         "name": "New Station",
         "description": "What's the best way to describe your station?",
-        "tags": ["Happy"],
-        "imgUrl": "",
+        "tags": ["All"],
+        "imgUrl": "../assets/imgs/logo3.png",
         "createdAt": Date.now(),
         "createdBy": {
             "_id": "u101",
@@ -429,6 +429,7 @@ async function getById(stationId) {
 
 async function addTrackToStation(track, stationId) {
     try {
+        console.log("adding track back:", track);
         const station = await asyncStorageService.get(STORAGE_KEY, stationId)
         station.tracks.push(track)
         return await asyncStorageService.put(STORAGE_KEY, station)
