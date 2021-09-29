@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { sessionService } from './session.service'
 import { asyncSessionService } from './async-session.service'
-const API = 'AIzaSyBxKvDDUfdV3UMlGaO60Vn0HS6EyOnMtQo'
+const API = 'AIzaSyAkH_U9S48kAw-de7ZN7sj-JoTfKM58cXI'
 const KEY = 'cacheVideos'
 
 export const youtubeService = {
