@@ -1,12 +1,4 @@
 .StationDetails{
-    // $station-details-color: rgb(213, 136, 31);
-    // background: linear-gradient(
-    //     darken($station-details-color, 40%) 70%,
-    //     darken($station-details-color, 50%) 90%,
-    //     darken($station-details-color, 60%) 100%,
-    // );
-    // background-color:$clr1;
-
     .screen{
         position: fixed;
         top: 0;
@@ -16,5 +8,8 @@
         z-index: 1;
     }
 
+    .dark{
+        background-color:rgba(0, 0, 0, 0.747);
+    }
     
 }

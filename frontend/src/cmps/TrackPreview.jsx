@@ -45,10 +45,10 @@ export class _TrackPreview extends Component {
     render() {
         const { isHover, isLiked } = this.state
         const { track, onRemoveTrack, idx } = this.props
-        const { isPlaying } = track
+        const { isPlaying,title } = track
 
-        let title = track.title.replace(/\(([^)]+)\)/g, '');
-        title = title.replace('&#39;', '\'');
+        // let title = track.title.replace(/\(([^)]+)\)/g, '');
+        // title = title.replace('&#39;', '\'');
         const date = utilService.getTime(track.addedAt)
         return (
             <section className="track-container flex playlist-layout"

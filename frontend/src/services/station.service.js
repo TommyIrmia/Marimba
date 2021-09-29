@@ -198,7 +198,7 @@ const initialStations = [
                 "isPlaying": false,
                 "duration": '3:04',
                 "minutes": 3,
-                "seconds": 4
+                "seconds": '0'+4
             },
             {
                 "id": 'gl1aHhXnN1k',
@@ -228,7 +228,7 @@ const initialStations = [
                 "isPlaying": false,
                 "duration": '4:01',
                 "minutes": 4,
-                "seconds": 1
+                "seconds": '0'+1
             },
             {
                 "id": 'ffxKSjUwKdU',
@@ -330,7 +330,7 @@ const initialStations = [
                 "isPlaying": false,
                 "duration": '3:01',
                 "minutes": 3,
-                "seconds": 1
+                "seconds": '0'+1
             },
             {
                 "id": "4P9XUrniiK4",
@@ -345,7 +345,7 @@ const initialStations = [
                 "isPlaying": false,
                 "duration": '3:06',
                 "minutes": 3,
-                "seconds": 6
+                "seconds": '0'+6
             },
             {
                 "id": 'SmbmeOgWsqE',
