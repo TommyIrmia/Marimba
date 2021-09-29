@@ -443,7 +443,7 @@ async function removeTrackFromStation(trackId, stationId) {
     try {
         const station = await asyncStorageService.get(STORAGE_KEY, stationId)
         const idx = station.tracks.findIndex(track => track.id === trackId)
-        station.tracks.splice(idx, 1, station.tracks.pop());
+        await station.tracks.splice(idx, 1);
         return await asyncStorageService.put(STORAGE_KEY, station)
     } catch (err) {
         console.log('Can not remove track from station', err)

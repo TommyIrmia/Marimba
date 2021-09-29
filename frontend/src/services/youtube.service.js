@@ -59,7 +59,12 @@ function getTracks(videos) {
 
 async function deleteTrackFromCache(name, track) {
     const key = `${KEY}${name}`
-    await asyncSessionService.remove(key, track.id);
+    const trackId=track.id;
+    let tracks=sessionService.load(key)
+    const idx = tracks.findIndex(track => track.id === trackId)
+    const switchTrack=tracks.pop();
+    await tracks.splice(idx, 1, switchTrack);
+    await asyncSessionService.save(key, tracks);
 }
 
 async function getDuration(tracks) {
