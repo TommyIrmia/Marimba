@@ -1,44 +1,51 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
-import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router'
 import { loadTracks, onAddTrack, onRemoveTrack } from '../store/tracks.actions.js'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
 
 class _StationPreview extends React.Component {
 
     onPlayStation = async (ev) => {
-        console.log('ev from play station', ev);
-        ev.stopPropagation();
-        console.log(this.props.stationId, this.props.station._id);
         if (this.props.stationId === this.props.station._id) {
             this.props.player.playVideo()
         } else {
+            await this.props.loadTracks(this.props.station._id)
             await this.props.setSongIdx(0)
             await this.props.loadTracksToPlayer(this.props.tracks, this.props.station._id)
         }
     }
 
-    onPauseTrack = () => {
+    onPauseStation = () => {
         this.props.player.pauseVideo()
     }
 
-    goToStation = (stationId) => {
-        console.log(stationId);
-        // console.log(history);
-        // this.props.history.push(`/${stationId}`)
+    isStationPlaying = () => {
+        if (this.props.isPlaying) {
+            if (this.props.stationId === this.props.station._id) return true
+            else return false
+        } else return false
     }
 
     render() {
-        const { station } = this.props
-        return (<Link to={`/station/${station._id}`}>
-            <div className="station-preview" >
+        const { station, isPlaying } = this.props
+        return (
+            <div className="station-preview"
+                onClick={() => this.props.history.push(`/station/${station._id}`)}
+            >
 
                 <div className="station-img">
                     <img src={station.imgUrl} alt="station" />
-                    <div onClick={(ev) =>
-                        this.onPlayStation(ev)}
-                        className="play-btn fas fa-play"></div>
+                    {!this.isStationPlaying() && <div onClick={(ev) => {
+                        ev.stopPropagation()
+                        this.onPlayStation()
+                    }}
+                        className="play-btn fas fa-play"></div>}
+                    {this.isStationPlaying() && <div onClick={(ev) => {
+                        ev.stopPropagation()
+                        this.onPauseStation()
+                    }}
+                        className="play-btn fas fa-pause"></div>}
                 </div>
 
                 <div className="station-info">
@@ -50,7 +57,7 @@ class _StationPreview extends React.Component {
                     <h2>{station.likedByUsers.length}</h2>
                 </div>
             </div>
-        </Link >
+
         )
     }
 }
@@ -72,4 +79,4 @@ const mapDispatchToProps = {
 }
 
 
-export const StationPreview = connect(mapStateToProps, mapDispatchToProps)(_StationPreview)
+export const StationPreview = connect(mapStateToProps, mapDispatchToProps)(withRouter(_StationPreview))
