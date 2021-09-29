@@ -5,7 +5,7 @@ import { stationService } from '../services/station.service.js'
 export class StationHero extends Component {
 
     state = {
-        station: null,
+        station: null
     }
 
     componentDidMount() {
