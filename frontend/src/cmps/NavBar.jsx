@@ -39,7 +39,7 @@ export class NavBar extends Component {
                         </li>
                     </NavLink>
 
-                    <NavLink to="/" >
+                    <NavLink  to="/station/liked" activeClassName="chosen">
                         <li>
                             <div className="symbol fas fa-heart"></div>
                             <div className="text">Liked Songs</div>
