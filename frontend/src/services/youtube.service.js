@@ -12,7 +12,7 @@ export const youtubeService = {
     debounce
 }
 
-async function query(name) {
+async function query(name = 'Pop') {
     if (!name) return
     const key = `${KEY}${name}`
     const search = `${name} music`

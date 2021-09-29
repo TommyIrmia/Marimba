@@ -75,6 +75,7 @@ export class TrackSearch extends Component {
                         <input className="search-input" type="text"
                             placeholder="Look for songs or artists"
                             value={searchKey}
+                            spellCheck={false}
                             onChange={this.handleChange} />
                     </div>
                 </div>}
