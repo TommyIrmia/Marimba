@@ -1,0 +1,17 @@
+.GenreList{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(215px, 220px));
+    gap: 15px;
+}
+
+.GenrePreview {
+    .genre-card {
+        padding:20px;
+        height: 215px;
+        border-radius: rem(10px);
+
+        &:hover{
+            cursor: pointer;
+        }
+    }
+}

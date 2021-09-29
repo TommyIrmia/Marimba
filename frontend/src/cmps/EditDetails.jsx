@@ -23,7 +23,10 @@ export default class EditDetails extends Component {
     }
 
     onGetGenres = async () => {
-        const genres = await stationService.getGenres()
+        let genres = await stationService.getGenres()
+       genres =  genres.filter(genre=>{
+            return genre !== 'All'
+        })
         this.setState({ genres })
     }
 
