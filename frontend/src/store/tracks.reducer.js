@@ -2,6 +2,7 @@
 
 const initialState = {
     tracks: [],
+    station_Id: ''
 }
 
 export function tracksReducer(state = initialState, action) {
@@ -20,6 +21,8 @@ export function tracksReducer(state = initialState, action) {
             tracks = state.tracks.map(track => (track.id === action.track.id) ? action.track : { ...track, isPlaying: false })
             console.log('tracks after update', tracks);
             return { ...state, tracks }
+        case 'SET_STATION_ID':
+            return { ...state, station_Id: action.station_Id }
         default:
     }
 

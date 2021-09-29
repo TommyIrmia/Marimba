@@ -81,7 +81,9 @@ export class _MediaPlayer extends Component {
     isInitialPlay = async () => {
         if (!this.state.initialPlay) {
             this.setState({ initialPlay: true }, async () => {
-                await this.props.loadTracksToPlayer(this.props.tracks)
+                console.log('from initial play', this.props);
+                const stationId = this.props.station_Id || this.props.stationId
+                await this.props.loadTracksToPlayer(this.props.tracks, stationId)
             })
         }
     }
@@ -115,6 +117,10 @@ export class _MediaPlayer extends Component {
     }
 
     onVolumeChange = (ev) => {
+        if (this.state.isMute) {
+            this.props.player.unMute();
+            this.setState({ isMute: false })
+        }
         const volume = ev.target.value
         this.props.player.setVolume(volume)
         this.setState({ volume })
@@ -209,7 +215,8 @@ function mapStateToProps(state) {
         currSongIdx: state.mediaPlayerModule.currSongIdx,
         currDuration: state.mediaPlayerModule.currDuration,
         currentTracks: state.mediaPlayerModule.currentTracks,
-        stationId: state.mediaPlayerModule.stationId
+        stationId: state.mediaPlayerModule.stationId,
+        station_Id: state.tracksModule.station_Id
     }
 }
 const mapDispatchToProps = {

@@ -12,6 +12,12 @@ export function loadTracks(stationId, filterBy) {
                 type: 'SET_TRACKS',
                 tracks
             })
+            if (stationId) {
+                dispatch({
+                    type: 'SET_STATION_ID',
+                    station_Id: stationId
+                })
+            }
         } catch (err) {
             console.log('From actions - Cannot load tracks', err)
         }

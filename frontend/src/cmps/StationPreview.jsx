@@ -22,7 +22,8 @@ class _StationPreview extends React.Component {
 
     isStationPlaying = () => {
         if (this.props.isPlaying) {
-            if (this.props.stationId === this.props.station._id) return true
+            if (this.props.stationId === this.props.station._id &&
+                this.props.tracks.find(track => track.isPlaying)) return true
             else return false
         } else return false
     }
@@ -66,6 +67,7 @@ function mapStateToProps(state) {
     return {
         player: state.mediaPlayerModule.player,
         tracks: state.tracksModule.tracks,
+        currentTracks: state.mediaPlayerModule.currentTracks,
         stationId: state.mediaPlayerModule.stationId,
         isPlaying: state.mediaPlayerModule.isPlaying,
     }

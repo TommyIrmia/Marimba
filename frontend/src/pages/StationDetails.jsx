@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { DragDropContext } from 'react-beautiful-dnd'
+
 import { loadTracks, onAddTrack, onRemoveTrack } from '../store/tracks.actions.js'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
 import { StationHero } from './../cmps/StationHero';
@@ -115,12 +117,31 @@ class _StationDetails extends Component {
     }
 
     onToggleEdit = () => {
-        const {isEditTitle} = this.state
+        const { isEditTitle } = this.state
         this.setState({ isEditTitle: !isEditTitle })
     }
 
+    onDragEnd = (result) => {
+        console.log(result)
+        const { destination, source, draggableId } = result;
+
+        if (!destination) return
+
+        if (destination.droppableId === source.droppableId &&
+            destination.index === source.index) return
+
+        const { tracks } = this.props
+        const { stationId } = this.props.match.params
+        const newTracks = [...tracks]
+        newTracks.splice(source.index, 1)
+        newTracks.splice(destination.index, 0, tracks.find(track => track.id === draggableId))
+
+        console.log(tracks, newTracks)
+        // this.props.onUpdateTracks(n)
+    }
+
     render() {
-        const { isSearch, isPlaying, isEditable,isEditTitle } = this.state;
+        const { isSearch, isPlaying, isEditable, isEditTitle } = this.state;
         const { tracks } = this.props
         const { stationId } = this.props.match.params
 
@@ -139,7 +160,10 @@ class _StationDetails extends Component {
                     onPlayTrack={this.onPlayTrack} onPauseTrack={this.onPauseTrack}
                 />
 
-                <TrackList onRemoveTrack={this.onRemoveTrack} tracks={tracks} stationId={stationId} />
+
+                <DragDropContext onDragEnd={this.onDragEnd}>
+                    <TrackList onRemoveTrack={this.onRemoveTrack} tracks={tracks} stationId={stationId} />
+                </DragDropContext>
 
                 <TrackSearch onAddTrack={this.onAddTrack} stationId={stationId} />
             </main>
