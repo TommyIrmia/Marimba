@@ -443,7 +443,7 @@ async function removeTrackFromStation(trackId, stationId) {
     try {
         const station = await asyncStorageService.get(STORAGE_KEY, stationId)
         const idx = station.tracks.findIndex(track => track.id === trackId)
-        station.tracks.splice(idx, 1, station.tracks.pop());
+        await station.tracks.splice(idx, 1);
         return await asyncStorageService.put(STORAGE_KEY, station)
     } catch (err) {
         console.log('Can not remove track from station', err)
@@ -459,9 +459,12 @@ async function saveNewStation() {
 }
 
 async function saveDataFromHero(stationId, data) {
-    console.log('from save data', stationId);
     const station = await getById(stationId)
-    console.log('from save data', station);
+
+    const tags = data.genre;
+    station.tags.push(tags)
+
+    console.log('station from data',station);
     data.img = (data.img === "") ? logo : data.img
     const updatedStation = {
         ...station,
@@ -478,7 +481,6 @@ async function getGenres() {
     } catch (err) {
         console.log('Can not get genres', err)
     }
-    //change to async (return Promise)
 }
 
 function _saveStationsToStorage() {
