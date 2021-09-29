@@ -2,28 +2,17 @@ import React, { Component } from 'react'
 
 import { uploadImg } from '../services/cloudinary.service';
 import EditDetails from './EditDetails';
-import { stationService } from './../services/station.service';
 
 export default class EditHero extends Component {
 
     state = {
         isHover: false,
-        isEdit: false,
-        genres: [],
+        
         hero: {
             img: '',
             title: 'My playlist #1',
             desc: ''
         }
-    }
-
-    componentDidMount() {
-        this.onGetGenres()
-    }
-
-    onGetGenres = async () => {
-        const genres = await stationService.getGenres()
-        this.setState({ genres })
     }
 
     handleImgChange = async (ev) => {
@@ -43,10 +32,9 @@ export default class EditHero extends Component {
 
 
     render() {
-        const { isHover, hero,genres } = this.state;
+        const { isHover, hero} = this.state;
         const { img, title, desc } = this.state.hero;
         const { saveDataFromHero, onToggleEdit, isEditTitle } = this.props
-        console.log('genres', genres);
         return (
             <main className="EditHero-container">
 
@@ -66,6 +54,7 @@ export default class EditHero extends Component {
                             <p>Choose photo</p>
                         </div>}
                     </label>
+
 
                     <div onClick={() => {
                         onToggleEdit()

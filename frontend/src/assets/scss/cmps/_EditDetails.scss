@@ -1,5 +1,4 @@
 .edit-container {
-    position: absolute;
     top: 50%;
     left: 60%;
     transform: translate(-50%, -50%);
@@ -11,14 +10,13 @@
     position: fixed;
     z-index: 1;
 
-    .header-edit{
-
+    .header-edit {
         justify-content: space-between;
 
-        button{
+        button {
             color: $clr8;
-            font-size:rem(18px);
-            
+            font-size: rem(18px);
+
             &:hover {
                 color: $clr7;
                 background-color: $clr8;
@@ -32,16 +30,18 @@
         margin-top: 40px;
 
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: 17%;
+        grid-template-rows: 13% 13%;
         grid-template-areas:
             "img input"
+            "img select"
             "img textarea";
         > * {
             box-shadow: 0 0 4px #000000b5;
         }
 
         input,
-        textarea {
+        textarea,
+        .select-container,.options-container {
             width: rem(240px);
             background-color: rgb(62, 62, 62);
             color: $clr7;
@@ -52,8 +52,46 @@
             grid-area: input;
         }
 
+        .select-container {
+            height: rem(35px);
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px;
+            position: relative;
+            grid-area: select;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            .options-container{
+                background-color: rgb(40, 40, 40);
+                position: absolute;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0;
+                text-indent: 20px;
+                margin: 0;
+                top: rem(40px);
+                left: 0;
+
+                .select-li{
+                    padding: 10px 0;
+                    width: 100%;
+        
+                    &:hover {
+                        cursor: pointer;
+                        background-color:rgba(255, 255, 255, 0.459);
+                    }
+                }
+            }
+        }
+
+        
+
         textarea {
-            height: rem(155px);
+            height: rem(120px);
             resize: none;
             grid-area: textarea;
         }
@@ -77,7 +115,7 @@
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                
+
                 flex-wrap: wrap;
                 justify-content: space-around;
                 gap: 10px;
@@ -86,11 +124,11 @@
             .note {
                 font-size: rem(50px);
             }
-    
+
             .pencil {
                 font-size: rem(30px);
             }
-            p{
+            p {
                 font-size: rem(13px);
             }
         }

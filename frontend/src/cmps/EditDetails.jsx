@@ -1,16 +1,30 @@
 import React, { Component } from 'react'
 
 import { uploadImg } from '../services/cloudinary.service';
+import { stationService } from './../services/station.service';
+
 
 export default class EditDetails extends Component {
 
     state = {
         isHover: false,
+        isSelect: false,
+        selectBy:{genre:'Hits'},
+        genres: [],
         hero: {
             img: this.props.hero.img,
             title: this.props.hero.title,
             desc: this.props.hero.desc,
         }
+    }
+
+    componentDidMount() {
+        this.onGetGenres()
+    }
+
+    onGetGenres = async () => {
+        const genres = await stationService.getGenres()
+        this.setState({ genres })
     }
 
     handleImgChange = async (ev) => {
@@ -32,8 +46,18 @@ export default class EditDetails extends Component {
         }))
     }
 
+    onSelect = (genre) => {
+        this.setState((prevState) => ({...prevState,selectBy: { ...prevState.selectBy, genre } }))
+        this.setState({isSelect:false})
+    }
+
+    onToggleSelect = () => {
+        const {isSelect} = this.state;
+        this.setState({ isSelect: !isSelect })
+    }
+
     render() {
-        const { isHover, hero } = this.state;
+        const { isHover, hero, genres, isSelect,selectBy } = this.state;
         const { img, title, desc } = this.state.hero;
         const { onEdit, onToggleEdit, saveDataFromHero } = this.props;
         return (
@@ -61,6 +85,17 @@ export default class EditDetails extends Component {
 
                     <input type="text" name="title" onChange={this.handleChange}
                         maxLength="14" placeholder={title} value={title} autoComplete="off" />
+                        
+                    <div onClick={this.onToggleSelect} title="Select genre" className="select-container flex">
+                        <div>{selectBy.genre}</div>
+                        <div className={(isSelect) ? 'fas fa-sort-up' : 'fas fa-sort-down'}></div>
+
+                        {isSelect && <ul className="options-container flex" >
+                        {genres.map((genre, idx) => (
+                            <li onClick={() => this.onSelect(genre)} className="clean-list select-li" key={idx}>{genre}</li>
+                        ))}
+                    </ul>}
+                    </div>
 
                     <textarea placeholder="Add an optional description"
                         maxLength="60" name="desc" value={desc} onChange={this.handleChange} ></textarea>
