@@ -6,24 +6,26 @@ import { StationPreview } from './StationPreview.jsx'
 export class StationList extends React.Component {
 
     state = {
-        stations: []
+        stationsByGenre: []
     }
 
     componentDidMount() {
-        this.loadStations()
+        this.loadStationsByGenre()
     }
 
-    loadStations = async () => {
+    loadStationsByGenre = async () => {
         try {
-            const stations = await stationService.query(this.props.genre)
-            this.setState({ stations })
+            if (!this.props.stations.length) return
+            const stations = await stationService.getStationsByGenre(this.props.stations, this.props.genre)
+            this.setState({ stationsByGenre: stations })
         } catch (err) {
             throw err
         }
     }
 
     render() {
-        const { stations } = this.state
+        const { stationsByGenre } = this.state
+        if (!stationsByGenre.length) return <div>Loading...</div>
         return (
             <section className="station-list">
                 <div className="station-genre flex space-between">
@@ -32,7 +34,7 @@ export class StationList extends React.Component {
                 </div>
 
                 <div className="stations grid">
-                    {stations.map(station => <StationPreview key={station._id} station={station} />)}
+                    {stationsByGenre.map(station => <StationPreview key={station._id} station={station} />)}
                 </div>
             </section>
         )

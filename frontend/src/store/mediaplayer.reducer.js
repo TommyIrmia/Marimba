@@ -21,7 +21,7 @@ export function mediaPlayerReducer(state = initialState, action) {
             return { ...state, currDuration: action.currDuration }
         case 'SET_TRACKS_TO_PLAYER':
             return { ...state, currentTracks: action.tracks }
-        case 'SET_STATION_ID':
+        case 'SET_PLAYING_STATION_ID':
             return { ...state, stationId: action.stationId }
         default:
             return state;

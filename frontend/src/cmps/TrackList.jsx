@@ -1,7 +1,6 @@
 import React from 'react'
 import { TrackPreview } from './TrackPreview';
 import { Droppable } from 'react-beautiful-dnd'
-// import { render } from 'node-sass';
 
 export class TrackList extends React.Component {
 
@@ -19,8 +18,7 @@ export class TrackList extends React.Component {
                         ))}
                         {provided.placeholder}
                     </section>
-                )
-                }
+                )}
             </Droppable>
         </>
         )

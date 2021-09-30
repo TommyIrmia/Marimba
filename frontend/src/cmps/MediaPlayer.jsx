@@ -45,7 +45,7 @@ export class _MediaPlayer extends Component {
         if (ev.data === 5) ev.target.playVideo()
 
         const currTrack = { ...this.props.currentTracks[this.props.currSongIdx] }
-        console.log('player state', ev.data);
+        // console.log('player state', ev.data);
         if (ev.data === 2) {
             currTrack.isPlaying = false;
             this.props.onTogglePlay(false)
@@ -68,7 +68,15 @@ export class _MediaPlayer extends Component {
     }
 
     onTogglePlay = async () => {
-        await this.isInitialPlay()
+        // if 1st time click play - check the state, and if there's a player - if none - load tracks to player
+        if (!this.state.initialPlay && !this.props.player) {
+            this.setState({ initialPlay: true }, async () => {
+                const stationId = this.props.station_Id || this.props.stationId
+                await this.props.loadTracksToPlayer(this.props.tracks, stationId)
+            })
+        }
+
+
         if (this.props.player) {
             if (this.props.isPlaying) {
                 this.props.player.pauseVideo()
@@ -78,40 +86,42 @@ export class _MediaPlayer extends Component {
         }
     }
 
-    isInitialPlay = async () => {
-        if (!this.state.initialPlay) {
-            this.setState({ initialPlay: true }, async () => {
-                console.log('from initial play', this.props);
-                const stationId = this.props.station_Id || this.props.stationId
-                await this.props.loadTracksToPlayer(this.props.tracks, stationId)
-            })
-        }
-    }
 
-    onChangeSong = (diff, currIdx) => {
-        if (this.state.isRepeat) {
-            this.props.player.stopVideo()
-            this.props.player.playVideo()
+    onChangeSong = (diff) => {
+        const { isRepeat, isShuffle } = this.state
+        const { tracks, currSongIdx, currentTracks, player, stationId } = this.props
+
+        let currIdx = tracks.findIndex(track => track.isPlaying) // find current playing IDX
+        if (currIdx === -1) currIdx = currSongIdx // if not find, use the currSongIdx from store
+
+        if (isRepeat) { 
+            player.stopVideo()
+            player.playVideo()
             return
         }
 
         let nextIdx = currIdx + diff;
 
-        if (this.state.isShuffle) {
+        if (isShuffle) {
             const randomTrack = this.getRandomTrack()
-            const idx = this.props.currentTracks.findIndex(track => track.id === randomTrack.id)
-            console.log(idx);
+            const idx = currentTracks.findIndex(track => track.id === randomTrack.id)
             nextIdx = idx
         }
 
-        if (nextIdx < 0) {
-            this.props.player.stopVideo()
-            this.props.player.playVideo()
+        if (nextIdx < 0) { // if 1st song on the list, play again
+            player.stopVideo()
+            player.playVideo()
             nextIdx = 0;
             return
         };
 
-        if (nextIdx >= this.props.currentTracks.length) nextIdx = 0;
+        if (nextIdx >= currentTracks.length) nextIdx = 0; // if last song on the list - go to index 0
+
+        if (currIdx === nextIdx) nextIdx += 1;
+        // console.log('next Idx :', nextIdx, 'currSongIdx', this.props.currSongIdx, 'currIdx', currIdx);
+
+
+        this.props.loadTracksToPlayer(tracks, stationId)
         this.props.setSongIdx(nextIdx)
         this.props.player.playVideo()
     }
@@ -169,6 +179,7 @@ export class _MediaPlayer extends Component {
     render() {
         const { isMute, songLength, volume, isRepeat, isShuffle, stationName } = this.state
         const { currSongIdx, currDuration, isPlaying, currentTracks } = this.props
+        // console.log('media player props', this.props);
         // if (!tracks.length) return <div></div>
         return (
             <div className="media-player">

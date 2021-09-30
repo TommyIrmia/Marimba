@@ -16,13 +16,15 @@ export function setPlayer(player) {
 export function loadTracksToPlayer(tracks, stationId) {
     return async (dispatch) => {
         try {
+            if (!tracks.length) return
             console.log('Loaded tracks to player', tracks, stationId)
             dispatch({
                 type: 'SET_TRACKS_TO_PLAYER',
                 tracks
             })
+            console.log('setting station id to mediaplayer actions', stationId);
             dispatch({
-                type: 'SET_STATION_ID',
+                type: 'SET_PLAYING_STATION_ID',
                 stationId
             })
         } catch (err) {
