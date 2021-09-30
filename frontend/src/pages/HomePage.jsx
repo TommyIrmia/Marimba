@@ -1,15 +1,23 @@
 import React, { Component } from 'react'
 import { StationList } from '../cmps/StationList.jsx'
 import { stationService } from '../services/station.service.js'
+import { MainHero } from './../cmps/MainHero';
 
 export class HomePage extends Component {
 
     state = {
-        genres: []
+        genres: [],
+        stations: []
     }
 
     componentDidMount() {
         this.loadGenres()
+        this.loadStations()
+    }
+
+    loadStations = async () => {
+        const stations = await stationService.query()
+        this.setState({ stations })
     }
 
     loadGenres = async () => {
@@ -21,11 +29,15 @@ export class HomePage extends Component {
         }
     }
     render() {
-        const { genres } = this.state
+        const { genres, stations } = this.state
+        if (!stations.length) return <div>Loading..</div>
         return (
+            <main>
+                <MainHero/>
             <section className="home-page">
-                {genres.map(genre => <StationList genre={genre} key={genre} />)}
+                {genres.map(genre => <StationList genre={genre} key={genre} stations={stations} />)}
             </section>
+            </main>
         )
     }
 }

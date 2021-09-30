@@ -9,13 +9,16 @@ export const asyncStorageService = {
     getIdx
 }
 
-function query(entityType, delay = 0) {
-    var entities = JSON.parse(localStorage.getItem(entityType))
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve(entities)
-        }, delay)
-    })
+async function query(entityType, delay = 0) {
+    console.log('storage key', entityType);
+    var entities = await JSON.parse(localStorage.getItem(entityType))
+    console.log('entities', entities);
+    return entities
+    // return new Promise((resolve, reject) => {
+    //     // setTimeout(() => {
+    //         resolve(entities)
+    //     // }, delay)
+    // })
 }
 
 
@@ -62,7 +65,7 @@ function remove(entityType, entityId) {
 }
 
 
-function save(entityType, entities) {
+async function save(entityType, entities) {
     console.log('entityType FROM SAVE!', entityType)
     localStorage.setItem(entityType, JSON.stringify(entities))
 }

@@ -13,6 +13,7 @@ export function loadTracks(stationId, filterBy) {
                 tracks
             })
             if (stationId) {
+                console.log('setting station id to tracks actions', stationId);
                 dispatch({
                     type: 'SET_STATION_ID',
                     station_Id: stationId
@@ -24,12 +25,26 @@ export function loadTracks(stationId, filterBy) {
     }
 }
 
+export function onUpdateTracks(tracks, stationId) {
+    return async (dispatch) => {
+        try {
+            await stationService.updateTracks(tracks, stationId)
+            console.log('From track actions - Updated tracks', tracks)
+            dispatch({
+                type: 'SET_TRACKS',
+                tracks
+            })
+        } catch (err) {
+            console.log('Can not update tracks!', err)
+        }
+    }
+}
 
 export function onRemoveTrack(trackId, stationId) {
     return async (dispatch) => {
         try {
             await stationService.removeTrackFromStation(trackId, stationId)
-            console.log('Deleted track Succesfully!');
+            console.log('From track actions - Deleted track Succesfully!');
             dispatch({
                 type: 'REMOVE_TRACK',
                 trackId
@@ -44,8 +59,12 @@ export function onAddTrack(track, stationId) {
     return async (dispatch) => {
         try {
             await stationService.addTrackToStation(track, stationId)
+<<<<<<< HEAD
             console.log('station id in actions', stationId);
             console.log('Added track', track)
+=======
+            console.log('From track actions - Added track', track)
+>>>>>>> 6470cd0a3da43a44596b999f6b3578193103dd42
             dispatch({
                 type: 'ADD_TRACK',
                 track

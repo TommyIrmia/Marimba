@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { loadTracks, onAddTrack, onRemoveTrack } from '../store/tracks.actions.js'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
+import { stationService } from '../services/station.service.js'
 
 class _StationPreview extends React.Component {
 
@@ -10,9 +10,9 @@ class _StationPreview extends React.Component {
         if (this.props.stationId === this.props.station._id) {
             this.props.player.playVideo()
         } else {
-            await this.props.loadTracks(this.props.station._id)
+            const station = await stationService.getById(this.props.station._id)
             await this.props.setSongIdx(0)
-            await this.props.loadTracksToPlayer(this.props.tracks, this.props.station._id)
+            await this.props.loadTracksToPlayer(station.tracks, station._id)
         }
     }
 
@@ -22,15 +22,14 @@ class _StationPreview extends React.Component {
 
     isStationPlaying = () => {
         if (this.props.isPlaying) {
-            if (this.props.stationId === this.props.station._id &&
-                this.props.tracks.find(track => track.isPlaying)) return true
+            if (this.props.stationId === this.props.station._id) return true
             else return false
         } else return false
     }
 
 
     render() {
-        const { station, isPlaying } = this.props
+        const { station } = this.props
         return (
             <div className="station-preview"
                 onClick={() => this.props.history.push(`/station/${station._id}`)}
@@ -59,7 +58,6 @@ class _StationPreview extends React.Component {
                     <h2>{station.likedByUsers.length}</h2>
                 </div>
             </div>
-
         )
     }
 }
@@ -67,16 +65,12 @@ class _StationPreview extends React.Component {
 function mapStateToProps(state) {
     return {
         player: state.mediaPlayerModule.player,
-        tracks: state.tracksModule.tracks,
-        currentTracks: state.mediaPlayerModule.currentTracks,
         stationId: state.mediaPlayerModule.stationId,
         isPlaying: state.mediaPlayerModule.isPlaying,
     }
 }
+
 const mapDispatchToProps = {
-    loadTracks,
-    onAddTrack,
-    onRemoveTrack,
     loadTracksToPlayer,
     setSongIdx
 }

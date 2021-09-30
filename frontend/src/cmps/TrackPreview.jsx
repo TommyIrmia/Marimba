@@ -21,7 +21,7 @@ export class _TrackPreview extends Component {
             if (video_id === track.id) {
                 track.isPlaying = true
                 this.props.onUpdateTrack(track)
-            }
+            } //TODO : ADD ELSE - track.isPlaying - false
         }
     }
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { DragDropContext } from 'react-beautiful-dnd'
 
-import { loadTracks, onAddTrack, onRemoveTrack } from '../store/tracks.actions.js'
+import { loadTracks, onAddTrack, onRemoveTrack, onUpdateTracks, onUpdateTrack } from '../store/tracks.actions.js'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
 import { StationHero } from './../cmps/StationHero';
 import EditHero from './../cmps/EditHero';
@@ -33,10 +33,15 @@ class _StationDetails extends Component {
             stationService.saveEmptyStation();
             isEditable = true;
         }
-        this.setState({ ...this.state, isEditable: isEditable, id: stationId }, this.loadTracks)
+        this.setState({ ...this.state, isEditable: isEditable, id: stationId }, async () => {
+            await this.loadTracks()
+        })
+
     }
 
     componentWillUnmount() {
+        //load curr tracks to media player (ONLY IF ITS THE CURR PLAYING STATION) and then clear tracks from global store.
+        // if (this.props.stationId === this.state.id) this.props.loadTracksToPlayer(this.props.tracks, this.state.id)
         this.props.loadTracks()
     }
 
@@ -68,8 +73,7 @@ class _StationDetails extends Component {
             console.log("got track to on add track:", newTrack);
             newTrack.addedAt = Date.now()
             await this.props.onAddTrack(newTrack, stationId);
-            if (stationId !== this.props.stationId) return
-            await this.props.loadTracksToPlayer(this.props.tracks, stationId)
+            if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         } catch (err) {
             throw err
         }
@@ -79,6 +83,7 @@ class _StationDetails extends Component {
         try {
             const { stationId } = this.props.match.params
             await this.props.onRemoveTrack(trackId, stationId)
+            if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         } catch (err) {
             throw err
         }
@@ -87,8 +92,7 @@ class _StationDetails extends Component {
     onSetFilter = async (filterBy) => {
         const { stationId } = this.props.match.params
         await this.props.loadTracks(stationId, filterBy)
-        console.log(filterBy);
-        if (filterBy.sort !== 'Custom order') {
+        if (filterBy.sort !== 'Custom order') { // if reSorted - replay from index 0!
             await this.props.setSongIdx(0)
             await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         }
@@ -105,9 +109,9 @@ class _StationDetails extends Component {
 
     onPlayTrack = async () => {
         const { stationId } = this.props.match.params
-        if (this.props.stationId === stationId) {
+        if (this.props.stationId === stationId) { // if is on current playing station - play video!
             this.props.player.playVideo()
-        } else {
+        } else { // else reload the station shown and play from index 0.
             await this.props.setSongIdx(0)
             await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         }
@@ -123,13 +127,13 @@ class _StationDetails extends Component {
     }
 
     onDragEnd = (result) => {
-        console.log(result)
+        // console.log(result)
         const { destination, source, draggableId } = result;
 
-        if (!destination) return
+        if (!destination) return // if dragged out of draggable
 
         if (destination.droppableId === source.droppableId &&
-            destination.index === source.index) return
+            destination.index === source.index) return // if stayed in the same position
 
         const { tracks } = this.props
         const { stationId } = this.props.match.params
@@ -137,8 +141,9 @@ class _StationDetails extends Component {
         newTracks.splice(source.index, 1)
         newTracks.splice(destination.index, 0, tracks.find(track => track.id === draggableId))
 
-        console.log(tracks, newTracks)
-        // this.props.onUpdateTracks(n)
+        this.props.onUpdateTracks(newTracks, stationId) // todo : fix!!!!!!
+        this.props.setSongIdx(destination.index)
+        this.props.loadTracksToPlayer(newTracks, stationId)
     }
 
     render() {
@@ -179,6 +184,7 @@ function mapStateToProps(state) {
         tracks: state.tracksModule.tracks,
         stationId: state.mediaPlayerModule.stationId,
         isPlaying: state.mediaPlayerModule.isPlaying,
+        currentTracks: state.mediaPlayerModule.currentTracks
     }
 }
 const mapDispatchToProps = {
@@ -186,7 +192,9 @@ const mapDispatchToProps = {
     onAddTrack,
     onRemoveTrack,
     loadTracksToPlayer,
-    setSongIdx
+    setSongIdx,
+    onUpdateTracks,
+    onUpdateTrack
 }
 
 
