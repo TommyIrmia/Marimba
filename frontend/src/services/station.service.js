@@ -447,8 +447,12 @@ async function updateTracks(tracks, stationId) {
         console.log('tracks b4 edit', tracks);
 
         const newTracks = tracks.slice(0)
-        const newStation = { ...station, tracks: station.tracks.slice(0) }
-        newTracks.forEach(track => delete track.isPlaying)
+        const newStation = JSON.parse(JSON.stringify(station));
+        newTracks.map(track => {
+            const newTrack = JSON.parse(JSON.stringify(track))
+            delete newTrack.isPlaying
+            return newTrack
+        })
 
         console.log('tracks after edit', tracks);
         newStation.tracks = newTracks
