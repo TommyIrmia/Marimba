@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { SearchPageFilter } from './../cmps/SearchPageFilter';
 import { GenreList } from './../cmps/GenreList';
+import { StationList } from '../cmps/StationList.jsx'
 
 export class SearchPage extends Component {
     state = {
@@ -13,11 +14,13 @@ export class SearchPage extends Component {
         else this.setState({ searchKey: searchKey, isSearch: true })
     }
     render() {
-        const { isSearch } = this.state;
+        const { searchKey, isSearch } = this.state;
+        console.log('search key:', searchKey);
         return (
             <main className="SearchPage playlist-layout" >
-                <SearchPageFilter />
+                <SearchPageFilter onSetFilter={this.onSetFilter}/>
                 {!isSearch && <GenreList />}
+                {isSearch && <StationList search={searchKey} isGenrePage={true}/>}
             </main>
         )
     }

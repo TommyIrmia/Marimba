@@ -1,5 +1,5 @@
 .hero-container {
-  background: linear-gradient(lightblue 10%, darken(lightblue, 7%) 50%, darken(lightblue, 13%) 80%, darken(lightblue, 20%) 90%);
+  background: linear-gradient($bgc3 10%, darken($bgc3, 7%) 50%, darken($bgc3, 13%) 80%, darken($bgc3, 20%) 90%);
 }
 
 .StationHero {
@@ -16,7 +16,6 @@
   .img-container {
     height: rem(250px);
     width: rem(250px);
-    // background-color: rgb(213, 136, 31);
     position: absolute;
     bottom: rem(40px);
     display: inline-block;

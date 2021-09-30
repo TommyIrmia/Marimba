@@ -1,9 +1,9 @@
 .actions-container {
   background: linear-gradient(
-    darken(lightblue, 25%) 0%,
-    darken(lightblue, 30%) 10%,
-    darken(lightblue, 35%) 50%,
-    darken(lightblue, 45%) 90%
+    darken($bgc3, 25%) 0%,
+    darken($bgc3, 30%) 10%,
+    darken($bgc3, 35%) 50%,
+    darken($bgc3, 60%) 90%
   );
 
   margin-bottom: 20px;

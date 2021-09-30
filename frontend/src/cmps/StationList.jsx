@@ -12,15 +12,22 @@ export class StationList extends React.Component {
 
     componentDidMount() {
         const { isGenrePage } = this.props;
-        this.setState({ ...this.state, isGenrePage: isGenrePage }, this.loadStationsByGenre) 
+        this.setState({ ...this.state, isGenrePage: isGenrePage }, this.loadStationsByGenre)
     }
 
 
     loadStationsByGenre = async () => {
         try {
-            if (!this.props.stations?.length) return
-            const stations = await stationService.getStationsByGenre(this.props.stations, this.props.genre)
-            this.setState({ stationsByGenre: stations })
+            const { search, genre } = this.props;
+            console.log('search in load station:', search);
+            const stations = (this.state.isGenrePage) ? await stationService.query(search) : this.props.stations
+            if (!genre) {
+                this.setState({ stationsByGenre: stations })
+                return
+            }
+            if (!stations.length) return
+            const stationsByGenre = await stationService.getStationsByGenre(stations, genre)
+            this.setState({ stationsByGenre: stationsByGenre })
         } catch (err) {
             throw err
         }
@@ -28,6 +35,7 @@ export class StationList extends React.Component {
 
     render() {
         const { stationsByGenre, isGenrePage } = this.state
+        console.log('stations by genre', stationsByGenre);
         if (!stationsByGenre?.length) return <div>Loading...</div>
         return (
             <section className="station-list">
