@@ -19,7 +19,7 @@ export class StationList extends React.Component {
 
     loadStationsByGenre = async () => {
         try {
-            if (!this.props.stations.length) return
+            if (!this.props.stations?.length) return
             const stations = await stationService.getStationsByGenre(this.props.stations, this.props.genre)
             this.setState({ stationsByGenre: stations })
         } catch (err) {
@@ -29,7 +29,7 @@ export class StationList extends React.Component {
 
     render() {
         const { stationsByGenre, isGenrePage } = this.state
-        if (!stationsByGenre.length) return <div>Loading...</div>
+        if (!stationsByGenre?.length) return <div>Loading...</div>
         return (
             <section className="station-list">
                 {!isGenrePage && <div className="station-genre flex space-between">
