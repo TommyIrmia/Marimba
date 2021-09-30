@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { utilService } from './../services/util.service';
+import { sessionService } from './../services/session.service';
 
 export class MainHero extends Component {
 
@@ -9,7 +9,9 @@ export class MainHero extends Component {
 
  scrollFunction = () => {
     if ( document.documentElement.scrollTop > 600) {
-        this.setState({ isStart: true });
+        this.setState({ isStart: true },()=>{
+            sessionService.save('initial',false)
+        });
     }
 }
 
@@ -23,10 +25,12 @@ render() {
             <div className={`img-container flex ${(isStart) ? 'hero-gone' : ''}`} >
                 <div className="main-hero-info flex" >
                     <h1>Welcome to Marimba</h1>
-                    <p>Some shit about Marimba.</p>
+                    <p>Listening is everything.</p>
                     <button onClick={() => {
-                        this.setState({ isStart: true })
-                    }} >start here fucker</button>
+                        this.setState({ isStart: true },() => {
+                            sessionService.save('initial',false)
+                        })
+                    }} >start listening</button>
                 </div>
             </div>
         </section>

@@ -3,6 +3,8 @@ export const sessionService = {
     save: saveToSession,
 }
 
+saveToSession('initial',true)
+
 function loadFromSession(key) {
     var val = sessionStorage.getItem(key)
     return (val) ? JSON.parse(val) : null;

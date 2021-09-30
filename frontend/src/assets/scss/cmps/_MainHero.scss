@@ -1,8 +1,9 @@
     .MainHero {
         .img-container {
-            max-width: 1020px;
-            height: 78vh;
-            background-image: url("https://www-growth.scdn.co/static/home/bursts.svg");
+            max-width: 100vw;
+            height: 80vh;
+            background-image: url("../../svg/hero.svg");
+            // background-image: url("https://www-growth.scdn.co/static/home/bursts.svg");
             background-position: center;
             justify-content: center;
             align-items: center;
@@ -32,6 +33,7 @@
             
             button {
                 font-family: gotham-bold;
+                font-size: rem(15px);
                 background-color: $clr5;
                 width: 150px;
                 height: 45px;
