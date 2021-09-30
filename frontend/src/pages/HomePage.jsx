@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { StationList } from '../cmps/StationList.jsx'
 import { stationService } from '../services/station.service.js'
+import { MainHero } from './../cmps/MainHero';
 
 export class HomePage extends Component {
 
@@ -23,9 +24,12 @@ export class HomePage extends Component {
     render() {
         const { genres } = this.state
         return (
+            <main>
+                <MainHero/>
             <section className="home-page">
                 {genres.map(genre => <StationList genre={genre} key={genre} />)}
             </section>
+            </main>
         )
     }
 }
