@@ -137,12 +137,18 @@ class _StationDetails extends Component {
 
         const { tracks } = this.props
         const { stationId } = this.props.match.params
-        const newTracks = [...tracks]
+        const newTracks = tracks.slice(0)
         newTracks.splice(source.index, 1)
         newTracks.splice(destination.index, 0, tracks.find(track => track.id === draggableId))
 
         this.props.onUpdateTracks(newTracks, stationId) // todo : fix!!!!!!
-        this.props.setSongIdx(destination.index)
+        const destinationTrack = newTracks[destination.index]
+        console.log('destination track id', destinationTrack.id);
+        const { video_id } = this.props.player.getVideoData()
+        console.log('current playing id', video_id);
+
+        if (this.props.stationId !== stationId) return // if dragged songs not on the playing station
+        if (video_id === newTracks[destination.index].id) this.props.setSongIdx(destination.index)
         this.props.loadTracksToPlayer(newTracks, stationId)
     }
 

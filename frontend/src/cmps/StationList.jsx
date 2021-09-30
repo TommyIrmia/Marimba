@@ -6,7 +6,6 @@ import { StationPreview } from './StationPreview.jsx'
 export class StationList extends React.Component {
 
     state = {
-        stations: [],
         isGenrePage: false,
         stationsByGenre: []
     }
