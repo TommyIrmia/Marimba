@@ -94,7 +94,7 @@ export class _MediaPlayer extends Component {
         let currIdx = tracks.findIndex(track => track.isPlaying) // find current playing IDX
         if (currIdx === -1) currIdx = currSongIdx // if not find, use the currSongIdx from store
 
-        if (isRepeat) { 
+        if (isRepeat) {
             player.stopVideo()
             player.playVideo()
             return
@@ -179,8 +179,6 @@ export class _MediaPlayer extends Component {
     render() {
         const { isMute, songLength, volume, isRepeat, isShuffle, stationName } = this.state
         const { currSongIdx, currDuration, isPlaying, currentTracks } = this.props
-        // console.log('media player props', this.props);
-        // if (!tracks.length) return <div></div>
         return (
             <div className="media-player">
                 {currentTracks?.length ? <YouTube
@@ -220,13 +218,13 @@ export class _MediaPlayer extends Component {
 
 function mapStateToProps(state) {
     return {
-        tracks: state.tracksModule.tracks,
         player: state.mediaPlayerModule.player,
         isPlaying: state.mediaPlayerModule.isPlaying,
         currSongIdx: state.mediaPlayerModule.currSongIdx,
         currDuration: state.mediaPlayerModule.currDuration,
         currentTracks: state.mediaPlayerModule.currentTracks,
         stationId: state.mediaPlayerModule.stationId,
+        tracks: state.tracksModule.tracks,
         station_Id: state.tracksModule.station_Id
     }
 }

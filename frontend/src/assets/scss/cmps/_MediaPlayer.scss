@@ -84,6 +84,9 @@
         width: 30px;
         color: $clr2;
         font-size: 1.3rem;
+        &.btn-liked {
+          color: $clr5;
+        }
       }
     }
     .artist-img {

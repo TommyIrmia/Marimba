@@ -1,9 +1,9 @@
 .actions-container {
   background: linear-gradient(
-    darken($bgc1, 25%) 0%,
-    darken($bgc1, 30%) 10%,
-    darken($bgc1, 35%) 50%,
-    darken($bgc1, 45%) 90%
+    darken(lightblue, 25%) 0%,
+    darken(lightblue, 30%) 10%,
+    darken(lightblue, 35%) 50%,
+    darken(lightblue, 45%) 90%
   );
 
   margin-bottom: 20px;
@@ -44,7 +44,7 @@
         }
       }
 
-      .btn-liked{
+      .btn-liked {
         color: $clr5;
         &:hover {
           color: $clr5;
@@ -59,29 +59,30 @@
       text-transform: uppercase;
       justify-content: space-between;
       text-align: center;
-      
+
       .info-title {
         width: 400px;
         text-align: left;
         text-indent: 43px;
-        
       }
-      
+
       .info-date {
         text-indent: 70px;
         width: 200px;
       }
-      
+
       .info-duration {
         margin-inline-end: 20px;
         width: 100px;
       }
 
-      .duration{
-        font-size:rem(17px);
+      .duration {
+        font-size: rem(17px);
       }
 
-      .title,.date,.duration{
+      .title,
+      .date,
+      .duration {
         color: #ffffffa8;
 
         &:hover {
