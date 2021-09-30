@@ -11,14 +11,6 @@ export class AppHeader extends React.Component {
         this.setState({ isOpen:!isOpen}) 
     }
     render() {
-
-        // const storeScroll = () => {
-        //     document.documentElement.dataset.scroll = window.scrollY;
-        //     return document.documentElement.dataset.scroll
-        // };
-        // document.addEventListener("scroll", storeScroll);
-        // storeScroll();
-        
         const user = true;
         const { isOpen } = this.state;
         return (

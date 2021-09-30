@@ -25,7 +25,7 @@ const initialStations = [
         "name": "Liked songs",
         "description": "All your liked songs are here",
         "tags": ["Liked"],
-        "imgUrl":'https://svg-clipart.com/svg/heart/mP6A3zM-white-line-heart-vector.svg',
+        "imgUrl": 'https://svg-clipart.com/svg/heart/mP6A3zM-white-line-heart-vector.svg',
         "createdAt": Date.now(),
         "createdBy": {
             "_id": "u101",
@@ -449,10 +449,15 @@ async function getById(stationId) {
 async function updateTracks(tracks, stationId) {
     try {
         const station = await asyncStorageService.get(STORAGE_KEY, stationId)
-        const newTracks = station.tracks.slice(0)
+        console.log('tracks b4 edit', tracks);
+
+        const newTracks = tracks.slice(0)
+        const newStation = { ...station, tracks: station.tracks.slice(0) }
         newTracks.forEach(track => delete track.isPlaying)
-        station.tracks = newTracks
-        return await asyncStorageService.put(STORAGE_KEY, station)
+
+        console.log('tracks after edit', tracks);
+        newStation.tracks = newTracks
+        return await asyncStorageService.put(STORAGE_KEY, newStation)
     } catch (err) {
         console.log('Can not add track to station', err)
     }

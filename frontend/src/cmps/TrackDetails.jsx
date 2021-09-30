@@ -1,9 +1,39 @@
 import React from 'react'
+import { stationService } from '../services/station.service';
 
 export class TrackDetails extends React.Component {
 
+    state = {
+        isLiked: false,
+    }
+
+    componentDidMount() {
+        console.log('track details mounted');
+    }
+    
+    componentDidUpdate() {
+        // this.checkIsLiked()
+        // console.log('track details updated');
+    }
+
+    onLikeTrack = () => {
+        const { currTrack } = this.props
+        const { isLiked } = this.state;
+        this.setState({ isLiked: !isLiked })
+        stationService.addTrackToStation(currTrack, 'liked')
+    }
+
+    checkIsLiked = async () => {
+        const { currTrack } = this.props
+        const station = await stationService.getById('liked')
+        const isLiked = station.tracks.some(likedTrack => likedTrack.id === currTrack.id)
+        console.log('isLiked from mediaplayer', isLiked);
+        this.setState({ isLiked })
+    }
+
     render() {
         const { imgSrc, currTrack, stationName } = this.props
+        const { isLiked } = this.state
         return (
 
             <div className="song-details flex align-center">
@@ -13,7 +43,8 @@ export class TrackDetails extends React.Component {
                     <small>{stationName}</small>
                 </div>
                 <div className="song-actions">
-                    <button className="far fa-heart"></button>
+                    <button onClick={() => this.onLikeTrack()}
+                        className={isLiked ? "fas fa-heart btn-liked" : "far fa-heart"}></button>
                 </div>
             </div>
         )

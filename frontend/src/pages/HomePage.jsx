@@ -2,13 +2,16 @@ import React, { Component } from 'react'
 import { StationList } from '../cmps/StationList.jsx'
 import { stationService } from '../services/station.service.js'
 import { MainHero } from './../cmps/MainHero';
+import { sessionService } from './../services/session.service';
 
 export class HomePage extends Component {
 
     state = {
         genres: [],
-        stations: []
+        stations: [],
+        initialEntry:sessionService.load('initial'),
     }
+
 
     componentDidMount() {
         this.loadGenres()
@@ -29,11 +32,11 @@ export class HomePage extends Component {
         }
     }
     render() {
-        const { genres, stations } = this.state
+        const { genres, stations,initialEntry } = this.state
         if (!stations.length) return <div>Loading..</div>
         return (
             <main>
-                <MainHero/>
+                { initialEntry && <MainHero/>}
             <section className="home-page">
                 {genres.map(genre => <StationList genre={genre} key={genre} stations={stations} />)}
             </section>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Draggable } from 'react-beautiful-dnd'
 import { utilService } from './../services/util.service';
 import { onPlayTrack, loadTracksToPlayer } from '../store/mediaplayer.actions.js'
-import {onUpdateTrack } from '../store/tracks.actions.js'
+import { onUpdateTrack } from '../store/tracks.actions.js'
 import { stationService } from '../services/station.service';
 import equi from '../assets/imgs/equi.gif';
 
@@ -23,6 +23,8 @@ export class _TrackPreview extends Component {
                 this.props.onUpdateTrack(track)
             } //TODO : ADD ELSE - track.isPlaying - false
         }
+
+        this.checkIsLiked()
     }
 
     onPlayTrack = async (trackIdx) => {
@@ -40,9 +42,16 @@ export class _TrackPreview extends Component {
 
     onLike = () => {
         const { isLiked } = this.state;
-        const {track}=this.props;
+        const { track } = this.props;
         this.setState({ isLiked: !isLiked })
         stationService.addTrackToStation(track, 'liked')
+    }
+
+    checkIsLiked = async () => {
+        const { track } = this.props
+        const station = await stationService.getById('liked')
+        const isLiked = station.tracks.some(likedTrack => likedTrack.id === track.id)
+        if (isLiked) this.setState({ isLiked })
     }
 
     render() {
