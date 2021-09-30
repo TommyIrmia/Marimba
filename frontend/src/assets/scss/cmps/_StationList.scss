@@ -14,6 +14,14 @@
     }
   }
 
+  .genre-title{
+    font-size: rem(96px);
+    font-family: gotham-bold;
+    letter-spacing: rem(-5px);
+    line-height: rem(96px);
+    padding: 0.08em 0px;
+  }
+
   .stations {
     max-height: 300px;
     gap: 24px;
@@ -22,5 +30,20 @@
     grid-auto-rows: 0;
     grid-template-rows: 1fr;
     overflow-y: hidden;
+  }
+
+  .stations-previews-container{
+    padding: rem(16px);
+    margin: rem(24px) 0px;
+  }
+
+  .stations-genre {
+    max-height: 300px;
+    gap: 24px;
+    margin-bottom: 40px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-rows: 1fr;
+    overflow-y: auto;
+    margin-top: rem(24px);
   }
 }

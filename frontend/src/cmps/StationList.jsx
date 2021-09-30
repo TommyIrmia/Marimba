@@ -6,11 +6,13 @@ import { StationPreview } from './StationPreview.jsx'
 export class StationList extends React.Component {
 
     state = {
-        stations: []
+        stations: [],
+        isGenrePage: false
     }
 
     componentDidMount() {
-        this.loadStations()
+        const { isGenrePage } = this.props;
+        this.setState({ ...this.state, isGenrePage: isGenrePage }, this.loadStations)
     }
 
     loadStations = async () => {
@@ -23,17 +25,26 @@ export class StationList extends React.Component {
     }
 
     render() {
-        const { stations } = this.state
+        const { stations, isGenrePage } = this.state
         return (
             <section className="station-list">
-                <div className="station-genre flex space-between">
+                {!isGenrePage && <div className="station-genre flex space-between">
                     <Link to="/"><h1>{this.props.genre}</h1></Link>
                     <Link to="/"><p>See all</p></Link>
-                </div>
-
-                <div className="stations grid">
+                </div>}
+                {isGenrePage && <section className="genre-titles">
+                    <h1 className="genre-title">{this.props.genre}</h1>
+                </section>}
+                {!isGenrePage && <div className="stations grid">
                     {stations.map(station => <StationPreview key={station._id} station={station} />)}
-                </div>
+                </div>}
+                {isGenrePage && <section className="stations-previews-container">
+                    <h1>All playlists</h1>
+                    <div className="stations-genre grid">
+                        {stations.map(station => <StationPreview key={station._id} station={station} />)}
+                    </div>
+                </section>
+                }
             </section>
         )
     }

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router'
 import { utilService } from './../services/util.service';
 
-export  class GenrePreview extends Component {
+export  class _GenrePreview extends Component {
 
    
 
@@ -9,7 +10,7 @@ export  class GenrePreview extends Component {
         const {genre} = this.props;
         const color = utilService.pickRandomColor()
         return (
-            <main className="GenrePreview" >
+            <main className="GenrePreview" onClick={() => this.props.history.push(`/genre/${genre}`)}>
                 <div style={{ backgroundColor:color}} className="genre-card" >
                     <h3>{genre}</h3>
                 </div>
@@ -17,3 +18,5 @@ export  class GenrePreview extends Component {
         )
     }
 }
+
+export const GenrePreview = (withRouter(_GenrePreview))

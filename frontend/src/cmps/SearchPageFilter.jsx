@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export class SeacrchPageFilter extends Component {
+export class SearchPageFilter extends Component {
 
     state = {
         filterBy:{
@@ -21,7 +21,7 @@ export class SeacrchPageFilter extends Component {
                <div className="input-container" >
                    <button className="fas fa-search search-btn" ></button>
                 <input type="search" name="title" value={title}
-                placeholder="bla bla bla" autoComplete="off" onChange={(ev)=>{
+                placeholder="Playlists or songs" autoComplete="off" onChange={(ev)=>{
                     ev.preventDefault();
                     this.handleChange(ev)
                 }} autoFocus={true}/>
