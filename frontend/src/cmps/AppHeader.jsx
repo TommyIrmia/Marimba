@@ -12,11 +12,12 @@ export class AppHeader extends React.Component {
     }
     render() {
 
-        const storeScroll = () => {
-            document.documentElement.dataset.scroll = window.scrollY;
-        };
-        document.addEventListener("scroll", storeScroll);
-        storeScroll();
+        // const storeScroll = () => {
+        //     document.documentElement.dataset.scroll = window.scrollY;
+        //     return document.documentElement.dataset.scroll
+        // };
+        // document.addEventListener("scroll", storeScroll);
+        // storeScroll();
         
         const user = true;
         const { isOpen } = this.state;

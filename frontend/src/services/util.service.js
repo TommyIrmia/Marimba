@@ -52,6 +52,14 @@ function pickRandomColor(){
     return color;
 }
 
+function storeScroll() {
+    document.documentElement.dataset.scroll = window.scrollY;
+    return document.documentElement.dataset.scroll
+};
+document.addEventListener("scroll", storeScroll);
+storeScroll();
+
+
 function getTime(date) {
 
     const time = new Date(date)
