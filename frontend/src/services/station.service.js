@@ -372,12 +372,17 @@ const initialStations = [
 
 ]
 
-async function query() {
+async function query(name) {
+    console.log('name to query:', name);
     try {
         let stations = await asyncStorageService.query(STORAGE_KEY)
         if (!stations) {
             stations = initialStations.slice(0)
             _saveStationsToStorage()
+        }
+
+        if(name){
+            stations = stations.filter(station => station.name.toLowerCase().includes(name.toLowerCase()))
         }
 
         stations.forEach(station => {
