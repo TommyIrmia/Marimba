@@ -59,12 +59,7 @@ export function onAddTrack(track, stationId) {
     return async (dispatch) => {
         try {
             await stationService.addTrackToStation(track, stationId)
-<<<<<<< HEAD
-            console.log('station id in actions', stationId);
-            console.log('Added track', track)
-=======
             console.log('From track actions - Added track', track)
->>>>>>> 6470cd0a3da43a44596b999f6b3578193103dd42
             dispatch({
                 type: 'ADD_TRACK',
                 track
