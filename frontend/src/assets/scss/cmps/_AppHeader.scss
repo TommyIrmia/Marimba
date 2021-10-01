@@ -31,7 +31,7 @@
   .options-container {
     width: rem(200px);
     position: absolute;
-    background-color:#282828;
+    background-color: #282828;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -45,7 +45,6 @@
       padding: 10px 0;
       width: 100%;
       z-index: 1;
-
 
       &:hover {
         cursor: pointer;
@@ -62,7 +61,7 @@ html:not([data-scroll="0"]) {
     z-index: 1;
     background-color: #000;
   }
-  .user-container{
+  .user-container {
     background-color: #000;
   }
 }

@@ -372,12 +372,17 @@ const initialStations = [
 
 ]
 
-async function query() {
+async function query(name) {
+    console.log('name to query:', name);
     try {
         let stations = await asyncStorageService.query(STORAGE_KEY)
         if (!stations) {
             stations = initialStations.slice(0)
             _saveStationsToStorage()
+        }
+
+        if(name){
+            stations = stations.filter(station => station.name.toLowerCase().includes(name.toLowerCase()))
         }
 
         stations.forEach(station => {
@@ -447,8 +452,12 @@ async function updateTracks(tracks, stationId) {
         console.log('tracks b4 edit', tracks);
 
         const newTracks = tracks.slice(0)
-        const newStation = { ...station, tracks: station.tracks.slice(0) }
-        newTracks.forEach(track => delete track.isPlaying)
+        const newStation = JSON.parse(JSON.stringify(station));
+        newTracks.map(track => {
+            const newTrack = JSON.parse(JSON.stringify(track))
+            delete newTrack.isPlaying
+            return newTrack
+        })
 
         console.log('tracks after edit', tracks);
         newStation.tracks = newTracks
