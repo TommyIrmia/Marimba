@@ -24,6 +24,7 @@ const initialStations = [
         "_id": 'liked',
         "name": "Liked songs",
         "description": "All your liked songs are here",
+        "bgc": "#e24aa5",
         "tags": ["Liked"],
         "imgUrl": 'https://svg-clipart.com/svg/heart/mP6A3zM-white-line-heart-vector.svg',
         "createdAt": Date.now(),
@@ -39,6 +40,7 @@ const initialStations = [
         "_id": "s101",
         "name": "All Time Hits",
         "description": "Hits from all of the best era's of music!!!",
+        "bgc": "#a5cbad",
         "tags": [
             "All",
             "Hits"
@@ -142,6 +144,7 @@ const initialStations = [
         "_id": "s102",
         "name": "Ariana's HITS!",
         "description": "Ariana Grande's best songs!",
+        "bgc": "#8e2b23",
         "tags": [
             "All",
             "Hits",
@@ -260,6 +263,7 @@ const initialStations = [
         "_id": "s103",
         "name": "Best of Lizzo!",
         "description": "Lizzo's most fun tracks, good for hyping a party up!!!",
+        "bgc": "#c34914",
         "tags": [
             "All",
             "Hits",
@@ -381,7 +385,7 @@ async function query(name) {
             _saveStationsToStorage()
         }
 
-        if(name){
+        if (name) {
             stations = stations.filter(station => station.name.toLowerCase().includes(name.toLowerCase()))
         }
 
@@ -496,6 +500,7 @@ async function saveNewStation() {
     const id = utilService.makeId();
     let newStation = await asyncStorageService.get('newStation', 'new');
     newStation._id = id;
+    if (!newStation.bgc) newStation.bgc = "#545454"
     await asyncStorageService.post(STORAGE_KEY, newStation);
     return id;
 }
@@ -505,14 +510,18 @@ async function saveDataFromHero(stationId, data) {
 
     const tags = data.genre;
     station.tags.push(tags)
+    if (!data.bgc) data.bgc = "#545454"
 
     console.log('station from data', station);
     const updatedStation = {
         ...station,
         name: data.title,
         imgUrl: data.img,
-        description: data.desc
+        description: data.desc,
+        bgc: data.bgc
     }
+
+    console.log('Updated station', updatedStation);
     await asyncStorageService.put(STORAGE_KEY, updatedStation)
 }
 

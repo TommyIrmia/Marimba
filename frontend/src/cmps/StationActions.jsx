@@ -23,12 +23,12 @@ export class StationActions extends Component {
     }
 
     render() {
-        const { isSearch, onSearch, inputRef, onSetFilter, onPauseTrack, onPlayTrack, tracks } = this.props;
+        const { isSearch, onSearch, inputRef, onSetFilter, onPauseTrack, onPlayTrack, tracks, bgc } = this.props;
         const { isLiked } = this.state;
 
         return (
             <main className="actions-container">
-                <div className="linear-container">
+                <div className="linear-container" style={{ backgroundColor: bgc }}>
                     <section className="StationActions playlist-layout">
                         <div className="btns-actions flex">
 

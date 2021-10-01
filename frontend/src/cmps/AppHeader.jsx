@@ -1,7 +1,7 @@
 import React from 'react'
-import { sessionService } from './../services/session.service';
+import { connect } from 'react-redux'
 
-export class AppHeader extends React.Component {
+export class _AppHeader extends React.Component {
 
     state = {
         isOpen: false,
@@ -9,27 +9,40 @@ export class AppHeader extends React.Component {
 
     onOpenOptions = () => {
         const { isOpen } = this.state;
-        this.setState({ isOpen:!isOpen}) 
+        this.setState({ isOpen: !isOpen })
     }
+
     render() {
         const user = true;
-        const { isOpen} = this.state;
+        const { isOpen } = this.state;
+        const { bgc } = this.props
+        console.log('bgc from header', bgc);
         return (
-            <div className= "app-header">
-            <div onClick={this.onOpenOptions} className="user-container">
-                <div className="far fa-user-circle"></div>
-                <div className="user-name">user</div>
-                <div className={(isOpen) ? 'fas fa-sort-up' : 'fas fa-sort-down'}></div>
+            <div className="app-header" style={{ backgroundColor: bgc }} >
+                <div onClick={this.onOpenOptions} className="user-container">
+                    <div className="far fa-user-circle"></div>
+                    <div className="user-name">user</div>
+                    <div className={(isOpen) ? 'fas fa-sort-up' : 'fas fa-sort-down'}></div>
+                </div>
+                {isOpen && <ul className="options-container">
+                    {!user && <li className="clean-list user-options" >Log in</li>}
+                    {user && <>
+                        <li className="clean-list user-options" >Profile</li>
+                        <li className="clean-list user-options" >Settings</li>
+                        <li className="clean-list user-options" >Log out</li>
+                    </>}
+                </ul>}
             </div>
-           { isOpen && <ul className="options-container">
-                {!user && <li className="clean-list user-options" >Log in</li>}
-                {user && <>
-                    <li className="clean-list user-options" >Profile</li>
-                    <li className="clean-list user-options" >Settings</li>
-                    <li className="clean-list user-options" >Log out</li>
-                </>}
-            </ul>}
-        </div>
-    )
+        )
+    }
 }
+
+function mapStateToProps(state) {
+    return {
+        bgc: state.stationModule.bgc,
+    }
 }
+const mapDispatchToProps = {
+}
+
+export const AppHeader = connect(mapStateToProps, mapDispatchToProps)(_AppHeader)

@@ -2,7 +2,6 @@
   height: 60px;
   background-color: $bgc3;
   grid-row: 1;
-  transition: background-color 0.6s;
   position: relative;
 
   .user-container {
@@ -56,10 +55,11 @@
 
 html:not([data-scroll="0"]) {
   .app-header {
+    transition: background-color 0.6s;
     position: sticky;
     top: 0;
     z-index: 1;
-    background-color: #000;
+    background-color: $clr3 !important;
   }
   .user-container {
     background-color: #000;

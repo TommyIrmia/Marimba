@@ -8,22 +8,8 @@ export const utilService = {
 }
 // bgc 509bf5 4994ee 438ee8 3c87e1
 
-const bgc = '509bf5'
-const bgc7 = LightenDarkenColor(bgc, -70)
-const bgc13 = LightenDarkenColor(bgc, -130)
-const bgc20 = LightenDarkenColor(bgc, -200)
-
-console.log('bgc', bgc, bgc7, bgc13, bgc20)
-
-function LightenDarkenColor(col, amt) {
-    var num = parseInt(col, 16);
-    var r = (num >> 16) + amt;
-    var b = ((num >> 8) & 0x00FF) + amt;
-    var g = (num & 0x0000FF) + amt;
-    var newColor = g | (b << 8) | (r << 16);
-    return newColor.toString(16);
-}
-
+const bgcs = ["#a5cbad", "#8e2b23", "#c34914", "#b4b4b4", "#687e7e", "#eec1c9",
+    "#eec1c9", "#ad97c5", "#1bd57f", "#046fbc", "#779dc3", "#80433b", "#96eadc", "#e24aa5"]
 
 function randomNoRepeats(array) {
     var copy = array.slice(0);

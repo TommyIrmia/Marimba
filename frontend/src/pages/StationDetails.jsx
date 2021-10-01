@@ -4,8 +4,9 @@ import { DragDropContext } from 'react-beautiful-dnd'
 
 import { loadTracks, onAddTrack, onRemoveTrack, onUpdateTracks, onUpdateTrack } from '../store/tracks.actions.js'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
+import { setBgc } from '../store/station.actions.js'
 import { StationHero } from './../cmps/StationHero';
-import EditHero from './../cmps/EditHero';
+import {EditHero} from './../cmps/EditHero';
 import { StationActions } from './../cmps/StationActions';
 import { TrackSearch } from '../cmps/TrackSearch';
 import { TrackList } from './../cmps/TrackList';
@@ -32,17 +33,17 @@ class _StationDetails extends Component {
         if (stationId === 'new') {
             stationService.saveEmptyStation();
             isEditable = true;
+            this.props.setBgc('#545454')
         }
         this.setState({ ...this.state, isEditable: isEditable, id: stationId }, async () => {
             await this.loadTracks()
         })
-
+        if (stationId === 'liked') this.props.setBgc('#e24aa5')
     }
 
     componentWillUnmount() {
-        //load curr tracks to media player (ONLY IF ITS THE CURR PLAYING STATION) and then clear tracks from global store.
-        // if (this.props.stationId === this.state.id) this.props.loadTracksToPlayer(this.props.tracks, this.state.id)
         this.props.loadTracks()
+        this.props.setBgc('#181818')
     }
 
     loadTracks = async () => {
@@ -104,6 +105,7 @@ class _StationDetails extends Component {
             stationId = await stationService.saveNewStation();
             this.setState({ ...this.state, id: stationId });
         }
+
         await stationService.saveDataFromHero(stationId, data)
     }
 
@@ -137,14 +139,18 @@ class _StationDetails extends Component {
 
         const { tracks, currSongIdx } = this.props
         const { stationId } = this.props.match.params
+
         const newTracks = tracks.slice()
         const [track] = newTracks.splice(source.index, 1)
         newTracks.splice(destination.index, 0, track)
-        this.props.onUpdateTracks(newTracks, stationId) // todo : fix!!!!!!
-        const { video_id } = this.props.player.getVideoData()
-        let newCurrSongIdx = currSongIdx;
+
+        this.props.onUpdateTracks(newTracks, stationId)
         if (this.props.stationId !== stationId) return // if dragged songs not on the playing station
+
+        const { video_id } = this.props.player.getVideoData()
         if (video_id === newTracks[destination.index].id) this.props.setSongIdx(destination.index)
+
+        let newCurrSongIdx = currSongIdx;
         if ((destination.index < currSongIdx && source.index > currSongIdx) ||
             (destination.index > currSongIdx && source.index < currSongIdx)) {
             const diff = source.index > destination.index ? 1 : -1
@@ -155,12 +161,13 @@ class _StationDetails extends Component {
             newCurrSongIdx += 1
         }
         newCurrSongIdx !== currSongIdx && this.props.setSongIdx(newCurrSongIdx)
+
         this.props.loadTracksToPlayer(newTracks, stationId)
     }
 
     render() {
         const { isSearch, isPlaying, isEditable, isEditTitle } = this.state;
-        const { tracks } = this.props
+        const { tracks, bgc } = this.props
         const { stationId } = this.props.match.params
 
         if (!tracks) return <div> loading...</div>;
@@ -176,6 +183,7 @@ class _StationDetails extends Component {
                 <StationActions onSetFilter={this.onSetFilter} inputRef={this.inputRef}
                     onSearch={this.onSearch} isSearch={isSearch} isPlaying={isPlaying} tracks={tracks}
                     onPlayTrack={this.onPlayTrack} onPauseTrack={this.onPauseTrack}
+                    bgc={bgc}
                 />
 
 
@@ -197,8 +205,8 @@ function mapStateToProps(state) {
         stationId: state.mediaPlayerModule.stationId,
         isPlaying: state.mediaPlayerModule.isPlaying,
         currentTracks: state.mediaPlayerModule.currentTracks,
-        currSongIdx: state.mediaPlayerModule.currSongIdx
-
+        currSongIdx: state.mediaPlayerModule.currSongIdx,
+        bgc: state.stationModule.bgc
     }
 }
 const mapDispatchToProps = {
@@ -208,7 +216,8 @@ const mapDispatchToProps = {
     loadTracksToPlayer,
     setSongIdx,
     onUpdateTracks,
-    onUpdateTrack
+    onUpdateTrack,
+    setBgc
 }
 
 

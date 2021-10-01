@@ -17,8 +17,12 @@ export class StationList extends React.Component {
     loadStationsByGenre = async () => {
         try {
             const { search, genre } = this.props;
+<<<<<<< HEAD
             console.log('search in load station:', search);
             const stations = this.props.stations
+=======
+            const stations = (this.state.isGenrePage) ? await stationService.query(search) : this.props.stations
+>>>>>>> d66ac78ea571c7b6aa8a0293fc5e622ee11fdcb2
             if (!genre) {
                 this.setState({ stationsByGenre: stations })
                 return
@@ -33,7 +37,6 @@ export class StationList extends React.Component {
 
     render() {
         const { stationsByGenre, isGenrePage } = this.state
-        console.log('stations by genre', stationsByGenre);
         if (!stationsByGenre?.length) return <div>Loading...</div>
         return (
             <section className="station-list">

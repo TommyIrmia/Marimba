@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
+import { setBgc } from '../store/station.actions.js'
 import { stationService } from '../services/station.service.js'
 
 class _StationPreview extends React.Component {
@@ -32,9 +33,10 @@ class _StationPreview extends React.Component {
         const { station } = this.props
         return (
             <div className="station-preview"
-                onClick={() => this.props.history.push(`/station/${station._id}`)}
-            >
-
+                onClick={() => {
+                    this.props.setBgc(station.bgc)
+                    this.props.history.push(`/station/${station._id}`)
+                }}>
                 <div className="station-img">
                     <img src={station.imgUrl} alt="station" />
                     {!this.isStationPlaying() && <div onClick={(ev) => {
@@ -72,7 +74,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
     loadTracksToPlayer,
-    setSongIdx
+    setSongIdx,
+    setBgc
 }
 
 
