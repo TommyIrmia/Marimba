@@ -1,16 +1,16 @@
 import { stationService } from "../services/station.service.js"
 
 
-// export function loadStations(genre) {
-//     return async (dispatch) => {
-//         try {
-//             const stations = await 
-//             dispatch({
-//                 type: 'SET_STATIONS',
-//                 stations
-//             })
-//         } catch (err) {
-//             console.log('Can not load stations', err)
-//         }
-//     }
-// }
+export function setBgc(bgc) {
+    return async (dispatch) => {
+        try {
+            console.log('set bgc color to', bgc)
+            dispatch({
+                type: 'SET_BGC',
+                bgc
+            })
+        } catch (err) {
+            console.log('Can not load stations', err)
+        }
+    }
+}

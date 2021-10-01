@@ -1,146 +1,163 @@
 .edit-container {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 550px;
-    height: 380px;
-    background-color: rgb(40, 40, 40);
-    padding: 25px;
-    border-radius: rem(8px);
-    position: fixed;
-    z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 550px;
+  height: 380px;
+  background-color: rgb(40, 40, 40);
+  padding: 25px;
+  border-radius: rem(8px);
+  position: fixed;
+  z-index: 1;
 
-    .header-edit {
-        justify-content: space-between;
+  .header-edit {
+    justify-content: space-between;
 
-        button {
-            color: $clr8;
-            font-size: rem(18px);
+    button {
+      color: $clr8;
+      font-size: rem(18px);
 
-            &:hover {
-                color: $clr7;
-                background-color: $clr8;
-                border-radius: 50%;
-            }
-        }
+      &:hover {
+        color: $clr7;
+        background-color: $clr8;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  .EditDetails {
+    width: 450px;
+    margin-top: 40px;
+
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 13% 13%;
+    grid-template-areas:
+      "img input"
+      "img select"
+      "img textarea";
+    > * {
+      box-shadow: 0 0 4px #000000b5;
     }
 
-    .EditDetails {
-        width: 450px;
-        margin-top: 40px;
-
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 13% 13%;
-        grid-template-areas:
-            "img input"
-            "img select"
-            "img textarea";
-        > * {
-            box-shadow: 0 0 4px #000000b5;
-        }
-
-        input,
-        textarea,
-        .select-container,.options-container {
-            width: rem(240px);
-            background-color: rgb(62, 62, 62);
-            color: $clr7;
-            border-radius: rem(6px);
-        }
-        input {
-            height: rem(35px);
-            grid-area: input;
-        }
-
-        .select-container {
-            height: rem(35px);
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px;
-            position: relative;
-            grid-area: select;
-
-            &:hover {
-                cursor: pointer;
-            }
-
-            .options-container{
-                background-color: rgb(40, 40, 40);
-                position: absolute;
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 0;
-                text-indent: 20px;
-                margin: 0;
-                top: rem(40px);
-                left: 0;
-
-                .select-li{
-                    padding: 10px 0;
-                    width: 100%;
-        
-                    &:hover {
-                        cursor: pointer;
-                        background-color:rgba(255, 255, 255, 0.459);
-                    }
-                }
-            }
-        }
-
-        
-
-        textarea {
-            height: rem(120px);
-            resize: none;
-            grid-area: textarea;
-        }
-
-        .img-edit {
-            height: 220px;
-            width: 240px;
-            position: relative;
-            margin-inline-end: 25px;
-
-            img {
-                width: 100%;
-                height: inherit;
-                object-fit: cover;
-                object-position: center center;
-                box-shadow: 0 4px 60px rgb(0 0 0 / 50%);
-            }
-
-            .img-awesome {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-
-                flex-wrap: wrap;
-                justify-content: space-around;
-                gap: 10px;
-            }
-
-            .note {
-                font-size: rem(50px);
-            }
-
-            .pencil {
-                font-size: rem(30px);
-            }
-            p {
-                font-size: rem(13px);
-            }
-        }
+    input,
+    textarea,
+    .select-container,
+    .options-container {
+      width: rem(240px);
+      background-color: rgb(62, 62, 62);
+      color: $clr7;
+      border-radius: rem(6px);
+    }
+    input {
+      height: rem(35px);
+      grid-area: input;
     }
 
-    .btn-save {
-        background-color: $clr7;
+    .select-container {
+      height: rem(35px);
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px;
+      position: relative;
+      grid-area: select;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      .options-container {
+        background-color: rgb(40, 40, 40);
         position: absolute;
-        bottom: 25px;
-        right: 25px;
-        width: rem(75px);
-        height: rem(30px);
-        border-radius: rem(12px);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0;
+        text-indent: 20px;
+        margin: 0;
+        top: rem(40px);
+        left: 0;
+
+        .select-li {
+          padding: 10px 0;
+          width: 100%;
+
+          &:hover {
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.459);
+          }
+        }
+      }
     }
+
+    textarea {
+      height: rem(120px);
+      resize: none;
+      grid-area: textarea;
+    }
+
+    .img-edit {
+      height: 220px;
+      width: 240px;
+      position: relative;
+      margin-inline-end: 25px;
+      background-color: #404040;
+
+      img {
+        width: 100%;
+        height: inherit;
+        object-fit: cover;
+        object-position: center center;
+        box-shadow: 0 4px 60px rgb(0 0 0 / 50%);
+      }
+
+      .img-awesome {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 10px;
+      }
+
+      .note {
+        font-size: rem(50px);
+      }
+
+      .pencil {
+        font-size: rem(30px);
+      }
+      p {
+        font-size: rem(13px);
+      }
+    }
+  }
+
+  .btn-save {
+    background-color: $clr7;
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    width: rem(75px);
+    height: rem(30px);
+    border-radius: rem(12px);
+  }
+
+  .color-input {
+    gap: 5px;
+    position: absolute;
+    bottom: 30px;
+    left: 25px;
+    .color {
+      height: 20px;
+      width: 20px;
+      border-radius: 2px;
+      border: 1px whitesmoke solid;
+      cursor: pointer;
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
 }

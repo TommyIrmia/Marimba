@@ -1,80 +1,80 @@
 .hero-container {
   background-color: $bgc3;
   .linear-container {
-
     background: linear-gradient(transparent 0, rgba(0, 0, 0, 0.3) 100%);
   }
-  .StationHero {
-    height: rem(330px);
-    position: relative;
+}
+
+.StationHero {
+  height: rem(330px);
+  position: relative;
+
+  .logo {
+    width: 30px;
+    h1 {
+      font-size: rem(12px);
+    }
+  }
+
+  .img-container {
+    height: rem(250px);
+    width: rem(250px);
+    position: absolute;
+    bottom: rem(40px);
+    display: inline-block;
+    padding: rem(5px);
+
+    img {
+      width: inherit;
+      height: inherit;
+      object-fit: cover;
+      object-position: center center;
+      box-shadow: 0 4px 60px rgb(0 0 0 / 50%);
+    }
 
     .logo {
-      width: 30px;
       h1 {
-        font-size: rem(12px);
-      }
-    }
-
-    .img-container {
-      height: rem(250px);
-      width: rem(250px);
-      position: absolute;
-      bottom: rem(40px);
-      display: inline-block;
-      padding: rem(5px);
-
-      img {
-        width: inherit;
-        height: inherit;
-        object-fit: cover;
-        object-position: center center;
-        box-shadow: 0 4px 60px rgb(0 0 0 / 50%);
-      }
-
-      .logo {
-        h1 {
-          display: none;
-        }
+        display: none;
       }
     }
   }
+}
 
-  .info-container {
-    height: rem(182px);
-    position: absolute;
-    bottom: 28px;
-    left: 300px;
-    @media (max-width: 1230px) {
-      bottom: -5px;
-    }
-    h5 {
-      text-transform: uppercase;
-      letter-spacing: rem(-0.7px);
-    }
-
-    .hero-title {
-      text-indent: -6px;
-      font-size: rem(100px);
-      font-family: gotham-bold;
-      letter-spacing: rem(-5px);
-    }
-
-    p {
-      margin-bottom: rem(15px);
-    }
-
-    .station-maker {
-      margin-top: rem(20px);
-    }
-  }
-
+.info-container {
+  height: rem(182px);
+  position: absolute;
+  bottom: 28px;
+  left: 300px;
   @media (max-width: 1230px) {
-    .info-container {
-      .hero-title {
-        font-size: rem(70px);
-        font-family: gotham-bold;
-        letter-spacing: rem(-6.5px);
-      }
+    bottom: -5px;
+  }
+  h5 {
+    text-transform: uppercase;
+    letter-spacing: rem(-0.7px);
+  }
+
+  .hero-title {
+    text-indent: -6px;
+    font-size: rem(100px);
+    font-family: gotham-bold;
+    letter-spacing: rem(-5px);
+  }
+
+  p {
+    margin-bottom: rem(15px);
+  }
+
+  .station-maker {
+    margin-top: rem(20px);
+  }
+}
+
+@media (max-width: 1230px) {
+  .info-container {
+    .hero-title {
+      font-size: rem(70px);
+      font-family: gotham-bold;
+      letter-spacing: rem(-6.5px);
     }
   }
 }

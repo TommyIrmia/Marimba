@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import { uploadImg } from '../services/cloudinary.service';
 import { stationService } from './../services/station.service';
+import { ColorInput } from './ColorInput';
 
 
 export default class EditDetails extends Component {
@@ -11,7 +12,8 @@ export default class EditDetails extends Component {
         isSelect: false,
         genres: [],
         hero: {
-            genre:'Hits',
+            bgc: "#282828 ",
+            genre: 'Hits',
             img: this.props.hero.img,
             title: this.props.hero.title,
             desc: this.props.hero.desc,
@@ -24,7 +26,7 @@ export default class EditDetails extends Component {
 
     onGetGenres = async () => {
         let genres = await stationService.getGenres()
-       genres =  genres.filter(genre=>{
+        genres = genres.filter(genre => {
             return genre !== 'All'
         })
         this.setState({ genres })
@@ -50,21 +52,25 @@ export default class EditDetails extends Component {
     }
 
     onSelect = (genre) => {
-        this.setState((prevState) => ({...prevState,hero: { ...prevState.hero, genre } }))
-        this.setState({isSelect:false})
+        this.setState((prevState) => ({ ...prevState, hero: { ...prevState.hero, genre } }))
+        this.setState({ isSelect: false })
     }
 
     onToggleSelect = () => {
-        const {isSelect} = this.state;
+        const { isSelect } = this.state;
         this.setState({ isSelect: !isSelect })
     }
 
+    onChangeColor = (bgc) => {
+        this.setState((prevState) => ({ ...prevState, hero: { ...prevState.hero, bgc } }))
+    }
+
     render() {
-        const { isHover, hero, genres, isSelect} = this.state;
-        const { img, title, desc } = this.state.hero;
+        const { isHover, hero, genres, isSelect } = this.state;
+        const { img, title, desc, bgc } = this.state.hero;
         const { onEdit, onToggleEdit, saveDataFromHero } = this.props;
         return (
-            <main className="edit-container" >
+            <main className="edit-container" style={{ backgroundColor: bgc }}>
                 <div className="header-edit flex" >
                     <h3>Edit details</h3>
                     <button onClick={onToggleEdit} >X</button>
@@ -88,21 +94,22 @@ export default class EditDetails extends Component {
 
                     <input type="text" name="title" onChange={this.handleChange}
                         maxLength="14" placeholder={title} value={title} autoComplete="off" />
-                        
+
                     <div onClick={this.onToggleSelect} title="Select genre" className="select-container flex">
                         <div>{hero.genre}</div>
                         <div className={(isSelect) ? 'fas fa-sort-up' : 'fas fa-sort-down'}></div>
 
                         {isSelect && <ul className="options-container flex" >
-                        {genres.map((genre, idx) => (
-                            <li onClick={() => this.onSelect(genre)} className="clean-list select-li" key={idx}>{genre}</li>
-                        ))}
-                    </ul>}
+                            {genres.map((genre, idx) => (
+                                <li onClick={() => this.onSelect(genre)} className="clean-list select-li" key={idx}>{genre}</li>
+                            ))}
+                        </ul>}
                     </div>
 
                     <textarea placeholder="Add an optional description"
                         maxLength="60" name="desc" value={desc} onChange={this.handleChange} ></textarea>
                 </section>
+                <ColorInput onChangeColor={this.onChangeColor} />
                 <button onClick={() => {
                     onEdit(hero)
                     saveDataFromHero(hero)

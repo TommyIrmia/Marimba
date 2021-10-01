@@ -10,6 +10,10 @@ export class StationHero extends Component {
 
     componentDidMount() {
         this.loadStation()
+        this.loadBgc()
+    }
+
+    loadBgc = () => {
     }
 
     loadStation = async () => {
@@ -24,9 +28,8 @@ export class StationHero extends Component {
     render() {
         const { station } = this.state
         if (!station) return <div>Loading</div>
-        const bgc = "rgb(84, 84, 84)";
         return (
-            <main style={{ background: `linear-gradient(${bgc} 10%, darken(${bgc}, 7%) 50% ` }} className="hero-container">
+            <main style={{ backgroundColor: station.bgc }} className="hero-container">
                 <div className="linear-container">
                     <div className="StationHero playlist-layout">
 
