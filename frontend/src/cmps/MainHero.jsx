@@ -8,7 +8,7 @@ export class MainHero extends Component {
     }
 
  scrollFunction = () => {
-    if ( document.documentElement.scrollTop > 600) {
+    if ( document.documentElement.scrollTop > 400) {
         this.setState({ isStart: true },()=>{
             sessionService.save('initial',false)
         });
@@ -30,7 +30,7 @@ render() {
                         this.setState({ isStart: true },() => {
                             sessionService.save('initial',false)
                         })
-                    }} >start listening</button>
+                    }} >Start listening</button>
                 </div>
             </div>
         </section>
