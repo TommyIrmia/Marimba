@@ -7,6 +7,10 @@ import { stationService } from '../services/station.service.js'
 
 class _StationPreview extends React.Component {
 
+    state = {
+        isLiked: false,
+    }
+
     onPlayStation = async (ev) => {
         if (this.props.stationId === this.props.station._id) {
             this.props.player.playVideo()
@@ -28,9 +32,20 @@ class _StationPreview extends React.Component {
         } else return false
     }
 
+    onLikeStation = (ev) => {
+        ev.stopPropagation()
+        this.setState({ isLiked: true })
+    }
+
+    onUnlikeStation = (ev) => {
+        ev.stopPropagation()
+        this.setState({ isLiked: false })
+    }
+
 
     render() {
         const { station } = this.props
+        const { isLiked } = this.state
         return (
             <div className="station-preview"
                 onClick={() => {
@@ -56,7 +71,8 @@ class _StationPreview extends React.Component {
                     <p>{station.createdBy.fullname}</p>
                 </div>
                 <div className="station-like">
-                    <button className="far fa-heart "></button>
+                    {!isLiked && <button className="far fa-thumbs-up" onClick={this.onLikeStation}></button>}
+                    {isLiked && <button className="fas fa-thumbs-up green" onClick={this.onUnlikeStation}></button>}
                     <h2>{station.likedByUsers.length}</h2>
                 </div>
             </div>

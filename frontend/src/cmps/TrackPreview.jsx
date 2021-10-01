@@ -54,6 +54,11 @@ export class _TrackPreview extends Component {
         if (isLiked) this.setState({ isLiked })
     }
 
+    checkIsPlaying = () => {
+        if (this.props.stationId !== this.props.currStationId) return false
+        return this.props.track.isPlaying
+    }
+
     render() {
         const { isHover, isLiked } = this.state
         const { track, onRemoveTrack, idx } = this.props
@@ -73,12 +78,12 @@ export class _TrackPreview extends Component {
                         <section title={title} className="TrackPreview flex">
 
                             {!isHover && <div className="num-idx" >
-                                {!isPlaying ? (idx + 1) : <img src={equi} alt="playing gif" />}
+                                {!this.checkIsPlaying() ? (idx + 1) : <img src={equi} alt="playing gif" />}
                             </div>}
-                            {isHover && isPlaying && <button onClick={() => this.onPauseTrack(track.id)}
+                            {isHover && this.checkIsPlaying() && <button onClick={() => this.onPauseTrack(track.id)}
                                 className={"play-btn fas fa-pause"}>
                             </button>}
-                            {isHover && !isPlaying && <button onClick={() => this.onPlayTrack(idx)}
+                            {isHover && !this.checkIsPlaying() && <button onClick={() => this.onPlayTrack(idx)}
                                 className={"play-btn fas fa-play"}>
                             </button>}
 
@@ -86,7 +91,7 @@ export class _TrackPreview extends Component {
                                 <img src={track.imgUrl} alt="trackImg" />
                             </div>
 
-                            <div className={'track-title ' + (isPlaying ? 'green' : '')}> {title} </div>
+                            <div className={'track-title ' + (this.checkIsPlaying() ? 'green' : '')}> {title} </div>
                         </section>
 
                         <div className="track-date">{date}</div>
@@ -114,6 +119,7 @@ function mapStateToProps(state) {
     return {
         tracks: state.tracksModule.tracks,
         player: state.mediaPlayerModule.player,
+        currStationId: state.mediaPlayerModule.stationId
     }
 }
 

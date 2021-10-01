@@ -11,7 +11,7 @@ body {
 
 ::selection {
   background-color: $clr5;
-  color:$clr7;
+  color: $clr7;
 }
 
 h1,
@@ -39,25 +39,34 @@ a {
   }
 }
 
-
-.logo {
-  width: 50px;
-  display: flex;
-  align-items: center;
-  img {
-    filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(323deg)
-      brightness(107%) contrast(102%);
-    height: inherit;
-    width: inherit;
+.logo-container {
+  width: 100%;
+  flex-direction: column;
+  position: relative;
+  bottom: 7px;
+  .logo-img {
+    width: 80px;
+    img {
+      filter: invert(82%) sepia(76%) saturate(239%) hue-rotate(71deg)
+        brightness(99%) contrast(85%);
+      // filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg)
+      //   brightness(102%) contrast(102%);
+      height: inherit;
+      width: inherit;
+    }
   }
-
   h1 {
-    font-family: gotham;
+    // letter-spacing: 0.5px;
+    font-family: logo2;
     text-align: center;
     font-size: 1rem;
     position: relative;
-    color: #93ebb2;
-    position: relative;
-    top: 2px;
+    color: whitesmoke;
+    bottom: 15px;
+    span {
+      font-size: 1.7rem;
+      // color: #93ebb2;
+      color: $clr5;
+    }
   }
 }
