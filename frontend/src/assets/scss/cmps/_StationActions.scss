@@ -20,16 +20,19 @@
       align-items: center;
 
       .play-btn {
-        text-indent: 2px;
         color: $clr7;
         display: flex;
         justify-content: center;
         align-items: center;
         width: rem(50px);
         height: rem(50px);
+        line-height: 50px;
         border-radius: 50%;
         background-color: $clr5;
-        font-size: 1.5rem;
+        font-size: 1.1rem;
+        &.fa-play {
+          text-indent: 3px;
+        }
         &:hover {
           transform: scale(1.1);
         }

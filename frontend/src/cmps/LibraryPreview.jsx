@@ -1,15 +1,11 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
 import { setBgc } from '../store/station.actions.js'
 import { stationService } from '../services/station.service.js'
 
-class _StationPreview extends React.Component {
-
-    state = {
-        isLiked: false,
-    }
+ class _LibraryPreview extends Component {
 
     onPlayStation = async (ev) => {
         if (this.props.stationId === this.props.station._id) {
@@ -32,28 +28,18 @@ class _StationPreview extends React.Component {
         } else return false
     }
 
-    onLikeStation = (ev) => {
-        ev.stopPropagation()
-        this.setState({ isLiked: true })
-    }
-
-    onUnlikeStation = (ev) => {
-        ev.stopPropagation()
-        this.setState({ isLiked: false })
-    }
-
-
+   
     render() {
-        const { station } = this.props
-        const { isLiked } = this.state
+        const {likedStation} = this.props;
+        console.log('likedStation',likedStation);
         return (
             <div className="station-preview"
                 onClick={() => {
-                    this.props.setBgc(station.bgc)
-                    this.props.history.push(`/station/${station._id}`)
+                    this.props.setBgc(likedStation.bgc)
+                    this.props.history.push(`/station/${likedStation._id}`)
                 }}>
                 <div className="station-img">
-                    <img src={station.imgUrl} alt="station" />
+                    <img src={likedStation.imgUrl} alt="station" />
                     {!this.isStationPlaying() && <div onClick={(ev) => {
                         ev.stopPropagation()
                         this.onPlayStation()
@@ -67,13 +53,12 @@ class _StationPreview extends React.Component {
                 </div>
 
                 <div className="station-info">
-                    <h1>{station.name}</h1>
-                    <p>{station.createdBy.fullname}</p>
+                    <h1>{likedStation.name}</h1>
+                    <p>{likedStation.createdBy.fullname}</p>
                 </div>
                 <div className="station-like">
-                    {!isLiked && <button className="far fa-thumbs-up" onClick={this.onLikeStation}></button>}
-                    {isLiked && <button className="fas fa-thumbs-up green" onClick={this.onUnlikeStation}></button>}
-                    <h2>{station.likedByUsers.length}</h2>
+                    <button className="far fa-thumbs-up "></button>
+                    <h2>{likedStation.likedByUsers.length}</h2>
                 </div>
             </div>
         )
@@ -95,4 +80,4 @@ const mapDispatchToProps = {
 }
 
 
-export const StationPreview = connect(mapStateToProps, mapDispatchToProps)(withRouter(_StationPreview))
+export const LibraryPreview = connect(mapStateToProps, mapDispatchToProps)(withRouter(_LibraryPreview))

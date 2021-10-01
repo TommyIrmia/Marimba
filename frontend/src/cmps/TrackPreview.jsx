@@ -41,10 +41,15 @@ export class _TrackPreview extends Component {
     }
 
     onLike = () => {
-        const { isLiked } = this.state;
         const { track } = this.props;
-        this.setState({ isLiked: !isLiked })
         stationService.addTrackToStation(track, 'liked')
+        this.setState({ isLiked: true })
+    }
+
+    onUnLike = async () => {
+        const { track } = this.props;
+       await stationService.removeTrackFromStation(track.id, 'liked')
+        this.setState({ isLiked: false })
     }
 
     checkIsLiked = async () => {
@@ -54,12 +59,18 @@ export class _TrackPreview extends Component {
         if (isLiked) this.setState({ isLiked })
     }
 
+    checkIsPlaying = () => {
+        if (this.props.stationId !== this.props.currStationId) return false
+        return this.props.track.isPlaying
+    }
+
     render() {
         const { isHover, isLiked } = this.state
         const { track, onRemoveTrack, idx } = this.props
         const { isPlaying, title } = track
         const date = utilService.getTime(track.addedAt)
 
+        console.log('isLiked',isLiked);
         return (
             <Draggable draggableId={this.props.track.id} index={idx}>
                 {(provided) => (
@@ -73,12 +84,12 @@ export class _TrackPreview extends Component {
                         <section title={title} className="TrackPreview flex">
 
                             {!isHover && <div className="num-idx" >
-                                {!isPlaying ? (idx + 1) : <img src={equi} alt="playing gif" />}
+                                {!this.checkIsPlaying() ? (idx + 1) : <img src={equi} alt="playing gif" />}
                             </div>}
-                            {isHover && isPlaying && <button onClick={() => this.onPauseTrack(track.id)}
+                            {isHover && this.checkIsPlaying() && <button onClick={() => this.onPauseTrack(track.id)}
                                 className={"play-btn fas fa-pause"}>
                             </button>}
-                            {isHover && !isPlaying && <button onClick={() => this.onPlayTrack(idx)}
+                            {isHover && !this.checkIsPlaying() && <button onClick={() => this.onPlayTrack(idx)}
                                 className={"play-btn fas fa-play"}>
                             </button>}
 
@@ -86,13 +97,13 @@ export class _TrackPreview extends Component {
                                 <img src={track.imgUrl} alt="trackImg" />
                             </div>
 
-                            <div className={'track-title ' + (isPlaying ? 'green' : '')}> {title} </div>
+                            <div className={'track-title ' + (this.checkIsPlaying() ? 'green' : '')}> {title} </div>
                         </section>
-
+                    
                         <div className="track-date">{date}</div>
 
                         <div className="preview-actions flex" >
-                            <button onClick={this.onLike} className={` btn-like  ${(isHover ? "" : "btn-hidden")} 
+                            <button onClick={ (isLiked) ? this.onUnLike : this.onLike} className={` btn-like  ${(isHover ? "" : "btn-hidden")} 
                      ${(isLiked ? "fas fa-heart btn-liked" : "far fa-heart")}`}>
                             </button>
 
@@ -114,6 +125,7 @@ function mapStateToProps(state) {
     return {
         tracks: state.tracksModule.tracks,
         player: state.mediaPlayerModule.player,
+        currStationId: state.mediaPlayerModule.stationId
     }
 }
 

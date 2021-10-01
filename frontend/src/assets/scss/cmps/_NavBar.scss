@@ -9,9 +9,10 @@
   ul {
     margin-top: 2rem;
     border-bottom: 2px solid gray;
-
+    position: relative;
+    bottom: 40px;
     li {
-      font-family: gotham;
+      font-family: logo2;
       font-size: 0.9rem;
       color: inherit;
       background-color: inherit;

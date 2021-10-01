@@ -17,6 +17,7 @@ export class TrackDetails extends React.Component {
     }
 
     onLikeTrack = () => {
+        if(!this.props.player) return
         const { currTrack } = this.props
         const { isLiked } = this.state;
         this.setState({ isLiked: !isLiked })

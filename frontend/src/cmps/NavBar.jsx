@@ -25,7 +25,7 @@ export class NavBar extends Component {
                         </li>
                     </NavLink>
 
-                    <NavLink to="/" >
+                    <NavLink to="/library" activeClassName="chosen" >
                         <li>
                             <div className="symbol">||\</div>
                             <div className="text">My Library</div>
@@ -39,7 +39,7 @@ export class NavBar extends Component {
                         </li>
                     </NavLink>
 
-                    <NavLink  to="/station/liked" activeClassName="chosen">
+                    <NavLink to="/station/liked" activeClassName="chosen">
                         <li>
                             <div className="symbol fas fa-heart"></div>
                             <div className="text">Liked Songs</div>

@@ -30,6 +30,7 @@ export class _MediaPlayer extends Component {
         if (ev.data === 2) return // if on pause
         // this.setState({ songLength: ev.target.getDuration() })
         this.props.setPlayer(ev.target)
+        this.props.player.setVolume(this.state.volume)
         this.props.player.playVideo()
     }
 
@@ -86,11 +87,11 @@ export class _MediaPlayer extends Component {
         }
     }
 
-
     onChangeSong = (diff) => {
         const { isRepeat, isShuffle } = this.state
         const { tracks, currSongIdx, currentTracks, player, stationId } = this.props
 
+        if (!player) return
         let currIdx = tracks.findIndex(track => track.isPlaying) // find current playing IDX
         if (currIdx === -1) currIdx = currSongIdx // if not find, use the currSongIdx from store
 
@@ -132,25 +133,32 @@ export class _MediaPlayer extends Component {
             this.setState({ isMute: false })
         }
         const volume = ev.target.value
-        this.props.player.setVolume(volume)
         this.setState({ volume })
+        if (!this.props.player) return
+        this.props.player.setVolume(volume)
     }
 
     onDurationChange = (ev) => {
+        if (!this.props.player) return
         const duration = ev.target.value
         this.props.player.seekTo(duration)
         this.props.setCurrDuration(duration)
     }
 
     onToggleMute = () => {
-        if (this.state.isMute) {
+        const { player } = this.props
+        const { isMute } = this.state
+        if (isMute) {
             this.setState({ isMute: false }, () => {
-                this.props.player.unMute();
-                this.setState({ volume: this.props.player.getVolume() })
+                if (player) {
+                    player.unMute();
+                    this.setState({ volume: player.getVolume() })
+                } else this.setState({ volume: 70 })
+
             })
         } else {
             this.setState({ isMute: true }, () => {
-                this.props.player.mute()
+                if (player) player.mute()
                 this.setState({ volume: 0 })
             })
         }
@@ -178,7 +186,7 @@ export class _MediaPlayer extends Component {
 
     render() {
         const { isMute, songLength, volume, isRepeat, isShuffle, stationName } = this.state
-        const { currSongIdx, currDuration, isPlaying, currentTracks } = this.props
+        const { currSongIdx, currDuration, isPlaying, currentTracks, player } = this.props
         return (
             <div className="media-player">
                 {currentTracks?.length ? <YouTube
@@ -200,7 +208,8 @@ export class _MediaPlayer extends Component {
                     onStateChange={(ev) => this.onStateChange(ev)}      // defaults -> noop
                 /> : ''}
 
-                <TrackDetails imgSrc={imgSrc} currTrack={currentTracks[currSongIdx]} stationName={stationName} />
+                <TrackDetails imgSrc={imgSrc} currTrack={currentTracks[currSongIdx]}
+                    stationName={stationName} player={player} />
 
                 <PlayerActions onChangeSong={this.onChangeSong} currSongIdx={currSongIdx}
                     isPlaying={isPlaying} songLength={songLength} currDuration={currDuration}

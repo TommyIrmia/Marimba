@@ -44,7 +44,7 @@ export class StationActions extends Component {
                                 className="play-btn fas fa-pause">
                             </button>}
 
-                            <button onClick={this.onLike} className={"btn-action " + (isLiked ? "fas fa-heart btn-liked" : "far fa-heart")}></button>
+                            <button onClick={this.onLike} className={"btn-action " + (isLiked ? "fas fa-thumbs-up btn-liked" : "far fa-thumbs-up")}></button>
 
                             <button className="far fa-arrow-alt-circle-down btn-action"></button>
                             <button className="fas fa-ellpsis-h btn-action"></button>
