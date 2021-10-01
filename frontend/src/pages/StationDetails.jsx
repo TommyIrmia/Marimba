@@ -135,20 +135,26 @@ class _StationDetails extends Component {
         if (destination.droppableId === source.droppableId &&
             destination.index === source.index) return // if stayed in the same position
 
-        const { tracks } = this.props
+        const { tracks, currSongIdx } = this.props
         const { stationId } = this.props.match.params
-        const newTracks = tracks.slice(0)
-        newTracks.splice(source.index, 1)
-        newTracks.splice(destination.index, 0, tracks.find(track => track.id === draggableId))
-
+        const newTracks = tracks.slice()
+        const [track] = newTracks.splice(source.index, 1)
+        newTracks.splice(destination.index, 0, track)
         this.props.onUpdateTracks(newTracks, stationId) // todo : fix!!!!!!
-        const destinationTrack = newTracks[destination.index]
-        console.log('destination track id', destinationTrack.id);
         const { video_id } = this.props.player.getVideoData()
-        console.log('current playing id', video_id);
-
+        let newCurrSongIdx = currSongIdx;
         if (this.props.stationId !== stationId) return // if dragged songs not on the playing station
         if (video_id === newTracks[destination.index].id) this.props.setSongIdx(destination.index)
+        if ((destination.index < currSongIdx && source.index > currSongIdx) ||
+            (destination.index > currSongIdx && source.index < currSongIdx)) {
+            const diff = source.index > destination.index ? 1 : -1
+            newCurrSongIdx += diff
+        } if (destination.index === currSongIdx && source.index < currSongIdx) {
+            newCurrSongIdx -= 1
+        } if (destination.index === currSongIdx && source.index > currSongIdx) {
+            newCurrSongIdx += 1
+        }
+        newCurrSongIdx !== currSongIdx && this.props.setSongIdx(newCurrSongIdx)
         this.props.loadTracksToPlayer(newTracks, stationId)
     }
 
@@ -190,7 +196,9 @@ function mapStateToProps(state) {
         tracks: state.tracksModule.tracks,
         stationId: state.mediaPlayerModule.stationId,
         isPlaying: state.mediaPlayerModule.isPlaying,
-        currentTracks: state.mediaPlayerModule.currentTracks
+        currentTracks: state.mediaPlayerModule.currentTracks,
+        currSongIdx: state.mediaPlayerModule.currSongIdx
+
     }
 }
 const mapDispatchToProps = {

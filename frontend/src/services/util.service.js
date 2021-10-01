@@ -6,6 +6,24 @@ export const utilService = {
     randomNoRepeats,
     pickRandomColor
 }
+// bgc 509bf5 4994ee 438ee8 3c87e1
+
+const bgc = '509bf5'
+const bgc7 = LightenDarkenColor(bgc, -70)
+const bgc13 = LightenDarkenColor(bgc, -130)
+const bgc20 = LightenDarkenColor(bgc, -200)
+
+console.log('bgc', bgc, bgc7, bgc13, bgc20)
+
+function LightenDarkenColor(col, amt) {
+    var num = parseInt(col, 16);
+    var r = (num >> 16) + amt;
+    var b = ((num >> 8) & 0x00FF) + amt;
+    var g = (num & 0x0000FF) + amt;
+    var newColor = g | (b << 8) | (r << 16);
+    return newColor.toString(16);
+}
+
 
 function randomNoRepeats(array) {
     var copy = array.slice(0);
@@ -45,9 +63,9 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
 }
 
-function pickRandomColor(){
-    const colors = ['#27856a','#8d67ab', '#e8115b', '#1e3264', '#477d95','#af2896','#503750','#6BC6EE','#148a08','#ba5d07','#ffc864','#e13300','#509bf5','#907255','#f59b23'];
- 
+function pickRandomColor() {
+    const colors = ['#27856a', '#8d67ab', '#e8115b', '#1e3264', '#477d95', '#af2896', '#503750', '#6BC6EE', '#148a08', '#ba5d07', '#ffc864', '#e13300', '#509bf5', '#907255', '#f59b23'];
+
     const color = colors[Math.floor(Math.random() * colors.length)];
     return color;
 }
