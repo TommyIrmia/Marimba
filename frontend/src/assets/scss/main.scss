@@ -17,7 +17,8 @@
 @import "pages/LoginSignup.scss";
 @import "pages/StationDetails.scss";
 @import "pages/UserProfile.scss";
-@import "pages/SearchPage.scss";
+@import "pages/LibraryPage.scss";
+@import "pages/GenrePage.scss";
 
 // CMPS
 @import "cmps/AppFilter.scss";
@@ -38,3 +39,5 @@
 @import "cmps/SeacrchPageFilter";
 @import "cmps/GenrePreview";
 @import "cmps/MainHero";
+@import "cmps/LibraryList";
+@import "cmps/SimpleStationList";

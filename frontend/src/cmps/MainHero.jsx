@@ -8,19 +8,9 @@ export class MainHero extends Component {
         isStart: false,
     }
 
-    scrollFunction = () => {
-        if (document.documentElement.scrollTop > 400) {
-            this.setState({ isStart: true }, () => {
-                sessionService.save('initial', false)
-            });
-        }
-    }
-
     render() {
-        window.onscroll = this.scrollFunction
-
-
         const { isStart } = this.state;
+        const {noScroll} = this.props;
         return (
             <section className="MainHero">
                 <div className={`img-container flex ${(isStart) ? 'hero-gone' : ''}`} >
@@ -31,6 +21,7 @@ export class MainHero extends Component {
                         <button onClick={() => {
                             this.setState({ isStart: true }, () => {
                                 sessionService.save('initial', false)
+                                window.removeEventListener('scroll', noScroll);
                             })
                         }} >Start listening</button>
                     </div>

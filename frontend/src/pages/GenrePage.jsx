@@ -1,25 +1,34 @@
 import React, { Component } from 'react'
-import { StationList } from '../cmps/StationList.jsx'
+import { SimpleStationList } from '../cmps/SimpleStationList.jsx'
 import { stationService } from '../services/station.service.js'
 
 export class GenrePage extends Component {
 
     state = {
-        genre: ''
+        genre: '',
+        stations: []
     }
 
     componentDidMount() {
-        const  genre  = this.props.match.params.id
+        const genre = this.props.match.params.id
         console.log('genre from params:', genre);
-        this.setState({ genre: genre })
+        this.setState({ ...this.state, genre: genre }, this.loadStations)
+    }
+
+    loadStations = async () => {
+        const stations = await stationService.query();
+        const stationsByGenre = await stationService.getStationsByGenre(stations, this.state.genre)
+        this.setState({ ...this.state, stations: stationsByGenre })
     }
 
 
     render() {
-        const { genre } = this.state
+        const { genre, stations } = this.state
+        if (stations.length === 0) return <div>Loading stations...</div>
         return (
-            <section className="genre-page">
-                 <StationList genre={genre} key={genre} isGenrePage={true} />
+            <section className="GenrePage">
+                <h1>{genre}</h1>
+                <SimpleStationList stations={stations} />
             </section>
         )
     }
