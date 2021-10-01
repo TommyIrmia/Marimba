@@ -400,6 +400,8 @@ async function query(name) {
 }
 
 async function getStationsByGenre(stations, genre) {
+    console.log('stations in get stations by genre', stations);
+    if(!stations) return
     const filteredStations = stations.filter(station => station.tags.includes(genre))
     return filteredStations
 }

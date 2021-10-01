@@ -6,20 +6,23 @@ import { StationPreview } from './StationPreview.jsx'
 export class StationList extends React.Component {
 
     state = {
-        isGenrePage: false,
         stationsByGenre: []
     }
 
     componentDidMount() {
-        const { isGenrePage } = this.props;
-        this.setState({ ...this.state, isGenrePage: isGenrePage }, this.loadStationsByGenre)
+        this.loadStationsByGenre();
     }
 
 
     loadStationsByGenre = async () => {
         try {
             const { search, genre } = this.props;
+<<<<<<< HEAD
+            console.log('search in load station:', search);
+            const stations = this.props.stations
+=======
             const stations = (this.state.isGenrePage) ? await stationService.query(search) : this.props.stations
+>>>>>>> d66ac78ea571c7b6aa8a0293fc5e622ee11fdcb2
             if (!genre) {
                 this.setState({ stationsByGenre: stations })
                 return
@@ -37,23 +40,13 @@ export class StationList extends React.Component {
         if (!stationsByGenre?.length) return <div>Loading...</div>
         return (
             <section className="station-list">
-                {!isGenrePage && <div className="station-genre flex space-between">
+                 <div className="station-genre flex space-between">
                     <Link to="/"><h1>{this.props.genre}</h1></Link>
                     <Link to="/"><p>See all</p></Link>
-                </div>}
-                {isGenrePage && <section className="genre-titles">
-                    <h1 className="genre-title">{this.props.genre}</h1>
-                </section>}
-                {!isGenrePage && <div className="stations grid">
+                </div>
+                 <div className="stations grid">
                     {stationsByGenre.map(station => <StationPreview key={station._id} station={station} />)}
-                </div>}
-                {isGenrePage && <section className="stations-previews-container">
-                    <h1>All playlists</h1>
-                    <div className="stations-genre grid">
-                        {stationsByGenre.map(station => <StationPreview key={station._id} station={station} />)}
-                    </div>
-                </section>
-                }
+                </div> 
             </section>
         )
     }
