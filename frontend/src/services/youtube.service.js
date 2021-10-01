@@ -12,8 +12,8 @@ export const youtubeService = {
     debounce
 }
 
-async function query(name = 'Pop') {
-    if (!name) return
+async function query(name = 'pop') {
+    if (!name || name === '') return
     const key = `${KEY}${name}`
     const search = `${name} music`
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${API}&q=${search}&maxResults=50`
@@ -27,6 +27,7 @@ async function query(name = 'Pop') {
     try {
         const { data } = await axios.get(url)
         tracks = getTracks(data.items)
+        console.log('tracks from axios', tracks);
         const duration = await getDuration(tracks)
         const updatedTracks = tracks.map((item, i) => Object.assign({}, item, duration[i]));
         const filteredTracks = updatedTracks.filter(track => track.duration)

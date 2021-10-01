@@ -7,9 +7,8 @@ export class SearchPageFilter extends Component {
     }
 
     handleChange = (ev) => {
-        const field = ev.target.name;
         const value = ev.target.value;
-        this.setState({title: value})
+        this.setState({title: value}, this.props.onSetFilter(value))
         console.log('title on filter',this.state.title);
     }
 
