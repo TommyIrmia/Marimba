@@ -1,10 +1,8 @@
 .actions-container {
-  background: linear-gradient(
-    darken($bgc3, 25%) 0%,
-    darken($bgc3, 30%) 10%,
-    darken($bgc3, 35%) 50%,
-    darken($bgc3, 60%) 90%
-  );
+  background-color: $bgc3;
+  .linear-container {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.45) 0, #121212 100%);
+  }
 
   margin-bottom: 20px;
 
@@ -22,6 +20,7 @@
       align-items: center;
 
       .play-btn {
+        text-indent: 2px;
         color: $clr7;
         display: flex;
         justify-content: center;

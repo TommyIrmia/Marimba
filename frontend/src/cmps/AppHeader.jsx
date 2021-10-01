@@ -1,4 +1,5 @@
 import React from 'react'
+import { sessionService } from './../services/session.service';
 
 export class AppHeader extends React.Component {
 
@@ -12,9 +13,9 @@ export class AppHeader extends React.Component {
     }
     render() {
         const user = true;
-        const { isOpen } = this.state;
+        const { isOpen} = this.state;
         return (
-            <div className="app-header">
+            <div className= "app-header">
             <div onClick={this.onOpenOptions} className="user-container">
                 <div className="far fa-user-circle"></div>
                 <div className="user-name">user</div>
