@@ -41,10 +41,15 @@ export class _TrackPreview extends Component {
     }
 
     onLike = () => {
-        const { isLiked } = this.state;
         const { track } = this.props;
-        this.setState({ isLiked: !isLiked })
         stationService.addTrackToStation(track, 'liked')
+        this.setState({ isLiked: true })
+    }
+
+    onUnLike = async () => {
+        const { track } = this.props;
+       await stationService.removeTrackFromStation(track.id, 'liked')
+        this.setState({ isLiked: false })
     }
 
     checkIsLiked = async () => {
@@ -60,6 +65,7 @@ export class _TrackPreview extends Component {
         const { isPlaying, title } = track
         const date = utilService.getTime(track.addedAt)
 
+        console.log('isLiked',isLiked);
         return (
             <Draggable draggableId={this.props.track.id} index={idx}>
                 {(provided) => (
@@ -88,11 +94,11 @@ export class _TrackPreview extends Component {
 
                             <div className={'track-title ' + (isPlaying ? 'green' : '')}> {title} </div>
                         </section>
-
+                    
                         <div className="track-date">{date}</div>
 
                         <div className="preview-actions flex" >
-                            <button onClick={this.onLike} className={` btn-like  ${(isHover ? "" : "btn-hidden")} 
+                            <button onClick={ (isLiked) ? this.onUnLike : this.onLike} className={` btn-like  ${(isHover ? "" : "btn-hidden")} 
                      ${(isLiked ? "fas fa-heart btn-liked" : "far fa-heart")}`}>
                             </button>
 

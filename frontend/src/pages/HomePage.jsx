@@ -9,13 +9,16 @@ export class HomePage extends Component {
     state = {
         genres: [],
         stations: [],
-        initialEntry:sessionService.load('initial'),
+        initialEntry: sessionService.load('initial'),
     }
-
 
     componentDidMount() {
         this.loadGenres()
         this.loadStations()
+    }
+
+    noScroll = () => {
+        window.scrollTo(0, 0);
     }
 
     loadStations = async () => {
@@ -32,14 +35,17 @@ export class HomePage extends Component {
         }
     }
     render() {
-        const { genres, stations,initialEntry } = this.state
+        const { genres, stations, initialEntry } = this.state
+
+        if (initialEntry) window.addEventListener('scroll', this.noScroll);
+        
         if (!stations.length) return <div>Loading..</div>
         return (
             <main>
-                { initialEntry && <MainHero/>}
-            <section className="home-page">
-                {genres.map(genre => <StationList genre={genre} key={genre} stations={stations} />)}
-            </section>
+                {initialEntry && <MainHero noScroll={this.noScroll} />}
+                <section className="home-page">
+                    {genres.map(genre => <StationList genre={genre} key={genre} stations={stations} />)}
+                </section>
             </main>
         )
     }
