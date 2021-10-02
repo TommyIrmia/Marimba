@@ -63,6 +63,7 @@ export class _TrackPreview extends Component {
 
     checkIsPlaying = () => {
         if (this.props.stationId !== this.props.currStationId) return false
+        if (!this.props.isPlaying) return false
         return this.props.track.isPlaying
     }
 
@@ -126,7 +127,8 @@ function mapStateToProps(state) {
     return {
         tracks: state.tracksModule.tracks,
         player: state.mediaPlayerModule.player,
-        currStationId: state.mediaPlayerModule.stationId
+        currStationId: state.mediaPlayerModule.stationId,
+        isPlaying: state.mediaPlayerModule.isPlaying
     }
 }
 

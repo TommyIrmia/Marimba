@@ -15,6 +15,7 @@ export class HomePage extends Component {
     componentDidMount() {
         this.loadGenres()
         this.loadStations()
+        console.log(this.state.initialEntry);
     }
 
     noScroll = () => {
@@ -37,12 +38,12 @@ export class HomePage extends Component {
     render() {
         const { genres, stations, initialEntry } = this.state
 
-        if (initialEntry) window.addEventListener('scroll', this.noScroll);
-        
+        if (initialEntry && initialEntry !== 'false') window.addEventListener('scroll', this.noScroll);
+
         if (!stations.length) return <div>Loading..</div>
         return (
             <main>
-                {initialEntry && <MainHero noScroll={this.noScroll} />}
+                {initialEntry !== 'false' && <MainHero noScroll={this.noScroll} />}
                 <section className="home-page">
                     {genres.map(genre => <StationList genre={genre} key={genre} stations={stations} />)}
                 </section>

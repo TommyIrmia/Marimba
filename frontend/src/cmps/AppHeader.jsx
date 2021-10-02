@@ -15,10 +15,13 @@ export class _AppHeader extends React.Component {
     render() {
         const user = true;
         const { isOpen } = this.state;
-        const { bgc } = this.props
-        console.log('bgc from header', bgc);
+        const { bgc, stationName } = this.props
         return (
             <div className="app-header" style={{ backgroundColor: bgc }} >
+
+                <h1>{stationName}</h1>
+
+
                 <div onClick={this.onOpenOptions} className="user-container">
                     <div className="far fa-user-circle"></div>
                     <div className="user-name">user</div>
@@ -40,6 +43,7 @@ export class _AppHeader extends React.Component {
 function mapStateToProps(state) {
     return {
         bgc: state.stationModule.bgc,
+        stationName: state.stationModule.stationName
     }
 }
 const mapDispatchToProps = {

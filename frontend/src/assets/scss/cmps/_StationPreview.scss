@@ -8,6 +8,7 @@
   padding: 20px;
   transition: background-color 0.3s ease;
   font-family: gotham-bold;
+
   &:hover {
     cursor: pointer;
   }
@@ -73,7 +74,7 @@
       // width: 30px;
       // position: relative;
       // top: 5px;
-      font-size: rem(12px);
+      font-size: rem(10px);
       text-align: center;
       font-family: gotham-light;
       color: $clr2;
@@ -85,13 +86,16 @@
     top: -15px;
     font-size: 1rem;
     h1 {
+      letter-spacing: 0.5px;
       font-size: 1rem;
       margin-bottom: 10px;
     }
     p {
+      position: relative;
+      bottom: 5px;
       font-family: gotham;
       color: $clr2;
-      font-size: rem(12px);
+      font-size: rem(13px);
     }
   }
 }
