@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { onUpdateTrack } from '../store/tracks.actions.js'
+import { onUpdateTrack,onRemoveTrack } from '../store/tracks.actions.js'
 import { setPlayer, setSongIdx, onTogglePlay, setCurrDuration, loadTracksToPlayer } from '../store/mediaplayer.actions.js'
 import YouTube from 'react-youtube';
 import imgSrc from '../assets/imgs/logo3.png';
@@ -20,7 +20,7 @@ export class _MediaPlayer extends Component {
         initialPlay: false,
         isRepeat: false,
         isShuffle: false,
-        stationName: '',
+        station: {},
     }
 
     timerIntervalId;
@@ -41,7 +41,7 @@ export class _MediaPlayer extends Component {
     onStateChange = (ev) => {
         const songLength = ev.target.getDuration()
         this.setState({ songLength })
-        this.getStationName()
+        this.getStation()
 
         if (ev.data === 5) ev.target.playVideo()
 
@@ -176,17 +176,18 @@ export class _MediaPlayer extends Component {
         })
     }
 
-    getStationName = async () => {
+    getStation = async () => {
         const { stationId } = this.props
         if (!stationId) return
         const station = await stationService.getById(stationId)
         if (!station) return
-        this.setState({ stationName: station.name })
+        this.setState({ station })
     }
 
+
     render() {
-        const { isMute, songLength, volume, isRepeat, isShuffle, stationName } = this.state
-        const { currSongIdx, currDuration, isPlaying, currentTracks, player } = this.props
+        const { isMute, songLength, volume, isRepeat, isShuffle,station } = this.state
+        const { currSongIdx, currDuration, isPlaying, currentTracks, player,onRemoveTrack } = this.props
         return (
             <div className="media-player">
                 {currentTracks?.length ? <YouTube
@@ -208,8 +209,8 @@ export class _MediaPlayer extends Component {
                     onStateChange={(ev) => this.onStateChange(ev)}      // defaults -> noop
                 /> : ''}
 
-                <TrackDetails imgSrc={imgSrc} currTrack={currentTracks[currSongIdx]}
-                    stationName={stationName} player={player} />
+                <TrackDetails  onRemoveTrack={onRemoveTrack} imgSrc={imgSrc} currTrack={currentTracks[currSongIdx]}
+                    station={station} player={player} />
 
                 <PlayerActions onChangeSong={this.onChangeSong} currSongIdx={currSongIdx}
                     isPlaying={isPlaying} songLength={songLength} currDuration={currDuration}
@@ -243,7 +244,8 @@ const mapDispatchToProps = {
     setSongIdx,
     onTogglePlay,
     setCurrDuration,
-    loadTracksToPlayer
+    loadTracksToPlayer,
+    onRemoveTrack
 }
 
 
