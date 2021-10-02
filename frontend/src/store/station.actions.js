@@ -1,5 +1,3 @@
-
-
 export function setBgcAndName(bgc, stationName) {
     return async (dispatch) => {
         try {

@@ -15,7 +15,6 @@ export class HomePage extends Component {
     componentDidMount() {
         this.loadGenres()
         this.loadStations()
-        console.log(this.state.initialEntry);
     }
 
     noScroll = () => {
@@ -23,8 +22,12 @@ export class HomePage extends Component {
     }
 
     loadStations = async () => {
-        const stations = await stationService.query()
-        this.setState({ stations })
+        try {
+            const stations = await stationService.query()
+            this.setState({ stations })
+        } catch (err) {
+            console.log('From home page, can not get stations', err)
+        }
     }
 
     loadGenres = async () => {

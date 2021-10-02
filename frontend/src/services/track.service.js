@@ -15,6 +15,7 @@ export const trackService = {
 
 async function query(stationId, filterBy) {
     if (!filterBy) {
+        console.log('from track service', stationId);
         if (stationId === 'new') return []
         else {
             const station = await stationService.getById(stationId);

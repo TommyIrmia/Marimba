@@ -20,22 +20,22 @@ class _StationDetails extends Component {
         isSearch: false,
         isPlaying: false,
         isEditable: false,
-        isEditTitle: false,
+        isEditModalOpen: false,
         isLikedStation: false,
-        id: ''
+        stationId: ''
     }
 
     inputRef = React.createRef()
 
-    componentDidMount() {
-        let isEditable = false;
+    async componentDidMount() {
         let { stationId } = this.props.match.params
+        let isEditable = false;
         if (stationId === 'new') {
-            stationService.saveEmptyStation();
+            await stationService.saveEmptyStation();
             isEditable = true;
             this.props.setBgcAndName('#545454', 'New Playlist')
         }
-        this.setState({ ...this.state, isEditable: isEditable, id: stationId }, async () => {
+        this.setState({ ...this.state, isEditable, stationId }, async () => {
             await this.loadTracks()
         })
         if (stationId === 'liked') this.props.setBgcAndName('#e24aa5', 'Liked Songs')
@@ -48,7 +48,7 @@ class _StationDetails extends Component {
 
     loadTracks = async () => {
         try {
-            await this.props.loadTracks(this.state.id)
+            await this.props.loadTracks(this.state.stationId)
         } catch (err) {
             throw err
         }
@@ -64,17 +64,13 @@ class _StationDetails extends Component {
     }
 
     onAddTrack = async (track) => {
-        let stationId = this.state.id
-        if (stationId === 'new') {
-            stationId = await stationService.saveNewStation();
-            
-            this.setState({ ...this.state, id: stationId });
-        }
         try {
-            const newTrack = { ...track }
-            console.log("got track to on add track:", newTrack);
-            newTrack.addedAt = Date.now()
-            await this.props.onAddTrack(newTrack, stationId);
+            let { stationId } = this.state
+            if (stationId === 'new') {
+                stationId = await stationService.saveNewStation();
+                this.setState({ ...this.state, stationId });
+            }
+            await this.props.onAddTrack(track, stationId);
             if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         } catch (err) {
             throw err
@@ -83,7 +79,7 @@ class _StationDetails extends Component {
 
     onRemoveTrack = async (trackId) => {
         try {
-            const { stationId } = this.props.match.params
+            const { stationId } = this.state
             await this.props.onRemoveTrack(trackId, stationId)
             if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         } catch (err) {
@@ -92,7 +88,7 @@ class _StationDetails extends Component {
     }
 
     onSetFilter = async (filterBy) => {
-        const { stationId } = this.props.match.params
+        const { stationId } = this.state
         await this.props.loadTracks(stationId, filterBy)
         if (filterBy.sort !== 'Custom order') { // if reSorted - replay from index 0!
             await this.props.setSongIdx(0)
@@ -101,16 +97,16 @@ class _StationDetails extends Component {
     }
 
     saveDataFromHero = async (data) => {
-        let stationId = this.state.id
+        let { stationId } = this.state
         if (stationId === 'new') {
             stationId = await stationService.saveNewStation();
-            this.setState({ ...this.state, id: stationId });
+            this.setState({ ...this.state, stationId });
         }
         await stationService.saveDataFromHero(stationId, data)
     }
 
     onPlayTrack = async () => {
-        const { stationId } = this.props.match.params
+        const { stationId } = this.state
         if (this.props.stationId === stationId) { // if is on current playing station - play video!
             this.props.player.playVideo()
         } else { // else reload the station shown and play from index 0.
@@ -124,13 +120,12 @@ class _StationDetails extends Component {
     }
 
     onToggleEdit = () => {
-        const { isEditTitle } = this.state
-        this.setState({ isEditTitle: !isEditTitle })
+        const { isEditModalOpen } = this.state
+        this.setState({ isEditModalOpen: !isEditModalOpen })
     }
 
     onDragEnd = (result) => {
-        // console.log(result)
-        const { destination, source, draggableId } = result;
+        const { destination, source } = result;
 
         if (!destination) return // if dragged out of draggable
 
@@ -166,7 +161,7 @@ class _StationDetails extends Component {
     }
 
     render() {
-        const { isSearch, isPlaying, isEditable, isEditTitle } = this.state;
+        const { isSearch, isPlaying, isEditable, isEditModalOpen } = this.state;
         const { tracks, bgc } = this.props
         const { stationId } = this.props.match.params
 
@@ -174,14 +169,16 @@ class _StationDetails extends Component {
         return (
             <main className="StationDetails">
                 <div onClick={this.onCloseSearch} className={(isSearch ? "screen" : "")}></div>
-                <div onClick={this.onToggleEdit} className={(isEditTitle ? "dark screen" : "")}></div>
+                <div onClick={this.onToggleEdit} className={(isEditModalOpen ? "dark screen" : "")}></div>
 
                 {!isEditable && <StationHero stationId={stationId} />}
 
-                {isEditable && <EditHero isEditTitle={isEditTitle} onToggleEdit={this.onToggleEdit} saveDataFromHero={this.saveDataFromHero} />}
+                {isEditable && <EditHero isEditModalOpen={isEditModalOpen} onToggleEdit={this.onToggleEdit}
+                    saveDataFromHero={this.saveDataFromHero} />}
 
                 <StationActions onSetFilter={this.onSetFilter} inputRef={this.inputRef}
-                    onSearch={this.onSearch} isSearch={isSearch} isPlaying={isPlaying} isPlayerPlaying={this.props.isPlaying}
+                    onSearch={this.onSearch} isSearch={isSearch} isPlaying={isPlaying}
+                    isPlayerPlaying={this.props.isPlaying}
                     tracks={tracks} onPlayTrack={this.onPlayTrack}
                     onPauseTrack={this.onPauseTrack} bgc={bgc}
                 />

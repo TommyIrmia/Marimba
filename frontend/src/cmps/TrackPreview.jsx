@@ -21,9 +21,8 @@ export class _TrackPreview extends Component {
             if (video_id === track.id) {
                 track.isPlaying = true
                 this.props.onUpdateTrack(track)
-            } //TODO : ADD ELSE - track.isPlaying - false
+            }
         }
-
         this.checkIsLiked()
     }
 
@@ -70,7 +69,7 @@ export class _TrackPreview extends Component {
     render() {
         const { isHover, isLiked } = this.state
         const { track, onRemoveTrack, idx } = this.props
-        const { isPlaying, title } = track
+        const { title } = track
         const date = utilService.getTime(track.addedAt)
 
         return (
@@ -88,9 +87,11 @@ export class _TrackPreview extends Component {
                             {!isHover && <div className="num-idx" >
                                 {!this.checkIsPlaying() ? (idx + 1) : <img src={equi} alt="playing gif" />}
                             </div>}
+
                             {isHover && this.checkIsPlaying() && <button onClick={() => this.onPauseTrack(track.id)}
                                 className={"play-btn fas fa-pause"}>
                             </button>}
+
                             {isHover && !this.checkIsPlaying() && <button onClick={() => this.onPlayTrack(idx)}
                                 className={"play-btn fas fa-play"}>
                             </button>}
@@ -105,19 +106,19 @@ export class _TrackPreview extends Component {
                         <div className="track-date">{date}</div>
 
                         <div className="preview-actions flex" >
-                            <button onClick={(isLiked) ? () => this.onUnLike(track.id) : this.onLike} className={` btn-like  ${(isHover || isLiked ? "" : "btn-hidden")} 
-                     ${(isLiked ? "fas fa-heart btn-liked" : "far fa-heart")}`}>
+                            <button onClick={(isLiked) ? () => this.onUnLike(track.id) : this.onLike}
+                                className={` btn-like  ${(isHover || isLiked ? "" : "btn-hidden")} 
+                                 ${(isLiked ? "fas fa-heart btn-liked" : "far fa-heart")}`}>
                             </button>
 
                             <p className={(isHover) ? '' : 'track-duration'} >{track.minutes}:{track.seconds}</p>
+
                             <button onClick={() => onRemoveTrack(track.id)}
                                 className={"far fa-trash-alt btn-remove " + (isHover ? "" : "btn-hidden")}>
                             </button>
-
                         </div>
                     </section>
-                )
-                }
+                )}
             </Draggable>
         )
     }

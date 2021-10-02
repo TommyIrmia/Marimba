@@ -11,11 +11,12 @@ class _StationPreview extends React.Component {
         isLiked: false,
     }
 
-    onPlayStation = async (ev) => {
-        if (this.props.stationId === this.props.station._id) {
-            this.props.player.playVideo()
+    onPlayStation = async () => {
+        const { stationId, station, player } = this.props
+        console.log('from play', station);
+        if (stationId === station._id) {
+            player.playVideo()
         } else {
-            const station = await stationService.getById(this.props.station._id)
             await this.props.setSongIdx(0)
             await this.props.loadTracksToPlayer(station.tracks, station._id)
         }
@@ -52,6 +53,7 @@ class _StationPreview extends React.Component {
                     this.props.setBgcAndName(station.bgc, station.name)
                     this.props.history.push(`/station/${station._id}`)
                 }}>
+
                 <div className="station-img">
                     <img src={station.imgUrl} alt="station" />
                     {!this.isStationPlaying() && <div onClick={(ev) => {
@@ -70,11 +72,13 @@ class _StationPreview extends React.Component {
                     <h1>{station.name}</h1>
                     <p>{station.createdBy.fullname}</p>
                 </div>
+
                 <div className="station-like">
                     {!isLiked && <button className="far fa-thumbs-up" onClick={this.onLikeStation}></button>}
                     {isLiked && <button className="fas fa-thumbs-up green" onClick={this.onUnlikeStation}></button>}
                     <h2>{station.likedByUsers.length}</h2>
                 </div>
+
             </div>
         )
     }

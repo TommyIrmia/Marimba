@@ -15,25 +15,19 @@ export class LibraryPage extends Component {
     }
 
     loadStations = async () => {
-        const stations = await stationService.query()
-
-        const likedTracks = await stationService.getById('liked')
-
-        const likedStations = stations.filter(likedStation => {
-            return likedStation.likedByUsers.length > 0;
-        })
-
-        const stationsByUser = stations.filter(stationBy => {
-            return stationBy.createdBy._id === 'c137'
-        })
-
-
-        this.setState({ likedTracks: likedTracks.tracks, likedStations, stationsBy: stationsByUser })
+        try {
+            const stations = await stationService.query()
+            const likedTracks = await stationService.getById('liked')
+            const likedStations = stations.filter(likedStation => likedStation.likedByUsers.length > 0)
+            const stationsByUser = stations.filter(stationBy => stationBy.createdBy._id === 'c137')
+            this.setState({ likedTracks: likedTracks.tracks, likedStations, stationsBy: stationsByUser })
+        } catch (err) {
+            throw err
+        }
     }
 
-
     render() {
-        const { likedStations, likedTracks,stationsBy } = this.state;
+        const { likedStations, likedTracks, stationsBy } = this.state;
         return (
             <main className="LibraryPage playlist-layout" >
                 <div className="margin-top" >

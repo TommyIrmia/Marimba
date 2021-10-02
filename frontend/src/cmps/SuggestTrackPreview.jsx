@@ -7,19 +7,21 @@ export class SuggestTrackPreview extends React.Component {
         this.props.onAddTrack(track);
         this.props.removeAddedTrack(track);
     }
-    
+
     render() {
-        const track = this.props.track;
+        const { track } = this.props;
         return (
             <section className="track-container flex">
                 <section className="TrackPreview flex">
                     <div className="track-img-container">
                         <img src={track.imgUrl} alt="trackImg" />
                     </div>
+
                     <div className="track-title">
                         {track.title}
                     </div>
                 </section>
+
                 <section className="previewAlbum">
                     <p>Album</p>
                 </section>

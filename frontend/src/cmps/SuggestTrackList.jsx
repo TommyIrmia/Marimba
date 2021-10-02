@@ -1,7 +1,7 @@
 import { SuggestTrackPreview } from "./SuggestTrackPreview"
 import {utilService} from "../services/util.service"
 
-export function SuggestTrackList({ isStation, tracks, onAddTrack, removeAddedTrack}) {
+export function SuggestTrackList({ tracks, onAddTrack, removeAddedTrack}) {
     if (!tracks) return <div></div>
     return (
         <section className="tracks-list">

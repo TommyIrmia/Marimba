@@ -8,17 +8,17 @@ export class MainHero extends Component {
         isStart: false,
     }
 
-    
+
 
     render() {
         const { isStart } = this.state;
-        const {noScroll} = this.props;
+        const { noScroll } = this.props;
         return (
             <section className="MainHero">
                 <div className={`img-container flex ${(isStart) ? 'hero-gone' : ''}`} >
                     <div className="main-hero-info flex" >
                         <div className="logo-img"><img src={logo} alt="Marimba logo" /></div>
-                        <h1>Welcome to <span>Marimba</span></h1>
+                        <h1>Welcome to Marimba</h1>
                         <p>Listening is everything.</p>
                         <button onClick={() => {
                             this.setState({ isStart: true }, () => {

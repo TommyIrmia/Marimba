@@ -15,10 +15,14 @@ export class TrackSearch extends Component {
         this.loadTracks();
     }
 
-    loadTracks = async (id) => {
-        const { searchKey } = this.state
-        const tracks = await youtubeService.query(searchKey, this.props.currStationTracks)
-        this.setState({ tracks: tracks });
+    loadTracks = async () => {
+        try {
+            const { searchKey } = this.state
+            const tracks = await youtubeService.query(searchKey, this.props.currStationTracks)
+            this.setState({ tracks: tracks });
+        } catch (err) {
+            throw err
+        }
     }
 
     debouncedLoadTracks = youtubeService.debounce(this.loadTracks, 1000)
@@ -31,19 +35,27 @@ export class TrackSearch extends Component {
     }
 
     toggleSearch = async () => {
-        const isSearch = !(this.state.isSearch)
-        const searchKey = isSearch ? '' : await this.suggestByStationName();
-        this.setState({ ...this.state, searchKey: searchKey, isSearch: isSearch }, () => {
-            this.loadTracks();
-        })
+        try {
+            const isSearch = !(this.state.isSearch)
+            const searchKey = isSearch ? '' : await this.suggestByStationName();
+            this.setState({ ...this.state, searchKey: searchKey, isSearch: isSearch }, () => {
+                this.loadTracks();
+            })
+        } catch (err) {
+            throw err
+        }
     }
 
     suggestByStationName = async () => {
-        const { stationId } = this.props
-        if (!stationId) return
-        const station = await stationService.getById(stationId)
-        if (!station) return
-        return station.name
+        try {
+            const { stationId } = this.props
+            if (!stationId) return
+            const station = await stationService.getById(stationId)
+            if (!station) return
+            return station.name
+        } catch (err) {
+            throw err
+        }
     }
 
     removeAddedTrack = async (track) => {
@@ -70,6 +82,7 @@ export class TrackSearch extends Component {
                         <h2>Lets look for something to add to your station</h2>
                         <button className="close-button" onClick={this.toggleSearch}>X</button>
                     </div>
+
                     <div className="search-Warrper flex align-center">
                         <div className="fas fa-search"></div>
                         <input className="search-input" type="text"
@@ -78,10 +91,11 @@ export class TrackSearch extends Component {
                             spellCheck={false}
                             onChange={this.handleChange} />
                     </div>
+
                 </div>}
 
                 <SuggestTrackList tracks={tracks} onAddTrack={this.props.onAddTrack}
-                    removeAddedTrack={this.removeAddedTrack} currStationTracks={this.props.currStationTracks} />
+                    removeAddedTrack={this.removeAddedTrack} />
             </div>
 
         )

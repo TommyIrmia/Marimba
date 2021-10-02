@@ -7,22 +7,22 @@ export class SearchPageFilter extends Component {
     }
 
     handleChange = (ev) => {
-        const value = ev.target.value;
-        this.setState({title: value}, this.props.onSetFilter(value))
+        const { value } = ev.target;
+        this.setState({ title: value }, this.props.onSetFilter(value))
     }
 
     render() {
         const { title } = this.state
         return (
             <form className="SeacrchPageFilter " >
-               <div className="input-container" >
-                   <button className="fas fa-search search-btn" ></button>
-                <input type="search" name="title" value={title}
-                placeholder="Playlists or songs" autoComplete="off" onChange={(ev)=>{
-                    ev.preventDefault();
-                    this.handleChange(ev)
-                }} autoFocus={true}/>
-               </div>
+                <div className="input-container" >
+                    <button className="fas fa-search search-btn" ></button>
+                    <input type="search" name="title" value={title}
+                        placeholder="Playlists or songs" autoComplete="off" onChange={(ev) => {
+                            ev.preventDefault();
+                            this.handleChange(ev)
+                        }} autoFocus={true} />
+                </div>
             </form>
         )
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AppFilter } from './AppFilter';
+import { StationFilter } from './StationFilter.jsx';
 
 export class StationActions extends Component {
 
@@ -33,41 +33,30 @@ export class StationActions extends Component {
                     <section className="StationActions playlist-layout">
                         <div className="btns-actions flex">
 
-                            {!this.isTrackPlaying(tracks) && <button onClick={() => {
-                                onPlayTrack()
-                            }}
+                            {!this.isTrackPlaying(tracks) && <button onClick={onPlayTrack}
                                 className="play-btn fas fa-play">
                             </button>}
 
-                            {this.isTrackPlaying(tracks) && <button onClick={() => {
-                                onPauseTrack()
-                            }}
+                            {this.isTrackPlaying(tracks) && <button onClick={onPauseTrack}
                                 className="play-btn fas fa-pause">
                             </button>}
 
                             <button onClick={this.onLike} className={"btn-action " + (isLiked ? "fas fa-thumbs-up btn-liked" : "far fa-thumbs-up")}></button>
 
                             <button className="far fa-arrow-alt-circle-down btn-action"></button>
-                            <button className="fas fa-ellpsis-h btn-action"></button>
                         </div>
 
-                        <AppFilter onSetFilter={onSetFilter} inputRef={inputRef} onSearch={onSearch} isSearch={isSearch} />
+                        <StationFilter onSetFilter={onSetFilter} inputRef={inputRef} onSearch={onSearch} isSearch={isSearch} />
 
                         <div className="preview-info flex">
 
-                            <div onClick={() => {
-                                this.onSetSort('Title');
-                            }} className="info-title" >
+                            <div className="info-title" onClick={() => this.onSetSort('Title')}>
                                 <small className="title" >title</small> </div>
 
-                            <div onClick={() => {
-                                this.onSetSort('Date added');
-                            }} className="info-date" >
+                            <div className="info-date" onClick={() => this.onSetSort('Date added')}>
                                 <small className="date" >date added</small> </div>
 
-                            <div onClick={() => {
-                                this.onSetSort('Duration');
-                            }} className="info-duration" >
+                            <div className="info-duration" onClick={() => this.onSetSort('Duration')}>
                                 <small className="far fa-clock duration" ></small> </div>
 
                         </div>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { onUpdateTrack,onRemoveTrack } from '../store/tracks.actions.js'
+import { onUpdateTrack, onRemoveTrack } from '../store/tracks.actions.js'
 import { setPlayer, setSongIdx, onTogglePlay, setCurrDuration, loadTracksToPlayer } from '../store/mediaplayer.actions.js'
 import YouTube from 'react-youtube';
 import imgSrc from '../assets/imgs/logo3.png';
@@ -14,13 +14,13 @@ import { stationService } from '../services/station.service.js';
 export class _MediaPlayer extends Component {
 
     state = {
-        isMute: false,
+        station: {},
         songLength: '',
         volume: 70,
         initialPlay: false,
+        isMute: false,
         isRepeat: false,
         isShuffle: false,
-        station: {},
     }
 
     timerIntervalId;
@@ -28,7 +28,6 @@ export class _MediaPlayer extends Component {
 
     onReady = (ev) => {
         if (ev.data === 2) return // if on pause
-        // this.setState({ songLength: ev.target.getDuration() })
         this.props.setPlayer(ev.target)
         this.props.player.setVolume(this.state.volume)
         this.props.player.playVideo()
@@ -70,13 +69,16 @@ export class _MediaPlayer extends Component {
 
     onTogglePlay = async () => {
         // if 1st time click play - check the state, and if there's a player - if none - load tracks to player
-        if (!this.state.initialPlay && !this.props.player) {
-            this.setState({ initialPlay: true }, async () => {
-                const stationId = this.props.station_Id || this.props.stationId
-                await this.props.loadTracksToPlayer(this.props.tracks, stationId)
-            })
+        try {
+            if (!this.state.initialPlay && !this.props.player) {
+                this.setState({ initialPlay: true }, async () => {
+                    const stationId = this.props.station_Id || this.props.stationId
+                    await this.props.loadTracksToPlayer(this.props.tracks, stationId)
+                })
+            }
+        } catch (err) {
+            throw err
         }
-
 
         if (this.props.player) {
             if (this.props.isPlaying) {
@@ -117,10 +119,6 @@ export class _MediaPlayer extends Component {
         };
 
         if (nextIdx >= currentTracks.length) nextIdx = 0; // if last song on the list - go to index 0
-
-        if (currIdx === nextIdx) nextIdx += 1;
-        // console.log('next Idx :', nextIdx, 'currSongIdx', this.props.currSongIdx, 'currIdx', currIdx);
-
 
         this.props.loadTracksToPlayer(tracks, stationId)
         this.props.setSongIdx(nextIdx)
@@ -178,17 +176,21 @@ export class _MediaPlayer extends Component {
     }
 
     getStation = async () => {
-        const { stationId } = this.props
-        if (!stationId) return
-        const station = await stationService.getById(stationId)
-        if (!station) return
-        this.setState({ station })
+        try {
+            const { stationId } = this.props
+            if (!stationId) return
+            const station = await stationService.getById(stationId)
+            if (!station) return
+            this.setState({ station })
+        } catch (err) {
+            throw err
+        }
     }
 
 
     render() {
-        const { isMute, songLength, volume, isRepeat, isShuffle,station } = this.state
-        const { currSongIdx, currDuration, isPlaying, currentTracks, player,onRemoveTrack } = this.props
+        const { isMute, songLength, volume, isRepeat, isShuffle, station } = this.state
+        const { currSongIdx, currDuration, isPlaying, currentTracks, player, onRemoveTrack } = this.props
         return (
             <div className="media-player">
                 {currentTracks?.length ? <YouTube
@@ -196,21 +198,17 @@ export class _MediaPlayer extends Component {
                         playerVars: {
                             origin: 'http://localhost:3000'
                         }
-                    }
-                    }
-                    videoId={currentTracks[currSongIdx].id}                  // defaults -> null
-                    id={currentTracks[currSongIdx].id}                       // defaults -> null
-                    className="youtube-player"              // defaults -> null
-                    containerClassName={'player-container'}       // defaults -> ''
-                    onReady={this.onReady}                    // defaults -> noop
-                    // onPlay={onPlaySong(}                     // defaults -> noop
-                    // onPause={func}                    // defaults -> noop
-                    onEnd={() => this.onChangeSong(1, currSongIdx)}                      // defaults -> noop
-                    // onError={func}                    // defaults -> noop
-                    onStateChange={(ev) => this.onStateChange(ev)}      // defaults -> noop
+                    }}
+                    videoId={currentTracks[currSongIdx].id}  
+                    id={currentTracks[currSongIdx].id}       
+                    className="youtube-player"          
+                    containerClassName={'player-container'}     
+                    onReady={this.onReady}                    
+                    onEnd={() => this.onChangeSong(1)}           
+                    onStateChange={(ev) => this.onStateChange(ev)}   
                 /> : ''}
 
-                <TrackDetails  onRemoveTrack={onRemoveTrack} imgSrc={imgSrc} currTrack={currentTracks[currSongIdx]}
+                <TrackDetails onRemoveTrack={onRemoveTrack} imgSrc={imgSrc} currTrack={currentTracks[currSongIdx]}
                     station={station} player={player} />
 
                 <PlayerActions onChangeSong={this.onChangeSong} currSongIdx={currSongIdx}

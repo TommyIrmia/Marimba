@@ -3,9 +3,6 @@ import { withRouter } from 'react-router'
 import { utilService } from './../services/util.service';
 
 export class _GenrePreview extends Component {
-
-
-
     render() {
         const { genre } = this.props;
         const color = utilService.pickRandomColor()

@@ -14,30 +14,34 @@ export class PlayerActions extends Component {
         return (min + ':' + sec)
     }
 
-
     render() {
         const { onChangeSong, songLength, currDuration, onDurationChange, onTogglePlay,
             currSongIdx, isPlaying, onToggleRepeat, isRepeat, onToggleShuffle, isShuffle } = this.props
         return (
             <div className="player-actions flex">
                 <button onClick={() => onToggleShuffle()}
-                    className={"action-btn fas fa-random " + (isShuffle ? 'green' : '')}></button>
+                    className={"action-btn fas fa-random " + (isShuffle ? 'green' : '')}>
+                </button>
 
 
                 <button className="action-btn fas fa-step-backward"
-                    onClick={() => onChangeSong(-1, currSongIdx)}></button>
+                    onClick={() => onChangeSong(-1)}>
+                </button>
 
                 <button className={"play-btn " + (isPlaying ? "fas fa-pause" : "fas fa-play playing")}
                     onClick={onTogglePlay}>
                 </button>
 
                 <button className="action-btn fas fa-step-forward"
-                    onClick={() => onChangeSong(1, currSongIdx)}></button>
+                    onClick={() => onChangeSong(1)}>
+                </button>
 
-                <button onClick={() => { onToggleRepeat() }}
-                    className={"action-btn fas fa-redo " + (isRepeat ? 'green' : '')}></button>
+                <button onClick={() => onToggleRepeat()}
+                    className={"action-btn fas fa-redo " + (isRepeat ? 'green' : '')}>
+                </button>
 
                 <div className="duration-controller flex align-center">
+
                     <p>{this.getTimeFormat(currDuration)}</p>
                     <Slider
                         className="duration-slider"

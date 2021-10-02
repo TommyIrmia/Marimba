@@ -10,10 +10,6 @@ export class StationHero extends Component {
 
     componentDidMount() {
         this.loadStation()
-        this.loadBgc()
-    }
-
-    loadBgc = () => {
     }
 
     loadStation = async () => {

@@ -71,10 +71,12 @@ export default class EditDetails extends Component {
         const { onEdit, onToggleEdit, saveDataFromHero } = this.props;
         return (
             <main className="edit-container" style={{ backgroundColor: bgc }}>
+
                 <div className="header-edit flex" >
                     <h3>Edit details</h3>
                     <button onClick={onToggleEdit} >X</button>
                 </div>
+
                 <section className="EditDetails grid" >
                     <label className="img-edit"
                         onMouseEnter={() => this.setState({ isHover: true })}
@@ -109,12 +111,16 @@ export default class EditDetails extends Component {
                     <textarea placeholder="Add an optional description"
                         maxLength="60" name="desc" value={desc} onChange={this.handleChange} ></textarea>
                 </section>
+
                 <ColorInput onChangeColor={this.onChangeColor} />
-                <button onClick={() => {
-                    onEdit(hero)
-                    saveDataFromHero(hero)
-                }} className="btn-save">Save</button>
-            </main>
+
+                <button className="btn-save"
+                    onClick={() => {
+                        onEdit(hero)
+                        saveDataFromHero(hero)
+                    }}> Save
+                </button>
+            </main >
         )
     }
 }

@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 
-export class AppFilter extends Component {
+export class StationFilter extends Component {
 
     state = {
-        filterBy:{
-            title:'',
-            sort:'Custom order'
+        filterBy: {
+            title: '',
+            sort: 'Custom order'
         },
-       
         isSort: false,
     }
 
@@ -19,27 +18,27 @@ export class AppFilter extends Component {
     handleChange = (ev) => {
         const field = ev.target.name;
         const value = ev.target.value;
-        this.setState((prevState) => ({...prevState,filterBy: { ...prevState.filterBy, [field]: value } }), () => {
+        this.setState((prevState) => ({ ...prevState, filterBy: { ...prevState.filterBy, [field]: value } }), () => {
             this.props.onSetFilter(this.state.filterBy)
         })
     }
-   
+
     onSetSort = (sort) => {
-        this.setState((prevState) => ({...prevState,filterBy: { ...prevState.filterBy, sort } }), () => {
+        this.setState((prevState) => ({ ...prevState, filterBy: { ...prevState.filterBy, sort } }), () => {
             this.props.onSetFilter(this.state.filterBy)
         })
-        this.setState({isSort:false})
+        this.setState({ isSort: false })
     }
 
     render() {
         const customOptions = ['Custom order', 'Title', 'Date added', 'Duration']
-        const { isSort,filterBy } = this.state;
+        const { isSort, filterBy } = this.state;
         const { onSearch, isSearch, inputRef } = this.props;
 
         return (
-            <form className="AppFilter">
+            <form className="StationFilter">
                 <button className="fas fa-search btn-search "
-                    onClick={(ev)=>{
+                    onClick={(ev) => {
                         ev.preventDefault();
                         onSearch()
                     }} ></button>
@@ -53,16 +52,16 @@ export class AppFilter extends Component {
                 </div>
 
 
-                <input className={(isSearch ? "show" : "unshow")}
-                   onChange={(ev)=>{
-                       ev.preventDefault();
-                       this.handleChange(ev)
-                   }}name="title" value={filterBy.title} autoComplete='off'
-                   ref={inputRef} type="text" placeholder="Search in playlist" />
+                <input className={(isSearch ? "show" : "unshow")} ref={inputRef} type="text" placeholder="Search in playlist"
+                    name="title" value={filterBy.title} autoComplete='off' onChange={(ev) => {
+                        ev.preventDefault();
+                        this.handleChange(ev)
+                    }}
+                />
 
                 {isSort && <ul className="options-container" >
                     {customOptions.map((customOption, idx) => (
-                        <li onClick={(ev)=>{
+                        <li onClick={(ev) => {
                             ev.preventDefault();
                             this.onSetSort(customOption)
                         }} className="clean-list sort-li" key={idx}>{customOption}</li>

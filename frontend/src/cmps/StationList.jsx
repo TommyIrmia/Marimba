@@ -16,12 +16,8 @@ export class StationList extends React.Component {
 
     loadStationsByGenre = async () => {
         try {
-            const { search, genre } = this.props;
-            const stations = this.props.stations
-            if (!genre) {
-                this.setState({ stationsByGenre: stations })
-                return
-            }
+            const { genre } = this.props;
+            const { stations } = this.props
             if (!stations.length) return
             const stationsByGenre = await stationService.getStationsByGenre(stations, genre)
             this.setState({ stationsByGenre: stationsByGenre })
@@ -31,17 +27,21 @@ export class StationList extends React.Component {
     }
 
     render() {
-        const { stationsByGenre, isGenrePage } = this.state
+        const { stationsByGenre } = this.state
+        const { genre } = this.props
         if (!stationsByGenre?.length) return <div>Loading...</div>
         return (
             <section className="station-list">
-                 <div className="station-genre flex space-between">
-                    <Link to="/"><h1>{this.props.genre}</h1></Link>
+
+                <div className="station-genre flex space-between">
+                    <Link to="/"><h1>{genre}</h1></Link>
                     <Link to="/"><p>See all</p></Link>
                 </div>
-                 <div className="stations grid">
+
+                <div className="stations grid">
                     {stationsByGenre.map(station => <StationPreview key={station._id} station={station} />)}
-                </div> 
+                </div>
+
             </section>
         )
     }

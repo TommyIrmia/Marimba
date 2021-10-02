@@ -458,12 +458,15 @@ async function saveEmptyStation() {
         "tracks": []
     }]
     asyncStorageService.save('newStation', newStation);
+    return newStation._id
 }
 
 async function getById(stationId) {
     try {
+        // if(stationId === 'new') return 
         const station = await asyncStorageService.get(STORAGE_KEY, stationId)
-        station.tracks.forEach(track => track.isPlaying = false)
+        console.log('from get by id', station);
+        if (station.tracks.length) station.tracks.forEach(track => track.isPlaying = false)
         return station
     } catch (err) {
         console.log('Can not get station', stationId)
@@ -493,10 +496,10 @@ async function updateTracks(tracks, stationId) {
 
 async function addTrackToStation(track, stationId) {
     try {
-        console.log("adding track back:", track);
+        const newTrack = { ...track }
+        newTrack.addedAt = Date.now()
         const station = await asyncStorageService.get(STORAGE_KEY, stationId)
-        console.log('station got in back', station);
-        station.tracks.push(track)
+        station.tracks.push(newTrack)
         return await asyncStorageService.put(STORAGE_KEY, station)
     } catch (err) {
         console.log('Can not add track to station', err)

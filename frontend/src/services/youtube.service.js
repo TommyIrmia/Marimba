@@ -13,17 +13,18 @@ export const youtubeService = {
 
 async function query(name = _getRandomSearch(), existingTracks) {
     if (!name) return
+
     const key = `${KEY}${name}`
     const search = `${name} music`
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${API}&q=${search}&maxResults=50`
 
-    let tracks = await sessionService.load(key)
-    if (tracks) {
-        console.log('Got suggestions from cache');
-        return tracks.slice(0, 5)
-    }
-
     try {
+        let tracks = await sessionService.load(key)
+        if (tracks) {
+            console.log('Got suggestions from cache');
+            return tracks.slice(0, 5)
+        }
+
         const { data } = await axios.get(url)
         tracks = getTracks(data.items)
         console.log('tracks from axios', tracks);
@@ -32,7 +33,6 @@ async function query(name = _getRandomSearch(), existingTracks) {
         let existingTracksIds = []
         if (existingTracks) existingTracksIds = existingTracks.map(track => track.id)
         const filteredTracks = updatedTracks.filter(track => track.duration && !existingTracksIds.includes(track.id))
-
         sessionService.save(key, filteredTracks)
         return filteredTracks.slice(0, 5);
     } catch (err) {
@@ -44,7 +44,6 @@ async function query(name = _getRandomSearch(), existingTracks) {
 function _getRandomSearch() {
     const searchNames = ['britney spears', 'christinia aguilera', 'beatles', 'queen', 'beyonce', 'justin', 'jay Z', 'drake', 'ed Sheeran', 'Amy whinehouse', 'Guns n roses', 'Coldplay', 'Maroon 5', 'James blunt', 'Arctic monkeys', 'Rihanna', 'Paul mccartney', 'Bruno Mars', 'Nicki Minaj', 'Lady Gaga']
     const idx = Math.floor(Math.random() * searchNames.length)
-    console.log('random idx', idx);
     return searchNames[idx]
 }
 
@@ -66,16 +65,19 @@ function getTracks(videos) {
     else console.log('got no track!')
 }
 
-async function deleteTrackFromCache(name = 'Pop', track) {
-    const key = `${KEY}${name}`
-    const trackId = track.id;
-    console.log('key', key);
-    let tracks = await sessionService.load(key)
-    console.log('tracks', tracks);
-    const idx = tracks.findIndex(track => track.id === trackId)
-    const switchTrack = tracks.pop();
-    await tracks.splice(idx, 1, switchTrack);
-    await asyncSessionService.save(key, tracks);
+async function deleteTrackFromCache(name = _getRandomSearch(), track) {
+    try {
+        const key = `${KEY}${name}`
+        const trackId = track.id;
+        let tracks = await sessionService.load(key)
+        const idx = tracks.findIndex(track => track.id === trackId)
+        const switchTrack = tracks.pop();
+        tracks.splice(idx, 1, switchTrack);
+        asyncSessionService.save(key, tracks);
+    } catch (err) {
+        console.log('Can not delete track from cache', err)
+        throw err
+    }
 }
 
 async function getDuration(tracks) {
@@ -117,7 +119,6 @@ function _setdurationToFormat(tracks) {
             duration,
         }
     })
-
 }
 
 function debounce(func, wait) {

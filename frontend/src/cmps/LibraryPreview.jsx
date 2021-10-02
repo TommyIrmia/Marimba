@@ -5,7 +5,7 @@ import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
 import { setBgcAndName } from '../store/station.actions.js'
 import { stationService } from '../services/station.service.js'
 
- class _LibraryPreview extends Component {
+class _LibraryPreview extends Component {
 
     onPlayStation = async (ev) => {
         if (this.props.stationId === this.props.station._id) {
@@ -28,17 +28,17 @@ import { stationService } from '../services/station.service.js'
         } else return false
     }
 
-   
+
     render() {
-        const {station,title} = this.props;
-        console.log('station',station);
+        const { station, title } = this.props;
+        console.log('station', station);
         return (
-            <div  style={{paddingTop:'5px'}} className="station-preview"
+            <div style={{ paddingTop: '5px' }} className="station-preview"
                 onClick={() => {
                     this.props.setBgcAndName(station.bgc, station.name)
                     this.props.history.push(`/station/${station._id}`)
                 }}>
-                    <h3 style={{marginBottom:'5px'}} >{title}</h3>
+                <h3 style={{ marginBottom: '5px' }} >{title}</h3>
                 <div className="station-img">
                     <img src={station.imgUrl} alt="station" />
                     {!this.isStationPlaying() && <div onClick={(ev) => {
