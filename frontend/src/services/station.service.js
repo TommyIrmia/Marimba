@@ -18,7 +18,24 @@ export const stationService = {
 }
 
 const STORAGE_KEY = 'station'
-const genres = ['All', 'Hits', 'Happy', 'Pop']
+const genres = [
+    {
+        name: 'All',
+        imgUrl: "https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg"
+    },
+    {
+        name: 'Hits',
+        imgUrl: 'https://i.ytimg.com/vi/kffacxfA7G4/mqdefault.jpg'
+    },
+    {
+        name: 'Happy',
+        imgUrl: "https://i.ytimg.com/vi/XaCrQL_8eMY/mqdefault.jpg"
+    },
+    {
+        name: 'Pop',
+        imgUrl: "https://i.scdn.co/image/ab6761610000e5ebcdce7620dc940db079bf4952"
+    }
+]
 const initialStations = [
     {
         "_id": 'liked',
@@ -401,7 +418,7 @@ async function query(name) {
 
 async function getStationsByGenre(stations, genre) {
     console.log('stations in get stations by genre', stations);
-    if(!stations) return
+    if (!stations) return
     const filteredStations = stations.filter(station => station.tags.includes(genre))
     return filteredStations
 }
@@ -527,7 +544,7 @@ async function saveDataFromHero(stationId, data) {
 
 async function getGenres() {
     try {
-        return Promise.resolve(genres)
+        return genres;
     } catch (err) {
         console.log('Can not get genres', err)
     }

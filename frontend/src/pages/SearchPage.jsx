@@ -11,12 +11,19 @@ export class SearchPage extends Component {
     state = {
         stations: [],
         tracks: [],
+        genres: [],
         searchKey: '',
         isSearch: false
     }
 
-    componentDidMount() {
-        this.loadTracks();
+    async componentDidMount() {
+        const genres = await this.loadGenres()
+        this.setState({ ...this.state, genres: genres })
+    }
+
+    loadGenres = async () => {
+        const genres = await stationService.getGenres();
+        return genres;
     }
 
     loadTracks = async () => {
@@ -39,18 +46,22 @@ export class SearchPage extends Component {
     onSetFilter = (searchKey) => {
         if (searchKey === '') this.setState({ ...this.state, isSearch: false, searchKey: searchKey })
         else this.setState({ ...this.state, isSearch: true, searchKey: searchKey }, () => {
-            this.debouncedLoadTracks()
             this.debouncedLoadStations()
+            this.debouncedLoadTracks()
+
         })
     }
     render() {
-        const { stations, tracks, searchKey, isSearch } = this.state;
-        console.log('search key:', searchKey);
+        const { stations, tracks, genres, searchKey, isSearch } = this.state;
         return (
-            <main className="SearchPage playlist-layout" >
+            <main className="playlist-layout" >
                 <SearchPageFilter onSetFilter={this.onSetFilter} />
                 <SimpleTrackList tracks={tracks} />
-                {!isSearch && <GenreList />}
+                {!isSearch &&
+                    <section className="genre-section">
+                        <h1>Browse by collection</h1>
+                        <GenreList genres={genres} />
+                    </section>}
                 {isSearch && <SimpleStationList stations={stations} />}
             </main>
         )

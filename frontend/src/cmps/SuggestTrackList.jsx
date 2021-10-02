@@ -3,7 +3,6 @@ import { TrackPreview } from "./TrackPreview";
 import {utilService} from "../services/util.service"
 
 export function SuggestTrackList({ isStation, tracks, onAddTrack, removeAddedTrack}) {
-    console.log('tracks on suggested list tracks:', tracks);
     if (!tracks) return <div></div>
     return (
         <section className="tracks-list">

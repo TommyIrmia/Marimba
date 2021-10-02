@@ -61,6 +61,20 @@ export function onTogglePlay(isPlaying) {
     }
 }
 
+export function updateCurrTrack(track){
+    return async (dispatch) => {
+        try {
+            // const savedTrack = await trackService.update(track)
+            dispatch({
+                type: 'UPDATE_TRACK',
+                track
+            })
+        } catch (err) {
+            console.error('Can not update track', err)
+        }
+    }
+}
+
 export function onPlayTrack(idx) {
     return async (dispatch) => {
         try {

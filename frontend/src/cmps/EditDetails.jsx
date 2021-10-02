@@ -27,7 +27,7 @@ export default class EditDetails extends Component {
     onGetGenres = async () => {
         let genres = await stationService.getGenres()
         genres = genres.filter(genre => {
-            return genre !== 'All'
+            return genre.name !== 'All'
         })
         this.setState({ genres })
     }
@@ -101,7 +101,7 @@ export default class EditDetails extends Component {
 
                         {isSelect && <ul className="options-container flex" >
                             {genres.map((genre, idx) => (
-                                <li onClick={() => this.onSelect(genre)} className="clean-list select-li" key={idx}>{genre}</li>
+                                <li onClick={() => this.onSelect(genre.name)} className="clean-list select-li" key={idx}>{genre.name}</li>
                             ))}
                         </ul>}
                     </div>

@@ -17,7 +17,6 @@ export class StationList extends React.Component {
     loadStationsByGenre = async () => {
         try {
             const { search, genre } = this.props;
-            console.log('search in load station:', search);
             const stations = this.props.stations
             if (!genre) {
                 this.setState({ stationsByGenre: stations })

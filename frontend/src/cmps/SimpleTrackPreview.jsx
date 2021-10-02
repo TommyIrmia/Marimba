@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { utilService } from './../services/util.service';
-import { onPlayTrack, loadTracksToPlayer } from '../store/mediaplayer.actions.js'
+import { onPlayTrack, loadTracksToPlayer, updateCurrTrack } from '../store/mediaplayer.actions.js'
 import { onUpdateTrack } from '../store/tracks.actions.js'
 import { stationService } from '../services/station.service';
 import equi from '../assets/imgs/equi.gif';
@@ -26,16 +26,19 @@ export class _SimpleTrackPreview extends Component {
         this.checkIsLiked()
     }
 
-    onPlayTrack = async (trackIdx) => {
-        const { tracks, stationId, player } = this.props
-        await this.props.loadTracksToPlayer(tracks, stationId)
-        await this.props.onPlayTrack(trackIdx)
+    onPlayTrack = async (trackToPlayer) => {
+        trackToPlayer.isPlaying = true;
+        const track = [trackToPlayer]
+        const { player } = this.props
+        await this.props.loadTracksToPlayer(track)
         if (player) {
             player.playVideo()
         }
     }
 
-    onPauseTrack = () => {
+    onPauseTrack = (track) => {
+        track.isPlaying = false;
+        this.props.updateCurrTrack(track);
         this.props.player.pauseVideo()
     }
 
@@ -59,29 +62,29 @@ export class _SimpleTrackPreview extends Component {
     }
 
     checkIsPlaying = () => {
-        if (this.props.stationId !== this.props.currStationId) return false
         return this.props.track.isPlaying
     }
 
     render() {
         const { isHover, isLiked } = this.state
-        const { track, onRemoveTrack, idx } = this.props
+        const { track, idx } = this.props
         const { isPlaying, title } = track
         const date = utilService.getTime(track.addedAt)
 
-        console.log('isLiked', isLiked);
         return (
             <section className="track-container flex playlist-layout" >
 
-                <section title={title} className="TrackPreview flex">
+                <section title={title} className="TrackPreview flex"
+                    onMouseEnter={() => this.setState({ isHover: true })}
+                    onMouseLeave={() => this.setState({ isHover: false })}>
 
                     {!isHover && <div className="num-idx" >
                         {!this.checkIsPlaying() ? (idx + 1) : <img src={equi} alt="playing gif" />}
                     </div>}
-                    {isHover && this.checkIsPlaying() && <button onClick={() => this.onPauseTrack(track.id)}
+                    {isHover && this.checkIsPlaying() && <button onClick={() => this.onPauseTrack(track)}
                         className={"play-btn fas fa-pause"}>
                     </button>}
-                    {isHover && !this.checkIsPlaying() && <button onClick={() => this.onPlayTrack(idx)}
+                    {isHover && !this.checkIsPlaying() && <button onClick={() => this.onPlayTrack(track)}
                         className={"play-btn fas fa-play"}>
                     </button>}
 
@@ -114,6 +117,7 @@ function mapStateToProps(state) {
     return {
         tracks: state.tracksModule.tracks,
         player: state.mediaPlayerModule.player,
+        currentTracks: state.mediaPlayerModule.currentTracks,
         currStationId: state.mediaPlayerModule.stationId
     }
 }
@@ -121,7 +125,8 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
     onPlayTrack,
     loadTracksToPlayer,
-    onUpdateTrack
+    onUpdateTrack,
+    updateCurrTrack
 }
 
 

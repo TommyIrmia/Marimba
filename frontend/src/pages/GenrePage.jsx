@@ -24,6 +24,7 @@ export class GenrePage extends Component {
 
     render() {
         const { genre, stations } = this.state
+        console.log('stations in render genre page', stations);
         if (stations.length === 0) return <div>Loading stations...</div>
         return (
             <section className="GenrePage">

@@ -1,4 +1,9 @@
-.GenreList{
+.genre-section {
+    h1 {
+        padding: rem(15px) 0px;
+    }
+}
+.GenreList {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(215px, 220px));
     gap: 15px;
@@ -6,11 +11,23 @@
 
 .GenrePreview {
     .genre-card {
-        padding:20px;
+        padding: 20px;
         height: 215px;
+        position: relative;
         border-radius: rem(10px);
-
-        &:hover{
+        overflow: hidden;
+        img {
+            box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
+            transform: rotate(25deg) translate(18%, 2%);
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: rem(100px);
+            height: rem(100px);
+            object-fit: cover;
+            object-position: center center;
+        }
+        &:hover {
             cursor: pointer;
         }
     }
