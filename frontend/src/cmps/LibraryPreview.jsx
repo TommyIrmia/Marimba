@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
-import { setBgc } from '../store/station.actions.js'
+import { setBgcAndName } from '../store/station.actions.js'
 import { stationService } from '../services/station.service.js'
 
  class _LibraryPreview extends Component {
@@ -35,7 +35,7 @@ import { stationService } from '../services/station.service.js'
         return (
             <div className="station-preview"
                 onClick={() => {
-                    this.props.setBgc(likedStation.bgc)
+                    this.props.setBgcAndName(likedStation.bgc, likedStation.name)
                     this.props.history.push(`/station/${likedStation._id}`)
                 }}>
                 <div className="station-img">
@@ -76,7 +76,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
     loadTracksToPlayer,
     setSongIdx,
-    setBgc
+    setBgcAndName
 }
 
 

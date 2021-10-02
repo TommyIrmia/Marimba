@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { setBgc } from '../store/station.actions.js'
+import { setBgcAndName } from '../store/station.actions.js'
 import { uploadImg } from '../services/cloudinary.service';
 import EditDetails from './EditDetails';
 
@@ -29,7 +29,7 @@ class _EditHero extends Component {
 
     onEdit = (hero) => {
         this.setState((prevState) => ({ ...prevState.hero, hero }))
-        this.props.setBgc(hero.bgc)
+        this.props.setBgcAndName(hero.bgc, hero.title)
         this.props.onToggleEdit();
     }
 
@@ -83,7 +83,7 @@ function mapStateToProps(state) {
     }
 }
 const mapDispatchToProps = {
-    setBgc
+    setBgcAndName
 }
 
 export const EditHero = connect(mapStateToProps, mapDispatchToProps)(_EditHero)

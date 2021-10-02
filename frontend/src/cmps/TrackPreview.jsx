@@ -48,7 +48,7 @@ export class _TrackPreview extends Component {
 
     onUnLike = async () => {
         const { track } = this.props;
-       await stationService.removeTrackFromStation(track.id, 'liked')
+        await stationService.removeTrackFromStation(track.id, 'liked')
         this.setState({ isLiked: false })
     }
 
@@ -61,6 +61,7 @@ export class _TrackPreview extends Component {
 
     checkIsPlaying = () => {
         if (this.props.stationId !== this.props.currStationId) return false
+        if (!this.props.isPlaying) return false
         return this.props.track.isPlaying
     }
 
@@ -70,7 +71,7 @@ export class _TrackPreview extends Component {
         const { isPlaying, title } = track
         const date = utilService.getTime(track.addedAt)
 
-        console.log('isLiked',isLiked);
+        console.log('isLiked', isLiked);
         return (
             <Draggable draggableId={this.props.track.id} index={idx}>
                 {(provided) => (
@@ -99,11 +100,11 @@ export class _TrackPreview extends Component {
 
                             <div className={'track-title ' + (this.checkIsPlaying() ? 'green' : '')}> {title} </div>
                         </section>
-                    
+
                         <div className="track-date">{date}</div>
 
                         <div className="preview-actions flex" >
-                            <button onClick={ (isLiked) ? this.onUnLike : this.onLike} className={` btn-like  ${(isHover ? "" : "btn-hidden")} 
+                            <button onClick={(isLiked) ? this.onUnLike : this.onLike} className={` btn-like  ${(isHover ? "" : "btn-hidden")} 
                      ${(isLiked ? "fas fa-heart btn-liked" : "far fa-heart")}`}>
                             </button>
 
@@ -125,7 +126,8 @@ function mapStateToProps(state) {
     return {
         tracks: state.tracksModule.tracks,
         player: state.mediaPlayerModule.player,
-        currStationId: state.mediaPlayerModule.stationId
+        currStationId: state.mediaPlayerModule.stationId,
+        isPlaying: state.mediaPlayerModule.isPlaying
     }
 }
 

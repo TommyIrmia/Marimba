@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import { ActivityLog } from './ActivityLog'
 import { Logo } from './Logo'
 
 export class NavBar extends Component {
@@ -9,7 +10,7 @@ export class NavBar extends Component {
             <nav className="nav-bar">
                 <Link to="/"><Logo /></Link>
 
-                <ul className="clean-list">
+                <ul className="clean-list nav-list">
 
                     <NavLink exact to="/" activeClassName="chosen">
                         <li>
@@ -46,6 +47,8 @@ export class NavBar extends Component {
                         </li>
                     </NavLink>
                 </ul>
+
+                <ActivityLog />
             </nav>
         )
     }

@@ -17,7 +17,7 @@ export class TrackSearch extends Component {
 
     loadTracks = async (id) => {
         const { searchKey } = this.state
-        const tracks = await youtubeService.query(searchKey)
+        const tracks = await youtubeService.query(searchKey, this.props.currStationTracks)
         this.setState({ tracks: tracks });
     }
 
@@ -80,7 +80,8 @@ export class TrackSearch extends Component {
                     </div>
                 </div>}
 
-                <SuggestTrackList tracks={tracks} onAddTrack={this.props.onAddTrack} removeAddedTrack={this.removeAddedTrack} />
+                <SuggestTrackList tracks={tracks} onAddTrack={this.props.onAddTrack}
+                    removeAddedTrack={this.removeAddedTrack} currStationTracks={this.props.currStationTracks} />
             </div>
 
         )

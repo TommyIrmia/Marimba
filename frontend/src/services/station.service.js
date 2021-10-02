@@ -1,6 +1,7 @@
 import { asyncStorageService } from './async-storage.service.js'
 import { utilService } from './util.service.js'
-import logo from '../assets/imgs/logo3.png';
+import logo from '../assets/imgs/logo.png';
+
 
 export const stationService = {
     query,
@@ -401,7 +402,7 @@ async function query(name) {
 
 async function getStationsByGenre(stations, genre) {
     console.log('stations in get stations by genre', stations);
-    if(!stations) return
+    if (!stations) return
     const filteredStations = stations.filter(station => station.tags.includes(genre))
     return filteredStations
 }
@@ -520,6 +521,8 @@ async function saveDataFromHero(stationId, data) {
         description: data.desc,
         bgc: data.bgc
     }
+
+    if (!updatedStation.imgUrl) updatedStation.imgUrl = logo
 
     console.log('Updated station', updatedStation);
     await asyncStorageService.put(STORAGE_KEY, updatedStation)

@@ -129,8 +129,9 @@ export class _MediaPlayer extends Component {
 
     onVolumeChange = (ev) => {
         if (this.state.isMute) {
-            this.props.player.unMute();
             this.setState({ isMute: false })
+            if (!this.props.player) return
+            this.props.player.unMute();
         }
         const volume = ev.target.value
         this.setState({ volume })

@@ -101,13 +101,13 @@
       position: relative;
       margin-inline-end: 25px;
       background-color: #404040;
+      box-shadow: 0 4px 60px rgb(0 0 0 / 50%);
 
       img {
         width: 100%;
         height: inherit;
         object-fit: cover;
         object-position: center center;
-        box-shadow: 0 4px 60px rgb(0 0 0 / 50%);
       }
 
       .img-awesome {

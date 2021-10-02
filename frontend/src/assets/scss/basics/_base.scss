@@ -2,11 +2,30 @@
   box-sizing: border-box;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: $clr3;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 body {
   background-color: $clr1;
   margin: 0;
   color: $clr7;
   font-family: gotham-light;
+
+
 }
 
 ::selection {
@@ -45,27 +64,24 @@ a {
   position: relative;
   bottom: 7px;
   .logo-img {
-    width: 80px;
+    width: 70px;
     img {
       filter: invert(82%) sepia(76%) saturate(239%) hue-rotate(71deg)
         brightness(99%) contrast(85%);
-      // filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg)
-      //   brightness(102%) contrast(102%);
       height: inherit;
       width: inherit;
     }
   }
   h1 {
-    // letter-spacing: 0.5px;
     font-family: logo2;
     text-align: center;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    text-shadow: 0 0 10px $clr5;
     position: relative;
     color: whitesmoke;
     bottom: 15px;
     span {
       font-size: 1.7rem;
-      // color: #93ebb2;
       color: $clr5;
     }
   }

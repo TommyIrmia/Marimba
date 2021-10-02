@@ -3,6 +3,15 @@
   background-color: $bgc3;
   grid-row: 1;
   position: relative;
+  display: flex;
+  align-items: center;
+
+  h1 {
+    transition: 0.6s;
+    margin-inline-start: 50px;
+    font-family: gotham-bold;
+    opacity: 0;
+  }
 
   .user-container {
     display: flex;
@@ -55,11 +64,15 @@
 
 html:not([data-scroll="0"]) {
   .app-header {
-    transition: background-color 0.6s;
+    transition: 0.6s;
     position: sticky;
     top: 0;
     z-index: 1;
     background-color: $clr3 !important;
+  }
+  h1 {
+    opacity: 1;
+    transition: 0;
   }
   .user-container {
     background-color: #000;
