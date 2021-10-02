@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
-import { setBgc } from '../store/station.actions.js'
+import { setBgcAndName } from '../store/station.actions.js'
 import { stationService } from '../services/station.service.js'
 
  class _LibraryPreview extends Component {
@@ -30,16 +30,17 @@ import { stationService } from '../services/station.service.js'
 
    
     render() {
-        const {likedStation} = this.props;
-        console.log('likedStation',likedStation);
+        const {station,title} = this.props;
+        console.log('station',station);
         return (
-            <div className="station-preview"
+            <div  style={{paddingTop:'5px'}} className="station-preview"
                 onClick={() => {
-                    this.props.setBgc(likedStation.bgc)
+                    this.props.setBgcAndName(likedStation.bgc, likedStation.name)
                     this.props.history.push(`/station/${likedStation._id}`)
                 }}>
+                    <h3 style={{marginBottom:'5px'}} >{title}</h3>
                 <div className="station-img">
-                    <img src={likedStation.imgUrl} alt="station" />
+                    <img src={station.imgUrl} alt="station" />
                     {!this.isStationPlaying() && <div onClick={(ev) => {
                         ev.stopPropagation()
                         this.onPlayStation()
@@ -53,12 +54,12 @@ import { stationService } from '../services/station.service.js'
                 </div>
 
                 <div className="station-info">
-                    <h1>{likedStation.name}</h1>
-                    <p>{likedStation.createdBy.fullname}</p>
+                    <h1>{station.name}</h1>
+                    <p>{station.createdBy.fullname}</p>
                 </div>
                 <div className="station-like">
                     <button className="far fa-thumbs-up "></button>
-                    <h2>{likedStation.likedByUsers.length}</h2>
+                    <h2>{station.likedByUsers.length}</h2>
                 </div>
             </div>
         )
@@ -76,7 +77,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
     loadTracksToPlayer,
     setSongIdx,
-    setBgc
+    setBgcAndName
 }
 
 

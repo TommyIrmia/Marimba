@@ -3,7 +3,6 @@ import { sessionService } from './session.service'
 import { asyncSessionService } from './async-session.service'
 const API = 'AIzaSyAkH_U9S48kAw-de7ZN7sj-JoTfKM58cXI'
 const KEY = 'cacheVideos'
-
 export const youtubeService = {
     query,
     setTVideoToTrack: getTracks,
@@ -12,8 +11,8 @@ export const youtubeService = {
     debounce
 }
 
-async function query(name = 'pop') {
-    if (!name || name === '') return
+async function query(name = _getRandomSearch(), existingTracks) {
+    if (!name) return
     const key = `${KEY}${name}`
     const search = `${name} music`
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${API}&q=${search}&maxResults=50`
@@ -30,7 +29,9 @@ async function query(name = 'pop') {
         console.log('tracks from axios', tracks);
         const duration = await getDuration(tracks)
         const updatedTracks = tracks.map((item, i) => Object.assign({}, item, duration[i]));
-        const filteredTracks = updatedTracks.filter(track => track.duration)
+        let existingTracksIds = []
+        if (existingTracks) existingTracksIds = existingTracks.map(track => track.id)
+        const filteredTracks = updatedTracks.filter(track => track.duration && !existingTracksIds.includes(track.id))
 
         sessionService.save(key, filteredTracks)
         return filteredTracks.slice(0, 5);
@@ -38,6 +39,13 @@ async function query(name = 'pop') {
         console.log('Had Error:', err);
         throw err
     }
+}
+
+function _getRandomSearch() {
+    const searchNames = ['britney spears', 'christinia aguilera', 'beatles', 'queen', 'beyonce', 'justin', 'jay Z', 'drake', 'ed Sheeran', 'Amy whinehouse', 'Guns n roses', 'Coldplay', 'Maroon 5', 'James blunt', 'Arctic monkeys', 'Rihanna', 'Paul mccartney', 'Bruno Mars', 'Nicki Minaj', 'Lady Gaga']
+    const idx = Math.floor(Math.random() * searchNames.length)
+    console.log('random idx', idx);
+    return searchNames[idx]
 }
 
 function getTracks(videos) {

@@ -8,6 +8,8 @@ export class MainHero extends Component {
         isStart: false,
     }
 
+    
+
     render() {
         const { isStart } = this.state;
         const {noScroll} = this.props;
@@ -20,7 +22,7 @@ export class MainHero extends Component {
                         <p>Listening is everything.</p>
                         <button onClick={() => {
                             this.setState({ isStart: true }, () => {
-                                sessionService.save('initial', false)
+                                sessionService.save('initial', 'false')
                                 window.removeEventListener('scroll', noScroll);
                             })
                         }} >Start listening</button>

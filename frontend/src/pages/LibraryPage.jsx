@@ -7,6 +7,7 @@ export class LibraryPage extends Component {
     state = {
         likedStations: [],
         likedTracks: [],
+        stationsBy: [],
     }
 
     componentDidMount() {
@@ -22,16 +23,25 @@ export class LibraryPage extends Component {
             return likedStation.likedByUsers.length > 0;
         })
 
-        this.setState({ likedTracks: likedTracks.tracks })
-        this.setState({ likedStations })
+        const stationsByUser = stations.filter(stationBy => {
+            return stationBy.createdBy._id === 'c137'
+        })
+
+
+        this.setState({ likedTracks: likedTracks.tracks, likedStations, stationsBy: stationsByUser })
     }
 
 
     render() {
-        const { likedStations, likedTracks } = this.state;
+        const { likedStations, likedTracks,stationsBy } = this.state;
         return (
             <main className="LibraryPage playlist-layout" >
-                <LibraryList likedStations={likedStations} likedTracks={likedTracks} />
+                <div className="margin-top" >
+                    <h2>Library</h2>
+                    <p>Enjoy the playlists you created and liked</p>
+                </div>
+
+                <LibraryList stationsBy={stationsBy} likedStations={likedStations} likedTracks={likedTracks} />
             </main>
         )
     }

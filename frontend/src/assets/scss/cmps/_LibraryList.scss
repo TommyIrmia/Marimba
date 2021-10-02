@@ -1,8 +1,12 @@
 .LibraryList {
-    margin-top: 25px;
+    margin-top: 20px;
     flex-wrap: wrap;
     gap: 30px;
     padding: 20px 0;
+
+    .page-title {
+        margin-bottom: 10px;
+    }
 
     .liked-track-container {
         width: rem(440px);
@@ -11,10 +15,10 @@
         position: relative;
         padding: 20px;
         transition: transform 0.5s;
+        margin-bottom: 30px;
 
         &:hover {
             cursor: pointer;
-            transform: rotate(5deg);
         }
 
         .tracks-title {
@@ -23,7 +27,7 @@
             display: -webkit-box;
             line-height: 16px;
             max-height: 200px;
-            -webkit-line-clamp: 5; 
+            -webkit-line-clamp: 5;
             -webkit-box-orient: vertical;
 
             p {
@@ -44,5 +48,10 @@
                 font-size: rem(30px);
             }
         }
+    }
+
+    .list-title {
+        position: absolute;
+        top: -25px;
     }
 }

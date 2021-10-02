@@ -6,13 +6,15 @@
   padding: 20px 10px;
   display: flex;
   flex-direction: column;
-  ul {
+  .nav-list {
     margin-top: 2rem;
+    padding-bottom: 40px;
     border-bottom: 2px solid gray;
     position: relative;
     bottom: 40px;
     li {
-      font-family: logo2;
+      font-family: gotham;
+      font-weight: 900;
       font-size: 0.9rem;
       color: inherit;
       background-color: inherit;
@@ -24,6 +26,7 @@
       align-items: center;
       gap: 1rem;
       &:hover {
+        font-weight: 900;
         color: $clr7;
         cursor: pointer;
         text-shadow: 0 0 2px $clr7;
@@ -38,6 +41,7 @@
     a {
       color: $clr2;
       &.chosen {
+        font-weight: 900;
         color: $clr7;
         background-color: $clr4;
       }

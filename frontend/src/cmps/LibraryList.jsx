@@ -2,13 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { LibraryPreview } from './LibraryPreview';
 
-export function LibraryList({ likedStations, likedTracks }) {
+export function LibraryList({ likedStations, likedTracks, stationsBy }) {
 
     return (
         <section className="LibraryList flex">
             {likedTracks && <Link to="/station/liked" className="liked-track-container" >
 
-                <div  className="tracks-title">
+
+                <div className="tracks-title">
                     {likedTracks.map(track => (
                         <p key={track.id} >{track.title}</p>
                     ))}
@@ -19,9 +20,23 @@ export function LibraryList({ likedStations, likedTracks }) {
                     <p> {likedTracks.length} liked songs </p>
                 </div>
             </Link>}
-            {likedStations.map(likedStation => (
-                <LibraryPreview key={likedStation._id} likedStation={likedStation} />
-            ))}
+
+
+                
+            <div className="flex relative" >
+            <h3 className="list-title" >You created</h3>
+                {stationsBy.map(stationBy => (
+                    <LibraryPreview title={'you created'} key={stationBy._id} station={stationBy} />
+                ))}
+            </div>
+            
+
+            <div className="flex relative" >
+            <h3 className="list-title" >You liked</h3>
+                {likedStations.map(likedStation => (
+                    <LibraryPreview title={'you liked'} key={likedStation._id} station={likedStation} />
+                ))}
+            </div>
         </section>
     )
 }

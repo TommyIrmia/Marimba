@@ -1,6 +1,7 @@
 const initialState = {
     stations: [],
-    bgc: '#181818'
+    bgc: '#181818',
+    stationName: ''
 }
 
 export function stationReducer(state = initialState, action) {
@@ -8,6 +9,8 @@ export function stationReducer(state = initialState, action) {
     switch (action.type) {
         case 'SET_BGC':
             return { ...state, bgc: action.bgc }
+        case 'SET_NAME':
+            return { ...state, stationName: action.stationName }
         case 'SET_STATIONS':
             stations = action.stations
             console.log('here', stations);

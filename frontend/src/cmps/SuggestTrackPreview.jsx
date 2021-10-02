@@ -1,4 +1,5 @@
 import React from "react";
+
 export class SuggestTrackPreview extends React.Component {
     state = {};
 

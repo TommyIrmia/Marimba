@@ -3,7 +3,8 @@ export const sessionService = {
     save: saveToSession,
 }
 
-saveToSession('initial',true)
+const isInitial = loadFromSession('initial')
+if (!isInitial) saveToSession('initial', true)
 
 function loadFromSession(key) {
     var val = sessionStorage.getItem(key)

@@ -115,11 +115,18 @@
 .far.fa-trash-alt::before {
   content: "\f2ed";
 }
+.fas.fa-trash-alt::before {
+  content: "\f2ed";
+}
 
 .fab.fa-itunes-note::before {
   content: "\f3b5";
 }
 
+.fas.fa-pencil-alt::before {
+  content: "\f303";
+}
+
 .fas.fa-thumbs-up::before {
   content: "\f164";
 }
@@ -134,4 +141,13 @@
 
 .fas.fa-thumbs-up::before {
   content: "\f164";
+}
+
+.fas.fa-plus::before {
+  content: "\f067";
+  font-size: rem(14px);
+}
+
+.fas.fa-th-list::before {
+  content: "\f00b";
 }

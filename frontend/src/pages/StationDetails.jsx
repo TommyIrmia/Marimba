@@ -4,9 +4,9 @@ import { DragDropContext } from 'react-beautiful-dnd'
 
 import { loadTracks, onAddTrack, onRemoveTrack, onUpdateTracks, onUpdateTrack } from '../store/tracks.actions.js'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
-import { setBgc } from '../store/station.actions.js'
+import { setBgcAndName } from '../store/station.actions.js'
 import { StationHero } from './../cmps/StationHero';
-import {EditHero} from './../cmps/EditHero';
+import { EditHero } from './../cmps/EditHero';
 import { StationActions } from './../cmps/StationActions';
 import { TrackSearch } from '../cmps/TrackSearch';
 import { TrackList } from './../cmps/TrackList';
@@ -33,17 +33,17 @@ class _StationDetails extends Component {
         if (stationId === 'new') {
             stationService.saveEmptyStation();
             isEditable = true;
-            this.props.setBgc('#545454')
+            this.props.setBgcAndName('#545454', 'New Playlist')
         }
         this.setState({ ...this.state, isEditable: isEditable, id: stationId }, async () => {
             await this.loadTracks()
         })
-        if (stationId === 'liked') this.props.setBgc('#e24aa5')
+        if (stationId === 'liked') this.props.setBgcAndName('#e24aa5', 'Liked Songs')
     }
 
     componentWillUnmount() {
         this.props.loadTracks()
-        this.props.setBgc('#181818')
+        this.props.setBgcAndName('#181818', '')
     }
 
     loadTracks = async () => {
@@ -67,6 +67,7 @@ class _StationDetails extends Component {
         let stationId = this.state.id
         if (stationId === 'new') {
             stationId = await stationService.saveNewStation();
+            
             this.setState({ ...this.state, id: stationId });
         }
         try {
@@ -105,7 +106,6 @@ class _StationDetails extends Component {
             stationId = await stationService.saveNewStation();
             this.setState({ ...this.state, id: stationId });
         }
-
         await stationService.saveDataFromHero(stationId, data)
     }
 
@@ -181,9 +181,9 @@ class _StationDetails extends Component {
                 {isEditable && <EditHero isEditTitle={isEditTitle} onToggleEdit={this.onToggleEdit} saveDataFromHero={this.saveDataFromHero} />}
 
                 <StationActions onSetFilter={this.onSetFilter} inputRef={this.inputRef}
-                    onSearch={this.onSearch} isSearch={isSearch} isPlaying={isPlaying} tracks={tracks}
-                    onPlayTrack={this.onPlayTrack} onPauseTrack={this.onPauseTrack}
-                    bgc={bgc}
+                    onSearch={this.onSearch} isSearch={isSearch} isPlaying={isPlaying} isPlayerPlaying={this.props.isPlaying}
+                    tracks={tracks} onPlayTrack={this.onPlayTrack}
+                    onPauseTrack={this.onPauseTrack} bgc={bgc}
                 />
 
 
@@ -191,7 +191,7 @@ class _StationDetails extends Component {
                     <TrackList onRemoveTrack={this.onRemoveTrack} tracks={tracks} stationId={stationId} />
                 </DragDropContext>
 
-                <TrackSearch onAddTrack={this.onAddTrack} stationId={stationId} />
+                <TrackSearch onAddTrack={this.onAddTrack} stationId={stationId} currStationTracks={tracks} />
             </main>
 
         )
@@ -217,7 +217,7 @@ const mapDispatchToProps = {
     setSongIdx,
     onUpdateTracks,
     onUpdateTrack,
-    setBgc
+    setBgcAndName
 }
 
 
