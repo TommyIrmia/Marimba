@@ -37,7 +37,8 @@ function post(entityType, newEntity) {
     // newEntity._id = _makeId()
     return query(entityType)
         .then(entities => {
-            entities.push(newEntity)
+            if (entityType === 'activites') entities.unshift(newEntity)
+            else entities.push(newEntity)
             save(entityType, entities)
             return newEntity
         })

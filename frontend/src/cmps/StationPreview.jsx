@@ -12,7 +12,6 @@ class _StationPreview extends React.Component {
 
     onPlayStation = async () => {
         const { stationId, station, player } = this.props
-        console.log('from play', station);
         if (stationId === station._id) {
             player.playVideo()
         } else {

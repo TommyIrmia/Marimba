@@ -11,42 +11,67 @@ const initialActivites = [
     {
         type: "create playlist",
         byUser: "Tomer",
-        stationName: "All Time Hits",
-        createdAt: "10/12/2020 16:43",
+        createdAt: 1632817272000,
+        stationInfo: {
+            name: "All Time Hits",
+            bgc: "#a5cbad",
+            id: 's101',
+        }
     },
     {
         type: "add track",
         byUser: "Tomer",
         trackName: "positions",
         stationName: "Ariana's HITS!",
-        createdAt: "22/07/2020 09:17",
+        createdAt: 1632322632000,
+        stationInfo: {
+            name: "Ariana's HITS!",
+            bgc: "#8e2b23",
+            id: 's102',
+        }
     },
     {
         type: "create playlist",
         byUser: "Tommy",
-        stationName: "Best of Lizzo!",
-        createdAt: "03/02/2021 20:13",
+        createdAt: 1631998632000,
+        stationInfo: {
+            name: "Best of Lizzo!",
+            bgc: "#c34914",
+            id: 's103',
+        }
     },
     {
         type: "remove track",
         byUser: "Naama",
         trackName: "positions",
-        stationName: "Ariana's HITS!",
-        createdAt: "18/02/2021 18:57",
+        createdAt: 1631834112000,
+        stationInfo: {
+            name: "All Time Hits",
+            bgc: "#a5cbad",
+            id: 's101',
+        }
     },
     {
         type: "remove track",
         byUser: "Tomer",
         trackName: "Hey Jude",
-        stationName: "All Time Hits",
-        createdAt: "12/03/2021 14:07",
+        createdAt: 1631360592000,
+        stationInfo: {
+            name: "All Time Hits",
+            bgc: "#a5cbad",
+            id: 's101',
+        }
     },
     {
         type: "add track",
         byUser: "Tommy",
         trackName: "Juice",
-        stationName: "Best of Lizzo!",
-        createdAt: "19/03/2021 21:44"
+        createdAt: 1630332912000,
+        stationInfo: {
+            name: "Best of Lizzo!",
+            bgc: "#c34914",
+            id: 's103',
+        }
     }
 ]
 
@@ -66,6 +91,7 @@ async function query() {
 
 async function addActivity(activity) {
     try {
+        activity.createdAt = Date.now()
         return await asyncStorageService.post(STORAGE_KEY, activity)
     } catch (err) {
         console.log('can not add activity', err)

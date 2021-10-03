@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { DragDropContext } from 'react-beautiful-dnd'
+import { addActivity } from '../store/activitylog.actions.js'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
 import { setBgcAndName, loadTracks, onAddTrack, onRemoveTrack, onUpdateTracks, onUpdateTrack } from '../store/station.actions.js'
 import { StationHero } from './../cmps/StationHero';
@@ -41,9 +42,11 @@ class _StationDetails extends Component {
         if (stationId === 'liked') this.props.setBgcAndName('#e24aa5', 'Liked Songs')
     }
 
-    componentWillUnmount() {
-        this.props.loadTracks()
-        this.props.setBgcAndName('#181818', '')
+    async componentWillUnmount() {
+        await this.props.loadTracks()
+        if (!this.props.history.location.pathname.includes('station')) {
+            this.props.setBgcAndName('#181818', '')
+        }
     }
 
     loadTracks = async () => {
@@ -68,9 +71,26 @@ class _StationDetails extends Component {
             let { stationId } = this.state
             if (stationId === 'new') {
                 stationId = await stationService.saveNewStation();
+                this.props.addActivity({
+                    type: 'create playlist', byUser: 'Guest#117',
+                    stationInfo: {
+                        name: this.props.stationName || 'New Station',
+                        bgc: this.props.bgc,
+                        id: stationId,
+                    }
+                })
                 this.setState({ ...this.state, stationId });
             }
+
             await this.props.onAddTrack(track, stationId);
+            this.props.addActivity({
+                type: 'add track', trackName: track.title, byUser: 'Guest#234',
+                stationInfo: {
+                    name: this.props.stationName,
+                    bgc: this.props.bgc,
+                    id: stationId,
+                }
+            })
             if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         } catch (err) {
             throw err
@@ -83,10 +103,18 @@ class _StationDetails extends Component {
         window.scrollTo({ behavior: 'smooth', top: this.addRef.current.offsetTop })
     }
 
-    onRemoveTrack = async (trackId) => {
+    onRemoveTrack = async (trackId, trackName) => {
         try {
             const { stationId } = this.state
             await this.props.onRemoveTrack(trackId, stationId)
+            this.props.addActivity({
+                type: 'remove track', trackName, byUser: 'Guest#147',
+                stationInfo: {
+                    name: this.props.stationName,
+                    bgc: this.props.bgc,
+                    id: stationId,
+                }
+            })
             if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         } catch (err) {
             throw err
@@ -107,6 +135,15 @@ class _StationDetails extends Component {
         if (stationId === 'new') {
             stationId = await stationService.saveNewStation();
             this.setState({ ...this.state, stationId });
+            console.log('station id from save', stationId);
+            this.props.addActivity({
+                type: 'create playlist', byUser: 'Guest#117',
+                stationInfo: {
+                    name: data.title,
+                    bgc: this.props.bgc,
+                    id: stationId,
+                }
+            })
         }
         await stationService.saveDataFromHero(stationId, data)
     }
@@ -213,7 +250,8 @@ function mapStateToProps(state) {
         currentTracks: state.mediaPlayerModule.currentTracks,
         currSongIdx: state.mediaPlayerModule.currSongIdx,
         tracks: state.stationModule.tracks,
-        bgc: state.stationModule.bgc
+        bgc: state.stationModule.bgc,
+        stationName: state.stationModule.stationName
     }
 }
 const mapDispatchToProps = {
@@ -224,7 +262,8 @@ const mapDispatchToProps = {
     setSongIdx,
     onUpdateTracks,
     onUpdateTrack,
-    setBgcAndName
+    setBgcAndName,
+    addActivity
 }
 
 

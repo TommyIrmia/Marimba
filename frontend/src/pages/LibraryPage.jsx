@@ -18,7 +18,7 @@ export class LibraryPage extends Component {
     biggestNumberInArray = (arr) => {
         const max = Math.max(...arr);
         return max;
-      }
+    }
 
     loadStations = async () => {
         try {
@@ -26,10 +26,8 @@ export class LibraryPage extends Component {
             const likedTracks = await stationService.getById('liked')
             const likedStations = stations.filter(likedStation => likedStation.likedByUsers.length > 0)
             const stationsByUser = stations.filter(stationBy => stationBy.createdBy._id === 'c137')
-            // const recentlyaddedStation = stations.reduce((max, station) => station.createdAt > max.createdAt? station : max);
-            let recentlyaddedStations = stations.sort((a,b)=> b.createdAt - a.createdAt );
-            recentlyaddedStations = recentlyaddedStations.slice(0,2);
-
+            let recentlyaddedStations = stations.sort((a, b) => b.createdAt - a.createdAt);
+            recentlyaddedStations = recentlyaddedStations.slice(0, 4);
 
             this.setState({ recentlyStations: recentlyaddedStations, likedTracks: likedTracks.tracks, likedStations, stationsBy: stationsByUser })
 
@@ -39,7 +37,7 @@ export class LibraryPage extends Component {
     }
 
     render() {
-        const { likedStations, likedTracks, stationsBy,recentlyStations } = this.state;
+        const { likedStations, likedTracks, stationsBy, recentlyStations } = this.state;
         return (
             <main className="LibraryPage playlist-layout" >
                 <div className="margin-top" >
