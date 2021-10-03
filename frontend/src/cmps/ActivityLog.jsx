@@ -37,7 +37,11 @@ export class _ActivityLog extends Component {
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
             case 'add track':
-                return (<li className="flex" key={idx}>
+                return (<li className="flex" key={idx}
+                    onClick={() => {
+                        this.props.history.push(`/station/${activity.stationInfo.id}`)
+                        this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
+                    }}>
                     <div className="activity-type">
                         <span className="fas fa-plus"></span>
                     </div>
@@ -47,7 +51,10 @@ export class _ActivityLog extends Component {
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
             case 'remove track':
-                return (<li className="flex" key={idx}>
+                return (<li className="flex" key={idx} onClick={() => {
+                    this.props.history.push(`/station/${activity.stationInfo.id}`)
+                    this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
+                }}>
                     <div className="activity-type">
                         <span className="fas fa-trash-alt "></span>
                     </div>

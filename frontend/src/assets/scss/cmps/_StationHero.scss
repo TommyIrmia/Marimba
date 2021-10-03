@@ -45,7 +45,7 @@
   position: absolute;
   bottom: 28px;
   left: 300px;
-  @media (max-width: 1230px) {
+  @media (max-width: 1270px) {
     bottom: -5px;
   }
   h5 {
@@ -69,7 +69,7 @@
   }
 }
 
-@media (max-width: 1230px) {
+@media (max-width: 1270px) {
   .info-container {
     .hero-title {
       font-size: rem(70px);

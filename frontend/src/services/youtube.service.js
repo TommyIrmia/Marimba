@@ -71,6 +71,8 @@ async function deleteTrackFromCache(name = _getRandomSearch(), track) {
         const key = `${KEY}${name}`
         const trackId = track.id;
         let tracks = await sessionService.load(key)
+        console.log('key', key);
+        console.log('from youtube service', tracks);
         const idx = tracks.findIndex(track => track.id === trackId)
         const switchTrack = tracks.pop();
         tracks.splice(idx, 1, switchTrack);

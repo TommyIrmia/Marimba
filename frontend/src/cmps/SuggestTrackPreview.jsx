@@ -3,9 +3,13 @@ import React from "react";
 export class SuggestTrackPreview extends React.Component {
     state = {};
 
-    onAddTrack(track) {
-        this.props.onAddTrack(track);
-        this.props.removeAddedTrack(track);
+    onAddTrack = async (track) => {
+        try {
+            await this.props.onAddTrack(track);
+            await this.props.removeAddedTrack(track);
+        } catch (err) {
+            throw err
+        }
     }
 
     render() {

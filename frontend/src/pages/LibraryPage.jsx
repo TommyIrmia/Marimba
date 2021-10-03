@@ -29,7 +29,6 @@ export class LibraryPage extends Component {
             let recentlyaddedStations = stations.sort((a, b) => b.createdAt - a.createdAt);
             recentlyaddedStations = recentlyaddedStations.slice(0, 4);
 
-
             this.setState({ recentlyStations: recentlyaddedStations, likedTracks: likedTracks.tracks, likedStations, stationsBy: stationsByUser })
 
         } catch (err) {
