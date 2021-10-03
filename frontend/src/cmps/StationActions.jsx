@@ -24,7 +24,7 @@ export class StationActions extends Component {
     }
 
     render() {
-        const { isSearch, onSearch, inputRef, onSetFilter, onPauseTrack, onPlayTrack, onToggleAddTracks, tracks, bgc } = this.props;
+        const { isSearch, onSearch, inputRef, onSetFilter, onPauseTrack, onPlayTrack, onScrollToAdd, tracks, bgc } = this.props;
         const { isLiked } = this.state;
 
         return (
@@ -45,7 +45,7 @@ export class StationActions extends Component {
 
                             <button className="far fa-arrow-alt-circle-down btn-action"></button>
 
-                            <button onClick ={onToggleAddTracks} className="fas fa-plus-square btn-action"></button>
+                            <button onClick ={onScrollToAdd} className="fas fa-plus-square btn-action"></button>
                         </div>
 
                         <StationFilter onSetFilter={onSetFilter} inputRef={inputRef} onSearch={onSearch} isSearch={isSearch} />

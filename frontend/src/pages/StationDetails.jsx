@@ -78,6 +78,8 @@ class _StationDetails extends Component {
     }
 
     onScrollToAdd = () => {
+        console.log('scrolling page');
+        console.log('add ref current', this.addRef.current);
         window.scrollTo({ behavior: 'smooth', top: this.addRef.current.offsetTop })
     }
 
@@ -194,7 +196,7 @@ class _StationDetails extends Component {
                     <TrackList onRemoveTrack={this.onRemoveTrack} tracks={tracks} stationId={stationId} />
                 </DragDropContext>
                 <section id="add">
-                    <TrackSearch ref={this.addRef} onAddTrack={this.onAddTrack} stationId={stationId} currStationTracks={tracks} />
+                    <TrackSearch addRef={this.addRef} onAddTrack={this.onAddTrack} stationId={stationId} currStationTracks={tracks} />
                 </section>
 
             </main>

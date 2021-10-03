@@ -70,8 +70,9 @@ export class TrackSearch extends Component {
 
     render() {
         const { isSearch, searchKey, tracks } = this.state;
+        const { addRef } = this.props;
         return (
-            <div className="TrackSearch playlist-layout">
+            <div ref ={addRef} className="TrackSearch playlist-layout">
                 {!isSearch && <div className="SuggestedTracks">
                     <h4 onClick={this.toggleSearch}>To search other tracks</h4>
                     <h2>Suggested</h2>
