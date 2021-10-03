@@ -8,11 +8,11 @@ export class TrackDetails extends React.Component {
     }
 
     componentDidMount() {
-        // this.checkIsLiked()
+        this.checkIsLiked()
     }
 
-    componentDidUpdate() {
-        // this.checkIsLiked()
+    componentDidUpdate(prevProps) {
+        prevProps.currTrack?.id !== this.props.currTrack?.id && this.checkIsLiked()
         // console.log('track details updated');
     }
 
@@ -20,10 +20,8 @@ export class TrackDetails extends React.Component {
         try {
             if (!this.props.player) return
             const { currTrack } = this.props
-            const { isLiked } = this.state;
-            // this.setState({ isLiked: !isLiked })
-            this.checkIsLiked()
             await stationService.addTrackToStation(currTrack, 'liked')
+            this.props.updateIsLikedSong({ trackId: currTrack.id, isLiked: true })
         } catch (err) {
             throw err
         }
@@ -34,34 +32,29 @@ export class TrackDetails extends React.Component {
             const stationId = this.props.station._id;
             if (stationId === 'liked') await this.props.onRemoveTrack(trackId)
             else await stationService.removeTrackFromStation(trackId, 'liked')
-            this.setState({ isLiked: false })
+            this.props.updateIsLikedSong({ trackId, isLiked: false })
         } catch (err) {
             throw err
         }
     }
 
     checkIsLiked = async () => {
-        if (!this.props.currTrack) return;
         const { currTrack } = this.props
-
+        if (!currTrack) return;
         try {
             const station = await stationService.getById('liked')
             const isLiked = station.tracks.some(likedTrack => likedTrack.id === currTrack.id)
-            // if (isLiked) this.setState({ isLiked })
-            // console.log('isLiked', isLiked);
-            return isLiked;
-
+            this.props.updateIsLikedSong({ trackId: currTrack.id, isLiked })
         } catch (err) {
             throw err
         }
     }
 
     render() {
-        const { imgSrc, currTrack, station } = this.props
-        const { isLiked } = this.state;
+        const { imgSrc, currTrack, station, currLikedTrack } = this.props
         // console.log('isLiked❤❤❤',isLiked);
-        // const isLiked = this.checkIsLiked
-        // console.log('checkIsLiked', isLiked);
+        // const isLiked2 = this.checkIsLiked()
+        // console.log('checkIsLiked', isLiked2);
         return (
 
             <div className="song-details flex align-center">
@@ -73,8 +66,8 @@ export class TrackDetails extends React.Component {
                 </div>
 
                 <div className="song-actions">
-                    <button onClick={(isLiked) ? () => this.onUnLike(currTrack?.id) : this.onLike}
-                        className={isLiked ? "fas fa-heart btn-liked" : "far fa-heart"}></button>
+                    <button onClick={(currLikedTrack.isLiked) ? () => this.onUnLike(currTrack?.id) : this.onLike}
+                        className={currLikedTrack.isLiked ? "fas fa-heart btn-liked" : "far fa-heart"}></button>
                 </div>
             </div>
         )

@@ -14,14 +14,19 @@ export class SearchPageFilter extends Component {
     render() {
         const { title } = this.state
         return (
-            <form className="SeacrchPageFilter " >
+            <form className="SeacrchPageFilter" onSubmit={(ev) => {
+                ev.preventDefault();
+                // this.props.onSetFilter(title)
+            }}>
                 <div className="input-container" >
-                    <button className="fas fa-search search-btn" ></button>
-                    <input type="search" name="title" value={title}
-                        placeholder="Playlists or songs" autoComplete="off" onChange={(ev) => {
-                            ev.preventDefault();
-                            this.handleChange(ev)
-                        }} autoFocus={true} />
+                    <button className="fas fa-search search-btn"></button>
+                    <input type="search"
+                        name="title"
+                        value={title}
+                        placeholder="Playlists or songs"
+                        autoComplete="off"
+                        onChange={this.handleChange}
+                        autoFocus={true} />
                 </div>
             </form>
         )

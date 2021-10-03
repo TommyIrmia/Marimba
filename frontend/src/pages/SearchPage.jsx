@@ -12,15 +12,16 @@ export class SearchPage extends Component {
         tracks: [],
         genres: [],
         searchKey: '',
-        isSearch: false
+        isSearch: false,
+        msg: ''
     }
-
+    timeoutId = null
     async componentDidMount() {
         try {
             const genres = await this.loadGenres()
-            this.setState({ ...this.state, genres: genres })
+            this.setState({ ...this.state, genres })
         } catch (err) {
-            throw err
+            console.log(err);
         }
     }
 
@@ -32,43 +33,52 @@ export class SearchPage extends Component {
         }
     }
 
-    loadTracks = async () => {
-        try {
-            const { searchKey } = this.state
-            const tracks = await youtubeService.query(searchKey)
-            this.setState({ ...this.state, tracks: tracks });
-        } catch (err) {
-            throw err
-        }
+    // loadTracks = async () => {
+    //     try {
+    //         const { searchKey } = this.state
+    //         const tracks = await youtubeService.query(searchKey)
+    //         this.setState({ ...this.state, tracks: tracks });
+    //     } catch (err) {
+    //         throw err
+    //     }
+    // }
+
+    // debouncedLoadTracks = youtubeService.debounce(this.loadTracks, 1000)
+    // debouncedLoadStations = youtubeService.debounce(this.loadStations, 1000)
+
+    loadStationsAndTracks = () => {
+        clearTimeout(this.timeoutId)
+        setTimeout(async () => {
+            try {
+                const { searchKey } = this.state
+                if (!searchKey)return
+                const stations = await stationService.query(searchKey);
+                const tracks = await youtubeService.query(searchKey)
+                this.setState({ ...this.state, stations, tracks, msg: '' })
+            } catch (err) {
+                this.setState({ msg: 'No Results', tracks: [], stations: [] })
+            }
+        }, 300)
     }
-
-    debouncedLoadTracks = youtubeService.debounce(this.loadTracks, 1000)
-
-    loadStations = async () => {
-        try {
-            const stations = await stationService.query(this.state.searchKey);
-            this.setState({ ...this.state, stations: stations })
-        } catch (err) {
-            throw err
-        }
-    }
-
-    debouncedLoadStations = youtubeService.debounce(this.loadStations, 1000)
 
     onSetFilter = (searchKey) => {
-        if (searchKey === '') this.setState({ ...this.state, isSearch: false, searchKey })
-        else this.setState({ ...this.state, isSearch: true, searchKey }, () => {
-            this.debouncedLoadStations()
-            this.debouncedLoadTracks()
+        if (!searchKey) {
+            this.setState({ ...this.state, isSearch: false, searchKey, msg: '' })
+            clearTimeout(this.timeoutId)
+        }
+        else this.setState(prevState => ({ ...prevState, isSearch: true, searchKey, msg: '' }), () => {
+            this.loadStationsAndTracks()
+            // this.debouncedLoadStations()
+            // this.debouncedLoadTracks()
         })
     }
+
     render() {
-        const { stations, tracks, genres, isSearch } = this.state;
+        const { stations, tracks, genres, isSearch, msg } = this.state;
         return (
             <main className="playlist-layout" >
                 <SearchPageFilter onSetFilter={this.onSetFilter} />
-
-
+                {msg && <h4>{msg}</h4>}
                 {!isSearch &&
                     <section className="genre-section">
                         <h1>Browse by collection</h1>
@@ -76,7 +86,7 @@ export class SearchPage extends Component {
                     </section>}
 
                 {isSearch && <>
-                    <SearchTrackList tracks={tracks} />
+                    {tracks && <SearchTrackList tracks={tracks} />}
                     <SearchStationList stations={stations} />
                 </>}
             </main>

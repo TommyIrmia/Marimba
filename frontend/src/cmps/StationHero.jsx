@@ -28,9 +28,7 @@ export class StationHero extends Component {
             <main style={{ backgroundColor: station.bgc }} className="hero-container">
                 <div className="linear-container">
                     <div className="StationHero playlist-layout">
-
                         <div className="img-container"><img src={station.imgUrl} alt="img" /> </div>
-
                         <div className="info-container">
                             <h5>playlist</h5>
                             <h1 className="hero-title">{station.name}</h1>

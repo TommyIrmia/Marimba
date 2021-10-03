@@ -72,3 +72,11 @@ export function setCurrDuration(duration) {
         })
     }
 }
+
+export function updateIsLikedSong(currLikedTrack) {
+    return (dispatch) => {
+        dispatch({ type: 'SET_IS_LIKED', currLikedTrack })
+    }
+
+}
+

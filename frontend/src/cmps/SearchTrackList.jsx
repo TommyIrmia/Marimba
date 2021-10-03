@@ -2,16 +2,14 @@ import React from 'react'
 import { SearchTrackPreview } from './SearchTrackPreview';
 
 
-export class SearchTrackList extends React.Component {
+export const SearchTrackList = ({ tracks }) => {
 
-    render() {
-        const { tracks } = this.props
-        return (
-            <section className="TrackList">
-                {tracks.map((track, idx) => (
-                    <SearchTrackPreview idx={idx} key={track.id} track={track} />
-                ))}
-            </section>
-        )
-    }
+    return (
+        <section className="TrackList">
+            {tracks.map((track, idx) => (
+                <SearchTrackPreview idx={idx} key={track.id} track={track} />
+            ))}
+        </section>
+    )
+
 }
