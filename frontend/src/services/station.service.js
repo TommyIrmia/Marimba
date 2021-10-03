@@ -9,6 +9,7 @@ export const stationService = {
     getById,
     addStation,
     removeStation,
+    loadTracks,
     addTrackToStation,
     removeTrackFromStation,
     saveEmptyStation,
@@ -395,7 +396,6 @@ const initialStations = [
 ]
 
 async function query(name) {
-    console.log('name to query:', name);
     try {
         let stations = await asyncStorageService.query(STORAGE_KEY)
         if (!stations) {
@@ -418,7 +418,6 @@ async function query(name) {
 }
 
 async function getStationsByGenre(stations, genre) {
-    console.log('stations in get stations by genre', stations);
     if (!stations) return
     const filteredStations = stations.filter(station => station.tags.includes(genre))
     return filteredStations
@@ -465,11 +464,37 @@ async function getById(stationId) {
     try {
         // if(stationId === 'new') return 
         const station = await asyncStorageService.get(STORAGE_KEY, stationId)
-        console.log('from get by id', station);
         if (station.tracks.length) station.tracks.forEach(track => track.isPlaying = false)
         return station
     } catch (err) {
         console.log('Can not get station', stationId)
+    }
+}
+
+async function loadTracks(stationId, filterBy) {
+    try {
+
+        if (!filterBy) {
+            if (stationId === 'new') return []
+            else {
+                const station = await stationService.getById(stationId);
+                return station.tracks
+            }
+        }
+
+        const { title, sort } = filterBy
+
+        let { tracks } = await stationService.getById(stationId)
+        if (title) {
+            tracks = tracks.filter(track => track.title.toLowerCase().includes(title.toLowerCase()))
+        }
+        if (sort === 'Title') tracks.sort((a, b) => a.title.localeCompare(b.title))
+        if (sort === 'Date added') tracks.sort((a, b) => a.addedAt > b.addedAt ? -1 : 1)
+        if (sort === 'Duration') tracks.sort((a, b) => a.duration < b.duration ? -1 : 1)
+        console.log('tracks after filter', tracks);
+        return tracks
+    } catch (err) {
+        console.log('from station service can not get tracks', err)
     }
 }
 

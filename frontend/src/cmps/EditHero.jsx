@@ -66,7 +66,7 @@ class _EditHero extends Component {
                         </div>
                     </section>
 
-                    {isEditModalOpen && <EditDetails onToggleEdit={onToggleEdit} onEdit={this.onEdit} hero={hero} saveDataFromHero={saveDataFromHero} />}
+                    {isEditModalOpen && <EditDetails isEditModalOpen={isEditModalOpen} onToggleEdit={onToggleEdit} onEdit={this.onEdit} hero={hero} saveDataFromHero={saveDataFromHero} />}
                 </div>
             </main>
         )

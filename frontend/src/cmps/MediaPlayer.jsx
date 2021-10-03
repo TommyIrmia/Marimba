@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { onUpdateTrack, onRemoveTrack } from '../store/tracks.actions.js'
+import { onUpdateTrack, onRemoveTrack } from '../store/station.actions.js'
 import { setPlayer, setSongIdx, onTogglePlay, setCurrDuration, loadTracksToPlayer } from '../store/mediaplayer.actions.js'
 import YouTube from 'react-youtube';
 import imgSrc from '../assets/imgs/logo3.png';
@@ -233,8 +233,8 @@ function mapStateToProps(state) {
         currDuration: state.mediaPlayerModule.currDuration,
         currentTracks: state.mediaPlayerModule.currentTracks,
         stationId: state.mediaPlayerModule.stationId,
-        tracks: state.tracksModule.tracks,
-        station_Id: state.tracksModule.station_Id
+        tracks: state.stationModule.tracks,
+        station_Id: state.stationModule.station_Id
     }
 }
 const mapDispatchToProps = {

@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
 import { setBgcAndName } from '../store/station.actions.js'
-import { stationService } from '../services/station.service.js'
 
 class _StationPreview extends React.Component {
 

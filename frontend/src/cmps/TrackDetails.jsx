@@ -8,7 +8,6 @@ export class TrackDetails extends React.Component {
     }
 
     componentDidMount() {
-        console.log('track details mounted');
         // this.checkIsLiked()
     }
 
