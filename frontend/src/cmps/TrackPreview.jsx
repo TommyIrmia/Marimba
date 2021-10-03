@@ -113,7 +113,7 @@ export class _TrackPreview extends Component {
 
                             <p className={(isHover) ? '' : 'track-duration'} >{track.minutes}:{track.seconds}</p>
 
-                            <button onClick={() => onRemoveTrack(track.id)}
+                            <button onClick={() => onRemoveTrack(track.id, track.title)}
                                 className={"far fa-trash-alt btn-remove " + (isHover ? "" : "btn-hidden")}>
                             </button>
                         </div>

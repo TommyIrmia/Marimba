@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { DragDropContext } from 'react-beautiful-dnd'
+import { addActivity } from '../store/activitylog.actions.js'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
 import { setBgcAndName, loadTracks, onAddTrack, onRemoveTrack, onUpdateTracks, onUpdateTrack } from '../store/station.actions.js'
 import { StationHero } from './../cmps/StationHero';
@@ -42,8 +43,9 @@ class _StationDetails extends Component {
     }
 
     componentWillUnmount() {
-        this.props.loadTracks()
+        console.log('component unmount', this.props.stationName);
         this.props.setBgcAndName('#181818', '')
+        this.props.loadTracks()
     }
 
     loadTracks = async () => {
@@ -71,6 +73,14 @@ class _StationDetails extends Component {
                 this.setState({ ...this.state, stationId });
             }
             await this.props.onAddTrack(track, stationId);
+            this.props.addActivity({
+                type: 'add track', trackName: track.title, byUser: 'Guest#234',
+                stationInfo: {
+                    stationName: this.props.stationName,
+                    stationBgc: this.props.bgc,
+                    stationId,
+                }
+            })
             if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         } catch (err) {
             throw err
@@ -81,10 +91,18 @@ class _StationDetails extends Component {
         window.scrollTo({ behavior: 'smooth', top: this.addRef.current.offsetTop })
     }
 
-    onRemoveTrack = async (trackId) => {
+    onRemoveTrack = async (trackId, trackName) => {
         try {
             const { stationId } = this.state
             await this.props.onRemoveTrack(trackId, stationId)
+            this.props.addActivity({
+                type: 'remove track', trackName, byUser: 'Guest#147',
+                stationInfo: {
+                    stationName: this.props.stationName,
+                    stationBgc: this.props.bgc,
+                    stationId,
+                }
+            })
             if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         } catch (err) {
             throw err
@@ -211,7 +229,8 @@ function mapStateToProps(state) {
         currentTracks: state.mediaPlayerModule.currentTracks,
         currSongIdx: state.mediaPlayerModule.currSongIdx,
         tracks: state.stationModule.tracks,
-        bgc: state.stationModule.bgc
+        bgc: state.stationModule.bgc,
+        stationName: state.stationModule.stationName
     }
 }
 const mapDispatchToProps = {
@@ -222,7 +241,8 @@ const mapDispatchToProps = {
     setSongIdx,
     onUpdateTracks,
     onUpdateTrack,
-    setBgcAndName
+    setBgcAndName,
+    addActivity
 }
 
 

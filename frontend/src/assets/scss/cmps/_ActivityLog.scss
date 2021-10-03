@@ -27,17 +27,24 @@
     background-color: $clr3;
     color: $clr2;
     overflow-y: scroll;
-
+    
     ul {
+      transition: 0.5s;
       li {
+        font-family: gotham-light;
+        color: $clr2;
         align-items: center;
         gap: 5px;
         font-size: rem(14px);
         border-bottom: 1px solid rgb(66, 66, 66);
-        padding-bottom: 13px;
-        margin-bottom: 13px;
+        padding: 13px 0;
         position: relative;
-
+        transition: 0.5s;
+        cursor: pointer;
+        &:hover {
+          background-color: $clr4;
+          color: whitesmoke;
+        }
         .activity-type {
           text-align: center;
           min-width: 20px;
@@ -58,6 +65,7 @@
           background-color: $clr3;
           right: 5px;
           padding: 0 5px;
+          z-index: 1;
         }
       }
     }
