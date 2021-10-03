@@ -52,6 +52,7 @@ function getTracks(videos) {
         return videos.map((video) => {
             let title = video.snippet.title.replace(/\(([^)]+)\)/g, '');
             title = title.replace('&#39;', '\'');
+            title = title.replace('&amp;', '&');
             return {
                 id: video.id.videoId,
                 title,

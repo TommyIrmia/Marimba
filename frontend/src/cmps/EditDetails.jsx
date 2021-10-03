@@ -10,6 +10,7 @@ export default class EditDetails extends Component {
     state = {
         isHover: false,
         isSelect: false,
+        opacity:'0',
         genres: [],
         hero: {
             bgc: "#282828 ",
@@ -22,6 +23,7 @@ export default class EditDetails extends Component {
 
     componentDidMount() {
         this.onGetGenres()
+        this.onChangeOpacity()
     }
 
     onGetGenres = async () => {
@@ -65,12 +67,21 @@ export default class EditDetails extends Component {
         this.setState((prevState) => ({ ...prevState, hero: { ...prevState.hero, bgc } }))
     }
 
+    onChangeOpacity = () => {
+        setTimeout(() => {
+            this.setState({
+                opacity:'100%'
+              })
+            }, 10);
+    }
+
     render() {
-        const { isHover, hero, genres, isSelect } = this.state;
+        const { isHover, hero, genres, isSelect,opacity } = this.state;
         const { img, title, desc, bgc } = this.state.hero;
-        const { onEdit, onToggleEdit, saveDataFromHero,isEditModalOpen } = this.props;
+        const { onEdit, onToggleEdit, saveDataFromHero} = this.props;
+        console.log('opacity',opacity);
         return (
-            <main className={isEditModalOpen ? "edit-container" : 'edit-hidden'} style={{ backgroundColor: bgc }}>
+            <main className="edit-container" style={{ backgroundColor: bgc,opacity:opacity}}>
 
                 <div className="header-edit flex" >
                     <h3>Edit details</h3>

@@ -26,7 +26,6 @@ export class LibraryPage extends Component {
             const likedTracks = await stationService.getById('liked')
             const likedStations = stations.filter(likedStation => likedStation.likedByUsers.length > 0)
             const stationsByUser = stations.filter(stationBy => stationBy.createdBy._id === 'c137')
-            // const recentlyaddedStation = stations.reduce((max, station) => station.createdAt > max.createdAt? station : max);
             let recentlyaddedStations = stations.sort((a,b)=> b.createdAt - a.createdAt );
             recentlyaddedStations = recentlyaddedStations.slice(0,2);
 
