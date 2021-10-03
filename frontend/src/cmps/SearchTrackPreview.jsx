@@ -9,7 +9,6 @@ import equi from '../assets/imgs/equi.gif';
 export class _SearchTrackPreview extends Component {
 
     state = {
-        isPlaying: false,
         isHover: false,
         isLiked: false,
     }
@@ -72,9 +71,10 @@ export class _SearchTrackPreview extends Component {
 
     render() {
         const { isHover, isLiked } = this.state
-        const { track, idx } = this.props
+        const { track, idx, player } = this.props
         const { title } = track
         const date = utilService.getTime(track.addedAt)
+        const { video_id } = player.getVideoData()
 
         return (
             <section className="track-container flex playlist-layout" >
@@ -84,7 +84,7 @@ export class _SearchTrackPreview extends Component {
                     onMouseLeave={() => this.setState({ isHover: false })}>
 
                     {!isHover && <div className="num-idx" >
-                        {!track.isPlaying ? (idx + 1) : <img src={equi} alt="playing gif" />}
+                        {(player.isPlaying && video_id === track.id) ? <img src={equi} alt="playing gif" /> : (idx + 1)}
                     </div>}
                     {isHover && track.isPlaying && <button onClick={() => this.onPauseTrack(track)}
                         className={"play-btn fas fa-pause"}>
@@ -121,8 +121,7 @@ export class _SearchTrackPreview extends Component {
 function mapStateToProps(state) {
     return {
         tracks: state.stationModule.tracks,
-        player: state.mediaPlayerModule.player,
-        player: state.mediaPlayerModule.currSongIdx
+        player: state.mediaPlayerModule.player
     }
 }
 
