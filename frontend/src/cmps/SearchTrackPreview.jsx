@@ -9,6 +9,7 @@ import equi from '../assets/imgs/equi.gif';
 export class _SearchTrackPreview extends Component {
 
     state = {
+        isPlaying: false,
         isHover: false,
         isLiked: false,
     }
@@ -34,7 +35,7 @@ export class _SearchTrackPreview extends Component {
     onPauseTrack = (track) => {
         track.isPlaying = false;
         this.props.updateCurrTrack(track);
-        this.props.player.pauseVideo()
+        this.props.player.pauseVideo();
     }
 
     onLike = async () => {
@@ -121,6 +122,7 @@ function mapStateToProps(state) {
     return {
         tracks: state.tracksModule.tracks,
         player: state.mediaPlayerModule.player,
+        player: state.mediaPlayerModule.currSongIdx
     }
 }
 
