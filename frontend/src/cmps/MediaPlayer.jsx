@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { onUpdateTrack, onRemoveTrack } from '../store/station.actions.js'
-import { setPlayer, setSongIdx, onTogglePlay, setCurrDuration, loadTracksToPlayer } from '../store/mediaplayer.actions.js'
+import {
+    setPlayer, setSongIdx, onTogglePlay, setCurrDuration, loadTracksToPlayer, updateIsLikedSong
+} from '../store/mediaplayer.actions.js'
 import YouTube from 'react-youtube';
 import imgSrc from '../assets/imgs/logo3.png';
 import { TrackDetails } from './TrackDetails.jsx';
@@ -190,7 +192,7 @@ export class _MediaPlayer extends Component {
 
     render() {
         const { isMute, songLength, volume, isRepeat, isShuffle, station } = this.state
-        const { currSongIdx, currDuration, isPlaying, currentTracks, player, onRemoveTrack } = this.props
+        const { currSongIdx, currDuration, isPlaying, currentTracks, player, onRemoveTrack, currLikedTrack } = this.props
         return (
             <div className="media-player">
                 {currentTracks?.length ? <YouTube
@@ -199,17 +201,24 @@ export class _MediaPlayer extends Component {
                             origin: 'http://localhost:3000'
                         }
                     }}
-                    videoId={currentTracks[currSongIdx].id}  
-                    id={currentTracks[currSongIdx].id}       
-                    className="youtube-player"          
-                    containerClassName={'player-container'}     
-                    onReady={this.onReady}                    
-                    onEnd={() => this.onChangeSong(1)}           
-                    onStateChange={(ev) => this.onStateChange(ev)}   
+                    videoId={currentTracks[currSongIdx].id}
+                    id={currentTracks[currSongIdx].id}
+                    className="youtube-player"
+                    containerClassName={'player-container'}
+                    onReady={this.onReady}
+                    onEnd={() => this.onChangeSong(1)}
+                    onStateChange={(ev) => this.onStateChange(ev)}
                 /> : ''}
 
-                <TrackDetails onRemoveTrack={onRemoveTrack} imgSrc={imgSrc} currTrack={currentTracks[currSongIdx]}
-                    station={station} player={player} />
+                <TrackDetails
+                    onRemoveTrack={onRemoveTrack}
+                    imgSrc={imgSrc}
+                    currTrack={currentTracks[currSongIdx]}
+                    station={station}
+                    player={player}
+                    currLikedTrack={currLikedTrack}
+                    updateIsLikedSong={(isLiked) => this.props.updateIsLikedSong(isLiked)}
+                />
 
                 <PlayerActions onChangeSong={this.onChangeSong} currSongIdx={currSongIdx}
                     isPlaying={isPlaying} songLength={songLength} currDuration={currDuration}
@@ -234,7 +243,8 @@ function mapStateToProps(state) {
         currentTracks: state.mediaPlayerModule.currentTracks,
         stationId: state.mediaPlayerModule.stationId,
         tracks: state.stationModule.tracks,
-        station_Id: state.stationModule.station_Id
+        station_Id: state.stationModule.station_Id,
+        currLikedTrack: state.mediaPlayerModule.currLikedTrack
     }
 }
 const mapDispatchToProps = {
@@ -244,7 +254,8 @@ const mapDispatchToProps = {
     onTogglePlay,
     setCurrDuration,
     loadTracksToPlayer,
-    onRemoveTrack
+    onRemoveTrack,
+    updateIsLikedSong
 }
 
 

@@ -23,7 +23,6 @@ export function stationReducer(state = initialState, action) {
             return { ...state, tracks }
         case 'UPDATE_TRACK':
             tracks = state.tracks.map(track => (track.id === action.track.id) ? action.track : { ...track, isPlaying: false })
-            console.log('tracks after update', tracks);
             return { ...state, tracks }
         case 'SET_STATION_ID':
             return { ...state, station_Id: action.station_Id }

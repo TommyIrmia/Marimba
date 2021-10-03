@@ -8,13 +8,11 @@ export function loadTracks(stationId, filterBy) {
             let tracks;
             if (!stationId) tracks = []
             else tracks = await stationService.loadTracks(stationId, filterBy)
-            console.log('Tracks from actions:', tracks)
             dispatch({
                 type: 'SET_TRACKS',
                 tracks
             })
             if (stationId) {
-                console.log('setting station id to tracks actions', stationId);
                 dispatch({
                     type: 'SET_STATION_ID',
                     station_Id: stationId

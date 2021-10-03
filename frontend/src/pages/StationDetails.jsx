@@ -29,7 +29,7 @@ class _StationDetails extends Component {
     addRef = React.createRef()
 
     async componentDidMount() {
-        let { stationId } = this.props.match.params
+        const { stationId } = this.props.match.params
         let isEditable = false;
         if (stationId === 'new') {
             await stationService.saveEmptyStation();
@@ -98,8 +98,7 @@ class _StationDetails extends Component {
     }
 
     onScrollToAdd = () => {
-        console.log('scrolling page');
-        console.log('add ref current', this.addRef.current);
+
         window.scrollTo({ behavior: 'smooth', top: this.addRef.current.offsetTop })
     }
 
@@ -207,17 +206,14 @@ class _StationDetails extends Component {
         const { isSearch, isPlaying, isEditable, isEditModalOpen } = this.state;
         const { tracks, bgc } = this.props
         const { stationId } = this.props.match.params
-
-
-        if (!tracks) return <div> loading...</div>;
         return (
             <main className="StationDetails">
                 <div onClick={this.onCloseSearch} className={(isSearch ? "screen" : "")}></div>
                 <div onClick={this.onToggleEdit} className={(isEditModalOpen ? "dark screen" : "")}></div>
 
-                {!isEditable && <StationHero stationId={stationId} />}
+                {stationId !== 'new' && <StationHero stationId={stationId} />}
 
-                {isEditable && <EditHero isEditModalOpen={isEditModalOpen} onToggleEdit={this.onToggleEdit}
+                {stationId === 'new' && <EditHero isEditModalOpen={isEditModalOpen} onToggleEdit={this.onToggleEdit}
                     saveDataFromHero={this.saveDataFromHero} />}
 
                 <StationActions onSetFilter={this.onSetFilter} inputRef={this.inputRef}
@@ -227,12 +223,10 @@ class _StationDetails extends Component {
                     tracks={tracks} onPlayTrack={this.onPlayTrack}
                     onPauseTrack={this.onPauseTrack} bgc={bgc}
                 />
-
-
                 <DragDropContext onDragEnd={this.onDragEnd}>
                     <TrackList onRemoveTrack={this.onRemoveTrack} tracks={tracks} stationId={stationId} />
                 </DragDropContext>
-                <section id="add">
+                <section>
                     <TrackSearch addRef={this.addRef} onAddTrack={this.onAddTrack} stationId={stationId} currStationTracks={tracks} />
                 </section>
 

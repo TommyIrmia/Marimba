@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Draggable } from 'react-beautiful-dnd'
 import { utilService } from './../services/util.service';
-import { onPlayTrack, loadTracksToPlayer } from '../store/mediaplayer.actions.js'
+import { onPlayTrack, loadTracksToPlayer, updateIsLikedSong } from '../store/mediaplayer.actions.js'
 import { onUpdateTrack } from '../store/station.actions.js'
 import { stationService } from '../services/station.service';
 import equi from '../assets/imgs/equi.gif';
 
-export class _TrackPreview extends Component {
+class _TrackPreview extends Component {
 
     state = {
         isHover: false,
@@ -15,7 +15,7 @@ export class _TrackPreview extends Component {
     }
 
     componentDidMount() {
-        const { track, player } = this.props
+        const { track, player, stationId } = this.props
         if (player) {
             const { video_id } = player.getVideoData()
             if (video_id === track.id) {
@@ -23,8 +23,16 @@ export class _TrackPreview extends Component {
                 this.props.onUpdateTrack(track)
             }
         }
-        this.checkIsLiked()
+        stationId !== 'new' && this.checkIsLiked()
     }
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.currLikedTrack !== this.props.currLikedTrack) {
+            if (this.props.currLikedTrack?.trackId === this.props.track.id){
+                this.setState({ isLiked: this.props.currLikedTrack.isLiked })
+            }
+        }
+    }
+
 
     onPlayTrack = async (trackIdx) => {
         const { tracks, stationId, player } = this.props
@@ -39,18 +47,29 @@ export class _TrackPreview extends Component {
         this.props.player.pauseVideo()
     }
 
-    onLike = () => {
+    onLike = async () => {
         const { track } = this.props;
-        stationService.addTrackToStation(track, 'liked')
-        this.setState({ isLiked: true })
+        try {
+            await stationService.addTrackToStation(track, 'liked')
+            this.setState({ isLiked: true })
+            if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: true })
+        } catch (err) {
+            //try agian sorry
+        }
     }
 
     onUnLike = async (trackId) => {
-        const { stationId } = this.props;
-        if (stationId === 'liked') {
-            await this.props.onRemoveTrack(trackId)
-        } else await stationService.removeTrackFromStation(trackId, 'liked')
-        this.setState({ isLiked: false })
+        const { stationId, track } = this.props;
+        try {
+            if (stationId === 'liked') {
+                await this.props.onRemoveTrack(trackId)
+            } else await stationService.removeTrackFromStation(trackId, 'liked')
+            this.setState({ isLiked: false })
+            if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: false })
+        } catch (err) {
+
+        }
+
     }
 
     checkIsLiked = async () => {
@@ -129,14 +148,17 @@ function mapStateToProps(state) {
         tracks: state.stationModule.tracks,
         player: state.mediaPlayerModule.player,
         currStationId: state.mediaPlayerModule.stationId,
-        isPlaying: state.mediaPlayerModule.isPlaying
+        isPlaying: state.mediaPlayerModule.isPlaying,
+        currLikedTrack: state.mediaPlayerModule.currLikedTrack,
+        
     }
 }
 
 const mapDispatchToProps = {
     onPlayTrack,
     loadTracksToPlayer,
-    onUpdateTrack
+    onUpdateTrack,
+    updateIsLikedSong
 }
 
 
