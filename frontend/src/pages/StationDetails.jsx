@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { DragDropContext } from 'react-beautiful-dnd'
-
-import { loadTracks, onAddTrack, onRemoveTrack, onUpdateTracks, onUpdateTrack } from '../store/tracks.actions.js'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
-import { setBgcAndName } from '../store/station.actions.js'
+import { setBgcAndName, loadTracks, onAddTrack, onRemoveTrack, onUpdateTracks, onUpdateTrack } from '../store/station.actions.js'
 import { StationHero } from './../cmps/StationHero';
 import { EditHero } from './../cmps/EditHero';
 import { StationActions } from './../cmps/StationActions';
@@ -198,11 +196,11 @@ class _StationDetails extends Component {
 function mapStateToProps(state) {
     return {
         player: state.mediaPlayerModule.player,
-        tracks: state.tracksModule.tracks,
         stationId: state.mediaPlayerModule.stationId,
         isPlaying: state.mediaPlayerModule.isPlaying,
         currentTracks: state.mediaPlayerModule.currentTracks,
         currSongIdx: state.mediaPlayerModule.currSongIdx,
+        tracks: state.stationModule.tracks,
         bgc: state.stationModule.bgc
     }
 }

@@ -2,6 +2,8 @@ import { asyncStorageService } from './async-storage.service.js'
 
 export const activityService = {
     query,
+    addActivity,
+    removeActivity
 }
 
 const STORAGE_KEY = 'activites'
@@ -50,17 +52,39 @@ const initialActivites = [
 
 
 async function query() {
-    let activites = await asyncStorageService.query(STORAGE_KEY)
-    if (!activites) {
-        activites = initialActivites
-        _saveActivitiesToStorage(activites)
+    try {
+        let activites = await asyncStorageService.query(STORAGE_KEY)
+        if (!activites) {
+            activites = initialActivites
+            _saveActivitiesToStorage(activites)
+        }
+        return activites
+    } catch (err) {
+        console.log('can not get activities', err)
     }
-
-    return activites
 }
 
+async function addActivity(activity) {
+    try {
+        return await asyncStorageService.post(STORAGE_KEY, activity)
+    } catch (err) {
+        console.log('can not add activity', err)
+    }
+}
+
+async function removeActivity(activityId) {
+    try {
+        return await asyncStorageService.put(STORAGE_KEY, activityId)
+    } catch (err) {
+        console.log('can not remove activity', err)
+    }
+}
 
 async function _saveActivitiesToStorage(activities) {
-    console.log('saved to storage');
-    await asyncStorageService.save(STORAGE_KEY, activities)
+    try {
+        console.log('saved to storage');
+        await asyncStorageService.save(STORAGE_KEY, activities)
+    } catch (err) {
+        console.log('Can not save activities to storage', err)
+    }
 }

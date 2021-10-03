@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { utilService } from '../services/util.service';
 import { onPlayTrack, loadTracksToPlayer, updateCurrTrack } from '../store/mediaplayer.actions.js'
-import { onUpdateTrack } from '../store/tracks.actions.js'
+import { onUpdateTrack } from '../store/station.actions.js'
 import { stationService } from '../services/station.service';
 import equi from '../assets/imgs/equi.gif';
 
@@ -119,7 +119,7 @@ export class _SearchTrackPreview extends Component {
 
 function mapStateToProps(state) {
     return {
-        tracks: state.tracksModule.tracks,
+        tracks: state.stationModule.tracks,
         player: state.mediaPlayerModule.player,
     }
 }
