@@ -1,3 +1,9 @@
+.edit-hidden{
+  width: 50px;
+  opacity: 0;
+  transition: all 0.5s;
+}
+
 .edit-container {
   top: 50%;
   left: 50%;
@@ -9,6 +15,8 @@
   border-radius: rem(8px);
   position: fixed;
   z-index: 1;
+  opacity: 100%;
+  transition: all 0.5s;
 
   .header-edit {
     justify-content: space-between;

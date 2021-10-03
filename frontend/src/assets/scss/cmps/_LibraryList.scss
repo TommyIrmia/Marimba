@@ -1,8 +1,9 @@
 .LibraryList {
     margin-top: 20px;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
     gap: 30px;
     padding: 20px 0;
+    grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
 
     .page-title {
         margin-bottom: 10px;
@@ -16,9 +17,11 @@
         padding: 20px;
         transition: transform 0.5s;
         margin-bottom: 30px;
+        color: rgba(255, 255, 255, 0.664);
 
         &:hover {
             cursor: pointer;
+            color: $clr7;
         }
 
         .tracks-title {
@@ -50,8 +53,16 @@
         }
     }
 
-    .list-title {
-        position: absolute;
-        top: -25px;
+    .station {
+        overflow-y: hidden;
+        gap: 25px;
+        margin-bottom: 30px;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        grid-auto-rows: 0;
+        grid-template-rows: 1fr;
     }
+        .list-title {
+            position: absolute;
+            top: -25px;
+        }
 }

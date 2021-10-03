@@ -68,9 +68,9 @@ export default class EditDetails extends Component {
     render() {
         const { isHover, hero, genres, isSelect } = this.state;
         const { img, title, desc, bgc } = this.state.hero;
-        const { onEdit, onToggleEdit, saveDataFromHero } = this.props;
+        const { onEdit, onToggleEdit, saveDataFromHero,isEditModalOpen } = this.props;
         return (
-            <main className="edit-container" style={{ backgroundColor: bgc }}>
+            <main className={isEditModalOpen ? "edit-container" : 'edit-hidden'} style={{ backgroundColor: bgc }}>
 
                 <div className="header-edit flex" >
                     <h3>Edit details</h3>

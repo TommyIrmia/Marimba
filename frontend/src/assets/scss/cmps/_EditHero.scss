@@ -13,6 +13,7 @@
     bottom: rem(40px);
     display: inline-block;
     box-shadow: 0 4px 60px rgb(0 0 0 / 50%);
+    cursor: pointer;
 
     img {
       width: 100%;
@@ -41,5 +42,8 @@
     .pencil {
       font-size: rem(50px);
     }
+  }
+  .info-container {
+    cursor: pointer;
   }
 }

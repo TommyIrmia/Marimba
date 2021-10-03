@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { LibraryPreview } from './LibraryPreview';
 import { StationPreview } from './StationPreview';
 
-export function LibraryList({ likedStations, likedTracks, stationsBy }) {
+export function LibraryList({ likedStations, likedTracks, stationsBy,recentlyStations }) {
+    console.log('recentlyStations⭐⭐⭐',recentlyStations);
     return (
-        <section className="LibraryList flex">
+        <section className="LibraryList grid">
 
             {likedTracks && <Link to="/station/liked" className="liked-track-container" >
                 <div className="tracks-title">
@@ -18,14 +18,19 @@ export function LibraryList({ likedStations, likedTracks, stationsBy }) {
                 </div>
             </Link>}
 
-            <div className="flex relative" >
-                <h3 className="list-title" >You created</h3>
-                {stationsBy.map(stationBy => <StationPreview title={'you created'} key={stationBy._id} station={stationBy} />)}
+            <div className="grid relative station" >
+                <h3 className="list-title" >Recently added</h3>
+                {recentlyStations.map(recentlyStation => <StationPreview  key={recentlyStation._id} station={recentlyStation} />)}
             </div>
 
-            <div className="flex relative" >
+            <div className="grid relative station created-by" >
+                <h3 className="list-title" >You created</h3>
+                {stationsBy.map(stationBy => <StationPreview  key={stationBy._id} station={stationBy} />)}
+            </div>
+
+            <div className="grid relative station" >
                 <h3 className="list-title" >You liked</h3>
-                {likedStations.map(likedStation => <StationPreview title={'you liked'} key={likedStation._id} station={likedStation} />)}
+                {likedStations.map(likedStation => <StationPreview  key={likedStation._id} station={likedStation} />)}
             </div>
         </section>
     )
