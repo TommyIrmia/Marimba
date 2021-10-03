@@ -21,7 +21,8 @@ export class TrackDetails extends React.Component {
             if (!this.props.player) return
             const { currTrack } = this.props
             const { isLiked } = this.state;
-            this.setState({ isLiked: !isLiked })
+            // this.setState({ isLiked: !isLiked })
+            this.checkIsLiked()
             await stationService.addTrackToStation(currTrack, 'liked')
         } catch (err) {
             throw err
@@ -40,24 +41,27 @@ export class TrackDetails extends React.Component {
     }
 
     checkIsLiked = async () => {
+        if (!this.props.currTrack) return;
+        const { currTrack } = this.props
+
         try {
-            const { currTrack } = this.props
-            if (currTrack) {
-                const station = await stationService.getById('liked')
-                const isLiked = station.tracks.some(likedTrack => likedTrack.id === currTrack.id)
-                if (isLiked) this.setState({ isLiked })
-            }
+            const station = await stationService.getById('liked')
+            const isLiked = station.tracks.some(likedTrack => likedTrack.id === currTrack.id)
+            // if (isLiked) this.setState({ isLiked })
+            // console.log('isLiked', isLiked);
+            return isLiked;
+
         } catch (err) {
             throw err
         }
     }
 
-
-
     render() {
         const { imgSrc, currTrack, station } = this.props
         const { isLiked } = this.state;
         // console.log('isLiked❤❤❤',isLiked);
+        // const isLiked = this.checkIsLiked
+        // console.log('checkIsLiked', isLiked);
         return (
 
             <div className="song-details flex align-center">
