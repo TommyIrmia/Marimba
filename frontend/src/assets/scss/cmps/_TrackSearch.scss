@@ -1,7 +1,7 @@
 .TrackSearch {
   min-height: 70vh;
   position: relative;
-  padding-bottom: 100px;
+  padding-bottom: 70px;
   h4 {
     padding: 15px;
     position: absolute;
@@ -18,7 +18,7 @@
     text-transform: uppercase;
     position: absolute;
     right: 33px;
-    bottom: 60px;
+    top: 520px;
     font-size: rem(13px);
     color: $clr7;
     &:hover {

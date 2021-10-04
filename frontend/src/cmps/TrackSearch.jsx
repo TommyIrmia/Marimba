@@ -105,7 +105,7 @@ export class TrackSearch extends Component {
             <div ref={addRef} className="TrackSearch playlist-layout">
                 {!isSearch && <div className="SuggestedTracks">
                     <h4 onClick={this.toggleSearch}>To search other tracks</h4>
-                    <h2>Suggested</h2>
+                    <h2 className="search-title">Suggested</h2>
                 </div>}
 
                 {isSearch && <div className="SuggestedTrackSearch">
