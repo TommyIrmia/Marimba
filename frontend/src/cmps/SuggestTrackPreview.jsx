@@ -13,10 +13,11 @@ export class SuggestTrackPreview extends React.Component {
     }
 
     render() {
-        const { track } = this.props;
+        const { track, index } = this.props;
         return (
-            <section className="track-container flex">
+            <section className="suggest track-container flex">
                 <section className="TrackPreview flex">
+                    <div className="num-idx">{index + 1}</div>
                     <div className="track-img-container">
                         <img src={track.imgUrl} alt="trackImg" />
                     </div>

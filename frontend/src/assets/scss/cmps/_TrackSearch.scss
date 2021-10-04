@@ -7,8 +7,8 @@
     cursor: pointer;
   }
   h2 {
-    padding-top: rem(75px);
-    line-height: rem(70px);
+    padding-top: rem(90px);
+    line-height: rem(90px);
   }
 
   .search-header-container {
@@ -21,8 +21,10 @@
     .close-button {
       color: #ffff;
       background-color: none;
-      font-size: 1.2rem;
-      border: 0;
+      font-size: 1.3rem;
+      padding: 5px 10px;
+      border-radius: 10px;
+      // border: 1px solid $clr8;
       font-family: gotham-light;
     }
   }
@@ -45,7 +47,7 @@
       border: 0;
       font-size: 1rem;
       color: #ffff;
-      
+
       &:focus {
         outline: 0;
       }

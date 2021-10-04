@@ -36,10 +36,14 @@ class _StationDetails extends Component {
             isEditable = true;
             this.props.setBgcAndName('#545454', 'New Playlist')
         }
+        else if (stationId === 'liked') this.props.setBgcAndName('#e24aa5', 'Liked Songs')
+        else {
+            const station = await stationService.getById(stationId)
+            this.props.setBgcAndName(station.bgc, station.name)
+        }
         this.setState({ ...this.state, isEditable, stationId }, async () => {
             await this.loadTracks()
         })
-        if (stationId === 'liked') this.props.setBgcAndName('#e24aa5', 'Liked Songs')
     }
 
     async componentWillUnmount() {
@@ -203,7 +207,7 @@ class _StationDetails extends Component {
     }
 
     render() {
-        const { isSearch, isPlaying, isEditable, isEditModalOpen } = this.state;
+        const { isSearch, isPlaying, isEditModalOpen } = this.state;
         const { tracks, bgc } = this.props
         const { stationId } = this.props.match.params
         return (

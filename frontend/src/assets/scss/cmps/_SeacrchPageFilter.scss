@@ -1,26 +1,36 @@
 .SeacrchPageFilter {
-    margin-top: 20px;
-    margin-bottom:40px;
+  margin-bottom: 20px;
+  .input-container {
+    position: fixed;
+    z-index: 3;
+    top: 11px;
+    width: rem(400px);
+    height: rem(40px);
+    border-radius: 2rem;
+    background-color: $clr7;
 
-    .input-container {
-        width: rem(400px);
-        height: rem(40px);
-        border-radius: 18px;
-        background-color: $clr7;
-        
-        .search-btn{
-            color: rgba(0, 0, 0, 0.637);
-            font-size:rem(20px);
-        }
-
-        input {
-            width: 90%;
-            height: inherit;
-            border-radius: inherit;
-            outline: none;
-            margin-inline-start: 7px;
-            border: none;
-            font-size:rem(16px);
-        }
+    .search-btn {
+      position: relative;
+      left: 5px;
+      top: 1px;
+      color: rgba(0, 0, 0, 0.637);
+      font-size: rem(20px);
+      transform: rotate(90deg);
     }
+
+    input {
+      width: 85%;
+      height: inherit;
+      border-radius: inherit;
+      outline: none;
+      margin-inline-start: 7px;
+      border: none;
+      font-size: rem(16px);
+      &::-webkit-search-cancel-button {
+        position: relative;
+        right: 0px;
+        cursor: pointer;
+      }
+    }
+  }
 }
