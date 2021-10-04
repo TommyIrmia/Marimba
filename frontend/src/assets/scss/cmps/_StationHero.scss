@@ -56,7 +56,7 @@
     text-indent: -6px;
     font-size: rem(100px);
     font-family: gotham-bold;
-    letter-spacing: rem(-5px);
+    letter-spacing: -5px;
   }
 
   p {
@@ -73,7 +73,7 @@
     .hero-title {
       font-size: rem(70px);
       font-family: gotham-bold;
-      letter-spacing: rem(-6.5px);
+      letter-spacing: -3px;
     }
   }
 }

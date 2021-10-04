@@ -31,6 +31,7 @@ class _StationDetails extends Component {
     addRef = React.createRef()
 
     async componentDidMount() {
+        window.scrollTo(0, 0)
         const { stationId } = this.props.match.params
         let isEditable = false;
         if (stationId === 'new') {
@@ -104,7 +105,6 @@ class _StationDetails extends Component {
     }
 
     onScrollToAdd = () => {
-
         window.scrollTo({ behavior: 'smooth', top: this.addRef.current.offsetTop })
     }
 
@@ -218,12 +218,12 @@ class _StationDetails extends Component {
 
     render() {
         const { isSearch, isPlaying, isEditModalOpen, animation } = this.state;
-        const { tracks, bgc } = this.props
+        const { tracks, bgc, currStationId } = this.props
         const { stationId } = this.props.match.params
         return (
             <main className="StationDetails">
                 <div onClick={this.onCloseSearch} className={(isSearch ? `screen ${animation}` : "")}></div>
-                <div onClick={()=>{
+                <div onClick={() => {
                     this.onFlip('text-blur-out')
                     this.onToggleEdit()
                 }} className={(isEditModalOpen ? "dark screen" : "")}></div>
@@ -235,8 +235,8 @@ class _StationDetails extends Component {
 
                 <StationActions onSetFilter={this.onSetFilter} inputRef={this.inputRef}
                     onSearch={this.onSearch} isSearch={isSearch} isPlaying={isPlaying}
-                    onScrollToAdd={this.onScrollToAdd}
-                    isPlayerPlaying={this.props.isPlaying}
+                    onScrollToAdd={this.onScrollToAdd} playingStationId={this.props.stationId}
+                    isPlayerPlaying={this.props.isPlaying} currStationId={currStationId}
                     tracks={tracks} onPlayTrack={this.onPlayTrack}
                     onPauseTrack={this.onPauseTrack} bgc={bgc}
                 />
@@ -262,7 +262,8 @@ function mapStateToProps(state) {
         currSongIdx: state.mediaPlayerModule.currSongIdx,
         tracks: state.stationModule.tracks,
         bgc: state.stationModule.bgc,
-        stationName: state.stationModule.stationName
+        stationName: state.stationModule.stationName,
+        currStationId: state.stationModule.station_Id
     }
 }
 const mapDispatchToProps = {

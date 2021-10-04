@@ -10,6 +10,7 @@ export class GenrePage extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0)
         const genre = this.props.match.params.id
         this.setState({ ...this.state, genre }, this.loadStations)
     }

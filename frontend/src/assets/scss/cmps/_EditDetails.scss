@@ -1,11 +1,7 @@
 .edit-container {
-  top: 25%;
-  left: 35%;
-  // opacity: 0;
-  
-  // top: 50%;
-  // left: 50%;
-  // transform: translate(-50%, -50%) !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
   width: 550px;
   height: 380px;
   background-color: rgb(40, 40, 40);
@@ -13,7 +9,7 @@
   border-radius: rem(8px);
   position: fixed;
   z-index: 1;
-  // transition: all 0.6s;
+  transition: all 0.6s;
 
   .header-edit {
     justify-content: space-between;
@@ -171,14 +167,13 @@
   }
 }
 
-
-
 .text-blur-in {
-  animation: text-blur-in 0.4s cubic-bezier(0.550, 0.085, 0.680, 0.530) reverse both;
+  animation: text-blur-in 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53) reverse
+    both;
 }
 
 .text-blur-out {
-	animation: text-blur-out 0.4s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+  animation: text-blur-out 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
 }
 
 @keyframes text-blur-in {
@@ -198,4 +193,3 @@
     filter: blur(12px) opacity(0%);
   }
 }
-

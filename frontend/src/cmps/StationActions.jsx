@@ -17,6 +17,8 @@ export class StationActions extends Component {
     }
 
     isTrackPlaying = (tracks) => {
+        console.log(this.props);
+        if (this.props.currStationId !== this.props.playingStationId) return false
         if (!this.props.isPlayerPlaying) return false
         if (!tracks || !tracks.length) return false
         const track = tracks.find(track => track.isPlaying)
@@ -24,7 +26,8 @@ export class StationActions extends Component {
     }
 
     render() {
-        const { isSearch, onSearch, inputRef, onSetFilter, onPauseTrack, onPlayTrack, onScrollToAdd, tracks, bgc } = this.props;
+        const { isSearch, onSearch, inputRef, onSetFilter, onPauseTrack, onPlayTrack,
+            onScrollToAdd, tracks, bgc } = this.props;
         const { isLiked } = this.state;
 
         return (
@@ -45,11 +48,12 @@ export class StationActions extends Component {
 
                             <button className="far fa-arrow-alt-circle-down btn-action"></button>
 
+                            <div className="add-track-btn" onClick={onScrollToAdd}>
+                                <span className="fas fa-plus btn-icon"></span>
+                                <span className="btn-text">Add Tracks</span>
+                            </div>
                         </div>
 
-                        <div className="add-track-btn" onClick={onScrollToAdd}>
-                            <span className="fas fa-plus"></span>  Add Tracks
-                        </div>
 
                         <StationFilter onSetFilter={onSetFilter} inputRef={inputRef} onSearch={onSearch} isSearch={isSearch} />
 

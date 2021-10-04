@@ -95,7 +95,7 @@ export class _MediaPlayer extends Component {
 
     onChangeSong = (diff) => {
         const { isRepeat, isShuffle } = this.state
-        const { tracks, currSongIdx, currentTracks, player, stationId } = this.props
+        const { tracks, currSongIdx, currentTracks, player, stationId, station_Id } = this.props
 
         if (!player) return
         let currIdx = tracks.findIndex(track => track.isPlaying) // find current playing IDX
@@ -124,7 +124,7 @@ export class _MediaPlayer extends Component {
 
         if (nextIdx >= currentTracks.length) nextIdx = 0; // if last song on the list - go to index 0
 
-        this.props.loadTracksToPlayer(tracks, stationId)
+        if (stationId === station_Id) this.props.loadTracksToPlayer(tracks, stationId)
         this.props.setSongIdx(nextIdx)
         this.props.player.playVideo()
     }

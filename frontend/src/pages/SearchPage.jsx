@@ -17,6 +17,7 @@ export class SearchPage extends Component {
     }
     timeoutId = null
     async componentDidMount() {
+        window.scrollTo(0, 0)
         try {
             const genres = await this.loadGenres()
             this.setState({ ...this.state, genres })
@@ -87,7 +88,7 @@ export class SearchPage extends Component {
 
                 {isSearch && <>
                     {tracks && <SearchTrackList tracks={tracks} />}
-                    <SearchStationList stations={stations} />
+                    <SearchStationList stations={stations} isSearchPage={true} />
                 </>}
             </main>
         )

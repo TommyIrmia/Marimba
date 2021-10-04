@@ -1,5 +1,7 @@
 .TrackSearch {
   min-height: 70vh;
+  position: relative;
+  padding-bottom: 100px;
   h4 {
     padding: 15px;
     position: absolute;
@@ -9,6 +11,19 @@
   h2 {
     padding-top: rem(90px);
     line-height: rem(90px);
+  }
+  .refresh-btn {
+    font-family: gotham-light;
+    font-weight: 700;
+    text-transform: uppercase;
+    position: absolute;
+    right: 33px;
+    bottom: 60px;
+    font-size: rem(13px);
+    color: $clr7;
+    &:hover {
+      transform: scale(1.1);
+    }
   }
 
   .search-header-container {
@@ -24,7 +39,6 @@
       font-size: 1.3rem;
       padding: 5px 10px;
       border-radius: 10px;
-      // border: 1px solid $clr8;
       font-family: gotham-light;
     }
   }
@@ -39,7 +53,7 @@
     button {
       justify-self: flex-start;
       padding: 10px 12px;
-      color:$clr7;
+      color: $clr7;
       // pointer-events: none;
     }
     .search-input {
@@ -48,7 +62,7 @@
       font-size: 1rem;
       color: #ffff;
       width: 100%;
-      
+
       &:focus {
         outline: 0;
       }
