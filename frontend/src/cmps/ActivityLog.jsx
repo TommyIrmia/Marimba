@@ -68,7 +68,6 @@ export class _ActivityLog extends Component {
 
     render() {
         const { activities } = this.props
-        console.log('Activities from render', activities);
         if (!activities.length) return <div></div>
 
         return (<section className="activity-log">

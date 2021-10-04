@@ -28,7 +28,6 @@ export function onUpdateTracks(tracks, stationId) {
     return async (dispatch) => {
         try {
             await stationService.updateTracks(tracks, stationId)
-            console.log('From track actions - Updated tracks', tracks)
             dispatch({
                 type: 'SET_TRACKS',
                 tracks
@@ -43,7 +42,6 @@ export function onRemoveTrack(trackId, stationId) {
     return async (dispatch) => {
         try {
             await stationService.removeTrackFromStation(trackId, stationId)
-            console.log('From track actions - Deleted track Succesfully!');
             dispatch({
                 type: 'REMOVE_TRACK',
                 trackId

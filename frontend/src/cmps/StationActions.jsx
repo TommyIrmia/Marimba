@@ -45,7 +45,10 @@ export class StationActions extends Component {
 
                             <button className="far fa-arrow-alt-circle-down btn-action"></button>
 
-                            <button onClick ={onScrollToAdd} className="fas fa-plus-square btn-action"></button>
+                        </div>
+
+                        <div className="add-track-btn" onClick={onScrollToAdd}>
+                            <span className="fas fa-plus"></span>  Add Tracks
                         </div>
 
                         <StationFilter onSetFilter={onSetFilter} inputRef={inputRef} onSearch={onSearch} isSearch={isSearch} />

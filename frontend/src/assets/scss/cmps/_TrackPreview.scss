@@ -2,6 +2,9 @@
   align-items: center;
   justify-content: space-between;
   border-radius: 5px;
+  &.search {
+    max-width: 100%;
+  }
 
   &:hover {
     background-color: rgba(255, 255, 255, 0.123);
@@ -64,12 +67,18 @@
     display: flex;
     width: 100px;
 
-    .btn-like,
+    .btn-like {
+      font-size: rem(15px);
+      color: $clr7;
+    }
+    
     .btn-remove {
+      font-size: rem(13px);
       color: $clr7;
     }
 
     .btn-liked {
+      font-size: rem(15px);
       color: $clr5;
     }
 

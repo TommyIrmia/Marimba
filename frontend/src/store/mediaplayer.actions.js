@@ -18,6 +18,7 @@ export function loadTracksToPlayer(tracks, stationId) {
             tracks
         })
         console.log('setting station id to mediaplayer actions', stationId);
+        if (!stationId) return
         dispatch({
             type: 'SET_PLAYING_STATION_ID',
             stationId
@@ -45,10 +46,10 @@ export function onTogglePlay(isPlaying) {
     }
 }
 
-export function updateCurrTrack(track) {
+export function onUpdateCurrTrack(track) {
     return (dispatch) => {
         dispatch({
-            type: 'UPDATE_TRACK',
+            type: 'UPDATE_CURR_TRACK',
             track
         })
     }

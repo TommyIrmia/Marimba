@@ -1,23 +1,38 @@
-.SuggestPreview{
-  
- img{
-   border-radius: 50%;
- }
-}
 
-.add-button {
-  border: 1px solid rgba(255, 255, 255, 0.123);
-  border-radius: 30px;
-  color: #ffff;
-  display: flex;
-  font-size: 16px;
-  font-family: gotham-light;
-  padding: 8px 20px;
-  margin-inline-end: 30px;
-  &:hover {
-    border: 1px solid seashell;
-    transform: scale(1.07);
+
+.tracks-list {
+  margin-top: 20px;
+  .add-button {
+    border: 2px solid rgba(255, 255, 255, 0.123);
+    border-radius: 30px;
+    color: #ffff;
+    display: flex;
+    font-size: 16px;
+    font-family: gotham-light;
+    padding: 8px 28px;
+    margin-inline-end: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    &:hover {
+      border: 1px solid seashell;
+      transform: scale(1.08);
+    }
   }
+
+  .track-container {
+    &:hover {
+      .add-button {
+        border: 2px solid seashell;
+      }
+    }
+  }
+
+  .SuggestPreview{
+  
+    img{
+      border-radius: 50%;
+    }
+   }
 }
 
 .duration-info{

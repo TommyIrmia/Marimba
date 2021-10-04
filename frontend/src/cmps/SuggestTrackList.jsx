@@ -7,10 +7,11 @@ export function SuggestTrackList({ tracks, onAddTrack, removeAddedTrack,isLoadin
     // if (!tracks && !isLoading) return  <div  > <Skeleton/> </div>  
     return (
         <section className="tracks-list">
-            {tracks?.map(track => <SuggestTrackPreview key={utilService.makeId()}
+            {tracks?.map((track,idx) => <SuggestTrackPreview key={utilService.makeId()}
                 track={track}
                 onAddTrack={onAddTrack}
                 removeAddedTrack={removeAddedTrack}
+                index={idx} 
                 />) || isLoading && <div className="loader-container" > <Loader/> </div>  }
         </section>
     )

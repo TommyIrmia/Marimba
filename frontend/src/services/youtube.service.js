@@ -1,8 +1,12 @@
 import axios from 'axios'
 import { sessionService } from './session.service'
 import { asyncSessionService } from './async-session.service'
-const API = 'AIzaSyAkH_U9S48kAw-de7ZN7sj-JoTfKM58cXI'
+const API = 'AIzaSyDaOfZxHtQT_vKcANLFW5vy3Q0nA9SV_Qs'
+// AIzaSyDaOfZxHtQT_vKcANLFW5vy3Q0nA9SV_Qs
+// AIzaSyAkH_U9S48kAw-de7ZN7sj-JoTfKM58cXI
+// AIzaSyDTC4t1Uu4HJfHJNxcUqh9oK1vf_gDX6-E
 const KEY = 'cacheVideos'
+let SESSION_KEY;
 export const youtubeService = {
     query,
     setTVideoToTrack: getTracks,
@@ -13,12 +17,12 @@ export const youtubeService = {
 
 async function query(name = _getRandomSearch(), existingTracks) {
     if (!name) return
-    const key = `${KEY}${name}`
+    SESSION_KEY = `${KEY}${name}`
     const search = `${name} music`
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${API}&q=${search}&maxResults=50`
 
     try {
-        let tracks = await sessionService.load(key)
+        let tracks = await sessionService.load(SESSION_KEY)
         if (tracks) {
             return tracks.slice(0, 5)
         }
@@ -29,7 +33,8 @@ async function query(name = _getRandomSearch(), existingTracks) {
         let existingTracksIds = []
         if (existingTracks) existingTracksIds = existingTracks.map(track => track.id)
         const filteredTracks = updatedTracks.filter(track => track.duration && !existingTracksIds.includes(track.id))
-        sessionService.save(key, filteredTracks)
+        sessionService.save(SESSION_KEY, filteredTracks)
+        console.log('tracks from query', filteredTracks);
         return filteredTracks.slice(0, 5);
     } catch (err) {
         throw err;
@@ -61,11 +66,14 @@ function getTracks(videos) {
     else console.log('got no track!')
 }
 
-async function deleteTrackFromCache(name = _getRandomSearch(), track) {
+async function deleteTrackFromCache(name, track) {
     try {
-        const key = `${KEY}${name}`
+        let key;
+        if (!name) key = SESSION_KEY
+        else key = `${KEY}${name}`
         const trackId = track.id;
         let tracks = await sessionService.load(key)
+        console.log('tracks from delete', tracks);
         const idx = tracks.findIndex(track => track.id === trackId)
         const switchTrack = tracks.pop();
         tracks.splice(idx, 1, switchTrack);

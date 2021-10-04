@@ -1,10 +1,10 @@
 .actions-container {
   background-color: $bgc3;
+  margin-bottom: 20px;
+
   .linear-container {
     background-image: linear-gradient(rgba(0, 0, 0, 0.45) 0, #121212 100%);
   }
-
-  margin-bottom: 20px;
 
   .StationActions {
     height: rem(170px);
@@ -12,7 +12,7 @@
     position: relative;
 
     .btns-actions {
-      width: rem(288px);
+      width: rem(200px);
       height: rem(70px);
       position: absolute;
       top: rem(28px);
@@ -44,6 +44,10 @@
         &:hover {
           color: $clr7;
         }
+        &.fa-arrow-alt-circle-down {
+          position: relative;
+          top: 2px;
+        }
       }
 
       .btn-liked {
@@ -51,6 +55,31 @@
         &:hover {
           color: $clr5;
         }
+      }
+    }
+
+    .add-track-btn {
+      display: flex;
+      align-items: center;
+      padding: 2px 5px;
+      border-radius: 2rem;
+      cursor: pointer;
+      border: 3.5px solid $clr8;
+      position: absolute;
+      top: 38%;
+      left: 300px;
+      transform: translate(-50%, -50%);
+      font-size: rem(14px);
+      font-family: gotham-bold;
+      color: $clr8;
+
+      .fas.fa-plus {
+        margin-inline-end: 10px;
+        font-size: rem(18px);
+      }
+      &:hover {
+        border: 3.5px solid $clr7;
+        color: lightgreen;
       }
     }
 

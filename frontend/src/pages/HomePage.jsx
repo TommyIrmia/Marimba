@@ -47,6 +47,7 @@ export class HomePage extends Component {
         return (
             <main>
                 {initialEntry !== 'false' && <MainHero noScroll={this.noScroll} />}
+                
                 <section className="home-page">
                     {genres.map(genre => <StationList genre={genre.name} key={genre.name} stations={stations} />)}
                 </section>

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { onUpdateTrack, onRemoveTrack } from '../store/station.actions.js'
 import {
-    setPlayer, setSongIdx, onTogglePlay, setCurrDuration, loadTracksToPlayer, updateIsLikedSong
+    setPlayer, setSongIdx, onTogglePlay, setCurrDuration, loadTracksToPlayer, updateIsLikedSong, onUpdateCurrTrack
 } from '../store/mediaplayer.actions.js'
 import YouTube from 'react-youtube';
 import imgSrc from '../assets/imgs/logo3.png';
@@ -45,28 +45,30 @@ export class _MediaPlayer extends Component {
         this.getStation()
 
         if (ev.data === 5) ev.target.playVideo()
+        // console.log('player state', ev.data);
 
         const currTrack = { ...this.props.currentTracks[this.props.currSongIdx] }
-        // console.log('player state', ev.data);
+        let isPlaying;
+
         if (ev.data === 2) {
-            currTrack.isPlaying = false;
-            this.props.onTogglePlay(false)
-            this.props.onUpdateTrack(currTrack)
+            isPlaying = false;
             clearInterval(this.timerIntervalId)
-            return
         }
 
         if (ev.data === 1) {
-            currTrack.isPlaying = true;
-            this.props.onTogglePlay(true)
-            this.props.onUpdateTrack(currTrack)
-
+            isPlaying = true;
             if (this.timerIntervalId) clearInterval(this.timerIntervalId)
             this.timerIntervalId = setInterval(() => {
                 const currDuration = this.props.player.getCurrentTime()
                 this.props.setCurrDuration(currDuration)
             }, 1000)
         }
+
+        currTrack.isPlaying = isPlaying;
+        this.props.onTogglePlay(isPlaying)
+        this.props.onUpdateTrack(currTrack)
+        this.props.onUpdateCurrTrack(currTrack)
+
     }
 
     onTogglePlay = async () => {
@@ -211,10 +213,8 @@ export class _MediaPlayer extends Component {
                 /> : ''}
 
                 <TrackDetails
-                    onRemoveTrack={onRemoveTrack}
-                    imgSrc={imgSrc}
-                    currTrack={currentTracks[currSongIdx]}
-                    station={station}
+                    onRemoveTrack={onRemoveTrack} imgSrc={imgSrc}
+                    currTrack={currentTracks[currSongIdx]} station={station}
                     player={player}
                     currLikedTrack={currLikedTrack}
                     updateIsLikedSong={(isLiked) => this.props.updateIsLikedSong(isLiked)}
@@ -255,7 +255,8 @@ const mapDispatchToProps = {
     setCurrDuration,
     loadTracksToPlayer,
     onRemoveTrack,
-    updateIsLikedSong
+    updateIsLikedSong,
+    onUpdateCurrTrack
 }
 
 

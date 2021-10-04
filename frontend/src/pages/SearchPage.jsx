@@ -48,17 +48,17 @@ export class SearchPage extends Component {
 
     loadStationsAndTracks = () => {
         clearTimeout(this.timeoutId)
-        setTimeout(async () => {
+        this.timeoutId = setTimeout(async () => {
             try {
                 const { searchKey } = this.state
-                if (!searchKey)return
+                if (!searchKey) return
                 const stations = await stationService.query(searchKey);
                 const tracks = await youtubeService.query(searchKey)
                 this.setState({ ...this.state, stations, tracks, msg: '' })
             } catch (err) {
                 this.setState({ msg: 'No Results', tracks: [], stations: [] })
             }
-        }, 300)
+        }, 400)
     }
 
     onSetFilter = (searchKey) => {
