@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { youtubeService } from '../services/youtube.service'
 
 import { SuggestTrackList } from './SuggestTrackList'

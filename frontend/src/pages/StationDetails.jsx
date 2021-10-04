@@ -24,6 +24,8 @@ class _StationDetails extends Component {
         isLikedStation: false,
         stationId: '',
         animation: '',
+        isConfirmMsgOpen: false,
+
 
     }
 
@@ -108,8 +110,23 @@ class _StationDetails extends Component {
         window.scrollTo({ behavior: 'smooth', top: this.addRef.current.offsetTop })
     }
 
+    confirmRemove = (confirmation) => {
+        const {isConfirmMsgOpen} = this.state;
+        this.setState({isConfirmMsgOpen:!isConfirmMsgOpen})
+
+        return new Promise((resolve) => {
+            confirmation = resolve
+        })
+        
+        // const userConfirmation = confirm(confirmation)
+        return confirmation
+    }
+
     onRemoveTrack = async (trackId, trackName) => {
         try {
+            const confirmRemove = await this.confirmRemove()
+            console.log('confirmRemove',confirmRemove);
+            if (!confirmRemove) return;
             const { stationId } = this.state
             await this.props.onRemoveTrack(trackId, stationId)
             this.props.addActivity({
@@ -217,13 +234,13 @@ class _StationDetails extends Component {
     }
 
     render() {
-        const { isSearch, isPlaying, isEditModalOpen, animation } = this.state;
+        const { isSearch, isPlaying, isEditModalOpen, animation, isConfirmMsgOpen } = this.state;
         const { tracks, bgc } = this.props
         const { stationId } = this.props.match.params
         return (
             <main className="StationDetails">
                 <div onClick={this.onCloseSearch} className={(isSearch ? `screen ${animation}` : "")}></div>
-                <div onClick={()=>{
+                <div onClick={() => {
                     this.onFlip('text-blur-out')
                     this.onToggleEdit()
                 }} className={(isEditModalOpen ? "dark screen" : "")}></div>
@@ -241,7 +258,7 @@ class _StationDetails extends Component {
                     onPauseTrack={this.onPauseTrack} bgc={bgc}
                 />
                 <DragDropContext onDragEnd={this.onDragEnd}>
-                    <TrackList onRemoveTrack={this.onRemoveTrack} tracks={tracks} stationId={stationId} />
+                    <TrackList isConfirmMsgOpen={isConfirmMsgOpen} confirmRemove={this.confirmRemove} onRemoveTrack={this.onRemoveTrack} tracks={tracks} stationId={stationId} />
                 </DragDropContext>
                 <section>
                     <TrackSearch addRef={this.addRef} onAddTrack={this.onAddTrack} stationId={stationId} currStationTracks={tracks} />

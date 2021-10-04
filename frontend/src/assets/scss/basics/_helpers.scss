@@ -76,6 +76,64 @@
   margin-top: 30px;
 }
 
-.relative{
+.relative {
   position: relative;
+}
+
+.no-found-msg {
+  text-align: center;
+  padding-top: 10%;
+  h2 {
+    font-family: "gotham-bold";
+  }
+
+  p {
+    padding-top: 10px;
+    font-size: smaller;
+  }
+}
+
+.loader-container {
+  text-align: center;
+  margin-top: 50px;
+  padding: 20px;
+}
+
+.css-1eg0sfo-skeletonStyles-Skeleton {
+  background-color: #121212 !important;
+  background-image: linear-gradient(90deg, #121212, #424242, #121212) !important;
+  margin-top: 20px;
+  height: 40px;
+}
+
+.confirm-msg {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  height: 140px;
+  background-color: rgb(40, 40, 40);
+  padding: 25px;
+  border-radius: rem(8px);
+  position: fixed;
+  z-index: 1;
+  text-align: center;
+
+  h3{
+    margin-bottom: 30px;
+  }
+
+  div{
+    justify-content: space-between;
+  }
+
+  button{
+    color:$clr8;
+    padding: 10px;
+
+    &:hover {
+      color: $clr7;
+      background-color: rgba(255, 255, 255, 0.308);
+    }
+  }
 }

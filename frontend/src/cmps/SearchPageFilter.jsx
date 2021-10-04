@@ -16,7 +16,6 @@ export class SearchPageFilter extends Component {
         return (
             <form className="SeacrchPageFilter" onSubmit={(ev) => {
                 ev.preventDefault();
-                // this.props.onSetFilter(title)
             }}>
                 <div className="input-container" >
                     <button className="fas fa-search search-btn"></button>
