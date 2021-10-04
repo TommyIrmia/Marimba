@@ -70,3 +70,19 @@
     }
   }
 }
+
+.blur-out-contract-bck {
+	animation: blur-out-contract-bck 1.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) reverse both;
+}
+
+@keyframes blur-out-contract-bck {
+  0% {
+    transform: translateZ(0);
+    filter: blur(0.01);
+  }
+  100% {
+    letter-spacing: -0.5em;
+    transform: translateZ(-500px);
+    filter: blur(12px) opacity(0%);
+  }
+}

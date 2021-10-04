@@ -10,7 +10,6 @@ export default class EditDetails extends Component {
     state = {
         isHover: false,
         isSelect: false,
-        opacity:'0',
         genres: [],
         hero: {
             bgc: "#282828 ",
@@ -23,8 +22,10 @@ export default class EditDetails extends Component {
 
     componentDidMount() {
         this.onGetGenres()
-        this.onChangeOpacity()
+        this.props.onFlip('text-blur-in');
     }
+
+    
 
     onGetGenres = async () => {
         let genres = await stationService.getGenres()
@@ -67,25 +68,19 @@ export default class EditDetails extends Component {
         this.setState((prevState) => ({ ...prevState, hero: { ...prevState.hero, bgc } }))
     }
 
-    onChangeOpacity = () => {
-        setTimeout(() => {
-            this.setState({
-                opacity:'100%'
-              })
-            }, 10);
-    }
-
     render() {
-        const { isHover, hero, genres, isSelect,opacity } = this.state;
+        const { isHover, hero, genres, isSelect } = this.state;
         const { img, title, desc, bgc } = this.state.hero;
-        const { onEdit, onToggleEdit, saveDataFromHero} = this.props;
-        console.log('opacity',opacity);
+        const { onEdit, onToggleEdit, saveDataFromHero,onFlip,animation} = this.props;
         return (
-            <main className="edit-container" style={{ backgroundColor: bgc,opacity:opacity}}>
+            <main className={`edit-container  ${animation} `} style={{ backgroundColor: bgc}}>
 
                 <div className="header-edit flex" >
                     <h3>Edit details</h3>
-                    <button onClick={onToggleEdit} >X</button>
+                    <button onClick={()=>{
+                        onFlip('text-blur-out')
+                        onToggleEdit()
+                    }} >X</button>
                 </div>
 
                 <section className="EditDetails grid" >

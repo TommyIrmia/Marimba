@@ -1,3 +1,10 @@
+.SuggestPreview{
+  
+ img{
+   border-radius: 50%;
+ }
+}
+
 .add-button {
   border: 1px solid rgba(255, 255, 255, 0.123);
   border-radius: 30px;
@@ -6,9 +13,19 @@
   font-size: 16px;
   font-family: gotham-light;
   padding: 8px 20px;
-  margin-inline-end: 10px;
+  margin-inline-end: 30px;
   &:hover {
     border: 1px solid seashell;
     transform: scale(1.07);
   }
+}
+
+.duration-info{
+  margin-inline-end: 20px;
+}
+
+.loader-container{
+  text-align: center;
+  margin-top:50px;
+  padding: 20px;
 }

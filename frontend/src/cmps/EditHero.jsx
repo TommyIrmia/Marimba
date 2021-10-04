@@ -36,7 +36,7 @@ class _EditHero extends Component {
     render() {
         const { isHover, hero } = this.state;
         const { img, title, desc } = this.state.hero;
-        const { saveDataFromHero, onToggleEdit, isEditModalOpen, bgc } = this.props
+        const { saveDataFromHero, onToggleEdit, isEditModalOpen, bgc, animation, onFlip } = this.props
         return (
             <main className="EditHero-container" style={{ backgroundColor: bgc }}>
                 <div className="linear-container">
@@ -66,7 +66,7 @@ class _EditHero extends Component {
                         </div>
                     </section>
 
-                    {isEditModalOpen && <EditDetails onToggleEdit={onToggleEdit} onEdit={this.onEdit} hero={hero} saveDataFromHero={saveDataFromHero} />}
+                    {isEditModalOpen && <EditDetails animation={animation} onFlip={onFlip} onToggleEdit={onToggleEdit} onEdit={this.onEdit} hero={hero} saveDataFromHero={saveDataFromHero} />}
                 </div>
             </main>
         )

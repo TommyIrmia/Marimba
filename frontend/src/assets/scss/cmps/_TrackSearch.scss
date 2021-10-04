@@ -32,19 +32,20 @@
     border-radius: 4px;
     color: rgba(184, 179, 179, 0.7);
     height: 40px;
-    opacity: 1;
     padding: 8px 10px;
     max-width: 550px;
-    .fas.fa-search {
+    button {
       justify-self: flex-start;
       padding: 10px 12px;
-      pointer-events: none;
+      color:$clr7;
+      // pointer-events: none;
     }
     .search-input {
       background-color: rgba(0, 0, 0, 0);
       border: 0;
       font-size: 1rem;
       color: #ffff;
+      width: 100%;
       
       &:focus {
         outline: 0;

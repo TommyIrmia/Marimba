@@ -16,7 +16,7 @@ export class SuggestTrackPreview extends React.Component {
         const { track } = this.props;
         return (
             <section className="track-container flex">
-                <section className="TrackPreview flex">
+                <section className="TrackPreview SuggestPreview flex">
                     <div className="track-img-container">
                         <img src={track.imgUrl} alt="trackImg" />
                     </div>
@@ -26,9 +26,7 @@ export class SuggestTrackPreview extends React.Component {
                     </div>
                 </section>
 
-                <section className="previewAlbum">
-                    <p>Album</p>
-                </section>
+                <p className="duration-info" >{track.minutes}:{track.seconds}</p>
 
                 <button className='add-button' onClick={() => this.onAddTrack(track)}>Add</button>
             </section>

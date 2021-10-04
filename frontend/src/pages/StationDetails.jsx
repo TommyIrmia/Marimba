@@ -22,7 +22,9 @@ class _StationDetails extends Component {
         isEditable: false,
         isEditModalOpen: false,
         isLikedStation: false,
-        stationId: ''
+        stationId: '',
+        animation: '',
+
     }
 
     inputRef = React.createRef()
@@ -163,7 +165,15 @@ class _StationDetails extends Component {
 
     onToggleEdit = () => {
         const { isEditModalOpen } = this.state
-        this.setState({ isEditModalOpen: !isEditModalOpen })
+        setTimeout(() => {
+            this.setState({
+                isEditModalOpen: !isEditModalOpen
+            })
+        }, 400);
+    }
+
+    onFlip = (animation) => {
+        this.setState({ animation })
     }
 
     onDragEnd = (result) => {
@@ -203,17 +213,20 @@ class _StationDetails extends Component {
     }
 
     render() {
-        const { isSearch, isPlaying, isEditable, isEditModalOpen } = this.state;
+        const { isSearch, isPlaying, isEditModalOpen, animation } = this.state;
         const { tracks, bgc } = this.props
         const { stationId } = this.props.match.params
         return (
             <main className="StationDetails">
-                <div onClick={this.onCloseSearch} className={(isSearch ? "screen" : "")}></div>
-                <div onClick={this.onToggleEdit} className={(isEditModalOpen ? "dark screen" : "")}></div>
+                <div onClick={this.onCloseSearch} className={(isSearch ? `screen ${animation}` : "")}></div>
+                <div onClick={()=>{
+                    this.onFlip('text-blur-out')
+                    this.onToggleEdit()
+                }} className={(isEditModalOpen ? "dark screen" : "")}></div>
 
                 {stationId !== 'new' && <StationHero stationId={stationId} />}
 
-                {stationId === 'new' && <EditHero isEditModalOpen={isEditModalOpen} onToggleEdit={this.onToggleEdit}
+                {stationId === 'new' && <EditHero animation={animation} onFlip={this.onFlip} isEditModalOpen={isEditModalOpen} onToggleEdit={this.onToggleEdit}
                     saveDataFromHero={this.saveDataFromHero} />}
 
                 <StationActions onSetFilter={this.onSetFilter} inputRef={this.inputRef}
