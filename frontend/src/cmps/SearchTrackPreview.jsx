@@ -8,7 +8,6 @@ import equi from '../assets/imgs/equi.gif';
 export class _SearchTrackPreview extends Component {
 
     state = {
-        isPlaying: false,
         isHover: false,
         isLiked: false,
     }
@@ -83,9 +82,8 @@ export class _SearchTrackPreview extends Component {
 
     render() {
         const { isHover, isLiked } = this.state
-        const { track, idx } = this.props
+        const { track, idx, player } = this.props
         const { title } = track
-
         return (
             <section className="track-container search flex playlist-layout"
                 onMouseEnter={() => this.setState({ isHover: true })}

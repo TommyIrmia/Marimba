@@ -17,7 +17,6 @@ export class StationActions extends Component {
     }
 
     isTrackPlaying = (tracks) => {
-        console.log(this.props);
         if (this.props.currStationId !== this.props.playingStationId) return false
         if (!this.props.isPlayerPlaying) return false
         if (!tracks || !tracks.length) return false

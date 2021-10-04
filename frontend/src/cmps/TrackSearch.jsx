@@ -11,6 +11,7 @@ export class TrackSearch extends Component {
         searchKey: '',
         isSearch: true,
         isLoading: false,
+        msg: '',
     }
 
     componentDidMount() {
@@ -21,7 +22,9 @@ export class TrackSearch extends Component {
         try {
             const { searchKey } = this.state
             const tracks = await youtubeService.query(searchKey, this.props.currStationTracks)
-            this.setState({ tracks });
+            this.setState({ tracks: tracks });
+            if (!tracks?.length && this.state.isLoading) this.setState({ msg: `No results found for \"${searchKey}\"` });
+            else this.setState({ msg: '' })
         } catch (err) {
             throw err
         }
@@ -96,7 +99,7 @@ export class TrackSearch extends Component {
     // }
 
     render() {
-        const { isSearch, searchKey, tracks, isLoading } = this.state;
+        const { isSearch, searchKey, tracks, isLoading, msg } = this.state;
         const { addRef } = this.props;
         return (
             <div ref={addRef} className="TrackSearch playlist-layout">
@@ -107,7 +110,7 @@ export class TrackSearch extends Component {
 
                 {isSearch && <div className="SuggestedTrackSearch">
                     <div className="search-header-container flex align-center space-between">
-                        <h2>Lets look for something to add to your station</h2>
+                        <h2 className="search-title" >Lets look for something to add to your station</h2>
                         <button className="close-button" onClick={this.toggleSearch}>X</button>
                     </div>
 
@@ -125,13 +128,21 @@ export class TrackSearch extends Component {
 
                 </div>}
 
-                <SuggestTrackList isLoading={isLoading} tracks={tracks} onAddTrack={this.props.onAddTrack}
-                    removeAddedTrack={this.removeAddedTrack} />
+                {msg && searchKey && <div className="no-found-msg" >
+                    <h2>{msg}</h2>
+                    <p>Please make sure your words are spelled correctly or use different keywords.</p>
+                </div>}
 
-                {!isSearch && <button className="refresh-btn" onClick={() => this.onRefreshTracks()}>
-                    Refresh
-                </button>}
-            </div>
+                {searchKey && <SuggestTrackList isSearch={isSearch} msg={msg} isLoading={isLoading} tracks={tracks} onAddTrack={this.props.onAddTrack}
+                    removeAddedTrack={this.removeAddedTrack} />}
+
+
+                {
+                    !isSearch && <button className="refresh-btn" onClick={() => this.onRefreshTracks()}>
+                        Refresh
+                    </button>
+                }
+            </div >
 
         )
     }
