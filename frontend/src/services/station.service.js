@@ -45,7 +45,7 @@ const initialStations = [
         "description": "All your liked songs are here",
         "bgc": "#e24aa5",
         "tags": ["Liked"],
-        "imgUrl": 'https://svg-clipart.com/svg/heart/mP6A3zM-white-line-heart-vector.svg',
+        "imgUrl": 'http://www.whiteheart.eu/wp-content/uploads/2018/02/white-heart_2018_8.png',
         "createdAt": Date.now(),
         "createdBy": {
             "_id": "u101",

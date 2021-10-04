@@ -1,7 +1,10 @@
 .station-list {
+  width: 100%;
+  
   .station-genre {
     font-size: rem(20px);
-    padding: 10px 0 30px;
+    padding: 10px 0 20px;
+    align-items: center;
     a {
       &:hover {
         text-decoration: underline;
@@ -11,9 +14,9 @@
       text-transform: uppercase;
       font-size: rem(15px);
       color: $clr2;
+      margin-inline-end: 20px;
     }
   }
-
   .stations {
     max-height: 300px;
     gap: 24px;
@@ -23,5 +26,4 @@
     grid-template-rows: 1fr;
     overflow-y: hidden;
   }
-
 }

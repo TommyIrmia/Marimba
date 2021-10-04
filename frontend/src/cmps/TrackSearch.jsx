@@ -8,7 +8,8 @@ export class TrackSearch extends Component {
     state = {
         tracks: [],
         searchKey: '',
-        isSearch: true
+        isSearch: true,
+        isLoading: false,
     }
 
     componentDidMount() {
@@ -68,11 +69,15 @@ export class TrackSearch extends Component {
         }
     }
 
+    // onLoading = () => {
+    //     this.setState({ isLoading: true });
+    // }
+
     render() {
-        const { isSearch, searchKey, tracks } = this.state;
+        const { isSearch, searchKey, tracks,isLoading } = this.state;
         const { addRef } = this.props;
         return (
-            <div ref ={addRef} className="TrackSearch playlist-layout">
+            <div ref={addRef} className="TrackSearch playlist-layout">
                 {!isSearch && <div className="SuggestedTracks">
                     <h4 onClick={this.toggleSearch}>To search other tracks</h4>
                     <h2>Suggested</h2>
@@ -84,18 +89,21 @@ export class TrackSearch extends Component {
                         <button className="close-button" onClick={this.toggleSearch}>X</button>
                     </div>
 
-                    <div className="search-Warrper flex align-center">
-                        <div className="fas fa-search"></div>
-                        <input className="search-input" type="text"
+                    <form onSubmit={(ev) => ev.preventDefault()} className="search-Warrper flex align-center">
+                        <button className="fas fa-search"></button>
+                        <input  className="search-input" type="text"
                             placeholder="Look for songs or artists"
                             value={searchKey}
                             spellCheck={false}
-                            onChange={this.handleChange} />
-                    </div>
+                            onChange={(ev)=>{
+                                this.handleChange(ev)
+                                this.setState({ isLoading: true });
+                            }} />
+                    </form>
 
                 </div>}
 
-                <SuggestTrackList tracks={tracks} onAddTrack={this.props.onAddTrack}
+                <SuggestTrackList isLoading={isLoading} tracks={tracks} onAddTrack={this.props.onAddTrack}
                     removeAddedTrack={this.removeAddedTrack} />
             </div>
 

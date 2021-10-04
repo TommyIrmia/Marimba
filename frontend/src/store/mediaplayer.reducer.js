@@ -23,9 +23,8 @@ export function mediaPlayerReducer(state = initialState, action) {
             return { ...state, currDuration: action.currDuration }
         case 'SET_TRACKS_TO_PLAYER':
             return { ...state, currentTracks: action.tracks }
-        case 'UPDATE_TRACK':
+        case 'UPDATE_CURR_TRACK':
             currentTracks = state.currentTracks.map(track => (track.id === action.track.id) ? action.track : { ...track, isPlaying: false })
-            console.log('tracks after update', currentTracks);
             return { ...state, currentTracks }
         case 'SET_PLAYING_STATION_ID':
             return { ...state, stationId: action.stationId }

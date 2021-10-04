@@ -13,10 +13,11 @@ export class SuggestTrackPreview extends React.Component {
     }
 
     render() {
-        const { track } = this.props;
+        const { track, index } = this.props;
         return (
-            <section className="track-container flex">
-                <section className="TrackPreview flex">
+            <section className="suggest track-container flex">
+                <section className="TrackPreview SuggestPreview flex">
+                    <div className="num-idx">{index + 1}</div>
                     <div className="track-img-container">
                         <img src={track.imgUrl} alt="trackImg" />
                     </div>
@@ -26,9 +27,7 @@ export class SuggestTrackPreview extends React.Component {
                     </div>
                 </section>
 
-                <section className="previewAlbum">
-                    <p>Album</p>
-                </section>
+                <p className="duration-info" >{track.minutes}:{track.seconds}</p>
 
                 <button className='add-button' onClick={() => this.onAddTrack(track)}>Add</button>
             </section>

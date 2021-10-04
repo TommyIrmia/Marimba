@@ -26,10 +26,11 @@ export class GenrePage extends Component {
 
     render() {
         const { genre, stations } = this.state
-        if (stations.length === 0) return <div>Loading stations...</div>
+        if (!stations.length) return <div>Loading stations...</div>
         return (
             <section className="GenrePage">
-                <h1>{genre}</h1>
+                <h1 className="genre-title">{genre}</h1>
+                <small className="genre-subtitle"> Here you can browse all of the playlists</small>
                 <SearchStationList stations={stations} />
             </section>
         )

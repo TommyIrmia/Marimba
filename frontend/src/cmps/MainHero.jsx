@@ -19,7 +19,7 @@ export class MainHero extends Component {
                     <div className="main-hero-info flex" >
                         <div className="logo-img"><img src={logo} alt="Marimba logo" /></div>
                         <h1>Welcome to Marimba</h1>
-                        <p>Listening is everything.</p>
+                        <p className="blur-out-contract-bck" >Listening is everything.</p>
                         <button onClick={() => {
                             this.setState({ isStart: true }, () => {
                                 sessionService.save('initial', 'false')

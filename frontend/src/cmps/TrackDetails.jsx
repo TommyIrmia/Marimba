@@ -52,9 +52,6 @@ export class TrackDetails extends React.Component {
 
     render() {
         const { imgSrc, currTrack, station, currLikedTrack } = this.props
-        // console.log('isLiked❤❤❤',isLiked);
-        // const isLiked2 = this.checkIsLiked()
-        // console.log('checkIsLiked', isLiked2);
         return (
 
             <div className="song-details flex align-center">

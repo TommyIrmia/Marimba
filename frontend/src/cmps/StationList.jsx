@@ -34,8 +34,8 @@ export class StationList extends React.Component {
             <section className="station-list">
 
                 <div className="station-genre flex space-between">
-                    <Link to="/"><h1>{genre}</h1></Link>
-                    <Link to="/"><p>See all</p></Link>
+                    <Link to={`/genre/${genre}`}><h1>{genre}</h1></Link>
+                    <Link to={`/genre/${genre}`}><p>See all</p></Link>
                 </div>
 
                 <div className="stations grid">
