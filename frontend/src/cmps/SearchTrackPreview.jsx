@@ -40,7 +40,7 @@ export class _SearchTrackPreview extends Component {
     onLike = async () => {
         try {
             const { track } = this.props;
-            await stationService.addTrackToStation(track, 'liked')
+            await stationService.addTrackToLiked(track)
             this.setState({ isLiked: true })
         } catch (err) {
             throw err
@@ -52,7 +52,7 @@ export class _SearchTrackPreview extends Component {
         try {
             if (stationId === 'liked') {
                 await this.props.onRemoveTrack(trackId)
-            } else await stationService.removeTrackFromStation(trackId, 'liked')
+            } else await stationService.removeTrackFromLiked(trackId)
             this.setState({ isLiked: false })
             if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: false })
         } catch (err) {
@@ -64,7 +64,7 @@ export class _SearchTrackPreview extends Component {
     checkIsLiked = async () => {
         try {
             const { track } = this.props
-            const station = await stationService.getById('liked')
+            const [station] = await stationService.getTemplateStation('likedStation', 'liked')
             const isLiked = station.tracks.some(likedTrack => likedTrack.id === track.id)
             if (isLiked) this.setState({ isLiked })
         } catch (err) {

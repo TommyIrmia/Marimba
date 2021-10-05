@@ -13,8 +13,13 @@ export class StationHero extends Component {
     }
 
     loadStation = async () => {
+        const { stationId } = this.props
+        console.log('station id in station hero', stationId);
+        let station;
         try {
-            const station = await stationService.getById(this.props.stationId)
+            if (stationId === "liked") [station] = await stationService.getTemplateStation("likedStation", stationId)
+            else station = await stationService.getById(stationId)
+            console.log('station in hero', station);
             this.setState({ station })
         } catch (err) {
             throw err

@@ -6,6 +6,7 @@ export class TrackList extends React.Component {
 
     render() {
         const { tracks, onRemoveTrack, stationId } = this.props
+        console.log('tracks in tracks list', tracks);
         return (<>
             <Droppable droppableId={stationId}>
                 {(provided) => (

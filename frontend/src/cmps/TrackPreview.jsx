@@ -27,7 +27,7 @@ class _TrackPreview extends Component {
     }
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.currLikedTrack !== this.props.currLikedTrack) {
-            if (this.props.currLikedTrack?.trackId === this.props.track.id){
+            if (this.props.currLikedTrack?.trackId === this.props.track.id) {
                 this.setState({ isLiked: this.props.currLikedTrack.isLiked })
             }
         }
@@ -50,7 +50,7 @@ class _TrackPreview extends Component {
     onLike = async () => {
         const { track } = this.props;
         try {
-            await stationService.addTrackToStation(track, 'liked')
+            await stationService.addTrackToLiked(track)
             this.setState({ isLiked: true })
             if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: true })
         } catch (err) {
@@ -63,7 +63,7 @@ class _TrackPreview extends Component {
         try {
             if (stationId === 'liked') {
                 await this.props.onRemoveTrack(trackId)
-            } else await stationService.removeTrackFromStation(trackId, 'liked')
+            } else await stationService.removeTrackFromLiked(trackId, 'liked')
             this.setState({ isLiked: false })
             if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: false })
         } catch (err) {
@@ -74,7 +74,8 @@ class _TrackPreview extends Component {
 
     checkIsLiked = async () => {
         const { track } = this.props
-        const station = await stationService.getById('liked')
+        const [station] = await stationService.getTemplateStation('likedStation', 'liked')
+        console.log('station in check is liked', station);
         const isLiked = station.tracks.some(likedTrack => likedTrack.id === track.id)
         if (isLiked) this.setState({ isLiked })
     }
@@ -150,7 +151,7 @@ function mapStateToProps(state) {
         currStationId: state.mediaPlayerModule.stationId,
         isPlaying: state.mediaPlayerModule.isPlaying,
         currLikedTrack: state.mediaPlayerModule.currLikedTrack,
-        
+
     }
 }
 

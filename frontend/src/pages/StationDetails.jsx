@@ -32,17 +32,22 @@ class _StationDetails extends Component {
 
     async componentDidMount() {
         const { stationId } = this.props.match.params
+        let station; 
         let isEditable = false;
         if (stationId === 'new') {
-            await stationService.saveEmptyStation();
+            //new sation 
             isEditable = true;
-            this.props.setBgcAndName('#545454', 'New Playlist')
+            [station] = await stationService.getTemplateStation("newStation", stationId)
         }
-        else if (stationId === 'liked') this.props.setBgcAndName('#e24aa5', 'Liked Songs')
+        else if (stationId === 'liked') {
+            // likedSongs array from user json => loggedInUser session (backend)
+            [station] = await stationService.getTemplateStation("likedStation", stationId)
+        }
         else {
-            const station = await stationService.getById(stationId)
-            this.props.setBgcAndName(station.bgc, station.name)
+            station = await stationService.getById(stationId)
+            
         }
+        this.props.setBgcAndName(station.bgc, station.name)
         this.setState({ ...this.state, isEditable, stationId }, async () => {
             await this.loadTracks()
         })
@@ -136,6 +141,7 @@ class _StationDetails extends Component {
     }
 
     saveDataFromHero = async (data) => {
+        console.log('save data from hero in station details');
         let { stationId } = this.state
         if (stationId === 'new') {
             stationId = await stationService.saveNewStation();
@@ -223,7 +229,7 @@ class _StationDetails extends Component {
         return (
             <main className="StationDetails">
                 <div onClick={this.onCloseSearch} className={(isSearch ? `screen ${animation}` : "")}></div>
-                <div onClick={()=>{
+                <div onClick={() => {
                     this.onFlip('text-blur-out')
                     this.onToggleEdit()
                 }} className={(isEditModalOpen ? "dark screen" : "")}></div>
