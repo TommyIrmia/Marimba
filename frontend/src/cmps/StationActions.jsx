@@ -1,22 +1,83 @@
 import React, { Component } from 'react'
 import { StationFilter } from './StationFilter.jsx';
+import { stationService } from './../services/station.service';
+import { async } from './../services/cloudinary.service';
 
 export class StationActions extends Component {
 
     state = {
+        station: null,
         isLiked: false,
+        likesCount: 0,
+        user: {
+            fullname: 'tomas irmia',
+            imgUrl: 'something',
+            _id: 'c101'
+        }
+    }
+
+    componentDidMount() {
+        this.loadStation()
+    }
+
+    loadStation = async () => {
+        try {
+            const station = await stationService.getById(this.props.stationId)
+            this.setState({ station }, () => {
+                this.checkIsLiked()
+                this.updateLikesCount()
+            })
+        } catch (err) {
+            throw err
+        }
+    }
+
+    checkIsLiked = async () => {
+        try {
+            const { station } = this.state;
+            if (!station) return;
+            this.setState({ station })
+            const { user } = this.state;
+            const isLiked = station.likedByUsers.some(currUser => currUser._id === user._id)
+            if (isLiked) this.setState({ isLiked })
+        } catch (err) {
+            console.log('can not get station', err);
+        }
+    }
+
+    updateLikesCount = async (diff) => {
+        const { station } = this.state;
+        if (!station) return
+        const likesCount = station.likedByUsers.length;
+        if (diff) this.setState({ likesCount: likesCount + diff })
+        else this.setState({ likesCount })
+    }
+
+    onLikeStation = (stationId) => {
+        const { user } = this.state;
+        this.setState({ isLiked: true }, () => {
+            stationService.addLikeTtoStation(stationId, user)
+        })
+        this.updateLikesCount(+1)
+    }
+
+    onUnlikeStation = (stationId) => {
+        const { _id } = this.state.user;
+        this.setState({ isLiked: false }, () => {
+            stationService.removeLikeFromStation(stationId, _id)
+        })
+        this.updateLikesCount(-1)
     }
 
     onSetSort = (sort) => {
         this.props.onSetFilter({ sort })
     }
 
-    onLike = () => {
-        const { isLiked } = this.state
-        this.setState({ isLiked: !isLiked })
-    }
+
 
     isTrackPlaying = (tracks) => {
+        console.log('curr station', this.props.currStationId, 'playing station', this.props.playingStationId);
+        if (this.props.currStationId !== this.props.playingStationId) return false
         if (!this.props.isPlayerPlaying) return false
         if (!tracks || !tracks.length) return false
         const track = tracks.find(track => track.isPlaying)
@@ -24,13 +85,14 @@ export class StationActions extends Component {
     }
 
     render() {
-        const { isSearch, onSearch, inputRef, onSetFilter, onPauseTrack, onPlayTrack, onScrollToAdd, tracks, bgc } = this.props;
+        const { isSearch, onSearch, inputRef, onSetFilter, onPauseTrack, onPlayTrack,
+            onScrollToAdd, tracks, bgc, stationId } = this.props;
         const { isLiked } = this.state;
 
         return (
-            <main className="actions-container">
-                <div className="linear-container" style={{ backgroundColor: bgc }}>
-                    <section className="StationActions playlist-layout">
+            <main className="actions-container ">
+                <div className="linear-container playlist-layout" style={{ backgroundColor: bgc }}>
+                    <section className="StationActions ">
                         <div className="btns-actions flex">
 
                             {!this.isTrackPlaying(tracks) && <button onClick={onPlayTrack}
@@ -41,15 +103,17 @@ export class StationActions extends Component {
                                 className="play-btn fas fa-pause">
                             </button>}
 
-                            <button onClick={this.onLike} className={"btn-action " + (isLiked ? "fas fa-thumbs-up btn-liked" : "far fa-thumbs-up")}></button>
+                            <button onClick={isLiked ? () => this.onUnlikeStation(stationId) : () => this.onLikeStation(stationId)}
+                                className={"btn-action " + (isLiked ? "fas fa-thumbs-up btn-liked" : "far fa-thumbs-up")}></button>
 
                             <button className="far fa-arrow-alt-circle-down btn-action"></button>
 
+                            <div className="add-track-btn" onClick={onScrollToAdd}>
+                                <span className="fas fa-plus btn-icon"></span>
+                                <span className="btn-text">Add Tracks</span>
+                            </div>
                         </div>
 
-                        <div className="add-track-btn" onClick={onScrollToAdd}>
-                            <span className="fas fa-plus"></span>  Add Tracks
-                        </div>
 
                         <StationFilter onSetFilter={onSetFilter} inputRef={inputRef} onSearch={onSearch} isSearch={isSearch} />
 

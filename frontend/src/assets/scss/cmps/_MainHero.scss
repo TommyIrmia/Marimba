@@ -36,6 +36,9 @@
       img {
         filter: invert(82%) sepia(76%) saturate(239%) hue-rotate(71deg)
           brightness(99%) contrast(85%);
+        // filter: invert(67%) sepia(99%) saturate(3245%) hue-rotate(98deg)
+        //   brightness(95%) contrast(77%);
+
         height: inherit;
         width: inherit;
       }
@@ -45,6 +48,7 @@
       font-family: gotham-bold;
       font-size: rem(50px);
       font-family: logo2;
+      // color: #93ebb2;
     }
 
     p {
@@ -59,6 +63,7 @@
       letter-spacing: 0.1px;
       font-size: rem(20px);
       background-color: $clr5;
+      // background-color: #93ebb2;
       width: 170px;
       height: 50px;
       border-radius: rem(22px);
@@ -72,7 +77,8 @@
 }
 
 .blur-out-contract-bck {
-	animation: blur-out-contract-bck 1.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) reverse both;
+  animation: blur-out-contract-bck 1.5s cubic-bezier(0.55, 0.085, 0.68, 0.53)
+    reverse both;
 }
 
 @keyframes blur-out-contract-bck {

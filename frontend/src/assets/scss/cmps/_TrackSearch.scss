@@ -1,18 +1,34 @@
 .TrackSearch {
   min-height: 70vh;
+  position: relative;
+  padding-bottom: 70px;
   h4 {
     padding: 15px;
     position: absolute;
     right: 0;
+    top: 20px;
     cursor: pointer;
   }
-  h2 {
+  .search-title {
     padding-top: rem(90px);
     line-height: rem(90px);
   }
+  .refresh-btn {
+    font-family: gotham-light;
+    font-weight: 700;
+    text-transform: uppercase;
+    position: absolute;
+    right: 33px;
+    top: 520px;
+    font-size: rem(13px);
+    color: $clr7;
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
 
   .search-header-container {
-    border-top: 1px solid $clr2;
+    border-top: 1px solid rgba(252, 250, 250, 0.377);
     margin-top: 70px;
     width: 100%;
     h2 {
@@ -24,7 +40,6 @@
       font-size: 1.3rem;
       padding: 5px 10px;
       border-radius: 10px;
-      // border: 1px solid $clr8;
       font-family: gotham-light;
     }
   }
@@ -39,7 +54,7 @@
     button {
       justify-self: flex-start;
       padding: 10px 12px;
-      color:$clr7;
+      color: $clr7;
       // pointer-events: none;
     }
     .search-input {
@@ -48,7 +63,7 @@
       font-size: 1rem;
       color: #ffff;
       width: 100%;
-      
+
       &:focus {
         outline: 0;
       }

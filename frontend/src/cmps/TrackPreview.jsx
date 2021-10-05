@@ -6,6 +6,8 @@ import { onPlayTrack, loadTracksToPlayer, updateIsLikedSong } from '../store/med
 import { onUpdateTrack } from '../store/station.actions.js'
 import { stationService } from '../services/station.service';
 import equi from '../assets/imgs/equi.gif';
+import { ConfirmMsg } from './ConfirmMsg';
+import {Audio} from '../assets/svg/audio'
 
 class _TrackPreview extends Component {
 
@@ -88,58 +90,64 @@ class _TrackPreview extends Component {
 
     render() {
         const { isHover, isLiked } = this.state
-        const { track, onRemoveTrack, idx } = this.props
+        const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen , tracksLength } = this.props
         const { title } = track
         const date = utilService.getTime(track.addedAt)
 
         return (
-            <Draggable draggableId={this.props.track.id} index={idx}>
-                {(provided) => (
-                    <section className="track-container flex playlist-layout"
-                        ref={(provided.innerRef)}
-                        {...provided.draggableProps} {...provided.dragHandleProps}
-                        onMouseEnter={() => this.setState({ isHover: true })}
-                        onMouseLeave={() => this.setState({ isHover: false })}
-                    >
+            <main>
+                { <ConfirmMsg tracksLength={tracksLength} isConfirmMsgOpen={isConfirmMsgOpen} confirmRemove={confirmRemove} />}
 
-                        <section title={title} className="TrackPreview flex">
+                <Draggable draggableId={this.props.track.id} index={idx}>
+                    {(provided) => (
+                        <section className=" track-container flex "
+                            ref={(provided.innerRef)}
+                            {...provided.draggableProps} {...provided.dragHandleProps}
+                            onMouseEnter={() => this.setState({ isHover: true })}
+                            onMouseLeave={() => this.setState({ isHover: false })}
+                        >
 
-                            {!isHover && <div className="num-idx" >
-                                {!this.checkIsPlaying() ? (idx + 1) : <img src={equi} alt="playing gif" />}
-                            </div>}
+                            <section title={title} className="TrackPreview flex">
 
-                            {isHover && this.checkIsPlaying() && <button onClick={() => this.onPauseTrack(track.id)}
-                                className={"play-btn fas fa-pause"}>
-                            </button>}
+                                {!isHover && <div className="num-idx" >
+                                    {!this.checkIsPlaying() ? (idx + 1) : <div className="audio-container" > <Audio/> </div> }
+                                    {/* {!this.checkIsPlaying() ? (idx + 1) : <img src={equi} alt="playing gif" />} */}
+                                </div>}
 
-                            {isHover && !this.checkIsPlaying() && <button onClick={() => this.onPlayTrack(idx)}
-                                className={"play-btn fas fa-play"}>
-                            </button>}
+                                {isHover && this.checkIsPlaying() && <button onClick={() => this.onPauseTrack(track.id)}
+                                    className={"play-btn fas fa-pause"}>
+                                </button>}
 
-                            <div className="track-img-container">
-                                <img src={track.imgUrl} alt="trackImg" />
+                                {isHover && !this.checkIsPlaying() && <button onClick={() => this.onPlayTrack(idx)}
+                                    className={"play-btn fas fa-play"}>
+                                </button>}
+
+                                <div className="track-img-container">
+                                    <img src={track.imgUrl} alt="trackImg" />
+                                </div>
+
+                                <div className={'track-title ' + (this.checkIsPlaying() ? 'green' : '')}> {title} </div>
+                            </section>
+
+                            <div className="track-date">{date}</div>
+
+                            <div className="preview-actions flex" >
+                                <button onClick={(isLiked) ? () => this.onUnLike(track.id) : this.onLike}
+                                    className={` btn-like  ${(isHover || isLiked ? "" : "btn-hidden")} 
+                                ${(isLiked ? "fas fa-heart btn-liked" : "far fa-heart")}`}>
+                                </button>
+
+                                <p className={(isHover) ? '' : 'track-duration'} >{track.minutes}:{track.seconds}</p>
+
+                                    <button onClick={() => onRemoveTrack(track.id, track.title)}
+                                        className={"far fa-trash-alt btn-remove " + (isHover ? "" : "btn-hidden")}>
+                                    </button>
                             </div>
 
-                            <div className={'track-title ' + (this.checkIsPlaying() ? 'green' : '')}> {title} </div>
                         </section>
-
-                        <div className="track-date">{date}</div>
-
-                        <div className="preview-actions flex" >
-                            <button onClick={(isLiked) ? () => this.onUnLike(track.id) : this.onLike}
-                                className={` btn-like  ${(isHover || isLiked ? "" : "btn-hidden")} 
-                                 ${(isLiked ? "fas fa-heart btn-liked" : "far fa-heart")}`}>
-                            </button>
-
-                            <p className={(isHover) ? '' : 'track-duration'} >{track.minutes}:{track.seconds}</p>
-
-                            <button onClick={() => onRemoveTrack(track.id, track.title)}
-                                className={"far fa-trash-alt btn-remove " + (isHover ? "" : "btn-hidden")}>
-                            </button>
-                        </div>
-                    </section>
-                )}
-            </Draggable>
+                    )}
+                </Draggable>
+            </main>
         )
     }
 }

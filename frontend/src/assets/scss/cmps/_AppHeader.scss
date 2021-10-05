@@ -8,7 +8,7 @@
 
   h1 {
     transition: 0.6s;
-    margin-inline-start: 50px;
+    margin-inline-start: 30px;
     font-family: gotham-bold;
     opacity: 0;
   }
@@ -16,18 +16,19 @@
   .user-container {
     display: flex;
     justify-content: space-around;
+    gap: 10px;
+    padding: 0 10px;
     align-items: center;
-    width: rem(120px);
-    height: rem(40px);
-    color: $clr8;
+    min-width: rem(120px);
+    height: rem(35px);
+    color: $clr7;
     background-color: #121212c5;
-    border-radius: 20px;
+    border-radius: 23px;
     position: absolute;
     top: rem(10px);
-    right: rem(100px);
+    right: rem(30px);
 
     &:hover {
-      color: $clr7;
       background-color: $clr1;
       cursor: pointer;
     }
@@ -37,20 +38,23 @@
     }
   }
   .options-container {
-    width: rem(200px);
+    width: rem(180px);
     position: absolute;
     background-color: #282828;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 0;
+    padding: 5px;
     text-indent: 10px;
     margin: 0;
-    top: 60px;
-    right: 100px;
+    top: 52px;
+    right: 30px;
+    border-radius: 4px;
+    box-shadow: 0 16px 24px rgb(0 0 0 / 30%), 0 6px 8px rgb(0 0 0 / 20%);
 
     .user-options {
-      padding: 10px 0;
+      border-radius: 4px;
+      padding: 10px 5px;
       width: 100%;
       z-index: 1;
 

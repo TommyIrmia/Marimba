@@ -4,6 +4,7 @@ import { withRouter } from 'react-router'
 import { utilService } from '../services/util.service'
 import { loadActivities } from '../store/activitylog.actions'
 import { setBgcAndName } from '../store/station.actions'
+import userImg from '../assets/imgs/logo.png'
 
 export class _ActivityLog extends Component {
 
@@ -28,8 +29,8 @@ export class _ActivityLog extends Component {
                         this.props.history.push(`/station/${activity.stationInfo.id}`)
                         this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
                     }}>
-                    <div className="activity-type">
-                        <span className="fas fa-plus-square "></span>
+                    <div className="activity-user">
+                        <img src={userImg} alt='user-img' />
                     </div>
                     <div className="activity-info">
                         {activity.byUser} created a playlist - "{activity.stationInfo.name}"
@@ -42,8 +43,8 @@ export class _ActivityLog extends Component {
                         this.props.history.push(`/station/${activity.stationInfo.id}`)
                         this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
                     }}>
-                    <div className="activity-type">
-                        <span className="fas fa-plus"></span>
+                    <div className="activity-user">
+                        <img src={userImg} alt='user-img' />
                     </div>
                     <div className="activity-info" >
                         {activity.byUser} added "{activity.trackName}" to "{activity.stationInfo.name}"!
@@ -55,8 +56,8 @@ export class _ActivityLog extends Component {
                     this.props.history.push(`/station/${activity.stationInfo.id}`)
                     this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
                 }}>
-                    <div className="activity-type">
-                        <span className="fas fa-trash-alt "></span>
+                    <div className="activity-user">
+                        <img src={userImg} alt='user-img' />
                     </div>
                     <div className="activity-info">
                         {activity.byUser} removed "{activity.trackName}" from "{activity.stationInfo.name}"!
@@ -72,7 +73,7 @@ export class _ActivityLog extends Component {
 
         return (<section className="activity-log">
 
-            <h1>Activity Log<span className="far fa-clock"></span></h1>
+            <h1>What's New?</h1>
 
             <div className="activity-log-container">
                 <ul className="clean-list">

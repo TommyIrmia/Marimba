@@ -1,30 +1,31 @@
 import axios from 'axios'
 import { sessionService } from './session.service'
 import { asyncSessionService } from './async-session.service'
-const API = 'AIzaSyDaOfZxHtQT_vKcANLFW5vy3Q0nA9SV_Qs'
-// AIzaSyDaOfZxHtQT_vKcANLFW5vy3Q0nA9SV_Qs
-// AIzaSyAkH_U9S48kAw-de7ZN7sj-JoTfKM58cXI
-// AIzaSyDTC4t1Uu4HJfHJNxcUqh9oK1vf_gDX6-E
+const API_KEYS = ['AIzaSyDaOfZxHtQT_vKcANLFW5vy3Q0nA9SV_Qs',
+    'AIzaSyAkH_U9S48kAw-de7ZN7sj-JoTfKM58cXI',
+    'AIzaSyDTC4t1Uu4HJfHJNxcUqh9oK1vf_gDX6-E',
+    'AIzaSyA0GpyIMqEbFBBW08PREFePOuvDL3BvKZY',
+    'AIzaSyAdkOG4yzgq85QRVATZv0y-Y9WWUQ_tYYc']
+let keyIdx = 0;
 const KEY = 'cacheVideos'
-let SESSION_KEY;
 export const youtubeService = {
     query,
     setTVideoToTrack: getTracks,
     deleteTrackFromCache,
     getDuration,
-    debounce
+    debounce,
+    getRandomSearch
 }
 
-async function query(name = _getRandomSearch(), existingTracks) {
+async function query(name, existingTracks, tracksIdx = 0) {
     if (!name) return
-    SESSION_KEY = `${KEY}${name}`
-    const search = `${name} music`
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${API}&q=${search}&maxResults=50`
-
+    const SESSION_KEY = `${KEY}${name}`
+    const search = `${name} song`
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${API_KEYS[keyIdx]}&q=${search}&maxResults=50`
     try {
         let tracks = await sessionService.load(SESSION_KEY)
         if (tracks) {
-            return tracks.slice(0, 5)
+            return tracks.slice(tracksIdx, tracksIdx + 5)
         }
         const { data } = await axios.get(url)
         tracks = getTracks(data.items)
@@ -34,18 +35,17 @@ async function query(name = _getRandomSearch(), existingTracks) {
         if (existingTracks) existingTracksIds = existingTracks.map(track => track.id)
         const filteredTracks = updatedTracks.filter(track => track.duration && !existingTracksIds.includes(track.id))
         sessionService.save(SESSION_KEY, filteredTracks)
-        console.log('tracks from query', filteredTracks);
+        console.log('filtered tracks: ' + filteredTracks);
         return filteredTracks.slice(0, 5);
     } catch (err) {
-        throw err;
+        ++keyIdx
+        if (keyIdx >= API_KEYS.length) return console.error('Could not get videos from youtube', err)
+        const tracks = query(name, existingTracks, tracksIdx = 0)
+        if (tracks) return tracks
     }
 }
 
-function _getRandomSearch() {
-    const searchNames = ['britney spears', 'christinia aguilera', 'beatles', 'queen', 'beyonce', 'justin', 'jay Z', 'drake', 'ed Sheeran', 'Amy whinehouse', 'Guns n roses', 'Coldplay', 'Maroon 5', 'James blunt', 'Arctic monkeys', 'Rihanna', 'Paul mccartney', 'Bruno Mars', 'Nicki Minaj', 'Lady Gaga']
-    const idx = Math.floor(Math.random() * searchNames.length)
-    return searchNames[idx]
-}
+
 
 function getTracks(videos) {
     if (videos) {
@@ -68,20 +68,34 @@ function getTracks(videos) {
 
 async function deleteTrackFromCache(name, track) {
     try {
-        let key;
-        if (!name) key = SESSION_KEY
-        else key = `${KEY}${name}`
+        const SESSION_KEY = `${KEY}${name}`
         const trackId = track.id;
-        let tracks = await sessionService.load(key)
-        console.log('tracks from delete', tracks);
+
+        let tracks = await sessionService.load(SESSION_KEY)
+
         const idx = tracks.findIndex(track => track.id === trackId)
         const switchTrack = tracks.pop();
         tracks.splice(idx, 1, switchTrack);
-        asyncSessionService.save(key, tracks);
+
+        asyncSessionService.save(SESSION_KEY, tracks);
     } catch (err) {
         console.log('Can not delete track from cache', err)
         throw err
     }
+}
+
+
+function debounce(func, wait) {
+    let timeout;
+    return async function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
 }
 
 async function getDuration(tracks) {
@@ -90,7 +104,7 @@ async function getDuration(tracks) {
     ))
     trackId = trackId.join('&')
     if (!trackId) return
-    const url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&${trackId}&key=${API}`
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&${trackId}&key=${API_KEYS[keyIdx]}`
     try {
         const { data } = await axios.get(url)
         const duration = _setdurationToFormat(data.items)
@@ -124,17 +138,10 @@ function _setdurationToFormat(tracks) {
     })
 }
 
-function debounce(func, wait) {
-    let timeout;
-    return async function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-};
+function getRandomSearch() {
+    const searchNames = ['britney spears', 'christinia aguilera', 'beatles', 'queen', 'beyonce', 'justin', 'jay Z', 'drake', 'ed Sheeran', 'Amy whinehouse', 'Guns n roses', 'Coldplay', 'Maroon 5', 'James blunt', 'Arctic monkeys', 'Rihanna', 'Paul mccartney', 'Bruno Mars', 'Nicki Minaj', 'Lady Gaga']
+    const idx = Math.floor(Math.random() * searchNames.length)
+    return searchNames[idx]
+}
 
 

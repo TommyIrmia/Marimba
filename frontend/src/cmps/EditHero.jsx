@@ -6,7 +6,6 @@ import { uploadImg } from '../services/cloudinary.service';
 import EditDetails from './EditDetails';
 
 class _EditHero extends Component {
-
     state = {
         isHover: false,
         hero: {
@@ -27,6 +26,7 @@ class _EditHero extends Component {
     }
 
     onEdit = (hero) => {
+        if (hero.bgc === '#282828') hero = { ...hero, bgc: "545454" }
         this.setState((prevState) => ({ ...prevState.hero, hero }))
         this.props.setBgcAndName(hero.bgc, hero.title)
         this.props.onToggleEdit();
@@ -66,7 +66,9 @@ class _EditHero extends Component {
                         </div>
                     </section>
 
-                    {isEditModalOpen && <EditDetails animation={animation} onFlip={onFlip} onToggleEdit={onToggleEdit} onEdit={this.onEdit} hero={hero} saveDataFromHero={saveDataFromHero} />}
+                    {isEditModalOpen && <EditDetails animation={animation} onFlip={onFlip}
+                        onToggleEdit={onToggleEdit} onEdit={this.onEdit} hero={hero}
+                        saveDataFromHero={saveDataFromHero} />}
                 </div>
             </main>
         )

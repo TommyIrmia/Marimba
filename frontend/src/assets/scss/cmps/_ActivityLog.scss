@@ -1,6 +1,6 @@
 .activity-log {
   position: relative;
-  bottom: 20px;
+  bottom: 23px;
   h1 {
     font-family: gotham;
     font-weight: 400;
@@ -12,9 +12,10 @@
     left: 50%;
     transform: translateX(-50%);
     background-color: black;
+    color: #93ebb2;
     span {
       line-height: 1rem;
-      font-size: 0.7rem;
+      font-size: 0.9rem;
       margin-inline-start: 5px;
     }
   }
@@ -22,7 +23,7 @@
   .activity-log-container {
     height: calc(100vh - 495px);
     font-family: gotham-light;
-    padding: 10px;
+    padding: 0 10px 10px;
     border-radius: 8px;
     background-color: $clr3;
     color: $clr2;
@@ -30,6 +31,9 @@
 
     ul {
       transition: 0.5s;
+      :first-child {
+        margin-top: 5px;
+      }
       li {
         font-family: gotham-light;
         color: $clr2;
@@ -37,27 +41,42 @@
         gap: 5px;
         font-size: rem(14px);
         border-bottom: 1px solid rgb(66, 66, 66);
-        padding: 13px 0;
+        margin: 13px 0;
         position: relative;
         transition: 0.5s;
         cursor: pointer;
+
         &:hover {
-          background-color: $clr4;
           color: whitesmoke;
+          // color: #93ebb2;
+
+          background-color: $clr4;
         }
-        .activity-type {
-          text-align: center;
-          min-width: 20px;
-          font-size: 1.2rem;
-          color: lightgreen;
-
-          .fas.fa-trash-alt {
-            font-size: rem(13px);
-            color: rgb(233, 93, 93);
+        .activity-info {
+          padding-top: 5px;
+          white-space: pre-wrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-height: 35px;
+          margin-bottom: 13px;
+          transform: height 0.3s;
+          &:hover {
+            overflow: visible;
+            max-height: unset;
           }
+        }
+        .activity-user {
+          align-self: flex-start;
+          margin-inline-start: 5px;
+          min-width: 25px;
+          height: 25px;
 
-          .fas.fa-plus {
-            font-size: rem(14px);
+          img {
+            border-radius: 50%;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: center center;
           }
         }
 

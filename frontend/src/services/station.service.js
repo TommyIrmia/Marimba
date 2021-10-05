@@ -1,7 +1,13 @@
+<<<<<<< HEAD
 import { asyncStorageService } from "./async-storage.service.js"
 import { httpService } from "./http.service.js"
 import logo from "../assets/imgs/logo.png";
 import { asyncSessionService } from "./async-session.service.js";
+=======
+import { asyncStorageService } from './async-storage.service.js'
+import { utilService } from './util.service.js'
+import logo from '../assets/imgs/default.png';
+>>>>>>> b2754a2e17cfdc9faa4ab710dc59641d2d4f667d
 
 
 export const stationService = {
@@ -17,28 +23,50 @@ export const stationService = {
     saveDataFromHero,
     updateTracks,
     getStationsByGenre,
+<<<<<<< HEAD
     getTemplateStation,
     addTrackToLiked,
     removeTrackFromLiked
+=======
+    addLikeTtoStation,
+    removeLikeFromStation
+>>>>>>> b2754a2e17cfdc9faa4ab710dc59641d2d4f667d
 }
 const counter = 1;
 const genres = [
     {
         name: 'All',
+<<<<<<< HEAD
         imgUrl: 'https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg'
     },
     {
         name: 'Pop',
         imgUrl: 'https://i.scdn.co/image/ab6761610000e5ebcdce7620dc940db079bf4952'
+=======
+        imgUrl: "https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg",
+        color: "#ffc864"
+>>>>>>> b2754a2e17cfdc9faa4ab710dc59641d2d4f667d
     },
     {
         name: 'Hits',
-        imgUrl: 'https://i.ytimg.com/vi/kffacxfA7G4/mqdefault.jpg'
+        imgUrl: 'https://i.ytimg.com/vi/kffacxfA7G4/mqdefault.jpg',
+        color: "#8d67ab",
     },
     {
         name: 'Happy',
+<<<<<<< HEAD
         imgUrl: 'https://i.ytimg.com/vi/XaCrQL_8eMY/mqdefault.jpg'
     },
+=======
+        imgUrl: "https://i.ytimg.com/vi/XaCrQL_8eMY/mqdefault.jpg",
+        color: "#e8115b"
+    },
+    {
+        name: 'Pop',
+        imgUrl: "https://i.scdn.co/image/ab6761610000e5ebcdce7620dc940db079bf4952",
+        color: "#1e3264"
+    }
+>>>>>>> b2754a2e17cfdc9faa4ab710dc59641d2d4f667d
 ]
 
 
@@ -117,12 +145,33 @@ async function getTemplateStation(key, id) {
     }
 }
 
+<<<<<<< HEAD
 async function removeStation(stationId) {
     try {
         return await httpService.remove(`station/${stationId}`)
     } catch (err) {
         console.log("Can not remove station", err)
     }
+=======
+async function saveEmptyStation() {
+    const newStation = [{
+        "_id": 'new',
+        "name": "New Station",
+        "description": "What's the best way to describe your station?",
+        "tags": ["All"],
+        "imgUrl": "",
+        "createdAt": Date.now(),
+        "createdBy": {
+            "_id": "u101",
+            "fullname": "Puki Ben David",
+            "imgUrl": "https://i.ytimg.com/vi/4_iC0MyIykM/mqdefault.jpg"
+        },
+        "likedByUsers": [],
+        "tracks": []
+    }]
+    asyncStorageService.save('newStation', newStation);
+    return newStation._id
+>>>>>>> b2754a2e17cfdc9faa4ab710dc59641d2d4f667d
 }
 
 async function addStation(station) {
@@ -239,9 +288,16 @@ async function removeTrackFromStation(trackId, stationId) {
 }
 
 async function saveNewStation() {
+<<<<<<< HEAD
     counter++;
     let newStation = await asyncStorageService.query('newStation')
     newStation.name = `New station${counter}`
+=======
+    const id = utilService.makeId();
+    let newStation = await asyncStorageService.get('newStation', 'new');
+    newStation._id = id;
+    if (!newStation.imgUrl) newStation.imgUrl = logo
+>>>>>>> b2754a2e17cfdc9faa4ab710dc59641d2d4f667d
     if (!newStation.bgc) newStation.bgc = "#545454"
     delete newStation._id;
     await httpService.post(`station`, newStation)
@@ -255,24 +311,59 @@ async function saveDataFromHero(stationId, data) {
 
     const tags = data.genre;
     station.tags.push(tags)
-    if (!data.bgc) data.bgc = "#545454"
 
+<<<<<<< HEAD
     console.log("station from data", station);
+=======
+>>>>>>> b2754a2e17cfdc9faa4ab710dc59641d2d4f667d
     const updatedStation = {
         ...station,
         name: data.title,
-        imgUrl: data.img,
+        imgUrl: data.img || logo,
         description: data.desc,
-        bgc: data.bgc
+        bgc: data.bgc || "#545454"
     }
 
+<<<<<<< HEAD
     if (!updatedStation.imgUrl) updatedStation.imgUrl = logo
 
     console.log("Updated station", updatedStation);
     await httpService.put(`station/${updatedStation._id}`, updatedStation)
+=======
+    await asyncStorageService.put(STORAGE_KEY, updatedStation)
+>>>>>>> b2754a2e17cfdc9faa4ab710dc59641d2d4f667d
 }
 
 async function getGenres() {
     console.log('genres', genres);
     return Promise.resolve(genres);
 }
+<<<<<<< HEAD
+=======
+
+async function _saveStationsToStorage() {
+    console.log('saved to storage');
+    await asyncStorageService.save(STORAGE_KEY, initialStations)
+}
+
+async function addLikeTtoStation(stationId, user) {
+    try{
+        const station = await getById(stationId)
+        station.likedByUsers.push(user)
+        await asyncStorageService.put(STORAGE_KEY, station)
+    } catch (err) {
+        console.log('Can not add like to station', err)
+    }
+}
+
+async function removeLikeFromStation(stationId, userId) {
+    try {
+        const station = await asyncStorageService.get(STORAGE_KEY, stationId)
+        const idx = station.likedByUsers.findIndex(user => user.id === userId)
+        await station.likedByUsers.splice(idx, 1);
+        return await asyncStorageService.put(STORAGE_KEY, station)
+    } catch (err) {
+        console.log('Can not remove like from station', err)
+    }
+}
+>>>>>>> b2754a2e17cfdc9faa4ab710dc59641d2d4f667d

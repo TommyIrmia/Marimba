@@ -20,18 +20,22 @@
     .play-btn {
       opacity: 0;
       position: absolute;
-      bottom: 15px;
-      right: 10px;
+      bottom: 24px;
+      right: 15px;
       text-align: center;
       background-color: $clr5;
       height: 50px;
       line-height: 50px;
       width: 50px;
       border-radius: 50%;
+      transition: 0.4s;
+      &.fa-pause {
+        bottom: 48px;
+        opacity: 1;
+      }
       &:hover {
         transform: scale(1.1);
       }
-      transition: 0.5s;
     }
 
     img {
@@ -47,7 +51,7 @@
     background-color: $clr4;
     .station-img {
       .play-btn {
-        bottom: 45px;
+        bottom: 48px;
         opacity: 1;
       }
     }

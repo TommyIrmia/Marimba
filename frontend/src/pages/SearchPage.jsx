@@ -13,10 +13,12 @@ export class SearchPage extends Component {
         genres: [],
         searchKey: '',
         isSearch: false,
+        isLoading: false,
         msg: ''
     }
     timeoutId = null
     async componentDidMount() {
+        window.scrollTo(0, 0)
         try {
             const genres = await this.loadGenres()
             this.setState({ ...this.state, genres })
@@ -49,19 +51,21 @@ export class SearchPage extends Component {
     loadStationsAndTracks = () => {
         clearTimeout(this.timeoutId)
         this.timeoutId = setTimeout(async () => {
+            const { searchKey } = this.state
+            if (!searchKey) return
             try {
-                const { searchKey } = this.state
-                if (!searchKey) return
                 const stations = await stationService.query(searchKey);
                 const tracks = await youtubeService.query(searchKey)
                 this.setState({ ...this.state, stations, tracks, msg: '' })
+                if (!tracks.length) this.setState({ msg: `No results found for \"${searchKey}\"` })
             } catch (err) {
-                this.setState({ msg: 'No Results', tracks: [], stations: [] })
+                this.setState({ msg: `No results found for \"${searchKey}\"`, tracks: [], stations: [] })
             }
         }, 400)
     }
 
     onSetFilter = (searchKey) => {
+        this.setState({ isLoading: true })
         if (!searchKey) {
             this.setState({ ...this.state, isSearch: false, searchKey, msg: '' })
             clearTimeout(this.timeoutId)
@@ -74,20 +78,23 @@ export class SearchPage extends Component {
     }
 
     render() {
-        const { stations, tracks, genres, isSearch, msg } = this.state;
+        const { stations, tracks, genres, isSearch, msg, isLoading } = this.state;
         return (
             <main className="playlist-layout" >
                 <SearchPageFilter onSetFilter={this.onSetFilter} />
-                {msg && <h4>{msg}</h4>}
+                {msg && <div className="no-found-msg" >
+                    <h2>{msg}</h2>
+                    <p>Please make sure your words are spelled correctly or use different keywords.</p>
+                </div>}
                 {!isSearch &&
                     <section className="genre-section">
                         <h1>Browse by collection</h1>
                         <GenreList genres={genres} />
                     </section>}
 
-                {isSearch && <>
-                    {tracks && <SearchTrackList tracks={tracks} />}
-                    <SearchStationList stations={stations} />
+                {isSearch && !msg && <>
+                    {tracks && <SearchTrackList msg={msg} isLoading={isLoading} tracks={tracks} />}
+                    <SearchStationList stations={stations} isSearchPage={true} />
                 </>}
             </main>
         )

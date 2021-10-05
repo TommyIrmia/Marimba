@@ -3,7 +3,7 @@
   margin-bottom: 20px;
 
   .linear-container {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.45) 0, #121212 100%);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6) 0, #121212 100%);
   }
 
   .StationActions {
@@ -12,12 +12,12 @@
     position: relative;
 
     .btns-actions {
-      width: rem(200px);
+      width: rem(400px);
       height: rem(70px);
       position: absolute;
       top: rem(28px);
-      justify-content: space-between;
       align-items: center;
+      gap: 30px;
 
       .play-btn {
         color: $clr7;
@@ -38,6 +38,42 @@
         }
       }
 
+      .add-track-btn {
+        position: relative;
+        top: 1px;
+        margin-inline-start: 6px;
+        display: inline-block;
+        padding: 2px 4px;
+        text-align: center;
+        border-radius: 2rem;
+        cursor: pointer;
+        border: 3.5px solid $clr8;
+        font-size: rem(18px);
+        font-family: gotham-bold;
+        color: $clr8;
+        transition: width 0.5s;
+        .btn-text {
+          color: $clr8;
+          max-width: 0;
+          display: inline-block;
+          // -webkit-transition: max-width 0.2s 1s;
+          transition: max-width 0.7s;
+          vertical-align: top;
+          white-space: nowrap;
+          overflow: hidden;
+          text-indent: 5px;
+        }
+        &:hover {
+          border: 3.5px solid $clr7;
+          color: $clr7;
+          max-width: 300px;
+          .btn-text {
+            color: $clr7;
+            max-width: 200px;
+          }
+        }
+      }
+
       .btn-action {
         font-size: rem(30px);
         color: $clr8;
@@ -55,31 +91,6 @@
         &:hover {
           color: $clr5;
         }
-      }
-    }
-
-    .add-track-btn {
-      display: flex;
-      align-items: center;
-      padding: 2px 5px;
-      border-radius: 2rem;
-      cursor: pointer;
-      border: 3.5px solid $clr8;
-      position: absolute;
-      top: 38%;
-      left: 300px;
-      transform: translate(-50%, -50%);
-      font-size: rem(14px);
-      font-family: gotham-bold;
-      color: $clr8;
-
-      .fas.fa-plus {
-        margin-inline-end: 10px;
-        font-size: rem(18px);
-      }
-      &:hover {
-        border: 3.5px solid $clr7;
-        color: lightgreen;
       }
     }
 

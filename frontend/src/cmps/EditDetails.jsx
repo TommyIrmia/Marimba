@@ -12,7 +12,7 @@ export default class EditDetails extends Component {
         isSelect: false,
         genres: [],
         hero: {
-            bgc: "#282828 ",
+            bgc: "#282828",
             genre: 'Hits',
             img: this.props.hero.img,
             title: this.props.hero.title,
@@ -24,8 +24,6 @@ export default class EditDetails extends Component {
         this.onGetGenres()
         this.props.onFlip('text-blur-in');
     }
-
-    
 
     onGetGenres = async () => {
         let genres = await stationService.getGenres()
@@ -71,13 +69,13 @@ export default class EditDetails extends Component {
     render() {
         const { isHover, hero, genres, isSelect } = this.state;
         const { img, title, desc, bgc } = this.state.hero;
-        const { onEdit, onToggleEdit, saveDataFromHero,onFlip,animation} = this.props;
+        const { onEdit, onToggleEdit, saveDataFromHero, onFlip, animation } = this.props;
         return (
-            <main className={`edit-container  ${animation} `} style={{ backgroundColor: bgc}}>
+            <main className={`edit-container  ${animation} `} style={{ backgroundColor: bgc }}>
 
                 <div className="header-edit flex" >
                     <h3>Edit details</h3>
-                    <button onClick={()=>{
+                    <button onClick={() => {
                         onFlip('text-blur-out')
                         onToggleEdit()
                     }} >X</button>
@@ -122,6 +120,7 @@ export default class EditDetails extends Component {
 
                 <button className="btn-save"
                     onClick={() => {
+                        onFlip('text-blur-out')
                         onEdit(hero)
                         saveDataFromHero(hero)
                     }}> Save

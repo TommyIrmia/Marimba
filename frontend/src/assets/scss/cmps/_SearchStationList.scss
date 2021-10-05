@@ -12,3 +12,19 @@
         margin-top: rem(24px);
     }
 }
+
+.no-found-msg {
+    text-align: center;
+
+    .search{
+        padding-top: 10%;
+    }
+    h2 {
+        font-family: "gotham-bold";
+    }
+
+    p {
+        padding-top: 10px;
+        font-size: smaller;
+    }
+}

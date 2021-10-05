@@ -1,7 +1,7 @@
 .hero-container {
   background-color: $bgc3;
   .linear-container {
-    background: linear-gradient(transparent 0, rgba(0, 0, 0, 0.3) 100%);
+    background: linear-gradient(transparent 0, rgba(0, 0, 0, 0.5) 100%);
   }
 }
 
@@ -56,7 +56,7 @@
     text-indent: -6px;
     font-size: rem(100px);
     font-family: gotham-bold;
-    letter-spacing: rem(-5px);
+    letter-spacing: -5px;
   }
 
   p {
@@ -73,7 +73,7 @@
     .hero-title {
       font-size: rem(70px);
       font-family: gotham-bold;
-      letter-spacing: rem(-6.5px);
+      letter-spacing: -3px;
     }
   }
 }

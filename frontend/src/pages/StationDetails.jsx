@@ -24,13 +24,14 @@ class _StationDetails extends Component {
         isLikedStation: false,
         stationId: '',
         animation: '',
-
+        isConfirmMsgOpen: false,
     }
 
     inputRef = React.createRef()
     addRef = React.createRef()
 
     async componentDidMount() {
+        window.scrollTo(0, 0)
         const { stationId } = this.props.match.params
         let station; 
         let isEditable = false;
@@ -73,10 +74,6 @@ class _StationDetails extends Component {
         this.setState({ isSearch: true });
     }
 
-    onCloseSearch = () => {
-        this.setState({ isSearch: false });
-    }
-
     onAddTrack = async (track) => {
         try {
             let { stationId } = this.state
@@ -109,12 +106,33 @@ class _StationDetails extends Component {
     }
 
     onScrollToAdd = () => {
-
         window.scrollTo({ behavior: 'smooth', top: this.addRef.current.offsetTop })
+    }
+
+    keepResolve = () => {
+
+    }
+
+    userAnswer;
+
+    confirmRemove = (confirmation) => {
+        this.userAnswer(confirmation)
+    }
+
+    userConfirmation = () => {
+        const { isConfirmMsgOpen } = this.state;
+        this.setState({ isConfirmMsgOpen: true })
+
+        return new Promise((resolve) => {
+            this.userAnswer = resolve
+        })
     }
 
     onRemoveTrack = async (trackId, trackName) => {
         try {
+            const confirmRemove = await this.userConfirmation()
+            this.setState({ isConfirmMsgOpen: false })
+            if (!confirmRemove) return;
             const { stationId } = this.state
             await this.props.onRemoveTrack(trackId, stationId)
             this.props.addActivity({
@@ -174,12 +192,12 @@ class _StationDetails extends Component {
     }
 
     onToggleEdit = () => {
-        const { isEditModalOpen } = this.state
+        const { isEditModalOpen } = this.state;
         setTimeout(() => {
             this.setState({
                 isEditModalOpen: !isEditModalOpen
             })
-        }, 400);
+        }, 200);
     }
 
     onFlip = (animation) => {
@@ -223,31 +241,38 @@ class _StationDetails extends Component {
     }
 
     render() {
-        const { isSearch, isPlaying, isEditModalOpen, animation } = this.state;
+        const { isSearch, isPlaying, isEditModalOpen, animation, isConfirmMsgOpen } = this.state;
         const { tracks, bgc } = this.props
         const { stationId } = this.props.match.params
         return (
             <main className="StationDetails">
+<<<<<<< HEAD
                 <div onClick={this.onCloseSearch} className={(isSearch ? `screen ${animation}` : "")}></div>
+=======
+                <div onClick={() => {
+                    this.setState({ isSearch: false });
+                    this.setState({ isConfirmMsgOpen: false })
+                }} className={(isSearch || isConfirmMsgOpen) ? `screen ${animation}` : ""}></div>
+>>>>>>> b2754a2e17cfdc9faa4ab710dc59641d2d4f667d
                 <div onClick={() => {
                     this.onFlip('text-blur-out')
                     this.onToggleEdit()
-                }} className={(isEditModalOpen ? "dark screen" : "")}></div>
+                }} className={((isEditModalOpen) ? "dark screen" : "")}></div>
 
-                {stationId !== 'new' && <StationHero stationId={stationId} />}
+                {stationId !== 'new' && <StationHero stationId={stationId} tracks={tracks} />}
 
                 {stationId === 'new' && <EditHero animation={animation} onFlip={this.onFlip} isEditModalOpen={isEditModalOpen} onToggleEdit={this.onToggleEdit}
                     saveDataFromHero={this.saveDataFromHero} />}
 
                 <StationActions onSetFilter={this.onSetFilter} inputRef={this.inputRef}
                     onSearch={this.onSearch} isSearch={isSearch} isPlaying={isPlaying}
-                    onScrollToAdd={this.onScrollToAdd}
-                    isPlayerPlaying={this.props.isPlaying}
+                    onScrollToAdd={this.onScrollToAdd} playingStationId={this.props.stationId}
+                    isPlayerPlaying={this.props.isPlaying} currStationId={stationId}
                     tracks={tracks} onPlayTrack={this.onPlayTrack}
                     onPauseTrack={this.onPauseTrack} bgc={bgc}
                 />
                 <DragDropContext onDragEnd={this.onDragEnd}>
-                    <TrackList onRemoveTrack={this.onRemoveTrack} tracks={tracks} stationId={stationId} />
+                    <TrackList isConfirmMsgOpen={isConfirmMsgOpen} confirmRemove={this.confirmRemove} onRemoveTrack={this.onRemoveTrack} tracks={tracks} stationId={stationId} />
                 </DragDropContext>
                 <section>
                     <TrackSearch addRef={this.addRef} onAddTrack={this.onAddTrack} stationId={stationId} currStationTracks={tracks} />
@@ -268,7 +293,8 @@ function mapStateToProps(state) {
         currSongIdx: state.mediaPlayerModule.currSongIdx,
         tracks: state.stationModule.tracks,
         bgc: state.stationModule.bgc,
-        stationName: state.stationModule.stationName
+        stationName: state.stationModule.stationName,
+        currStationId: state.stationModule.station_Id
     }
 }
 const mapDispatchToProps = {

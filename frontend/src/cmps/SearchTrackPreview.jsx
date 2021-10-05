@@ -84,7 +84,6 @@ export class _SearchTrackPreview extends Component {
         const { isHover, isLiked } = this.state
         const { track, idx, player } = this.props
         const { title } = track
-
         return (
             <section className="track-container search flex playlist-layout"
                 onMouseEnter={() => this.setState({ isHover: true })}
