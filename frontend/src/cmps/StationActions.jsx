@@ -25,8 +25,8 @@ export class StationActions extends Component {
     }
 
     render() {
-        const { isSearch, onSearch, inputRef, onSetFilter, onPauseTrack, onPlayTrack,
-            onScrollToAdd, tracks, bgc } = this.props;
+        const { isSearch, onSearch, inputRef, onSetFilter, onPauseTrack,
+            onPlayTrack, onScrollToAdd, tracks, bgc } = this.props;
         const { isLiked } = this.state;
 
         return (

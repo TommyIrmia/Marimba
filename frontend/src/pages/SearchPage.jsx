@@ -92,7 +92,7 @@ export class SearchPage extends Component {
                         <GenreList genres={genres} />
                     </section>}
 
-                {isSearch && <>
+                {isSearch && !msg && <>
                     {tracks && <SearchTrackList msg={msg} isLoading={isLoading} tracks={tracks} />}
                     <SearchStationList stations={stations} isSearchPage={true} />
                 </>}

@@ -25,8 +25,6 @@ class _StationDetails extends Component {
         stationId: '',
         animation: '',
         isConfirmMsgOpen: false,
-
-
     }
 
     inputRef = React.createRef()
@@ -245,7 +243,7 @@ class _StationDetails extends Component {
                     this.onToggleEdit()
                 }} className={(isEditModalOpen ? "dark screen" : "")}></div>
 
-                {stationId !== 'new' && <StationHero stationId={stationId} />}
+                {stationId !== 'new' && <StationHero stationId={stationId} tracks={tracks} />}
 
                 {stationId === 'new' && <EditHero animation={animation} onFlip={this.onFlip} isEditModalOpen={isEditModalOpen} onToggleEdit={this.onToggleEdit}
                     saveDataFromHero={this.saveDataFromHero} />}

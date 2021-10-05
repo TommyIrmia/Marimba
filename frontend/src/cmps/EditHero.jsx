@@ -14,7 +14,7 @@ class _EditHero extends Component {
             desc: '',
         }
     }
-    
+
     handleImgChange = async (ev) => {
         const field = ev.target.name;
         try {
@@ -66,7 +66,9 @@ class _EditHero extends Component {
                         </div>
                     </section>
 
-                    {isEditModalOpen && <EditDetails animation={animation} onFlip={onFlip} onToggleEdit={onToggleEdit} onEdit={this.onEdit} hero={hero} saveDataFromHero={saveDataFromHero} />}
+                    {isEditModalOpen && <EditDetails animation={animation} onFlip={onFlip}
+                        onToggleEdit={onToggleEdit} onEdit={this.onEdit} hero={hero}
+                        saveDataFromHero={saveDataFromHero} />}
                 </div>
             </main>
         )

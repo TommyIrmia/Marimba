@@ -1,10 +1,12 @@
 import axios from 'axios'
 import { sessionService } from './session.service'
 import { asyncSessionService } from './async-session.service'
-const API = 'AIzaSyDaOfZxHtQT_vKcANLFW5vy3Q0nA9SV_Qs'
-// AIzaSyDaOfZxHtQT_vKcANLFW5vy3Q0nA9SV_Qs
-// AIzaSyAkH_U9S48kAw-de7ZN7sj-JoTfKM58cXI
-// AIzaSyDTC4t1Uu4HJfHJNxcUqh9oK1vf_gDX6-E
+const API_KEYS = ['AIzaSyDaOfZxHtQT_vKcANLFW5vy3Q0nA9SV_Qs',
+    'AIzaSyAkH_U9S48kAw-de7ZN7sj-JoTfKM58cXI',
+    'AIzaSyDTC4t1Uu4HJfHJNxcUqh9oK1vf_gDX6-E',
+    'AIzaSyA0GpyIMqEbFBBW08PREFePOuvDL3BvKZY',
+    'AIzaSyAdkOG4yzgq85QRVATZv0y-Y9WWUQ_tYYc']
+let keyIdx = 0;
 const KEY = 'cacheVideos'
 export const youtubeService = {
     query,
@@ -19,7 +21,7 @@ async function query(name, existingTracks, tracksIdx = 0) {
     if (!name) return
     const SESSION_KEY = `${KEY}${name}`
     const search = `${name} song`
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${API}&q=${search}&maxResults=50`
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${API_KEYS[keyIdx]}&q=${search}&maxResults=50`
     try {
         let tracks = await sessionService.load(SESSION_KEY)
         if (tracks) {
@@ -33,9 +35,13 @@ async function query(name, existingTracks, tracksIdx = 0) {
         if (existingTracks) existingTracksIds = existingTracks.map(track => track.id)
         const filteredTracks = updatedTracks.filter(track => track.duration && !existingTracksIds.includes(track.id))
         sessionService.save(SESSION_KEY, filteredTracks)
+        console.log('filtered tracks: ' + filteredTracks);
         return filteredTracks.slice(0, 5);
     } catch (err) {
-        throw err;
+        ++keyIdx
+        if (keyIdx >= API_KEYS.length) return console.error('Could not get videos from youtube', err)
+        const tracks = query(name, existingTracks, tracksIdx = 0)
+        if (tracks) return tracks
     }
 }
 
@@ -98,7 +104,7 @@ async function getDuration(tracks) {
     ))
     trackId = trackId.join('&')
     if (!trackId) return
-    const url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&${trackId}&key=${API}`
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&${trackId}&key=${API_KEYS[keyIdx]}`
     try {
         const { data } = await axios.get(url)
         const duration = _setdurationToFormat(data.items)

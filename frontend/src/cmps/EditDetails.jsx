@@ -120,6 +120,7 @@ export default class EditDetails extends Component {
 
                 <button className="btn-save"
                     onClick={() => {
+                        onFlip('text-blur-out')
                         onEdit(hero)
                         saveDataFromHero(hero)
                     }}> Save
