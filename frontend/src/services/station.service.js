@@ -16,7 +16,9 @@ export const stationService = {
     saveNewStation,
     saveDataFromHero,
     updateTracks,
-    getStationsByGenre
+    getStationsByGenre,
+    addLikeTtoStation,
+    removeLikeFromStation
 }
 
 const STORAGE_KEY = 'station'
@@ -584,4 +586,25 @@ async function getGenres() {
 async function _saveStationsToStorage() {
     console.log('saved to storage');
     await asyncStorageService.save(STORAGE_KEY, initialStations)
+}
+
+async function addLikeTtoStation(stationId, user) {
+    try{
+        const station = await getById(stationId)
+        station.likedByUsers.push(user)
+        await asyncStorageService.put(STORAGE_KEY, station)
+    } catch (err) {
+        console.log('Can not add like to station', err)
+    }
+}
+
+async function removeLikeFromStation(stationId, userId) {
+    try {
+        const station = await asyncStorageService.get(STORAGE_KEY, stationId)
+        const idx = station.likedByUsers.findIndex(user => user.id === userId)
+        await station.likedByUsers.splice(idx, 1);
+        return await asyncStorageService.put(STORAGE_KEY, station)
+    } catch (err) {
+        console.log('Can not remove like from station', err)
+    }
 }
