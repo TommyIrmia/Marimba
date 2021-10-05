@@ -10,7 +10,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  transition: transform 0.3s;
+  &.hidden {
+    transform: translateY(100px);
+  }
   .player-container {
     display: none;
   }

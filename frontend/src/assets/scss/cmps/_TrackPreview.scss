@@ -9,7 +9,6 @@
   &:hover {
     background-color: rgba(255, 255, 255, 0.123);
   }
-
   .TrackPreview {
     align-items: center;
     width: 450px;
@@ -36,10 +35,11 @@
       margin-inline-end: 15px;
       color: $clr7;
     }
-
+    
     .num-idx {
       position: relative;
       width: 15px;
+      padding: 5px;
       margin-inline-end: 15px;
       img {
         position: absolute;
@@ -72,13 +72,13 @@
     .btn-like {
       font-size: rem(15px);
       color: $clr7;
-      padding:0 5px;
+      padding: 0 5px;
     }
 
     .btn-remove {
       font-size: rem(13px);
       color: $clr7;
-      padding:0 5px;
+      padding: 0 5px;
     }
 
     .btn-liked {

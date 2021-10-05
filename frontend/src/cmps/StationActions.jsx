@@ -46,6 +46,7 @@ export class StationActions extends Component {
 
     updateLikesCount = async (diff) => {
         const { station } = this.state;
+        if (!station) return
         const likesCount = station.likedByUsers.length;
         if (diff) this.setState({ likesCount: likesCount + diff })
         else this.setState({ likesCount })
@@ -74,6 +75,7 @@ export class StationActions extends Component {
 
 
     isTrackPlaying = (tracks) => {
+        console.log('curr station', this.props.currStationId, 'playing station', this.props.playingStationId);
         if (this.props.currStationId !== this.props.playingStationId) return false
         if (!this.props.isPlayerPlaying) return false
         if (!tracks || !tracks.length) return false
@@ -87,9 +89,9 @@ export class StationActions extends Component {
         const { isLiked } = this.state;
 
         return (
-            <main className="actions-container">
-                <div className="linear-container" style={{ backgroundColor: bgc }}>
-                    <section className="StationActions playlist-layout">
+            <main className="actions-container ">
+                <div className="linear-container playlist-layout" style={{ backgroundColor: bgc }}>
+                    <section className="StationActions ">
                         <div className="btns-actions flex">
 
                             {!this.isTrackPlaying(tracks) && <button onClick={onPlayTrack}

@@ -114,7 +114,7 @@ class _StationDetails extends Component {
 
     userAnswer;
 
-    confirmRemove =  (confirmation) => {
+    confirmRemove = (confirmation) => {
         this.userAnswer(confirmation)
     }
 
@@ -191,7 +191,7 @@ class _StationDetails extends Component {
 
     onToggleEdit = () => {
         const { isEditModalOpen } = this.state;
-        const {isConfirmMsgOpen} = this.state;
+        const { isConfirmMsgOpen } = this.state;
         if (isConfirmMsgOpen) return;
         setTimeout(() => {
             this.setState({
@@ -250,8 +250,8 @@ class _StationDetails extends Component {
                 <div onClick={() => {
                     this.onFlip('text-blur-out')
                     this.onToggleEdit()
-                    this.setState({isConfirmMsgOpen: false})
-                }} className={((isEditModalOpen || isConfirmMsgOpen ) ? "dark screen" : "")}></div>
+                    this.setState({ isConfirmMsgOpen: false })
+                }} className={((isEditModalOpen || isConfirmMsgOpen) ? "dark screen" : "")}></div>
 
                 {stationId !== 'new' && <StationHero stationId={stationId} tracks={tracks} />}
 
@@ -261,7 +261,7 @@ class _StationDetails extends Component {
                 <StationActions onSetFilter={this.onSetFilter} inputRef={this.inputRef}
                     onSearch={this.onSearch} isSearch={isSearch} isPlaying={isPlaying}
                     onScrollToAdd={this.onScrollToAdd} playingStationId={this.props.stationId}
-                    isPlayerPlaying={this.props.isPlaying} stationId={stationId}
+                    isPlayerPlaying={this.props.isPlaying} currStationId={stationId}
                     tracks={tracks} onPlayTrack={this.onPlayTrack}
                     onPauseTrack={this.onPauseTrack} bgc={bgc}
                 />

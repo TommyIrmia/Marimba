@@ -23,6 +23,7 @@ export class _MediaPlayer extends Component {
         isMute: false,
         isRepeat: false,
         isShuffle: false,
+        isPlayerReady: false,
     }
 
     timerIntervalId;
@@ -30,6 +31,7 @@ export class _MediaPlayer extends Component {
 
     onReady = (ev) => {
         if (ev.data === 2) return // if on pause
+        this.setState(prevState => ({ ...prevState, isPlayerReady: true }))
         this.props.setPlayer(ev.target)
         this.props.player.setVolume(this.state.volume)
         this.props.player.playVideo()
@@ -193,10 +195,11 @@ export class _MediaPlayer extends Component {
 
 
     render() {
-        const { isMute, songLength, volume, isRepeat, isShuffle, station } = this.state
+        const { isMute, songLength, volume, isRepeat, isShuffle, station, isPlayerReady } = this.state
         const { currSongIdx, currDuration, isPlaying, currentTracks, player, onRemoveTrack, currLikedTrack } = this.props
+
         return (
-            <div className="media-player">
+            <div className={isPlayerReady ? "media-player" : "media-player hidden"}>
                 {currentTracks?.length ? <YouTube
                     opts={{
                         playerVars: {

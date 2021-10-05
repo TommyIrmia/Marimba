@@ -24,7 +24,7 @@ export class _AppHeader extends React.Component {
 
                 <div onClick={this.onOpenOptions} className="user-container">
                     <div className="far fa-user-circle"></div>
-                    <div className="user-name">user</div>
+                    <div className="user-name">Tommy Irmia</div>
                     <div className={(isOpen) ? 'fas fa-sort-up' : 'fas fa-sort-down'}></div>
                 </div>
 

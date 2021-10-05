@@ -97,7 +97,7 @@ class _TrackPreview extends Component {
 
                 <Draggable draggableId={this.props.track.id} index={idx}>
                     {(provided) => (
-                        <section className="track-container flex playlist-layout"
+                        <section className=" track-container flex "
                             ref={(provided.innerRef)}
                             {...provided.draggableProps} {...provided.dragHandleProps}
                             onMouseEnter={() => this.setState({ isHover: true })}

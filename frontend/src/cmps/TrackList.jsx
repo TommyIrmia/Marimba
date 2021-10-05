@@ -9,7 +9,7 @@ export class TrackList extends React.Component {
         return (<>
             <Droppable droppableId={stationId}>
                 {(provided) => (
-                    <section className="TrackList"
+                    <section className="TrackList playlist-layout"
                         ref={provided.innerRef}
                         {...provided.droppableProps}
                     >
