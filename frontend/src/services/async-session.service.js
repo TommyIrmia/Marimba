@@ -9,7 +9,7 @@ export const asyncSessionService = {
     getIdx
 }
 
-function query(entityType, delay = 1200) {
+function query(entityType, delay = 0) {
     var entities = JSON.parse(sessionStorage.getItem(entityType)) ||  [] 
 
     return new Promise((resolve, reject) => {

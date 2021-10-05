@@ -62,11 +62,10 @@ class _TrackPreview extends Component {
     onUnLike = async (trackId) => {
         const { stationId, track } = this.props;
         try {
-            if (stationId === 'liked') {
-                await this.props.onRemoveTrack(trackId)
-            } else await stationService.removeTrackFromLiked(trackId, 'liked')
+            await stationService.removeTrackFromLiked(trackId, 'liked')
             this.setState({ isLiked: false })
             if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: false })
+            if (stationId === 'liked') this.props.loadTracks()
         } catch (err) {
 
         }

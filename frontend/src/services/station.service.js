@@ -101,12 +101,10 @@ async function getStationsByGenre(stations, genre) {
 }
 
 async function getById(stationId) {
-    console.log('getting by id in front, station id:', stationId);
     try {
         if (!stationId) return
         const station = await httpService.get(`station/${stationId}`)
         if (station.tracks.length) station.tracks.forEach(track => track.isPlaying = false)
-        console.log('station from backend', station);
         return station
     } catch (err) {
         throw new Error('Can not get station', stationId)
@@ -154,25 +152,24 @@ async function addStation(station) {
     }
 }
 
-
 async function loadTracks(stationId, filterBy) {
     try {
+        let station;
         if (!filterBy) {
             if (stationId === "new") return []
             else if (stationId === "liked") {
-                const station = await asyncSessionService.query("likedStation", "liked")
+                station = await asyncSessionService.get("likedStation", "liked")
                 return station.tracks
             }
             else {
-                const station = await getById(stationId);
+                station = await getById(stationId);
                 return station.tracks
             }
         }
 
         const { title, sort } = filterBy
-        let station;
         if (stationId === "liked") {
-            station = await asyncSessionService.query("likedStation", "liked")
+            station = await asyncSessionService.get("likedStation", "liked")
         }
         else {
             station = await getById(stationId);
@@ -194,7 +191,6 @@ async function loadTracks(stationId, filterBy) {
 async function updateTracks(tracks, stationId) {
     try {
         const station = await httpService.get(`station/${stationId}`)
-        console.log('station from update', station)
         const newTracks = tracks.slice(0)
         const newStation = JSON.parse(JSON.stringify(station));
         newTracks.map(track => {
@@ -202,10 +198,7 @@ async function updateTracks(tracks, stationId) {
             delete newTrack.isPlaying
             return newTrack
         })
-
-        console.log("tracks after edit", tracks);
         newStation.tracks = newTracks
-        console.log('newStation from update', newStation)
         return await httpService.put(`station`, newStation)
     } catch (err) {
         throw new Error('Can not update tracks')
@@ -214,11 +207,9 @@ async function updateTracks(tracks, stationId) {
 
 async function addTrackToStation(track, stationId) {
     try {
-        console.log('station id from add', stationId);
         const newTrack = { ...track }
         newTrack.addedAt = Date.now()
         const station = await httpService.get(`station/${stationId}`)
-        console.log('station from add', station);
         station.tracks.push(newTrack)
         return await httpService.put(`station`, station)
     } catch (err) {
@@ -228,7 +219,7 @@ async function addTrackToStation(track, stationId) {
 
 async function addTrackToLiked(track) {
     try {
-        let station = await asyncSessionService.query("likedStation", "liked")
+        let station = await asyncSessionService.get("likedStation", "liked")
         station.tracks?.push(track)
         console.log('liked station after adding track:', station);
         station = await asyncSessionService.put("likedStation", station)
@@ -239,11 +230,14 @@ async function addTrackToLiked(track) {
 
 async function removeTrackFromLiked(trackId) {
     try {
-        let station = await asyncSessionService.query("likedStation", "liked")
+        let station = await asyncSessionService.get("likedStation", "liked")
         let { tracks } = station;
         if (!station || !tracks.length) return
         const idx = tracks.findIndex(track => track.id === trackId)
-        tracks.slice(idx, 1);
+        console.log(idx);
+        tracks.splice(idx, 1);
+        // station.tracks = tracks
+        console.log('liked station after delete', station);
         await asyncSessionService.put("likedStation", station)
     } catch (err) {
         throw new Error('Can not add track to station')

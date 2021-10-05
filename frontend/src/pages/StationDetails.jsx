@@ -43,10 +43,10 @@ class _StationDetails extends Component {
         else if (stationId === 'liked') {
             // likedSongs array from user json => loggedInUser session (backend)
             station = await stationService.getTemplateStation("likedStation", stationId)
+            console.log('liked station', station)
         }
         else {
             station = await stationService.getById(stationId)
-
         }
         this.props.setBgcAndName(station.bgc, station.name)
         this.setState({ ...this.state, isEditable, stationId }, async () => {
@@ -63,6 +63,7 @@ class _StationDetails extends Component {
 
     loadTracks = async () => {
         try {
+            console.log('from load tracks', this.state.stationId);
             await this.props.loadTracks(this.state.stationId)
         } catch (err) {
             console.error('Can not get tracks in station', err)
@@ -260,7 +261,8 @@ class _StationDetails extends Component {
                     onPauseTrack={this.onPauseTrack} bgc={bgc}
                 />
                 <DragDropContext onDragEnd={this.onDragEnd}>
-                    <TrackList isConfirmMsgOpen={isConfirmMsgOpen} confirmRemove={this.confirmRemove} onRemoveTrack={this.onRemoveTrack} tracks={tracks} stationId={stationId} />
+                    <TrackList isConfirmMsgOpen={isConfirmMsgOpen} confirmRemove={this.confirmRemove} onRemoveTrack={this.onRemoveTrack}
+                        tracks={tracks} stationId={stationId} loadTracks={this.loadTracks} />
                 </DragDropContext>
                 <section>
                     <TrackSearch addRef={this.addRef} onAddTrack={this.onAddTrack} stationId={stationId} currStationTracks={tracks} />
