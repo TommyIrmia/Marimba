@@ -14,7 +14,7 @@ export class TrackList extends React.Component {
                         {...provided.droppableProps}
                     >
                         {tracks.map((track, idx) => (
-                            <TrackPreview isConfirmMsgOpen={isConfirmMsgOpen} confirmRemove={confirmRemove} idx={idx} onRemoveTrack={onRemoveTrack} key={track.id} track={track} stationId={stationId} />
+                            <TrackPreview isConfirmMsgOpen={isConfirmMsgOpen} tracksLength={tracks.length} confirmRemove={confirmRemove} idx={idx} onRemoveTrack={onRemoveTrack} key={track.id} track={track} stationId={stationId} />
                         ))}
                         {provided.placeholder}
                     </section>

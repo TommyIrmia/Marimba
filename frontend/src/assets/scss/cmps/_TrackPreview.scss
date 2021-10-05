@@ -41,13 +41,10 @@
       width: 15px;
       padding: 5px;
       margin-inline-end: 15px;
-      img {
+      .audio-container {
         position: absolute;
-        width: 170%;
-        top: -35px;
-        left: -7px;
-        height: 70px;
-        object-fit: cover;
+        top: -14px;
+        left: -2px;
       }
     }
 

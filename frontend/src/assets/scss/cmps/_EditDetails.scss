@@ -168,12 +168,12 @@
 }
 
 .text-blur-in {
-  animation: text-blur-in 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53) reverse
+  animation: text-blur-in 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53) reverse
     both;
 }
 
 .text-blur-out {
-  animation: text-blur-out 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+  animation: text-blur-out 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
 }
 
 @keyframes text-blur-in {
