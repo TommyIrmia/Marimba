@@ -69,10 +69,6 @@ class _StationDetails extends Component {
         this.setState({ isSearch: true });
     }
 
-    onCloseSearch = () => {
-        this.setState({ isSearch: false });
-    }
-
     onAddTrack = async (track) => {
         try {
             let { stationId } = this.state
@@ -191,13 +187,11 @@ class _StationDetails extends Component {
 
     onToggleEdit = () => {
         const { isEditModalOpen } = this.state;
-        const {isConfirmMsgOpen} = this.state;
-        if (isConfirmMsgOpen) return;
         setTimeout(() => {
             this.setState({
                 isEditModalOpen: !isEditModalOpen
             })
-        }, 400);
+        }, 200);
     }
 
     onFlip = (animation) => {
@@ -246,12 +240,14 @@ class _StationDetails extends Component {
         const { stationId } = this.props.match.params
         return (
             <main className="StationDetails">
-                <div onClick={this.onCloseSearch} className={(isSearch ? `screen ${animation}` : "")}></div>
+                <div onClick={()=>{
+                    this.setState({ isSearch: false });
+                    this.setState({isConfirmMsgOpen: false})
+                }} className={(isSearch || isConfirmMsgOpen ) ? `screen ${animation}` : ""}></div>
                 <div onClick={() => {
                     this.onFlip('text-blur-out')
                     this.onToggleEdit()
-                    this.setState({isConfirmMsgOpen: false})
-                }} className={((isEditModalOpen || isConfirmMsgOpen ) ? "dark screen" : "")}></div>
+                }} className={((isEditModalOpen  ) ? "dark screen" : "")}></div>
 
                 {stationId !== 'new' && <StationHero stationId={stationId} tracks={tracks} />}
 

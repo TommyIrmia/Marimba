@@ -35,6 +35,7 @@ export class StationActions extends Component {
     checkIsLiked = async () => {
         try {
             const { station } = this.state;
+            if (!station) return;
             this.setState({ station })
             const { user } = this.state;
             const isLiked = station.likedByUsers.some(currUser => currUser._id === user._id)
@@ -46,6 +47,7 @@ export class StationActions extends Component {
 
     updateLikesCount = async (diff) => {
         const { station } = this.state;
+        if (!station) return;
         const likesCount = station.likedByUsers.length;
         if (diff) this.setState({ likesCount: likesCount + diff })
         else this.setState({ likesCount })
