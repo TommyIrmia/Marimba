@@ -6,11 +6,13 @@ import thunk from 'redux-thunk'
 import { stationReducer } from './station.reducer.js'
 import { mediaPlayerReducer } from './mediaplayer.reducer.js'
 import { activityLogReducer } from './activitylog.reducer.js'
+import { userReducer } from './user.reducer.js'
 
 const rootReducer = combineReducers({
     stationModule: stationReducer,
     mediaPlayerModule: mediaPlayerReducer,
     activityLogModule: activityLogReducer,
+    userModule: userReducer,
 })
 
 

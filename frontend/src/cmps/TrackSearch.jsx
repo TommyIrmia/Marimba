@@ -54,7 +54,7 @@ export class TrackSearch extends Component {
     suggestByStationName = async () => {
         try {
             const { stationId } = this.props
-            if (!stationId) return youtubeService.getRandomSearch()
+            if (!stationId || stationId === 'new') return youtubeService.getRandomSearch()
             const station = await stationService.getById(stationId)
             if (!station) return youtubeService.getRandomSearch()
             return station.name

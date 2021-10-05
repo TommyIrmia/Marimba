@@ -9,6 +9,7 @@ import { StationDetails } from './pages/StationDetails';
 import {GenrePage} from './pages/GenrePage'
 import { MediaPlayer } from './cmps/MediaPlayer';
 import { LoginPage } from './pages/LoginPage';
+import { UserMsg } from './cmps/UserMsg';
 
 export class App extends React.Component {
 
@@ -28,7 +29,7 @@ export class App extends React.Component {
           </Switch>
         </main>
         <MediaPlayer />
-        {/* <AppFooter /> */}
+        <UserMsg/>
       </div>
 
     );

@@ -1,5 +1,6 @@
 import React from 'react'
 import { stationService } from '../services/station.service';
+import { Audio } from '../assets/svg/audio'
 
 export class TrackDetails extends React.Component {
 
@@ -20,7 +21,7 @@ export class TrackDetails extends React.Component {
         try {
             if (!this.props.player) return
             const { currTrack } = this.props
-            await stationService.addTrackToStation(currTrack, 'liked')
+            await stationService.addTrackToLiked(currTrack)
             this.props.updateIsLikedSong({ trackId: currTrack.id, isLiked: true })
         } catch (err) {
             throw err
@@ -31,7 +32,7 @@ export class TrackDetails extends React.Component {
         try {
             const stationId = this.props.station._id;
             if (stationId === 'liked') await this.props.onRemoveTrack(trackId)
-            else await stationService.removeTrackFromStation(trackId, 'liked')
+            else await stationService.removeTrackFromLiked(trackId)
             this.props.updateIsLikedSong({ trackId, isLiked: false })
         } catch (err) {
             throw err
@@ -42,7 +43,7 @@ export class TrackDetails extends React.Component {
         const { currTrack } = this.props
         if (!currTrack) return;
         try {
-            const station = await stationService.getById('liked')
+            const station = await stationService.getTemplateStation('likedStation', 'liked')
             const isLiked = station.tracks.some(likedTrack => likedTrack.id === currTrack.id)
             this.props.updateIsLikedSong({ trackId: currTrack.id, isLiked })
         } catch (err) {
@@ -51,7 +52,7 @@ export class TrackDetails extends React.Component {
     }
 
     render() {
-        const { imgSrc, currTrack, station, currLikedTrack } = this.props
+        const { imgSrc, currTrack, station, currLikedTrack, isPlaying } = this.props
         return (
 
             <div className="song-details flex align-center">
@@ -65,6 +66,7 @@ export class TrackDetails extends React.Component {
                 <div className="song-actions">
                     <button onClick={(currLikedTrack.isLiked) ? () => this.onUnLike(currTrack?.id) : this.onLike}
                         className={currLikedTrack.isLiked ? "fas fa-heart btn-liked" : "far fa-heart"}></button>
+                    {isPlaying && <div><Audio /></div>}
                 </div>
             </div>
         )

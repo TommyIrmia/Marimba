@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { onPlayTrack, loadTracksToPlayer, setSongIdx, updateIsLikedSong } from '../store/mediaplayer.actions.js'
 import { onUpdateTrack } from '../store/station.actions.js'
 import { stationService } from '../services/station.service';
-import equi from '../assets/imgs/equi.gif';
+import {Audio} from '../assets/svg/audio'
 
 export class _SearchTrackPreview extends Component {
 
@@ -40,7 +40,7 @@ export class _SearchTrackPreview extends Component {
     onLike = async () => {
         try {
             const { track } = this.props;
-            await stationService.addTrackToStation(track, 'liked')
+            await stationService.addTrackToLiked(track)
             this.setState({ isLiked: true })
         } catch (err) {
             throw err
@@ -52,7 +52,7 @@ export class _SearchTrackPreview extends Component {
         try {
             if (stationId === 'liked') {
                 await this.props.onRemoveTrack(trackId)
-            } else await stationService.removeTrackFromStation(trackId, 'liked')
+            } else await stationService.removeTrackFromLiked(trackId)
             this.setState({ isLiked: false })
             if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: false })
         } catch (err) {
@@ -64,7 +64,7 @@ export class _SearchTrackPreview extends Component {
     checkIsLiked = async () => {
         try {
             const { track } = this.props
-            const station = await stationService.getById('liked')
+            const station = await stationService.getTemplateStation('likedStation', 'liked')
             const isLiked = station.tracks.some(likedTrack => likedTrack.id === track.id)
             if (isLiked) this.setState({ isLiked })
         } catch (err) {
@@ -92,8 +92,7 @@ export class _SearchTrackPreview extends Component {
                 <section title={title} className="TrackPreview search flex">
 
                     {!isHover && <div className="num-idx" >
-                        {!this.checkIsPlaying() ? (idx + 1) : <img src={equi} alt="playing gif" />}
-                    </div>}
+                        {!this.checkIsPlaying() ? (idx + 1) : <div className="audio-container" > <Audio /> </div>}                    </div>}
                     {isHover && this.checkIsPlaying() && <button onClick={() => this.onPauseTrack(track)}
                         className={"play-btn fas fa-pause"}>
                     </button>}

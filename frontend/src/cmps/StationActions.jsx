@@ -73,10 +73,7 @@ export class StationActions extends Component {
         this.props.onSetFilter({ sort })
     }
 
-
-
     isTrackPlaying = (tracks) => {
-        console.log('curr station', this.props.currStationId, 'playing station', this.props.playingStationId);
         if (this.props.currStationId !== this.props.playingStationId) return false
         if (!this.props.isPlayerPlaying) return false
         if (!tracks || !tracks.length) return false
@@ -86,7 +83,7 @@ export class StationActions extends Component {
 
     render() {
         const { isSearch, onSearch, inputRef, onSetFilter, onPauseTrack, onPlayTrack,
-            onScrollToAdd, tracks, bgc, stationId } = this.props;
+            onScrollToAdd, tracks, bgc, currStationId } = this.props;
         const { isLiked } = this.state;
 
         return (
@@ -103,7 +100,7 @@ export class StationActions extends Component {
                                 className="play-btn fas fa-pause">
                             </button>}
 
-                            <button onClick={isLiked ? () => this.onUnlikeStation(stationId) : () => this.onLikeStation(stationId)}
+                            <button onClick={isLiked ? () => this.onUnlikeStation(currStationId) : () => this.onLikeStation(currStationId)}
                                 className={"btn-action " + (isLiked ? "fas fa-thumbs-up btn-liked" : "far fa-thumbs-up")}></button>
 
                             <button className="far fa-arrow-alt-circle-down btn-action"></button>

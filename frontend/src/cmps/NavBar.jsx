@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { ActivityLog } from './ActivityLog'
 import { Logo } from './Logo'
+import { stationService } from '../services/station.service'
 
 export class NavBar extends Component {
 

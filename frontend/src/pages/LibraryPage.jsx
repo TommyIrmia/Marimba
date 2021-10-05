@@ -24,7 +24,7 @@ export class LibraryPage extends Component {
     loadStations = async () => {
         try {
             const stations = await stationService.query()
-            const likedTracks = await stationService.getById('liked')
+            const likedTracks = await stationService.getTemplateStation('likedStation', 'liked')
             const likedStations = stations.filter(likedStation => likedStation.likedByUsers.length > 0)
             const stationsByUser = stations.filter(stationBy => stationBy.createdBy._id === 'c137')
             let recentlyaddedStations = stations.sort((a, b) => b.createdAt - a.createdAt);

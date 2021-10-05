@@ -21,7 +21,8 @@ export class GenrePage extends Component {
             const stationsByGenre = await stationService.getStationsByGenre(stations, this.state.genre)
             this.setState({ ...this.state, stations: stationsByGenre })
         } catch (err) {
-            throw err
+            console.error('Can not get station', err)
+            // add user msg - retry
         }
     }
 

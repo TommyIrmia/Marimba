@@ -13,8 +13,13 @@ export class StationHero extends Component {
     }
 
     loadStation = async () => {
+        const { stationId } = this.props
+        console.log('station id in station hero', stationId);
+        let station;
         try {
-            const station = await stationService.getById(this.props.stationId)
+            if (stationId === "liked") station = await stationService.getTemplateStation("likedStation", stationId)
+            else station = await stationService.getById(stationId)
+            console.log('station in hero', station);
             this.setState({ station })
         } catch (err) {
             throw err
@@ -22,6 +27,7 @@ export class StationHero extends Component {
     }
 
     getStationFullTime = (tracks) => {
+        if(!tracks) return ''
         let minutes = tracks.reduce((acc, track) => acc + track.minutes, 0)
         const seconds = tracks.reduce((acc, track) => acc + +track.seconds, 0)
 
