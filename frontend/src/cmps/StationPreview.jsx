@@ -32,7 +32,7 @@ class _StationPreview extends React.Component {
 
     updateLikesCount = (diff) => {
         const likesCount = this.props.station.likedByUsers.length;
-        if (diff) this.setState({ likesCount : likesCount + diff })
+        if (diff) this.setState({ likesCount: likesCount + diff })
         else this.setState({ likesCount })
     }
 

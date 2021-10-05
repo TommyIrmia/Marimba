@@ -1,3 +1,4 @@
+import { activityService } from "../services/activity-log.service.js";
 import { stationService } from "../services/station.service.js";
 
 
@@ -38,7 +39,7 @@ export function onUpdateTracks(tracks, stationId) {
     }
 }
 
-export function onRemoveTrack(trackId, stationId) {
+export function onRemoveTrack(trackId, stationId, trackName, bgc, name) {
     return async (dispatch) => {
         try {
             await stationService.removeTrackFromStation(trackId, stationId)
@@ -46,13 +47,28 @@ export function onRemoveTrack(trackId, stationId) {
                 type: 'REMOVE_TRACK',
                 trackId
             })
+
+            const activity = {
+                type: 'remove track', trackName, byUser: 'Guest#147',
+                stationInfo: {
+                    name,
+                    bgc,
+                    id: stationId,
+                }
+            }
+            const activityToAdd = await activityService.addActivity(activity)
+            dispatch({
+                type: 'ADD_ACTIVITY',
+                activity: activityToAdd
+            })
         } catch (err) {
-            console.log('From actions - Cannot remove track', err)
+            throw err
         }
     }
 }
 
-export function onAddTrack(track, stationId) {
+
+export function onAddTrack(track, stationId, trackName, bgc, name) {
     return async (dispatch) => {
         try {
             await stationService.addTrackToStation(track, stationId)
@@ -61,8 +77,23 @@ export function onAddTrack(track, stationId) {
                 type: 'ADD_TRACK',
                 track
             })
+
+            const activity = {
+                type: 'add track', trackName, byUser: 'Guest#147',
+                stationInfo: {
+                    name,
+                    bgc,
+                    id: stationId,
+                }
+            }
+            const activityToAdd = await activityService.addActivity(activity)
+            dispatch({
+                type: 'ADD_ACTIVITY',
+                activity: activityToAdd
+            })
+
         } catch (err) {
-            console.error('From actions - Can not add track', track)
+            throw err
         }
     }
 }

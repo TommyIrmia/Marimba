@@ -13,6 +13,7 @@ import { utilService } from '../services/util.service.js';
 import { stationService } from '../services/station.service.js';
 
 
+
 export class _MediaPlayer extends Component {
 
     state = {
@@ -47,7 +48,6 @@ export class _MediaPlayer extends Component {
         this.getStation()
 
         if (ev.data === 5) ev.target.playVideo()
-        // console.log('player state', ev.data);
 
         const currTrack = { ...this.props.currentTracks[this.props.currSongIdx] }
         let isPlaying;
@@ -75,6 +75,7 @@ export class _MediaPlayer extends Component {
 
     onTogglePlay = async () => {
         // if 1st time click play - check the state, and if there's a player - if none - load tracks to player
+
         try {
             if (!this.state.initialPlay && !this.props.player) {
                 this.setState({ initialPlay: true }, async () => {
@@ -82,17 +83,17 @@ export class _MediaPlayer extends Component {
                     await this.props.loadTracksToPlayer(this.props.tracks, stationId)
                 })
             }
+            if (this.props.player) {
+                if (this.props.isPlaying) {
+                    this.props.player.pauseVideo()
+                } else {
+                    this.props.player.playVideo()
+                }
+            }
         } catch (err) {
             throw err
         }
 
-        if (this.props.player) {
-            if (this.props.isPlaying) {
-                this.props.player.pauseVideo()
-            } else {
-                this.props.player.playVideo()
-            }
-        }
     }
 
     onChangeSong = (diff) => {
@@ -189,7 +190,7 @@ export class _MediaPlayer extends Component {
             if (!station) return
             this.setState({ station })
         } catch (err) {
-            throw err
+            console.error('Can not get station')
         }
     }
 
@@ -218,7 +219,7 @@ export class _MediaPlayer extends Component {
                 <TrackDetails
                     onRemoveTrack={onRemoveTrack} imgSrc={imgSrc}
                     currTrack={currentTracks[currSongIdx]} station={station}
-                    player={player}
+                    player={player} isPlaying={isPlaying}
                     currLikedTrack={currLikedTrack}
                     updateIsLikedSong={(isLiked) => this.props.updateIsLikedSong(isLiked)}
                 />

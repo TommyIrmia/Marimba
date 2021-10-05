@@ -35,11 +35,13 @@ async function query(name, existingTracks, tracksIdx = 0) {
         if (existingTracks) existingTracksIds = existingTracks.map(track => track.id)
         const filteredTracks = updatedTracks.filter(track => track.duration && !existingTracksIds.includes(track.id))
         sessionService.save(SESSION_KEY, filteredTracks)
-        console.log('filtered tracks: ' + filteredTracks);
         return filteredTracks.slice(0, 5);
     } catch (err) {
         ++keyIdx
-        if (keyIdx >= API_KEYS.length) return console.error('Could not get videos from youtube', err)
+        if (keyIdx >= API_KEYS.length) {
+            // return console.error('Could not get videos from youtube', err)
+            throw new Error('Can not get videos')
+        }
         const tracks = query(name, existingTracks, tracksIdx = 0)
         if (tracks) return tracks
     }
@@ -48,38 +50,33 @@ async function query(name, existingTracks, tracksIdx = 0) {
 
 
 function getTracks(videos) {
-    if (videos) {
-        return videos.map((video) => {
-            let title = video.snippet.title.replace(/\(([^)]+)\)/g, '');
-            title = title.replace('&#39;', '\'');
-            title = title.replace('&amp;', '&');
-            return {
-                id: video.id.videoId,
-                title,
-                url: "youtube/song.mp4",
-                imgUrl: video.snippet.thumbnails.medium.url,
-                addBy: 'Naama',
-                addedAt: Date.now()
-            }
-        })
-    }
-    else console.log('got no track!')
+    if (!videos) return
+    return videos.map((video) => {
+        let title = video.snippet.title.replace(/\(([^)]+)\)/g, '');
+        title = title.replace('&#39;', '\'');
+        title = title.replace('&amp;', '&');
+        title = title.replace(/&quot;/g, '"');
+        return {
+            id: video.id.videoId,
+            title,
+            url: "youtube/song.mp4",
+            imgUrl: video.snippet.thumbnails.medium.url,
+            addBy: 'Naama',
+            addedAt: Date.now()
+        }
+    })
 }
 
 async function deleteTrackFromCache(name, track) {
     try {
         const SESSION_KEY = `${KEY}${name}`
         const trackId = track.id;
-
         let tracks = await sessionService.load(SESSION_KEY)
-
         const idx = tracks.findIndex(track => track.id === trackId)
         const switchTrack = tracks.pop();
         tracks.splice(idx, 1, switchTrack);
-
         asyncSessionService.save(SESSION_KEY, tracks);
     } catch (err) {
-        console.log('Can not delete track from cache', err)
         throw err
     }
 }
@@ -110,7 +107,7 @@ async function getDuration(tracks) {
         const duration = _setdurationToFormat(data.items)
         return duration
     } catch (err) {
-        console.log('Had Error:', err);
+        throw new Error('Can not get duration for tracks')
     }
 }
 

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { addActivity } from '../store/activitylog.actions.js'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
+import { onSetMsg } from '../store/user.actions.js'
 import { setBgcAndName, loadTracks, onAddTrack, onRemoveTrack, onUpdateTracks, onUpdateTrack } from '../store/station.actions.js'
 import { StationHero } from './../cmps/StationHero';
 import { EditHero } from './../cmps/EditHero';
@@ -10,7 +11,6 @@ import { StationActions } from './../cmps/StationActions';
 import { TrackSearch } from '../cmps/TrackSearch';
 import { TrackList } from './../cmps/TrackList';
 import { stationService } from '../services/station.service.js';
-
 
 
 class _StationDetails extends Component {
@@ -26,7 +26,7 @@ class _StationDetails extends Component {
         animation: '',
         isConfirmMsgOpen: false,
     }
-
+    userAnswer;
     inputRef = React.createRef()
     addRef = React.createRef()
 
@@ -60,7 +60,7 @@ class _StationDetails extends Component {
         try {
             await this.props.loadTracks(this.state.stationId)
         } catch (err) {
-            throw err
+            console.error('Can not get tracks in station', err)
         }
     }
 
@@ -82,33 +82,33 @@ class _StationDetails extends Component {
                         id: stationId,
                     }
                 })
+                this.props.onSetMsg('success', 'Saved playlist to your library!')
                 this.setState({ ...this.state, stationId });
             }
-
-            await this.props.onAddTrack(track, stationId);
-            this.props.addActivity({
-                type: 'add track', trackName: track.title, byUser: 'Guest#234',
-                stationInfo: {
-                    name: this.props.stationName,
-                    bgc: this.props.bgc,
-                    id: stationId,
-                }
-            })
+            else this.props.onSetMsg('success', 'Added to playlist')
+            await this.props.onAddTrack(track, stationId, track.title, this.props.bgc, this.props.stationName);
             if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         } catch (err) {
-            throw err
+            this.props.onSetMsg('error', 'Couldn\'t add track,\n please try again')
+        }
+    }
+
+    onRemoveTrack = async (trackId, trackName) => {
+        try {
+            const confirmRemove = await this.userConfirmation()
+            this.setState({ isConfirmMsgOpen: false })
+            if (!confirmRemove) return;
+            const { stationId } = this.state
+            await this.props.onRemoveTrack(trackId, stationId, trackName, this.props.bgc, this.props.stationName)
+            if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
+        } catch (err) {
+            this.props.onSetMsg('error', 'Couldn\'t remove track,\n please try again')
         }
     }
 
     onScrollToAdd = () => {
         window.scrollTo({ behavior: 'smooth', top: this.addRef.current.offsetTop })
     }
-
-    keepResolve = () => {
-
-    }
-
-    userAnswer;
 
     confirmRemove = (confirmation) => {
         this.userAnswer(confirmation)
@@ -123,52 +123,39 @@ class _StationDetails extends Component {
         })
     }
 
-    onRemoveTrack = async (trackId, trackName) => {
-        try {
-            const confirmRemove = await this.userConfirmation()
-            this.setState({ isConfirmMsgOpen: false })
-            if (!confirmRemove) return;
-            const { stationId } = this.state
-            await this.props.onRemoveTrack(trackId, stationId)
-            this.props.addActivity({
-                type: 'remove track', trackName, byUser: 'Guest#147',
-                stationInfo: {
-                    name: this.props.stationName,
-                    bgc: this.props.bgc,
-                    id: stationId,
-                }
-            })
-            if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
-        } catch (err) {
-            throw err
-        }
-    }
-
     onSetFilter = async (filterBy) => {
-        const { stationId } = this.state
-        await this.props.loadTracks(stationId, filterBy)
-        if (filterBy.sort !== 'Custom order') { // if reSorted - replay from index 0!
-            await this.props.setSongIdx(0)
-            await this.props.loadTracksToPlayer(this.props.tracks, stationId)
+        try {
+            const { stationId } = this.state
+            await this.props.loadTracks(stationId, filterBy)
+            if (filterBy.sort !== 'Custom order') { // if reSorted - replay from index 0!
+                await this.props.setSongIdx(0)
+                await this.props.loadTracksToPlayer(this.props.tracks, stationId)
+            }
+        } catch (err) {
+            console.error('Can not sort tracks', err)
         }
     }
 
     saveDataFromHero = async (data) => {
-        let { stationId } = this.state
-        if (stationId === 'new') {
-            stationId = await stationService.saveNewStation();
-            this.setState({ ...this.state, stationId });
-            console.log('station id from save', stationId);
-            this.props.addActivity({
-                type: 'create playlist', byUser: 'Guest#117',
-                stationInfo: {
-                    name: data.title,
-                    bgc: this.props.bgc,
-                    id: stationId,
-                }
-            })
+        try {
+            let { stationId } = this.state
+            if (stationId === 'new') {
+                stationId = await stationService.saveNewStation();
+                this.setState({ ...this.state, stationId });
+                this.props.addActivity({
+                    type: 'create playlist', byUser: 'Guest#117',
+                    stationInfo: {
+                        name: data.title,
+                        bgc: this.props.bgc,
+                        id: stationId,
+                    }
+                })
+                this.props.onSetMsg('success', 'Saved playlist to your library!')
+            }
+            await stationService.saveDataFromHero(stationId, data)
+        } catch (err) {
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
-        await stationService.saveDataFromHero(stationId, data)
     }
 
     onPlayTrack = async () => {
@@ -178,6 +165,9 @@ class _StationDetails extends Component {
         } else { // else reload the station shown and play from index 0.
             await this.props.setSongIdx(0)
             await this.props.loadTracksToPlayer(this.props.tracks, stationId)
+            
+            if (this.props.tracks.length) this.props.onSetMsg('success', `Playing '${this.props.stationName}' playlist.`)
+            else this.props.onSetMsg('error', `Try adding tracks to play this playlist :)`)
         }
     }
 
@@ -296,7 +286,8 @@ const mapDispatchToProps = {
     onUpdateTracks,
     onUpdateTrack,
     setBgcAndName,
-    addActivity
+    addActivity,
+    onSetMsg
 }
 
 

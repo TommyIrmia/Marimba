@@ -1,5 +1,6 @@
 import React from 'react'
 import { stationService } from '../services/station.service';
+import { Audio } from '../assets/svg/audio'
 
 export class TrackDetails extends React.Component {
 
@@ -51,7 +52,7 @@ export class TrackDetails extends React.Component {
     }
 
     render() {
-        const { imgSrc, currTrack, station, currLikedTrack } = this.props
+        const { imgSrc, currTrack, station, currLikedTrack, isPlaying } = this.props
         return (
 
             <div className="song-details flex align-center">
@@ -65,6 +66,7 @@ export class TrackDetails extends React.Component {
                 <div className="song-actions">
                     <button onClick={(currLikedTrack.isLiked) ? () => this.onUnLike(currTrack?.id) : this.onLike}
                         className={currLikedTrack.isLiked ? "fas fa-heart btn-liked" : "far fa-heart"}></button>
+                    {isPlaying && <div><Audio /></div>}
                 </div>
             </div>
         )

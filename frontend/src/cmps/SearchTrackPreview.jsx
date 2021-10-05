@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { onPlayTrack, loadTracksToPlayer, setSongIdx, updateIsLikedSong } from '../store/mediaplayer.actions.js'
 import { onUpdateTrack } from '../store/station.actions.js'
 import { stationService } from '../services/station.service';
-import equi from '../assets/imgs/equi.gif';
+import {Audio} from '../assets/svg/audio'
 
 export class _SearchTrackPreview extends Component {
 
@@ -92,8 +92,7 @@ export class _SearchTrackPreview extends Component {
                 <section title={title} className="TrackPreview search flex">
 
                     {!isHover && <div className="num-idx" >
-                        {!this.checkIsPlaying() ? (idx + 1) : <img src={equi} alt="playing gif" />}
-                    </div>}
+                        {!this.checkIsPlaying() ? (idx + 1) : <div className="audio-container" > <Audio /> </div>}                    </div>}
                     {isHover && this.checkIsPlaying() && <button onClick={() => this.onPauseTrack(track)}
                         className={"play-btn fas fa-pause"}>
                     </button>}

@@ -5,7 +5,6 @@ import { utilService } from './../services/util.service';
 import { onPlayTrack, loadTracksToPlayer, updateIsLikedSong } from '../store/mediaplayer.actions.js'
 import { onUpdateTrack } from '../store/station.actions.js'
 import { stationService } from '../services/station.service';
-import equi from '../assets/imgs/equi.gif';
 import { ConfirmMsg } from './ConfirmMsg';
 import {Audio} from '../assets/svg/audio'
 
@@ -110,7 +109,6 @@ class _TrackPreview extends Component {
 
                                 {!isHover && <div className="num-idx" >
                                     {!this.checkIsPlaying() ? (idx + 1) : <div className="audio-container" > <Audio/> </div> }
-                                    {/* {!this.checkIsPlaying() ? (idx + 1) : <img src={equi} alt="playing gif" />} */}
                                 </div>}
 
                                 {isHover && this.checkIsPlaying() && <button onClick={() => this.onPauseTrack(track.id)}

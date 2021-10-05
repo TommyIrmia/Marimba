@@ -416,10 +416,9 @@ async function query(name) {
         stations.forEach(station => {
             station.tracks.forEach(track => track.isPlaying = false)
         })
-
         return stations
     } catch (err) {
-        console.log('Can not get stations', err)
+        throw new Error('Can not get stations from server')
     }
 }
 
@@ -433,7 +432,7 @@ async function removeStation(stationId) {
     try {
         return await asyncStorageService.remove(STORAGE_KEY, stationId)
     } catch (err) {
-        console.log('Can not remove station', err)
+        throw new Error('Can not remove station')
     }
 }
 
@@ -442,7 +441,7 @@ async function addStation(station) {
         return await stationService.post(STORAGE_KEY, station)
     }
     catch (err) {
-        console.log('Can not add station', err)
+        throw new Error('Can not add station')
     }
 }
 
@@ -470,16 +469,16 @@ async function getById(stationId) {
     try {
         // if(stationId === 'new') return 
         const station = await asyncStorageService.get(STORAGE_KEY, stationId)
+        if (!station) return
         if (station.tracks.length) station.tracks.forEach(track => track.isPlaying = false)
         return station
     } catch (err) {
-        console.log('Can not get station', stationId)
+        throw new Error('Can not get station', stationId)
     }
 }
 
 async function loadTracks(stationId, filterBy) {
     try {
-
         if (!filterBy) {
             if (stationId === 'new') return []
             else {
@@ -500,7 +499,7 @@ async function loadTracks(stationId, filterBy) {
         console.log('tracks after filter', tracks);
         return tracks
     } catch (err) {
-        console.log('from station service can not get tracks', err)
+        throw new Error('Can not get tracks from station : ', stationId)
     }
 }
 
@@ -517,11 +516,10 @@ async function updateTracks(tracks, stationId) {
             return newTrack
         })
 
-        console.log('tracks after edit', tracks);
         newStation.tracks = newTracks
         return await asyncStorageService.put(STORAGE_KEY, newStation)
     } catch (err) {
-        console.log('Can not add track to station', err)
+        throw new Error('Can not update tracks')
     }
 }
 
@@ -533,7 +531,7 @@ async function addTrackToStation(track, stationId) {
         station.tracks.push(newTrack)
         return await asyncStorageService.put(STORAGE_KEY, station)
     } catch (err) {
-        console.log('Can not add track to station', err)
+        throw new Error('Can not add track to station')
     }
 }
 
@@ -544,57 +542,66 @@ async function removeTrackFromStation(trackId, stationId) {
         await station.tracks.splice(idx, 1);
         return await asyncStorageService.put(STORAGE_KEY, station)
     } catch (err) {
-        console.log('Can not remove track from station', err)
+        throw new Error('Can not remove track from station')
     }
 }
 
 async function saveNewStation() {
-    const id = utilService.makeId();
-    let newStation = await asyncStorageService.get('newStation', 'new');
-    newStation._id = id;
-    if (!newStation.imgUrl) newStation.imgUrl = logo
-    if (!newStation.bgc) newStation.bgc = "#545454"
-    await asyncStorageService.post(STORAGE_KEY, newStation);
-    return id;
+    try {
+        const id = utilService.makeId();
+        let newStation = await asyncStorageService.get('newStation', 'new');
+        newStation._id = id;
+        if (!newStation.imgUrl) newStation.imgUrl = logo
+        if (!newStation.bgc) newStation.bgc = "#545454"
+        await asyncStorageService.post(STORAGE_KEY, newStation);
+        return id;
+    } catch (err) {
+        throw new Error('Can not save new station')
+    }
 }
 
 async function saveDataFromHero(stationId, data) {
-    const station = await getById(stationId)
+    try {
 
-    const tags = data.genre;
-    station.tags.push(tags)
+        const station = await getById(stationId)
 
-    const updatedStation = {
-        ...station,
-        name: data.title,
-        imgUrl: data.img || logo,
-        description: data.desc,
-        bgc: data.bgc || "#545454"
+        const tags = data.genre;
+        station.tags.push(tags)
+
+        const updatedStation = {
+            ...station,
+            name: data.title,
+            imgUrl: data.img || logo,
+            description: data.desc,
+            bgc: data.bgc || "#545454"
+        }
+
+        await asyncStorageService.put(STORAGE_KEY, updatedStation)
+    } catch (err) {
+        throw new Error('Can not save changes at station title')
     }
-
-    await asyncStorageService.put(STORAGE_KEY, updatedStation)
 }
 
 async function getGenres() {
     try {
         return genres;
     } catch (err) {
-        console.log('Can not get genres', err)
+        throw new Error('Can not get genres')
     }
 }
 
 async function _saveStationsToStorage() {
-    console.log('saved to storage');
     await asyncStorageService.save(STORAGE_KEY, initialStations)
 }
 
 async function addLikeTtoStation(stationId, user) {
-    try{
+    try {
+        console.log('station Id', stationId, 'user', user);
         const station = await getById(stationId)
         station.likedByUsers.push(user)
         await asyncStorageService.put(STORAGE_KEY, station)
     } catch (err) {
-        console.log('Can not add like to station', err)
+        throw new Error('Can not like station :', stationId)
     }
 }
 
@@ -605,6 +612,6 @@ async function removeLikeFromStation(stationId, userId) {
         await station.likedByUsers.splice(idx, 1);
         return await asyncStorageService.put(STORAGE_KEY, station)
     } catch (err) {
-        console.log('Can not remove like from station', err)
+        throw new Error('Can not like station :', stationId)
     }
 }

@@ -8,6 +8,7 @@ import { NavBar } from './cmps/NavBar';
 import { StationDetails } from './pages/StationDetails';
 import {GenrePage} from './pages/GenrePage'
 import { MediaPlayer } from './cmps/MediaPlayer';
+import { UserMsg } from './cmps/UserMsg';
 
 export class App extends React.Component {
 
@@ -27,6 +28,7 @@ export class App extends React.Component {
         </main>
         <MediaPlayer />
         {/* <AppFooter /> */}
+        <UserMsg/>
       </div>
 
     );

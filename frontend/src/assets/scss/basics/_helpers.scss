@@ -121,7 +121,8 @@
   height: 90px;
   background-color: rgb(40, 40, 40);
   padding: 15px;
-  border-radius: rem(8px);
+  border-bottom-right-radius: rem(8px);
+  border-bottom-left-radius: rem(8px);
   position: fixed;
   z-index: 1;
   text-align: center;
@@ -140,7 +141,7 @@
   button {
     color: $clr8;
     padding: 8px;
-
+    border-radius: 5px;
     &:hover {
       color: $clr7;
       background-color: rgba(255, 255, 255, 0.151);
@@ -148,7 +149,7 @@
   }
 }
 
-.show-msg{
+.show-msg {
   // transform: translateY(-820px);
   transform: translateY(-700px);
 }
