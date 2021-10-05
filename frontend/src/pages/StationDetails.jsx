@@ -33,17 +33,22 @@ class _StationDetails extends Component {
     async componentDidMount() {
         window.scrollTo(0, 0)
         const { stationId } = this.props.match.params
+        let station;
         let isEditable = false;
         if (stationId === 'new') {
-            await stationService.saveEmptyStation();
+            //new sation 
             isEditable = true;
-            this.props.setBgcAndName('#545454', 'New Playlist')
+            station = await stationService.getTemplateStation("newStation", stationId)
         }
-        else if (stationId === 'liked') this.props.setBgcAndName('#e24aa5', 'Liked Songs')
+        else if (stationId === 'liked') {
+            // likedSongs array from user json => loggedInUser session (backend)
+            station = await stationService.getTemplateStation("likedStation", stationId)
+        }
         else {
-            const station = await stationService.getById(stationId)
-            this.props.setBgcAndName(station.bgc, station.name)
+            station = await stationService.getById(stationId)
+
         }
+        this.props.setBgcAndName(station.bgc, station.name)
         this.setState({ ...this.state, isEditable, stationId }, async () => {
             await this.loadTracks()
         })
@@ -72,6 +77,7 @@ class _StationDetails extends Component {
     onAddTrack = async (track) => {
         try {
             let { stationId } = this.state
+            console.log('stationId', stationId);
             if (stationId === 'new') {
                 stationId = await stationService.saveNewStation();
                 this.props.addActivity({
@@ -165,7 +171,7 @@ class _StationDetails extends Component {
         } else { // else reload the station shown and play from index 0.
             await this.props.setSongIdx(0)
             await this.props.loadTracksToPlayer(this.props.tracks, stationId)
-            
+
             if (this.props.tracks.length) this.props.onSetMsg('success', `Playing '${this.props.stationName}' playlist.`)
             else this.props.onSetMsg('error', `Try adding tracks to play this playlist :)`)
         }
@@ -241,8 +247,10 @@ class _StationDetails extends Component {
 
                 {stationId !== 'new' && <StationHero stationId={stationId} tracks={tracks} />}
 
-                {stationId === 'new' && <EditHero animation={animation} onFlip={this.onFlip} isEditModalOpen={isEditModalOpen} onToggleEdit={this.onToggleEdit}
-                    saveDataFromHero={this.saveDataFromHero} />}
+                {
+                    stationId === 'new' && <EditHero animation={animation} onFlip={this.onFlip} isEditModalOpen={isEditModalOpen} onToggleEdit={this.onToggleEdit}
+                        saveDataFromHero={this.saveDataFromHero} />
+                }
 
                 <StationActions onSetFilter={this.onSetFilter} inputRef={this.inputRef}
                     onSearch={this.onSearch} isSearch={isSearch} isPlaying={isPlaying}
@@ -258,7 +266,7 @@ class _StationDetails extends Component {
                     <TrackSearch addRef={this.addRef} onAddTrack={this.onAddTrack} stationId={stationId} currStationTracks={tracks} />
                 </section>
 
-            </main>
+            </main >
 
         )
     }

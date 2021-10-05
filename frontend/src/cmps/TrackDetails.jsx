@@ -21,7 +21,7 @@ export class TrackDetails extends React.Component {
         try {
             if (!this.props.player) return
             const { currTrack } = this.props
-            await stationService.addTrackToStation(currTrack, 'liked')
+            await stationService.addTrackToLiked(currTrack)
             this.props.updateIsLikedSong({ trackId: currTrack.id, isLiked: true })
         } catch (err) {
             throw err
@@ -32,7 +32,7 @@ export class TrackDetails extends React.Component {
         try {
             const stationId = this.props.station._id;
             if (stationId === 'liked') await this.props.onRemoveTrack(trackId)
-            else await stationService.removeTrackFromStation(trackId, 'liked')
+            else await stationService.removeTrackFromLiked(trackId)
             this.props.updateIsLikedSong({ trackId, isLiked: false })
         } catch (err) {
             throw err
@@ -43,7 +43,7 @@ export class TrackDetails extends React.Component {
         const { currTrack } = this.props
         if (!currTrack) return;
         try {
-            const station = await stationService.getById('liked')
+            const station = await stationService.getTemplateStation('likedStation', 'liked')
             const isLiked = station.tracks.some(likedTrack => likedTrack.id === currTrack.id)
             this.props.updateIsLikedSong({ trackId: currTrack.id, isLiked })
         } catch (err) {

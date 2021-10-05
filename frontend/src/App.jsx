@@ -27,7 +27,6 @@ export class App extends React.Component {
           </Switch>
         </main>
         <MediaPlayer />
-        {/* <AppFooter /> */}
         <UserMsg/>
       </div>
 

@@ -28,7 +28,7 @@ export function loadTracks(stationId, filterBy) {
 export function onUpdateTracks(tracks, stationId) {
     return async (dispatch) => {
         try {
-            await stationService.updateTracks(tracks, stationId)
+            stationService.updateTracks(tracks, stationId)
             dispatch({
                 type: 'SET_TRACKS',
                 tracks

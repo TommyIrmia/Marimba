@@ -6,7 +6,7 @@ import { onPlayTrack, loadTracksToPlayer, updateIsLikedSong } from '../store/med
 import { onUpdateTrack } from '../store/station.actions.js'
 import { stationService } from '../services/station.service';
 import { ConfirmMsg } from './ConfirmMsg';
-import {Audio} from '../assets/svg/audio'
+import { Audio } from '../assets/svg/audio'
 
 class _TrackPreview extends Component {
 
@@ -51,7 +51,7 @@ class _TrackPreview extends Component {
     onLike = async () => {
         const { track } = this.props;
         try {
-            await stationService.addTrackToStation(track, 'liked')
+            await stationService.addTrackToLiked(track)
             this.setState({ isLiked: true })
             if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: true })
         } catch (err) {
@@ -64,7 +64,7 @@ class _TrackPreview extends Component {
         try {
             if (stationId === 'liked') {
                 await this.props.onRemoveTrack(trackId)
-            } else await stationService.removeTrackFromStation(trackId, 'liked')
+            } else await stationService.removeTrackFromLiked(trackId, 'liked')
             this.setState({ isLiked: false })
             if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: false })
         } catch (err) {
@@ -75,7 +75,8 @@ class _TrackPreview extends Component {
 
     checkIsLiked = async () => {
         const { track } = this.props
-        const station = await stationService.getById('liked')
+        const station = await stationService.getTemplateStation('likedStation', 'liked')
+        console.log('station in check is liked', station);
         const isLiked = station.tracks.some(likedTrack => likedTrack.id === track.id)
         if (isLiked) this.setState({ isLiked })
     }
@@ -88,13 +89,13 @@ class _TrackPreview extends Component {
 
     render() {
         const { isHover, isLiked } = this.state
-        const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen , tracksLength } = this.props
+        const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen, tracksLength } = this.props
         const { title } = track
         const date = utilService.getTime(track.addedAt)
 
         return (
             <main>
-                { <ConfirmMsg tracksLength={tracksLength} isConfirmMsgOpen={isConfirmMsgOpen} confirmRemove={confirmRemove} />}
+                {<ConfirmMsg tracksLength={tracksLength} isConfirmMsgOpen={isConfirmMsgOpen} confirmRemove={confirmRemove} />}
 
                 <Draggable draggableId={this.props.track.id} index={idx}>
                     {(provided) => (
@@ -108,7 +109,7 @@ class _TrackPreview extends Component {
                             <section title={title} className="TrackPreview flex">
 
                                 {!isHover && <div className="num-idx" >
-                                    {!this.checkIsPlaying() ? (idx + 1) : <div className="audio-container" > <Audio/> </div> }
+                                    {!this.checkIsPlaying() ? (idx + 1) : <div className="audio-container" > <Audio /> </div>}
                                 </div>}
 
                                 {isHover && this.checkIsPlaying() && <button onClick={() => this.onPauseTrack(track.id)}
@@ -136,9 +137,9 @@ class _TrackPreview extends Component {
 
                                 <p className={(isHover) ? '' : 'track-duration'} >{track.minutes}:{track.seconds}</p>
 
-                                    <button onClick={() => onRemoveTrack(track.id, track.title)}
-                                        className={"far fa-trash-alt btn-remove " + (isHover ? "" : "btn-hidden")}>
-                                    </button>
+                                <button onClick={() => onRemoveTrack(track.id, track.title)}
+                                    className={"far fa-trash-alt btn-remove " + (isHover ? "" : "btn-hidden")}>
+                                </button>
                             </div>
 
                         </section>
