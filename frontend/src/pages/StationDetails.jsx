@@ -108,22 +108,29 @@ class _StationDetails extends Component {
         window.scrollTo({ behavior: 'smooth', top: this.addRef.current.offsetTop })
     }
 
-    confirmRemove = (confirmation) => {
+    keepResolve = () => {
+
+    }
+
+    userAnswer;
+
+    confirmRemove =  (confirmation) => {
+        this.userAnswer(confirmation)
+    }
+
+    userConfirmation = () => {
         const { isConfirmMsgOpen } = this.state;
-        this.setState({ isConfirmMsgOpen: !isConfirmMsgOpen })
+        this.setState({ isConfirmMsgOpen: true })
 
         return new Promise((resolve) => {
-            confirmation = resolve
+            this.userAnswer = resolve
         })
-
-        // const userConfirmation = confirm(confirmation)
-        return confirmation
     }
 
     onRemoveTrack = async (trackId, trackName) => {
         try {
-            const confirmRemove = await this.confirmRemove()
-            console.log('confirmRemove', confirmRemove);
+            const confirmRemove = await this.userConfirmation()
+            this.setState({ isConfirmMsgOpen: false })
             if (!confirmRemove) return;
             const { stationId } = this.state
             await this.props.onRemoveTrack(trackId, stationId)
@@ -183,7 +190,9 @@ class _StationDetails extends Component {
     }
 
     onToggleEdit = () => {
-        const { isEditModalOpen } = this.state
+        const { isEditModalOpen } = this.state;
+        const {isConfirmMsgOpen} = this.state;
+        if (isConfirmMsgOpen) return;
         setTimeout(() => {
             this.setState({
                 isEditModalOpen: !isEditModalOpen
@@ -233,7 +242,7 @@ class _StationDetails extends Component {
 
     render() {
         const { isSearch, isPlaying, isEditModalOpen, animation, isConfirmMsgOpen } = this.state;
-        const { tracks, bgc, currStationId } = this.props
+        const { tracks, bgc } = this.props
         const { stationId } = this.props.match.params
         return (
             <main className="StationDetails">
@@ -241,7 +250,8 @@ class _StationDetails extends Component {
                 <div onClick={() => {
                     this.onFlip('text-blur-out')
                     this.onToggleEdit()
-                }} className={(isEditModalOpen ? "dark screen" : "")}></div>
+                    this.setState({isConfirmMsgOpen: false})
+                }} className={((isEditModalOpen || isConfirmMsgOpen ) ? "dark screen" : "")}></div>
 
                 {stationId !== 'new' && <StationHero stationId={stationId} tracks={tracks} />}
 
@@ -251,7 +261,7 @@ class _StationDetails extends Component {
                 <StationActions onSetFilter={this.onSetFilter} inputRef={this.inputRef}
                     onSearch={this.onSearch} isSearch={isSearch} isPlaying={isPlaying}
                     onScrollToAdd={this.onScrollToAdd} playingStationId={this.props.stationId}
-                    isPlayerPlaying={this.props.isPlaying} currStationId={currStationId}
+                    isPlayerPlaying={this.props.isPlaying} stationId={stationId}
                     tracks={tracks} onPlayTrack={this.onPlayTrack}
                     onPauseTrack={this.onPauseTrack} bgc={bgc}
                 />
