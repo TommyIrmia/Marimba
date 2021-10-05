@@ -1,0 +1,66 @@
+.LoginSignUp {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    height: 80vh;
+    background: #111111;
+    border-radius: rem(10px);
+    text-align: center;
+    padding: 40px;
+    box-shadow: 0 0 7px #adadad3d;
+
+    h2,
+    button {
+        font-family: "gotham-bold";
+        margin-bottom: 15px;
+    }
+    .user-info {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+
+        .input-container {
+            width: 80%;
+            height: 35px;
+            background-color: #3a3a3a;
+            align-items: center;
+            justify-content: space-around;
+            padding-inline-end: 5px;
+        }
+
+        input {
+            width: 90%;
+            height: inherit;
+            background-color: #3a3a3a;
+            border: none;
+            outline: none;
+            color: $clr7;
+        }
+
+        button {
+            color: $clr7;
+            width: 80%;
+            height: rem(45px);
+            border-radius: rem(20px);
+            background-color: #1aa049;
+            font-size: rem(20px);
+
+            &:hover {
+                background-color: $clr5;
+                transform: scale(1.1);
+            }
+        }
+
+    }
+    .toggle-login{
+        margin-top: 20px;
+
+        button{
+            color: $clr7;
+            font-size:rem(18px);
+            text-decoration: underline;
+        }
+    }
+}
