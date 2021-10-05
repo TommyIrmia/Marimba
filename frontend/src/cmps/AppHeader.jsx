@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router';
 
 export class _AppHeader extends React.Component {
 
@@ -13,7 +14,7 @@ export class _AppHeader extends React.Component {
     }
 
     render() {
-        const user = true;
+        const user = false;
         const { isOpen } = this.state;
         const { bgc, stationName } = this.props
         return (
@@ -29,7 +30,10 @@ export class _AppHeader extends React.Component {
                 </div>
 
                 {isOpen && <ul className="options-container">
-                    {!user && <li className="clean-list user-options" >Log in</li>}
+                    {!user && <li onClick={()=> {
+                        this.props.history.push('/login')
+                        this.setState({isOpen:false})
+                    }} className="clean-list user-options" >Log in</li>}
                     {user && <>
                         <li className="clean-list user-options" >Profile</li>
                         <li className="clean-list user-options" >Settings</li>
@@ -50,4 +54,4 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
 }
 
-export const AppHeader = connect(mapStateToProps, mapDispatchToProps)(_AppHeader)
+export const AppHeader = connect(mapStateToProps, mapDispatchToProps)( withRouter (_AppHeader))
