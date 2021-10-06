@@ -79,7 +79,8 @@ export class StationHero extends Component {
 
     render() {
         const { station } = this.state
-        const { tracks } = this.props
+        const { tracks, stationId } = this.props
+        console.log('from hero', station);
         if (!station) return <div>Loading</div>
         return (
             <main style={{ backgroundColor: station.bgc }} className="hero-container">
@@ -90,8 +91,8 @@ export class StationHero extends Component {
                             <h5>playlist</h5>
                             <h1 className="hero-title">{station.name}</h1>
                             <p>{station.description}</p>
-                            <p>{station._id !== 'liked' && station.createdBy.fullname + ' • '}
-                                {station._id !== 'liked' && station.likedByUsers.length + ' likes • '}  {station.tracks.length} songs • {this.getStationFullTime(tracks)}</p>
+                            <p>{stationId !== 'liked' && station.createdBy.fullname + ' • '}
+                                {stationId !== 'liked' && station.likedByUsers?.length + ' likes • '}  {station.tracks.length} songs • {this.getStationFullTime(tracks)}</p>
                         </div>
                     </div>
                 </div>

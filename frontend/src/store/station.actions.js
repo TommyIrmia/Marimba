@@ -48,15 +48,7 @@ export function onRemoveTrack(trackId, stationId, trackName, bgc, name) {
                 trackId
             })
 
-            const activity = {
-                type: 'remove track', trackName, byUser: 'Guest#147',
-                stationInfo: {
-                    name,
-                    bgc,
-                    id: stationId,
-                }
-            }
-            const activityToAdd = await activityService.addActivity(activity)
+            const activityToAdd = await activityService.addActivity('remove track', { name, bgc, id: stationId }, trackName)
             dispatch({
                 type: 'ADD_ACTIVITY',
                 activity: activityToAdd
@@ -78,15 +70,7 @@ export function onAddTrack(track, stationId, trackName, bgc, name) {
                 track
             })
 
-            const activity = {
-                type: 'add track', trackName, byUser: 'Guest#147',
-                stationInfo: {
-                    name,
-                    bgc,
-                    id: stationId,
-                }
-            }
-            const activityToAdd = await activityService.addActivity(activity)
+            const activityToAdd = await activityService.addActivity('add track', { name, bgc, id: stationId }, trackName)
             dispatch({
                 type: 'ADD_ACTIVITY',
                 activity: activityToAdd
