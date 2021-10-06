@@ -165,6 +165,11 @@
 
 .far.fa-eye-slash::before {
   content: "\f070";
+  cursor: pointer;
+}
+
+.far.fa-imag::before {
+  content: "\f03e";
 }
 
 .fas.fa-user::before {

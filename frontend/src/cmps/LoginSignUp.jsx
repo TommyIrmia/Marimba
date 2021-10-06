@@ -4,6 +4,7 @@ import { Logo } from './Logo';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router'
 import { onLogin, onLogout, onSignup, onSetMsg } from '../store/user.actions.js'
+import { uploadImg } from '../services/cloudinary.service';
 
 export class _LoginSignUp extends Component {
 
@@ -13,7 +14,8 @@ export class _LoginSignUp extends Component {
             password: '',
             fullname: '',
             imgUrl: '',
-        }
+        },
+        isPasswordVisible: false,
     }
 
     handleChange = (ev) => {
@@ -23,28 +25,53 @@ export class _LoginSignUp extends Component {
     }
 
     onLoginSignup = async (user, isLogin) => {
-        if (isLogin) {
-            const loggedinUser = await this.props.onLogin(user)
-            console.log('loggedinUser', loggedinUser);
-            if (loggedinUser) {
-                this.props.onSetMsg('success', `Welcome ${loggedinUser.fullname}`)
+        try {
+            if (isLogin) {
+                const loggedinUser = await this.props.onLogin(user)
+                if (loggedinUser) {
+                    this.props.onSetMsg('success', `Welcome ${loggedinUser.fullname}`)
+                    this.props.history.push("/")
+                }
+                else this.props.onSetMsg('error', 'Wrong username or password, please try again.')
+            } else {
+                await this.props.onSignup(user)
+                this.props.onSetMsg('success', `Signed up successfully!`)
                 this.props.history.push("/")
             }
-            else this.props.onSetMsg('error', 'Wrong username or password, please try again.')
-        } else {
-            this.props.onSignup(user)
-            this.props.onSetMsg('success', `Signed up successfully!`)
-            this.props.history.push("/")
+        } catch (err) {
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
+        }
+    }
+
+    handleImgChange = async (ev) => {
+        const field = ev.target.name;
+        try {
+            const value = await uploadImg(ev)
+            this.setState((prevState) => ({ ...prevState, user: { ...prevState.user, [field]: value } }))
+        } catch (err) {
+            console.log(err);
         }
     }
 
     render() {
         const { onToggleLogin, isLogin } = this.props;
-        const { user } = this.state;
-        const { username, password, fullname } = this.state.user;
+        const { user,isPasswordVisible } = this.state;
+        const { username, password, fullname, imgUrl } = this.state.user;
+        console.log('user', user);
         return (
             <div className="LoginSignUp">
-                <Logo />
+                {isLogin && <Logo />}
+
+                {!isLogin && <label className="img-input-container flex">
+                    {<input hidden type="file" name="imgUrl" id="imgUrl"
+                        onChange={this.handleImgChange} />}
+                    {imgUrl && <img src={imgUrl} alt="img" />}
+
+                    {!imgUrl && <>
+                        <div className="far fa-imag"></div>
+                        <small>Choose photo</small>
+                    </>}
+                </label>}
 
                 <h2> {(isLogin) ? "Sign in to continue." : "Sign up for Marimba account."} </h2>
 
@@ -55,15 +82,16 @@ export class _LoginSignUp extends Component {
                 }}>
 
                     <div className="input-container flex">
-                        <input name="username" type="text" placeholder="Email or username"
+                        <input name="username" type="text" placeholder="username"
                             value={username} required onChange={this.handleChange} />
                         <div className="fas fa-user"></div>
                     </div>
 
                     <div className="input-container flex">
-                        <input name="password" type="password" placeholder="Password"
+                        <input name="password" type={(isPasswordVisible) ? 'text' : 'Password' } placeholder="Password"
                             value={password} required onChange={this.handleChange} />
-                        <div className="far fa-eye-slash"></div>
+                        <div className="far fa-eye-slash" 
+                        onClick={()=> this.setState({isPasswordVisible:!isPasswordVisible}) } ></div>
                     </div>
 
                     {!isLogin && <div className="input-container flex">

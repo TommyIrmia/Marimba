@@ -20,7 +20,7 @@ export function loadTracks(stationId, filterBy) {
                 })
             }
         } catch (err) {
-            console.log('From actions - Cannot load tracks', err)
+            throw err
         }
     }
 }
@@ -34,7 +34,7 @@ export function onUpdateTracks(tracks, stationId) {
                 tracks
             })
         } catch (err) {
-            console.log('Can not update tracks!', err)
+            throw err
         }
     }
 }
@@ -91,7 +91,7 @@ export function onUpdateTrack(track) {
                 track
             })
         } catch (err) {
-            console.error('Can not update track', err)
+            throw err
         }
     }
 }
@@ -109,7 +109,7 @@ export function setBgcAndName(bgc, stationName) {
                 stationName
             })
         } catch (err) {
-            console.log('Can not load stations', err)
+            throw err
         }
     }
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
+import { onSetMsg } from '../store/user.actions.js'
 import { setBgcAndName } from '../store/station.actions.js'
 import { stationService } from './../services/station.service';
 
@@ -10,11 +11,6 @@ class _StationPreview extends React.Component {
     state = {
         isLiked: false,
         likesCount: 0,
-        user: {
-            fullname: 'tomas irmia',
-            imgUrl: 'something',
-            _id: 'c101'
-        }
     }
 
     componentDidMount() {
@@ -25,7 +21,7 @@ class _StationPreview extends React.Component {
 
     checkIsLiked = () => {
         const { station } = this.props;
-        const { user } = this.state;
+        const { user } = this.props;
         const isLiked = station.likedByUsers.some(currUser => currUser._id === user._id)
         if (isLiked) this.setState({ isLiked })
     }
@@ -36,14 +32,18 @@ class _StationPreview extends React.Component {
         else this.setState({ likesCount })
     }
 
-
     onPlayStation = async () => {
-        const { stationId, station, player } = this.props
-        if (stationId === station._id) {
-            player.playVideo()
-        } else {
-            await this.props.setSongIdx(0)
-            await this.props.loadTracksToPlayer(station.tracks, station._id)
+        try {
+            const { stationId, station, player } = this.props
+            if (stationId === station._id) {
+                player.playVideo()
+            } else {
+                this.props.setSongIdx(0)
+                this.props.loadTracksToPlayer(station.tracks, station._id)
+                this.props.onSetMsg('success', `Playing '${station.name}' playlist.`)
+            }
+        } catch (err) {
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -59,7 +59,7 @@ class _StationPreview extends React.Component {
     }
 
     onLikeStation = (stationId) => {
-        const { user } = this.state;
+        const { user } = this.props;
         this.setState({ isLiked: true }, () => {
             stationService.addLikeTtoStation(stationId, user)
         })
@@ -67,7 +67,7 @@ class _StationPreview extends React.Component {
     }
 
     onUnlikeStation = (stationId) => {
-        const { _id } = this.state.user;
+        const { _id } = this.props.user;
         this.setState({ isLiked: false }, () => {
             stationService.removeLikeFromStation(stationId, _id)
         })
@@ -76,10 +76,10 @@ class _StationPreview extends React.Component {
 
 
     render() {
-        const { station,isFromSearchList } = this.props
+        const { station, isFromSearchList } = this.props
         const { isLiked, likesCount } = this.state
         return (
-            <div className={`station-preview ${(isFromSearchList) ? 'station-search-preview' : '' }`}
+            <div className={`station-preview ${(isFromSearchList) ? 'station-search-preview' : ''}`}
                 onClick={() => {
                     this.props.setBgcAndName(station.bgc, station.name)
                     this.props.history.push(`/station/${station._id}`)
@@ -126,13 +126,15 @@ function mapStateToProps(state) {
         player: state.mediaPlayerModule.player,
         stationId: state.mediaPlayerModule.stationId,
         isPlaying: state.mediaPlayerModule.isPlaying,
+        user: state.userModule.user,
     }
 }
 
 const mapDispatchToProps = {
     loadTracksToPlayer,
     setSongIdx,
-    setBgcAndName
+    setBgcAndName,
+    onSetMsg
 }
 
 

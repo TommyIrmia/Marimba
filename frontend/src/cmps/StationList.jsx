@@ -22,7 +22,7 @@ export class StationList extends React.Component {
             const stationsByGenre = await stationService.getStationsByGenre(stations, genre)
             this.setState({ stationsByGenre: stationsByGenre })
         } catch (err) {
-            throw err
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 

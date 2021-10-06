@@ -4,6 +4,7 @@ import { onUpdateTrack, onRemoveTrack } from '../store/station.actions.js'
 import {
     setPlayer, setSongIdx, onTogglePlay, setCurrDuration, loadTracksToPlayer, updateIsLikedSong, onUpdateCurrTrack
 } from '../store/mediaplayer.actions.js'
+import { onSetMsg } from '../store/user.actions.js'
 import YouTube from 'react-youtube';
 import imgSrc from '../assets/imgs/logo3.png';
 import { TrackDetails } from './TrackDetails.jsx';
@@ -43,10 +44,11 @@ export class _MediaPlayer extends Component {
     }
 
     onStateChange = (ev) => {
+        console.log(ev.data)
+        if (ev.data === 3 && ev.data === -1) return
         const songLength = ev.target.getDuration()
         this.setState({ songLength })
         this.getStation()
-
         if (ev.data === 5) ev.target.playVideo()
 
         const currTrack = { ...this.props.currentTracks[this.props.currSongIdx] }
@@ -91,7 +93,7 @@ export class _MediaPlayer extends Component {
                 }
             }
         } catch (err) {
-            throw err
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
 
     }
@@ -190,7 +192,7 @@ export class _MediaPlayer extends Component {
             if (!station) return
             this.setState({ station })
         } catch (err) {
-            console.error('Can not get station')
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -220,7 +222,7 @@ export class _MediaPlayer extends Component {
                     onRemoveTrack={onRemoveTrack} imgSrc={imgSrc}
                     currTrack={currentTracks[currSongIdx]} station={station}
                     player={player} isPlaying={isPlaying}
-                    currLikedTrack={currLikedTrack}
+                    currLikedTrack={currLikedTrack} onSetMsg={this.props.onSetMsg}
                     updateIsLikedSong={(isLiked) => this.props.updateIsLikedSong(isLiked)}
                 />
 
@@ -260,7 +262,8 @@ const mapDispatchToProps = {
     loadTracksToPlayer,
     onRemoveTrack,
     updateIsLikedSong,
-    onUpdateCurrTrack
+    onUpdateCurrTrack,
+    onSetMsg
 }
 
 

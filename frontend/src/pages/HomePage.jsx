@@ -28,7 +28,7 @@ export class HomePage extends Component {
             const stations = await stationService.query()
             this.setState({ stations })
         } catch (err) {
-            console.log('From home page, can not get stations', err)
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -37,7 +37,7 @@ export class HomePage extends Component {
             const genres = await stationService.getGenres()
             this.setState({ genres })
         } catch (err) {
-            console.log('From home-page, can not get genres', err)
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
     render() {

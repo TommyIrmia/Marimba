@@ -1,12 +1,16 @@
 .nav-bar {
   position: fixed;
   height: 100vh;
-  width: 250px;
+  width: 220px;
   background-color: #000;
   padding: 20px 10px;
   display: flex;
   flex-direction: column;
-  // z-index: 1;
+
+  @include for-wide-layout {
+    width: 250px;
+  }
+
   .nav-list {
     margin-top: 2rem;
     padding-bottom: 40px;

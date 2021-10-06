@@ -21,7 +21,7 @@ class _EditHero extends Component {
             const value = await uploadImg(ev)
             this.setState((prevState) => ({ ...prevState, hero: { ...prevState.hero, [field]: value } }))
         } catch (err) {
-            console.log(err);
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -36,7 +36,8 @@ class _EditHero extends Component {
     render() {
         const { isHover, hero } = this.state;
         const { img, title, desc } = this.state.hero;
-        const { saveDataFromHero, onToggleEdit, isEditModalOpen, bgc, animation, onFlip } = this.props
+        const { saveDataFromHero, onToggleEdit, isEditModalOpen, bgc, animation, onFlip,user } = this.props
+        
         return (
             <main className="EditHero-container" style={{ backgroundColor: bgc }}>
                 <div className="linear-container">
@@ -62,7 +63,7 @@ class _EditHero extends Component {
                             <h5>playlist</h5>
                             <h1 title={title} className="hero-title">{title}</h1>
                             <p>{desc}</p>
-                            <p>maker</p>
+                            <p>{user.fullname}</p>
                         </div>
                     </section>
 
@@ -78,6 +79,7 @@ class _EditHero extends Component {
 function mapStateToProps(state) {
     return {
         bgc: state.stationModule.bgc,
+        user: state.userModule.user,
     }
 }
 const mapDispatchToProps = {

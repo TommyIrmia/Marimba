@@ -4,6 +4,7 @@ import { Draggable } from 'react-beautiful-dnd'
 import { utilService } from './../services/util.service';
 import { onPlayTrack, loadTracksToPlayer, updateIsLikedSong } from '../store/mediaplayer.actions.js'
 import { onUpdateTrack } from '../store/station.actions.js'
+import { onSetMsg } from '../store/user.actions.js'
 import { stationService } from '../services/station.service';
 import { ConfirmMsg } from './ConfirmMsg';
 import { Audio } from '../assets/svg/audio'
@@ -36,11 +37,15 @@ class _TrackPreview extends Component {
 
 
     onPlayTrack = async (trackIdx) => {
-        const { tracks, stationId, player } = this.props
-        await this.props.loadTracksToPlayer(tracks, stationId)
-        await this.props.onPlayTrack(trackIdx)
-        if (player) {
-            player.playVideo()
+        try {
+            const { tracks, stationId, player } = this.props
+            await this.props.loadTracksToPlayer(tracks, stationId)
+            await this.props.onPlayTrack(trackIdx)
+            if (player) {
+                player.playVideo()
+            }
+        } catch (err) {
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -54,8 +59,9 @@ class _TrackPreview extends Component {
             await stationService.addTrackToLiked(track)
             this.setState({ isLiked: true })
             if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: true })
+            this.props.onSetMsg('success', 'Added to Liked Songs')
         } catch (err) {
-            //try agian sorry
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -66,8 +72,9 @@ class _TrackPreview extends Component {
             this.setState({ isLiked: false })
             if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: false })
             if (stationId === 'liked') this.props.loadTracks()
+            this.props.onSetMsg('success', 'Removed from Liked Songs')
         } catch (err) {
-
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
 
     }
@@ -157,6 +164,7 @@ function mapStateToProps(state) {
         isPlaying: state.mediaPlayerModule.isPlaying,
         currLikedTrack: state.mediaPlayerModule.currLikedTrack,
 
+
     }
 }
 
@@ -164,7 +172,8 @@ const mapDispatchToProps = {
     onPlayTrack,
     loadTracksToPlayer,
     onUpdateTrack,
-    updateIsLikedSong
+    updateIsLikedSong,
+    onSetMsg
 }
 
 

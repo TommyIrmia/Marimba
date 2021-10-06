@@ -1,3 +1,7 @@
 .home-page {
-  padding: 40px;
+  padding: 20px;
+  margin: 0 auto;
+  @include for-wide-layout {
+    padding: 40px;
+  }
 }

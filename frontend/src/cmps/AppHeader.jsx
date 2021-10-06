@@ -18,7 +18,6 @@ export class _AppHeader extends React.Component {
     render() {
         const { isOpen } = this.state;
         const { bgc, stationName, user,onLogout } = this.props
-        console.log('from header', user)
         return (
             <div className="app-header" style={{ backgroundColor: bgc }} >
 

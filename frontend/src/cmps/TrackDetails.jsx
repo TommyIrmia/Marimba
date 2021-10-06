@@ -14,7 +14,6 @@ export class TrackDetails extends React.Component {
 
     componentDidUpdate(prevProps) {
         prevProps.currTrack?.id !== this.props.currTrack?.id && this.checkIsLiked()
-        // console.log('track details updated');
     }
 
     onLike = async () => {
@@ -23,8 +22,9 @@ export class TrackDetails extends React.Component {
             const { currTrack } = this.props
             await stationService.addTrackToLiked(currTrack)
             this.props.updateIsLikedSong({ trackId: currTrack.id, isLiked: true })
+            this.props.onSetMsg('success', 'Added to Liked Songs')
         } catch (err) {
-            throw err
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -34,8 +34,9 @@ export class TrackDetails extends React.Component {
             if (stationId === 'liked') await this.props.onRemoveTrack(trackId)
             else await stationService.removeTrackFromLiked(trackId)
             this.props.updateIsLikedSong({ trackId, isLiked: false })
+            this.props.onSetMsg('success', 'Removed from Liked Songs')
         } catch (err) {
-            throw err
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -47,7 +48,7 @@ export class TrackDetails extends React.Component {
             const isLiked = station.tracks.some(likedTrack => likedTrack.id === currTrack.id)
             this.props.updateIsLikedSong({ trackId: currTrack.id, isLiked })
         } catch (err) {
-            throw err
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 

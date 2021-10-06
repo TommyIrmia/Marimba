@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Select from 'react-select';
 
 import { uploadImg } from '../services/cloudinary.service';
 import { stationService } from './../services/station.service';
@@ -13,7 +14,7 @@ export default class EditDetails extends Component {
         genres: [],
         hero: {
             bgc: "#282828",
-            genre: 'Hits',
+            genres: [],
             img: this.props.hero.img,
             title: this.props.hero.title,
             desc: this.props.hero.desc,
@@ -30,7 +31,16 @@ export default class EditDetails extends Component {
         genres = genres.filter(genre => {
             return genre.name !== 'All'
         })
-        this.setState({ genres })
+
+        const options = genres.map(genre => {
+            return {
+                value: genre.name,
+                label: genre.name,
+                className:'multi-select-options'
+            }
+        })
+
+        this.setState({ genres:options })
     }
 
     handleImgChange = async (ev) => {
@@ -39,7 +49,7 @@ export default class EditDetails extends Component {
             const value = await uploadImg(ev)
             this.setState((prevState) => ({ ...prevState, hero: { ...prevState.hero, [field]: value } }))
         } catch (err) {
-            console.log(err);
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -51,9 +61,13 @@ export default class EditDetails extends Component {
                 { ...prevState.hero, [field]: value }
         }))
     }
-
-    onSelect = (genre) => {
-        this.setState((prevState) => ({ ...prevState, hero: { ...prevState.hero, genre } }))
+    
+    onSelect = (ev) => {
+        if (ev.length > 3) return;
+        let value = ev.map(val=>{
+            return val.label;
+        })
+        this.setState((prevState) => ({ ...prevState, hero: { ...prevState.hero, genres:value } }))
         this.setState({ isSelect: false })
     }
 
@@ -70,6 +84,7 @@ export default class EditDetails extends Component {
         const { isHover, hero, genres, isSelect } = this.state;
         const { img, title, desc, bgc } = this.state.hero;
         const { onEdit, onToggleEdit, saveDataFromHero, onFlip, animation } = this.props;
+        console.log('hero', hero);
         return (
             <main className={`edit-container  ${animation} `} style={{ backgroundColor: bgc }}>
 
@@ -98,18 +113,18 @@ export default class EditDetails extends Component {
                         </div>}
                     </label>
 
-                    <input type="text" name="title" onChange={this.handleChange}
+                    <input className="input-name" type="text" name="title" onChange={this.handleChange}
                         maxLength="14" placeholder={title} value={title} autoComplete="off" />
 
-                    <div onClick={this.onToggleSelect} title="Select genre" className="select-container flex">
-                        <div>{hero.genre}</div>
-                        <div className={(isSelect) ? 'fas fa-sort-up' : 'fas fa-sort-down'}></div>
+                    <div className="multi-select-container"> 
 
-                        {isSelect && <ul className="options-container flex" >
-                            {genres.map((genre, idx) => (
-                                <li onClick={() => this.onSelect(genre.name)} className="clean-list select-li" key={idx}>{genre.name}</li>
-                            ))}
-                        </ul>}
+                        <Select
+                            value={genres.label}
+                            isMulti
+                            onChange={this.onSelect}
+                            // menuIsOpen={true}
+                            options={genres}
+                            placeholder="Choose up to 3 jenres :" />
                     </div>
 
                     <textarea placeholder="Add an optional description"

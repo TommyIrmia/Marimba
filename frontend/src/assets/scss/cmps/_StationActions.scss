@@ -56,7 +56,6 @@
           color: $clr8;
           max-width: 0;
           display: inline-block;
-          // -webkit-transition: max-width 0.2s 1s;
           transition: max-width 0.7s;
           vertical-align: top;
           white-space: nowrap;
@@ -103,18 +102,28 @@
       text-align: center;
 
       .info-title {
-        width: 400px;
+        flex: 4;
+        width: 250px;
         text-align: left;
-        text-indent: 43px;
+        text-indent: 39px;
+        @include for-wide-layout {
+          flex: 5;
+          width: 410px;
+        }
       }
 
       .info-date {
-        text-indent: 70px;
-        width: 200px;
+        display: none;
+        @include for-wide-layout {
+          flex: 2;
+          display: unset;
+          min-width: 120px;
+          text-align: center;
+        }
       }
 
       .info-duration {
-        margin-inline-end: 20px;
+        flex: 1;
         width: 100px;
       }
 

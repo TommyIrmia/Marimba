@@ -11,6 +11,7 @@ import { StationActions } from './../cmps/StationActions';
 import { TrackSearch } from '../cmps/TrackSearch';
 import { TrackList } from './../cmps/TrackList';
 import { stationService } from '../services/station.service.js';
+import { withRouter } from 'react-router'
 
 
 class _StationDetails extends Component {
@@ -31,26 +32,31 @@ class _StationDetails extends Component {
     addRef = React.createRef()
 
     async componentDidMount() {
-        window.scrollTo(0, 0)
-        const { stationId } = this.props.match.params
-        let station;
-        let isEditable = false;
-        if (stationId === 'new') {
-            //new sation 
-            isEditable = true;
-            station = await stationService.getTemplateStation("newStation", stationId)
+        try {
+            window.scrollTo(0, 0)
+            const { stationId } = this.props.match.params
+            let station;
+            let isEditable = false;
+            if (stationId === 'new') {
+                //new sation 
+                isEditable = true;
+                station = await stationService.getTemplateStation("newStation", stationId)
+            }
+            else if (stationId === 'liked') {
+                // likedSongs array from user json => loggedInUser session (backend)
+                station = await stationService.getTemplateStation("likedStation", stationId)
+            }
+            else {
+                station = await stationService.getById(stationId)
+            }
+            this.props.setBgcAndName(station.bgc, station.name)
+            this.setState({ ...this.state, isEditable, stationId }, async () => {
+                await this.loadTracks()
+            })
+        } catch (err) {
+            this.props.history.push('/')
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
-        else if (stationId === 'liked') {
-            // likedSongs array from user json => loggedInUser session (backend)
-            station = await stationService.getTemplateStation("likedStation", stationId)
-        }
-        else {
-            station = await stationService.getById(stationId)
-        }
-        this.props.setBgcAndName(station.bgc, station.name)
-        this.setState({ ...this.state, isEditable, stationId }, async () => {
-            await this.loadTracks()
-        })
     }
 
     async componentWillUnmount() {
@@ -80,7 +86,7 @@ class _StationDetails extends Component {
             console.log('stationId', stationId);
             if (stationId === 'new') {
                 stationId = await stationService.saveNewStation();
-                this.props.addActivity('create playlist', {name: this.props.stationName || 'New Station', bgc: this.props.bgc, id: stationId})
+                this.props.addActivity('create playlist', { name: this.props.stationName || 'New Station', bgc: this.props.bgc, id: stationId })
                 this.props.onSetMsg('success', 'Saved playlist to your library!')
                 this.setState({ ...this.state, stationId });
             }
@@ -139,7 +145,7 @@ class _StationDetails extends Component {
                 await this.props.loadTracksToPlayer(this.props.tracks, stationId)
             }
         } catch (err) {
-            console.error('Can not sort tracks', err)
+            this.props.onSetMsg('error', 'Oops.. something went wrong!\n please try again.')
         }
     }
 
@@ -166,15 +172,19 @@ class _StationDetails extends Component {
     }
 
     onPlayTrack = async () => {
-        const { stationId } = this.state
-        if (this.props.stationId === stationId) { // if is on current playing station - play video!
-            this.props.player.playVideo()
-        } else { // else reload the station shown and play from index 0.
-            await this.props.setSongIdx(0)
-            await this.props.loadTracksToPlayer(this.props.tracks, stationId)
+        try {
+            const { stationId } = this.state
+            if (this.props.stationId === stationId) { // if is on current playing station - play video!
+                this.props.player.playVideo()
+            } else { // else reload the station shown and play from index 0.
+                await this.props.setSongIdx(0)
+                await this.props.loadTracksToPlayer(this.props.tracks, stationId)
 
-            if (this.props.tracks.length) this.props.onSetMsg('success', `Playing '${this.props.stationName}' playlist.`)
-            else this.props.onSetMsg('error', `Try adding tracks to play this playlist :)`)
+                if (this.props.tracks.length) this.props.onSetMsg('success', `Playing '${this.props.stationName}' playlist.`)
+                else this.props.onSetMsg('error', `Try adding tracks to play this playlist :)`)
+            }
+        } catch (err) {
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -246,7 +256,7 @@ class _StationDetails extends Component {
                     this.onToggleEdit()
                 }} className={((isEditModalOpen) ? "dark screen" : "")}></div>
 
-                {stationId !== 'new' && <StationHero stationId={stationId} tracks={tracks} />}
+                {stationId !== 'new' && <StationHero stationId={stationId} tracks={tracks} onSetMsg={this.props.onSetMsg} />}
 
                 {
                     stationId === 'new' && <EditHero animation={animation} onFlip={this.onFlip} isEditModalOpen={isEditModalOpen} onToggleEdit={this.onToggleEdit}
@@ -265,7 +275,7 @@ class _StationDetails extends Component {
                         tracks={tracks} stationId={stationId} loadTracks={this.loadTracks} />
                 </DragDropContext>
                 <section>
-                    <TrackSearch addRef={this.addRef} onAddTrack={this.onAddTrack} stationId={stationId} currStationTracks={tracks} />
+                    <TrackSearch addRef={this.addRef} onAddTrack={this.onAddTrack} stationId={stationId} currStationTracks={tracks} onSetMsg={this.props.onSetMsg} />
                 </section>
 
             </main >
@@ -302,4 +312,4 @@ const mapDispatchToProps = {
 }
 
 
-export const StationDetails = connect(mapStateToProps, mapDispatchToProps)(_StationDetails)
+export const StationDetails = connect(mapStateToProps, mapDispatchToProps)(withRouter(_StationDetails))

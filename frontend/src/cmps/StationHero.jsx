@@ -21,18 +21,16 @@ export class StationHero extends Component {
 
     loadStation = async () => {
         const { stationId } = this.props
-        console.log('station id in station hero', stationId);
-        let station;
         try {
+            let station;
             if (stationId === "liked") station = await stationService.getTemplateStation("likedStation", stationId)
             else station = await stationService.getById(stationId)
-            console.log('station in hero', station);
             this.setState({ station }, () => {
                 this.checkIsLiked()
                 this.updateLikesCount()
             })
         } catch (err) {
-            throw err
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -80,7 +78,6 @@ export class StationHero extends Component {
     render() {
         const { station } = this.state
         const { tracks, stationId } = this.props
-        console.log('from hero', station);
         if (!station) return <div>Loading</div>
         return (
             <main style={{ backgroundColor: station.bgc }} className="hero-container">

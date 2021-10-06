@@ -9,7 +9,6 @@ import userImg from '../assets/imgs/logo.png'
 export class _ActivityLog extends Component {
 
     state = {
-        activities: [],
     }
 
     componentDidMount() {
@@ -17,7 +16,11 @@ export class _ActivityLog extends Component {
     }
 
     loadActivities = async () => {
-        await this.props.loadActivities()
+        try {
+            await this.props.loadActivities()
+        } catch (err) {
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
+        }
     }
 
     dynamicCmp = (activity, idx) => {
@@ -33,7 +36,8 @@ export class _ActivityLog extends Component {
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
                     <div className="activity-info">
-                        {activity.createdBy.fullname} created a playlist - "{activity.stationInfo.name}"
+                        <span className="user-name"> {activity.createdBy.fullname} </span>
+                        <span className="green">created a playlist</span> - "{activity.stationInfo.name}"
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
@@ -47,7 +51,8 @@ export class _ActivityLog extends Component {
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
                     <div className="activity-info" >
-                        {activity.createdBy.fullname} added "{activity.trackName}" to "{activity.stationInfo.name}"!
+                        <span className="user-name"> {activity.createdBy.fullname} </span>
+                        <span className="green"> added </span> "{activity.trackName}" to "{activity.stationInfo.name}"!
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
@@ -60,7 +65,8 @@ export class _ActivityLog extends Component {
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
                     <div className="activity-info">
-                        {activity.createdBy.fullname} removed "{activity.trackName}" from "{activity.stationInfo.name}"!
+                        <span className="user-name"> {activity.createdBy.fullname}</span>
+                        <span className="red"> removed </span>"{activity.trackName}" from "{activity.stationInfo.name}"!
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
@@ -69,7 +75,7 @@ export class _ActivityLog extends Component {
 
     render() {
         const { activities } = this.props
-        if (!activities.length) return <div></div>
+        if (!activities.length) return <div>No Activities</div>
 
         return (<section className="activity-log">
 
