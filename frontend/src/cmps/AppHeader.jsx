@@ -18,6 +18,7 @@ export class _AppHeader extends React.Component {
     render() {
         const { isOpen } = this.state;
         const { bgc, stationName, user,onLogout } = this.props
+        console.log('from header', user)
         return (
             <div className="app-header" style={{ backgroundColor: bgc }} >
 
@@ -25,17 +26,17 @@ export class _AppHeader extends React.Component {
 
 
                 <div onClick={this.onOpenOptions} className="user-container">
-                    <div className="far fa-user-circle"></div>
-                    <div className="user-name">{user ? user.fullname : 'Guest'}</div>
+                    <div className="img-container"><img src={user.imgUrl} /></div>
+                    <div className="user-name">{user.fullname}</div>
                     <div className={(isOpen) ? 'fas fa-sort-up' : 'fas fa-sort-down'}></div>
                 </div>
 
                 {isOpen && <ul className="options-container">
-                    {!user && <li onClick={() => {
+                    {user.fullname === 'Guest' && <li onClick={() => {
                         this.props.history.push('/login')
                         this.setState({ isOpen: false })
                     }} className="clean-list user-options" >Log in</li>}
-                    {user && <>
+                    {!user.fullname === 'Guest' && <>
                         <li className="clean-list user-options" >Profile</li>
                         <li className="clean-list user-options" >Settings</li>
                         <li onClick={onLogout} className="clean-list user-options" >Log out</li>

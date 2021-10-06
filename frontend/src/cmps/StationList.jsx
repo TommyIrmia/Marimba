@@ -29,7 +29,7 @@ export class StationList extends React.Component {
     render() {
         const { stationsByGenre } = this.state
         const { genre } = this.props
-        if (!stationsByGenre?.length) return <div>Loading...</div>
+        if (!stationsByGenre?.length) return <div></div>
         return (
             <section className="station-list">
 
