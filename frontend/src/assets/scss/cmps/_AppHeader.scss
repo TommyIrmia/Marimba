@@ -17,7 +17,7 @@
     display: flex;
     justify-content: space-around;
     gap: 10px;
-    padding: 0 10px;
+    padding: 0 10px 0 2px;
     align-items: center;
     min-width: rem(120px);
     height: rem(35px);
@@ -32,7 +32,17 @@
       background-color: $clr1;
       cursor: pointer;
     }
-
+    .img-container {
+      height: 30px;
+      width: 30px;
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        object-position: center center;
+        border-radius: 50%;
+      }
+    }
     .user-name {
       font-family: gotham-bold;
     }
@@ -51,12 +61,12 @@
     right: 30px;
     border-radius: 4px;
     box-shadow: 0 16px 24px rgb(0 0 0 / 30%), 0 6px 8px rgb(0 0 0 / 20%);
+    z-index: 2;
 
     .user-options {
       border-radius: 4px;
       padding: 10px 5px;
       width: 100%;
-      z-index: 1;
 
       &:hover {
         cursor: pointer;

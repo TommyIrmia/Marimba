@@ -14,10 +14,10 @@ export function loadActivities() {
     }
 }
 
-export function addActivity(activity) {
+export function addActivity(type, stationInfo) {
     return async (dispatch) => {
         try {
-            const activityToAdd = await activityService.addActivity(activity)
+            const activityToAdd = await activityService.addActivity(type, stationInfo)
             dispatch({
                 type: 'ADD_ACTIVITY',
                 activity: activityToAdd

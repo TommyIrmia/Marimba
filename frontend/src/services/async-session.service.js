@@ -10,7 +10,7 @@ export const asyncSessionService = {
 }
 
 function query(entityType, delay = 0) {
-    var entities = JSON.parse(sessionStorage.getItem(entityType)) ||  [] 
+    var entities = JSON.parse(sessionStorage.getItem(entityType)) || []
 
     return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -25,6 +25,7 @@ function query(entityType, delay = 0) {
 function get(entityType, entityId) {
     return query(entityType)
         .then(entities => entities.find(entity => entity._id === entityId))
+        .catch(err => null)
 }
 
 async function getIdx(entityType, entityId) {

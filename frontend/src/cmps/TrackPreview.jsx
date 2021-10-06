@@ -75,7 +75,8 @@ class _TrackPreview extends Component {
     checkIsLiked = async () => {
         const { track } = this.props
         const station = await stationService.getTemplateStation('likedStation', 'liked')
-        const isLiked = station.tracks.some(likedTrack => likedTrack.id === track.id)
+        if (!station) return
+        const isLiked = station.tracks?.some(likedTrack => likedTrack.id === track.id)
         if (isLiked) this.setState({ isLiked })
     }
 

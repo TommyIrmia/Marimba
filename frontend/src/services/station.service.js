@@ -2,6 +2,7 @@ import { asyncStorageService } from "./async-storage.service.js"
 import { httpService } from "./http.service.js"
 import logo from "../assets/imgs/default.png";
 import { asyncSessionService } from "./async-session.service.js";
+import { userService } from "./user.service.js";
 
 
 export const stationService = {
@@ -91,40 +92,6 @@ const genres = [
     },
 ]
 
-
-const newStation = [{
-    _id: "new",
-    name: "New Playlist",
-    description: "",
-    bgc: '#545454',
-    tags: ["All"],
-    imgUrl: "",
-    createdAt: Date.now(),
-    createdBy: "Guest",
-    likedByUsers: [],
-    tracks: []
-}]
-
-const likedStation = [{
-    _id: "liked",
-    name: "Liked Songs",
-    description: "All your liked songs are here",
-    bgc: '#e24aa5',
-    tags: ["Liked"],
-    imgUrl: "http://www.whiteheart.eu/wp-content/uploads/2018/02/white-heart_2018_8.png",
-    createdAt: Date.now(),
-    createdBy: {
-        "_id": "c137",
-        "fullname": "rick sanchez",
-        "imgUrl": "https://i.ytimg.com/vi/4_iC0MyIykM/mqdefault.jpg"
-    },
-    likedByUsers: [],
-    tracks: []
-}]
-
-asyncStorageService.save('newStation', newStation);
-asyncSessionService.save('likedStation', likedStation);
-
 async function query(filterBy) {
     var queryStr = (!filterBy) ? '' : `?name=${filterBy}`
     try {
@@ -164,14 +131,6 @@ async function getById(stationId) {
     }
 }
 
-async function getTemplateStation(key, id) {
-    try {
-        if (key === 'likedStation') return await asyncSessionService.get(key, id)
-        if (key === 'newStation') return await asyncStorageService.get(key, id);
-    } catch (err) {
-        throw new Error('Can not add station')
-    }
-}
 
 async function addStation(station) {
     try {
@@ -192,6 +151,7 @@ async function loadTracks(stationId, filterBy) {
             if (stationId === "new") return []
             else if (stationId === "liked") {
                 station = await asyncSessionService.get("likedStation", "liked")
+                console.log('from load tracks', station);
                 return station.tracks
             }
             else {
@@ -287,6 +247,59 @@ async function removeTrackFromLiked(trackId) {
         throw new Error('Can not add track to station')
     }
 }
+
+async function getTemplateStation(key, id) {
+    try {
+        const user = userService.getLoggedinUser()
+        let likedStation;
+        let newStation;
+        if (key === 'likedStation') {
+            likedStation = await asyncSessionService.get(key, id)
+            if (!likedStation) likedStation = {
+                _id: "liked",
+                name: "Liked Songs",
+                description: "All your liked songs are here",
+                bgc: '#e24aa5',
+                tags: ["Liked"],
+                imgUrl: "http://www.whiteheart.eu/wp-content/uploads/2018/02/white-heart_2018_8.png",
+                createdAt: Date.now(),
+                createdBy: {
+                    "_id": user._id,
+                    "fullname": user.fullname,
+                    "imgUrl": user.imgUrl
+                },
+                likedByUsers: [],
+                tracks: []
+            }
+            asyncSessionService.save('likedStation', [likedStation]);
+            return likedStation
+        }
+        if (key === 'newStation') {
+            newStation = await asyncStorageService.get(key, id);
+            if (!newStation) newStation = {
+                _id: "new",
+                name: "New Playlist",
+                description: "",
+                bgc: '#545454',
+                tags: ["All"],
+                imgUrl: "",
+                createdAt: Date.now(),
+                createdBy: {
+                    "_id": user._id,
+                    "fullname": user.fullname,
+                    "imgUrl": user.imgUrl
+                },
+                likedByUsers: [],
+                tracks: []
+            }
+            asyncStorageService.save('newStation', [newStation]);
+            return newStation
+        }
+    } catch (err) {
+        throw new Error('Can not create station')
+    }
+}
+
 
 async function saveNewStation() {
     console.log('from new station');

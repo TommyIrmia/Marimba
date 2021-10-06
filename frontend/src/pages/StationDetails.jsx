@@ -43,7 +43,6 @@ class _StationDetails extends Component {
         else if (stationId === 'liked') {
             // likedSongs array from user json => loggedInUser session (backend)
             station = await stationService.getTemplateStation("likedStation", stationId)
-            console.log('liked station', station)
         }
         else {
             station = await stationService.getById(stationId)
@@ -81,14 +80,7 @@ class _StationDetails extends Component {
             console.log('stationId', stationId);
             if (stationId === 'new') {
                 stationId = await stationService.saveNewStation();
-                this.props.addActivity({
-                    type: 'create playlist', byUser: 'Guest#117',
-                    stationInfo: {
-                        name: this.props.stationName || 'New Station',
-                        bgc: this.props.bgc,
-                        id: stationId,
-                    }
-                })
+                this.props.addActivity('create playlist', {name: this.props.stationName || 'New Station', bgc: this.props.bgc, id: stationId})
                 this.props.onSetMsg('success', 'Saved playlist to your library!')
                 this.setState({ ...this.state, stationId });
             }

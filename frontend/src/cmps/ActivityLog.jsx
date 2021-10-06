@@ -30,10 +30,10 @@ export class _ActivityLog extends Component {
                         this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
                     }}>
                     <div className="activity-user">
-                        <img src={userImg} alt='user-img' />
+                        <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
                     <div className="activity-info">
-                        {activity.byUser} created a playlist - "{activity.stationInfo.name}"
+                        {activity.createdBy.fullname} created a playlist - "{activity.stationInfo.name}"
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
@@ -44,10 +44,10 @@ export class _ActivityLog extends Component {
                         this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
                     }}>
                     <div className="activity-user">
-                        <img src={userImg} alt='user-img' />
+                        <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
                     <div className="activity-info" >
-                        {activity.byUser} added "{activity.trackName}" to "{activity.stationInfo.name}"!
+                        {activity.createdBy.fullname} added "{activity.trackName}" to "{activity.stationInfo.name}"!
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
@@ -57,10 +57,10 @@ export class _ActivityLog extends Component {
                     this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
                 }}>
                     <div className="activity-user">
-                        <img src={userImg} alt='user-img' />
+                        <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
                     <div className="activity-info">
-                        {activity.byUser} removed "{activity.trackName}" from "{activity.stationInfo.name}"!
+                        {activity.createdBy.fullname} removed "{activity.trackName}" from "{activity.stationInfo.name}"!
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
@@ -89,6 +89,7 @@ export class _ActivityLog extends Component {
 function mapStateToProps(state) {
     return {
         activities: state.activityLogModule.activities,
+        user: state.userModule.user
     }
 }
 const mapDispatchToProps = {
