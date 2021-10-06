@@ -9,7 +9,7 @@ export function loadActivities() {
                 activities
             })
         } catch (err) {
-            console.log('from activity actions - can not load activities', err);
+            throw err
         }
     }
 }
@@ -23,7 +23,7 @@ export function addActivity(type, stationInfo) {
                 activity: activityToAdd
             })
         } catch (err) {
-            console.log('from activity actions - can not add activities', err)
+            throw err
         }
     }
 }

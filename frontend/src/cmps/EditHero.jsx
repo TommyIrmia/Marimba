@@ -21,7 +21,7 @@ class _EditHero extends Component {
             const value = await uploadImg(ev)
             this.setState((prevState) => ({ ...prevState, hero: { ...prevState.hero, [field]: value } }))
         } catch (err) {
-            console.log(err);
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 

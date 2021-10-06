@@ -11,8 +11,14 @@
   }
   .TrackPreview {
     align-items: center;
-    width: 450px;
+    width: 250px;
     margin: 10px;
+    flex: 4;
+
+    @include for-wide-layout {
+      flex: 5;
+      width: 410px;
+    }
     .green {
       color: $clr5;
     }
@@ -35,7 +41,7 @@
       margin-inline-end: 15px;
       color: $clr7;
     }
-    
+
     .num-idx {
       position: relative;
       width: 15px;
@@ -56,17 +62,30 @@
   }
 
   .track-date {
-    width: 200px;
-    text-align: center;
+    display: none;
+    @include for-wide-layout {
+      flex: 2;
+      display: unset;
+      min-width: 100px;
+      text-align: center;
+    }
   }
 
   .preview-actions {
-    margin-inline-end: 20px;
+    flex: 1;
+    justify-self: flex-end;
     gap: 10px;
     display: flex;
-    width: 100px;
+    justify-content: center;
+    min-width: 100px;
+    margin-inline-start: 20px;
 
-    .btn-like {
+    @include for-wide-layout {
+      margin-inline-start: 0;
+    }
+    .btn-like,
+    .btn-liked,
+    .btn-remove {
       font-size: rem(15px);
       color: $clr7;
       padding: 0 5px;
@@ -74,14 +93,10 @@
 
     .btn-remove {
       font-size: rem(13px);
-      color: $clr7;
-      padding: 0 5px;
     }
 
     .btn-liked {
-      font-size: rem(15px);
       color: $clr5;
-      padding: 0 5px;
     }
 
     .btn-hidden {

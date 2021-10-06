@@ -8,7 +8,7 @@ export class SuggestTrackPreview extends React.Component {
             await this.props.onAddTrack(track);
             await this.props.removeAddedTrack(track);
         } catch (err) {
-            throw err
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 

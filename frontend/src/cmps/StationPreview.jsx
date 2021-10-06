@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
+import { onSetMsg } from '../store/user.actions.js'
 import { setBgcAndName } from '../store/station.actions.js'
 import { stationService } from './../services/station.service';
 
@@ -36,14 +37,18 @@ class _StationPreview extends React.Component {
         else this.setState({ likesCount })
     }
 
-
     onPlayStation = async () => {
-        const { stationId, station, player } = this.props
-        if (stationId === station._id) {
-            player.playVideo()
-        } else {
-            await this.props.setSongIdx(0)
-            await this.props.loadTracksToPlayer(station.tracks, station._id)
+        try {
+            const { stationId, station, player } = this.props
+            if (stationId === station._id) {
+                player.playVideo()
+            } else {
+                this.props.setSongIdx(0)
+                this.props.loadTracksToPlayer(station.tracks, station._id)
+                this.props.onSetMsg('success', `Playing '${station.name}' playlist.`)
+            }
+        } catch (err) {
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -76,10 +81,10 @@ class _StationPreview extends React.Component {
 
 
     render() {
-        const { station,isFromSearchList } = this.props
+        const { station, isFromSearchList } = this.props
         const { isLiked, likesCount } = this.state
         return (
-            <div className={`station-preview ${(isFromSearchList) ? 'station-search-preview' : '' }`}
+            <div className={`station-preview ${(isFromSearchList) ? 'station-search-preview' : ''}`}
                 onClick={() => {
                     this.props.setBgcAndName(station.bgc, station.name)
                     this.props.history.push(`/station/${station._id}`)
@@ -132,7 +137,8 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
     loadTracksToPlayer,
     setSongIdx,
-    setBgcAndName
+    setBgcAndName,
+    onSetMsg
 }
 
 

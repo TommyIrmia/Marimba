@@ -28,7 +28,7 @@ export class StationActions extends Component {
                 this.updateLikesCount()
             })
         } catch (err) {
-            throw err
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -41,11 +41,11 @@ export class StationActions extends Component {
             const isLiked = station.likedByUsers.some(currUser => currUser._id === user._id)
             if (isLiked) this.setState({ isLiked })
         } catch (err) {
-            console.log('can not get station', err);
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
-    updateLikesCount = async (diff) => {
+    updateLikesCount = (diff) => {
         const { station } = this.state;
         if (!station) return
         const likesCount = station.likedByUsers.length;

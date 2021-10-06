@@ -6,22 +6,15 @@
 }
 
 .StationHero {
-  height: rem(330px);
+  height: 280px;
   position: relative;
 
-  .logo {
-    width: 30px;
-    h1 {
-      font-size: rem(12px);
-    }
-  }
-
   .img-container {
-    height: rem(250px);
-    width: rem(250px);
+    height: 200px;
+    width: 200px;
     position: absolute;
-    bottom: rem(40px);
-    padding: rem(5px);
+    bottom: 40px;
+    padding: 5px;
 
     img {
       width: inherit;
@@ -30,22 +23,29 @@
       object-position: center center;
       box-shadow: 0 4px 60px rgb(0 0 0 / 50%);
     }
+  }
 
-    .logo {
-      h1 {
-        display: none;
-      }
+  @include for-wide-layout {
+    height: 330px;
+    .img-container {
+      height: 250px;
+      width: 250px;
     }
   }
 }
 
 .info-container {
-  height: rem(182px);
+  height: 182px;
   position: absolute;
-  bottom: 28px;
-  left: 300px;
+  bottom: 26px;
+  left: 250px;
   @media (max-width: 1270px) {
-    bottom: -5px;
+    bottom: -14px;
+  }
+  
+  @include for-wide-layout {
+    left: 300px;
+
   }
   h5 {
     text-transform: uppercase;
@@ -58,6 +58,13 @@
     font-family: gotham-bold;
     letter-spacing: -5px;
   }
+  @media (max-width: 1270px) {
+    .hero-title {
+      font-size: rem(65px);
+      font-family: gotham-bold;
+      letter-spacing: -3px;
+    }
+  }
 
   p {
     margin-bottom: rem(15px);
@@ -68,12 +75,3 @@
   }
 }
 
-@media (max-width: 1270px) {
-  .info-container {
-    .hero-title {
-      font-size: rem(70px);
-      font-family: gotham-bold;
-      letter-spacing: -3px;
-    }
-  }
-}

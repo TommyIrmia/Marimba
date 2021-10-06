@@ -8,8 +8,6 @@ export class MainHero extends Component {
         isStart: false,
     }
 
-
-
     render() {
         const { isStart } = this.state;
         const { noScroll } = this.props;

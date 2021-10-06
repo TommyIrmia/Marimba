@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { onPlayTrack, loadTracksToPlayer, setSongIdx, updateIsLikedSong } from '../store/mediaplayer.actions.js'
 import { onUpdateTrack } from '../store/station.actions.js'
+import { onSetMsg } from '../store/user.actions.js'
 import { stationService } from '../services/station.service';
-import {Audio} from '../assets/svg/audio'
+import { Audio } from '../assets/svg/audio'
 
 export class _SearchTrackPreview extends Component {
 
@@ -27,12 +28,11 @@ export class _SearchTrackPreview extends Component {
                 player.playVideo()
             }
         } catch (err) {
-            throw err
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
     onPauseTrack = (track) => {
-        // const tracks = [trackToPlayer]
         track.isPlaying = false;
         this.props.player.pauseVideo();
     }
@@ -42,8 +42,9 @@ export class _SearchTrackPreview extends Component {
             const { track } = this.props;
             await stationService.addTrackToLiked(track)
             this.setState({ isLiked: true })
+            this.props.onSetMsg('success', 'Added to Liked Songs')
         } catch (err) {
-            throw err
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -55,8 +56,9 @@ export class _SearchTrackPreview extends Component {
             } else await stationService.removeTrackFromLiked(trackId)
             this.setState({ isLiked: false })
             if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: false })
+            this.props.onSetMsg('success', 'Removed from Liked Songs')
         } catch (err) {
-
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
 
     }
@@ -68,7 +70,7 @@ export class _SearchTrackPreview extends Component {
             const isLiked = station.tracks.some(likedTrack => likedTrack.id === track.id)
             if (isLiked) this.setState({ isLiked })
         } catch (err) {
-
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -92,10 +94,13 @@ export class _SearchTrackPreview extends Component {
                 <section title={title} className="TrackPreview search flex">
 
                     {!isHover && <div className="num-idx" >
-                        {!this.checkIsPlaying() ? (idx + 1) : <div className="audio-container" > <Audio /> </div>}                    </div>}
+                        {!this.checkIsPlaying() ? (idx + 1) : <div className="audio-container" > <Audio /> </div>}
+                    </div>}
+
                     {isHover && this.checkIsPlaying() && <button onClick={() => this.onPauseTrack(track)}
                         className={"play-btn fas fa-pause"}>
                     </button>}
+
                     {isHover && !this.checkIsPlaying() && <button onClick={() => this.onPlayTrack(track)}
                         className={"play-btn fas fa-play"}>
                     </button>}
@@ -115,13 +120,11 @@ export class _SearchTrackPreview extends Component {
                     </button>
 
                     <p className={'track-duration'} >{track.minutes}:{track.seconds}</p>
-
                 </div>
+
             </section>
         )
     }
-
-
 }
 
 
@@ -140,7 +143,8 @@ const mapDispatchToProps = {
     loadTracksToPlayer,
     onUpdateTrack,
     setSongIdx,
-    updateIsLikedSong
+    updateIsLikedSong,
+    onSetMsg
 }
 
 

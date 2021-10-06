@@ -2,15 +2,20 @@
   height: 60px;
   background-color: $bgc3;
   grid-row: 1;
-  position: relative;
   display: flex;
+  justify-content: space-between;
   align-items: center;
 
   h1 {
+    line-height: 60px;
     transition: 0.6s;
-    margin-inline-start: 30px;
+    margin-inline-start: 20px;
     font-family: gotham-bold;
     opacity: 0;
+
+    @include for-wide-layout {
+      margin-inline-start: 30px;
+    }
   }
 
   .user-container {
@@ -24,9 +29,10 @@
     color: $clr7;
     background-color: #121212c5;
     border-radius: 23px;
-    position: absolute;
-    top: rem(10px);
-    right: rem(30px);
+    margin-inline-end: 20px;
+    // position: absolute;
+    // top: rem(10px);
+    // right: rem(30px);
 
     &:hover {
       background-color: $clr1;

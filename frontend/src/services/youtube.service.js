@@ -40,7 +40,7 @@ async function query(name, existingTracks, tracksIdx = 0) {
         ++keyIdx
         if (keyIdx >= API_KEYS.length) {
             // return console.error('Could not get videos from youtube', err)
-            throw new Error('Can not get videos')
+            throw err
         }
         const tracks = query(name, existingTracks, tracksIdx = 0)
         if (tracks) return tracks
@@ -107,7 +107,7 @@ async function getDuration(tracks) {
         const duration = _setdurationToFormat(data.items)
         return duration
     } catch (err) {
-        throw new Error('Can not get duration for tracks')
+        throw err
     }
 }
 
