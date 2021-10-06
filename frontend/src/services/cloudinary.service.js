@@ -15,6 +15,6 @@ export async function uploadImg(ev) {
         return data.url;
     }
     catch (err) {
-        console.error(err)
+        throw err
     }
 }

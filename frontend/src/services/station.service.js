@@ -101,7 +101,7 @@ async function query(filterBy) {
         })
         return stations
     } catch (err) {
-        throw new Error('Can not get stations from server')
+        throw err
     }
 }
 
@@ -109,7 +109,7 @@ async function getGenres() {
     try {
         return genres;
     } catch (err) {
-        throw new Error('Can not get genres')
+        throw err
     }
 }
 
@@ -117,13 +117,11 @@ async function getGenres() {
 async function getStationsByGenre(stations, genre) {
     if (!stations) return
     const filteredStations = stations.filter(station => station.tags.includes(genre))
-    const shuffledStations = getShuffledArr(filteredStations)  
-    console.log('b4 shuffle', filteredStations);  
-    console.log('after shuffle', shuffledStations);  
+    const shuffledStations = _getShuffledArr(filteredStations)
     return shuffledStations
 }
 
-const getShuffledArr = arr => {
+const _getShuffledArr = arr => {
     const newArr = arr.slice()
     for (let i = newArr.length - 1; i > 0; i--) {
         const rand = Math.floor(Math.random() * (i + 1));
@@ -139,7 +137,7 @@ async function getById(stationId) {
         if (station.tracks.length) station.tracks.forEach(track => track.isPlaying = false)
         return station
     } catch (err) {
-        throw new Error('Can not get station', stationId)
+        throw err
     }
 }
 
@@ -163,7 +161,6 @@ async function loadTracks(stationId, filterBy) {
             if (stationId === "new") return []
             else if (stationId === "liked") {
                 station = await asyncSessionService.get("likedStation", "liked")
-                console.log('from load tracks', station);
                 return station.tracks
             }
             else {
@@ -180,16 +177,13 @@ async function loadTracks(stationId, filterBy) {
             station = await getById(stationId);
         }
         let { tracks } = station;
-        if (title) {
-            tracks = tracks.filter(track => track.title.toLowerCase().includes(title.toLowerCase()))
-        }
+        if (title) tracks = tracks.filter(track => track.title.toLowerCase().includes(title.toLowerCase()))
         if (sort === "Title") tracks.sort((a, b) => a.title.localeCompare(b.title))
         if (sort === "Date added") tracks.sort((a, b) => a.addedAt > b.addedAt ? -1 : 1)
         if (sort === "Duration") tracks.sort((a, b) => a.duration < b.duration ? -1 : 1)
-        console.log("tracks after filter", tracks);
         return tracks
     } catch (err) {
-        throw new Error('Can not get tracks from station : ', stationId)
+        throw err
     }
 }
 
@@ -206,7 +200,7 @@ async function updateTracks(tracks, stationId) {
         newStation.tracks = newTracks
         return await httpService.put(`station`, newStation)
     } catch (err) {
-        throw new Error('Can not update tracks')
+        throw err
     }
 }
 
@@ -218,7 +212,7 @@ async function addTrackToStation(track, stationId) {
         station.tracks.push(newTrack)
         return await httpService.put(`station`, station)
     } catch (err) {
-        console.log("Can not add track to station", err)
+        throw err
     }
 }
 
@@ -229,7 +223,7 @@ async function removeTrackFromStation(trackId, stationId) {
         await station.tracks.splice(idx, 1);
         return await httpService.put(`station`, station)
     } catch (err) {
-        throw new Error('Can not remove track from station')
+        throw err
     }
 }
 
@@ -240,7 +234,7 @@ async function addTrackToLiked(track) {
         console.log('liked station after adding track:', station);
         station = await asyncSessionService.put("likedStation", station)
     } catch (err) {
-        console.log('could not add track to liked station', err);
+        throw err
     }
 }
 
@@ -256,7 +250,7 @@ async function removeTrackFromLiked(trackId) {
         console.log('liked station after delete', station);
         await asyncSessionService.put("likedStation", station)
     } catch (err) {
-        throw new Error('Can not add track to station')
+        throw err
     }
 }
 
@@ -308,7 +302,7 @@ async function getTemplateStation(key, id) {
             return newStation
         }
     } catch (err) {
-        throw new Error('Can not create station')
+        throw err
     }
 }
 
@@ -326,7 +320,7 @@ async function saveNewStation() {
         const station = await httpService.post('station', newStation);
         return station._id;
     } catch (err) {
-        throw new Error('Can not save new station')
+        throw err
     }
 }
 
@@ -348,7 +342,7 @@ async function saveDataFromHero(stationId, data) {
         const updatedStation = await httpService.put(`station`, stationToUpdate)
         return updatedStation._id;
     } catch (err) {
-
+        throw err
     }
 }
 
@@ -359,7 +353,7 @@ async function addLikeTtoStation(stationId, user) {
         station.likedByUsers.push(user)
         // await asyncStorageService.put(STORAGE_KEY, station)
     } catch (err) {
-        throw new Error('Can not like station :', stationId)
+        throw err
     }
 }
 
@@ -370,6 +364,6 @@ async function removeLikeFromStation(stationId, userId) {
         // await station.likedByUsers.splice(idx, 1);
         // return await asyncStorageService.put(STORAGE_KEY, station)
     } catch (err) {
-        throw new Error('Can not like station :', stationId)
+        throw err
     }
 }

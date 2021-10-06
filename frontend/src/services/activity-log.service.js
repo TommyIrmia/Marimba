@@ -12,15 +12,15 @@ const initialActivites = [
     {
         type: "create playlist",
         createdBy: {
-            _id: "615d3c416ad1376d7816b424",
-            fullname: 'Roy Trat',
-            imgUrl: 'https://static.wixstatic.com/media/2d23a2_83f78663a28a4152a5125a3dcf43e726.jpg/v1/fill/w_455,h_621,al_c,q_90/2d23a2_83f78663a28a4152a5125a3dcf43e726.jpg',
+            _id: "615d69e9ccf7273458f9cbce",
+            fullname: 'Tomer Morad',
+            imgUrl: 'https://scontent.ftlv6-1.fna.fbcdn.net/v/t31.18172-8/29355107_1746520585390939_498148745666056329_o.jpg?_nc_cat=111&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=6UVb1CJlghoAX-SjlE7&_nc_ht=scontent.ftlv6-1.fna&oh=375f69f402e058f5b3ca598fda3dd232&oe=6182FDE9',
         },
         createdAt: 1632817272000,
         stationInfo: {
             name: "All Time Hits",
             bgc: "#a5cbad",
-            id: 's101',
+            id: "615c83abb7bd033cc08b8fdc",
         }
     },
     {
@@ -36,7 +36,7 @@ const initialActivites = [
         stationInfo: {
             name: "Ariana's HITS!",
             bgc: "#8e2b23",
-            id: 's102',
+            id: "615c83abb7bd033cc08b8fdd",
         }
     },
     {
@@ -50,7 +50,7 @@ const initialActivites = [
         stationInfo: {
             name: "Best of Lizzo!",
             bgc: "#c34914",
-            id: 's103',
+            id: '615c83abb7bd033cc08b8fde',
         }
     },
     {
@@ -65,22 +65,22 @@ const initialActivites = [
         stationInfo: {
             name: "All Time Hits",
             bgc: "#a5cbad",
-            id: 's101',
+            id: '615c83abb7bd033cc08b8fde',
         }
     },
     {
         type: "remove track",
         createdBy: {
-            _id: "615d3c416ad1376d7816b424",
-            fullname: 'Roy Trat',
-            imgUrl: 'https://static.wixstatic.com/media/2d23a2_83f78663a28a4152a5125a3dcf43e726.jpg/v1/fill/w_455,h_621,al_c,q_90/2d23a2_83f78663a28a4152a5125a3dcf43e726.jpg',
+            _id: "615d69e9ccf7273458f9cbce",
+            fullname: 'Tomer Morad',
+            imgUrl: 'https://scontent.ftlv6-1.fna.fbcdn.net/v/t31.18172-8/29355107_1746520585390939_498148745666056329_o.jpg?_nc_cat=111&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=6UVb1CJlghoAX-SjlE7&_nc_ht=scontent.ftlv6-1.fna&oh=375f69f402e058f5b3ca598fda3dd232&oe=6182FDE9',
         },
         trackName: "Hey Jude",
         createdAt: 1631360592000,
         stationInfo: {
             name: "All Time Hits",
             bgc: "#a5cbad",
-            id: 's101',
+            id: '615c83abb7bd033cc08b8fdc',
         }
     },
     {
@@ -95,7 +95,7 @@ const initialActivites = [
         stationInfo: {
             name: "Best of Lizzo!",
             bgc: "#c34914",
-            id: 's103',
+            id: '615c83abb7bd033cc08b8fde',
         }
     }
 ]
@@ -110,7 +110,7 @@ async function query() {
         }
         return activites
     } catch (err) {
-        console.log('can not get activities', err)
+        throw err
     }
 }
 
@@ -130,7 +130,7 @@ async function addActivity(type, stationInfo, trackName) {
         }
         return await asyncStorageService.post(STORAGE_KEY, activity)
     } catch (err) {
-        console.log('can not add activity', err)
+        throw err
     }
 }
 
@@ -138,7 +138,7 @@ async function removeActivity(activityId) {
     try {
         return await asyncStorageService.put(STORAGE_KEY, activityId)
     } catch (err) {
-        console.log('can not remove activity', err)
+        throw err
     }
 }
 
@@ -147,6 +147,6 @@ async function _saveActivitiesToStorage(activities) {
         console.log('saved to storage');
         await asyncStorageService.save(STORAGE_KEY, activities)
     } catch (err) {
-        console.log('Can not save activities to storage', err)
+        throw err
     }
 }

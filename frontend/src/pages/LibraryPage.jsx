@@ -31,9 +31,8 @@ export class LibraryPage extends Component {
             recentlyaddedStations = recentlyaddedStations.slice(0, 4);
 
             this.setState({ recentlyStations: recentlyaddedStations, likedTracks: likedTracks.tracks, likedStations, stationsBy: stationsByUser })
-
         } catch (err) {
-            throw err
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 

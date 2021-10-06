@@ -1,4 +1,5 @@
 import { userService } from '../services/user.service'
+import defaultUser from "../assets/imgs/defaultuser.jpg";
 
 let timeoutId;
 
@@ -26,7 +27,6 @@ export function onLogin(credentials) {
             return user
         } catch (err) {
             return null
-            // showErrorMsg('Can not log in!')
         }
     }
 }
@@ -40,11 +40,9 @@ export function onSignup(credentials) {
                 type: 'SET_USER',
                 user
             })
-            // showSuccessMsg('Signed up successfully!')
             return user
         } catch (err) {
-            console.log('Can not signup!', err)
-            // showErrorMsg('Can not sign up!')
+            return null
         }
     }
 }
@@ -55,13 +53,11 @@ export function onLogout() {
             await userService.logout()
             dispatch({
                 type: 'SET_USER',
-                user: null
+                user: { _id: 'guest', fullname: "Guest", imgUrl: defaultUser }
             })
             console.log('logged out!')
-            // showSuccessMsg('logged out!')
         } catch (err) {
-            console.log('Could not logout', err)
-            // showErrorMsg('Could not logout')
+            throw err
         }
     }
 }
@@ -76,8 +72,7 @@ export function getCurrentUser() {
                 user
             })
         } catch (err) {
-            console.log('No user found', err)
-            // showErrorMsg('No user found')
+            throw err
         }
     }
 }

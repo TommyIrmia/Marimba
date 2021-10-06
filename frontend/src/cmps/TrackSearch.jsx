@@ -26,7 +26,7 @@ export class TrackSearch extends Component {
             if (!tracks?.length && this.state.isLoading) this.setState({ msg: `No results found for \"${searchKey}\"` });
             else this.setState({ msg: '' })
         } catch (err) {
-            throw err
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -47,7 +47,7 @@ export class TrackSearch extends Component {
                 this.loadTracks();
             })
         } catch (err) {
-            throw err
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -59,7 +59,7 @@ export class TrackSearch extends Component {
             if (!station) return youtubeService.getRandomSearch()
             return station.name
         } catch (err) {
-            throw err
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -69,7 +69,7 @@ export class TrackSearch extends Component {
             const tracks = await youtubeService.query(this.state.searchKey);
             this.setState({ tracks });
         } catch (err) {
-            throw err;
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -91,12 +91,10 @@ export class TrackSearch extends Component {
             }
             this.setState({ tracks, tracksIdx, searchKey });
         } catch (err) {
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
 
         }
     }
-    // onLoading = () => {
-    //     this.setState({ isLoading: true });
-    // }
 
     render() {
         const { isSearch, searchKey, tracks, isLoading, msg } = this.state;
@@ -134,7 +132,7 @@ export class TrackSearch extends Component {
                 </div>}
 
                 {searchKey && <SuggestTrackList isSearch={isSearch} msg={msg} isLoading={isLoading} tracks={tracks} onAddTrack={this.props.onAddTrack}
-                    removeAddedTrack={this.removeAddedTrack} />}
+                    removeAddedTrack={this.removeAddedTrack} onSetMsg={this.props.onSetMsg} />}
 
 
                 {
