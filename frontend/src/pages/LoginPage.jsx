@@ -4,19 +4,19 @@ import { LoginSignUp } from './../cmps/LoginSignUp';
 export class LoginPage extends Component {
 
     state = {
-        isSignIn: true,
+        isLogin: true,
     }
 
     onToggleLogin = () => {
-        const { isSignIn } = this.state;
-        this.setState({ isSignIn:!isSignIn})
+        const { isLogin } = this.state;
+        this.setState({ isLogin:!isLogin})
     }
 
     render() {
-        const { isSignIn } = this.state;
+        const { isLogin } = this.state;
         return (
             <section className="LoginPage">
-                {  <LoginSignUp isSignIn={isSignIn} onToggleLogin={this.onToggleLogin} />}
+                {  <LoginSignUp isLogin={isLogin} onToggleLogin={this.onToggleLogin} />}
             </section>
         )
     }

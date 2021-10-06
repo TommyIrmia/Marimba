@@ -93,6 +93,14 @@ async function query(filterBy) {
     }
 }
 
+async function getGenres() {
+    try {
+        return genres;
+    } catch (err) {
+        throw new Error('Can not get genres')
+    }
+}
+
 // move to backend!!
 async function getStationsByGenre(stations, genre) {
     if (!stations) return
@@ -119,26 +127,6 @@ async function getTemplateStation(key, id) {
         throw new Error('Can not add station')
     }
 }
-
-// async function saveEmptyStation() {
-//     const newStation = [{
-//         "_id": 'new',
-//         "name": "New Station",
-//         "description": "What's the best way to describe your station?",
-//         "tags": ["All"],
-//         "imgUrl": "",
-//         "createdAt": Date.now(),
-//         "createdBy": {
-//             "_id": "u101",
-//             "fullname": "Puki Ben David",
-//             "imgUrl": "https://i.ytimg.com/vi/4_iC0MyIykM/mqdefault.jpg"
-//         },
-//         "likedByUsers": [],
-//         "tracks": []
-//     }]
-//     asyncStorageService.save('newStation', newStation);
-//     return newStation._id
-// }
 
 async function addStation(station) {
     try {
@@ -217,6 +205,17 @@ async function addTrackToStation(track, stationId) {
     }
 }
 
+async function removeTrackFromStation(trackId, stationId) {
+    try {
+        const station = await httpService.get(`station/${stationId}`)
+        const idx = station.tracks.findIndex(track => track.id === trackId)
+        await station.tracks.splice(idx, 1);
+        return await httpService.put(`station`, station)
+    } catch (err) {
+        throw new Error('Can not remove track from station')
+    }
+}
+
 async function addTrackToLiked(track) {
     try {
         let station = await asyncSessionService.get("likedStation", "liked")
@@ -244,17 +243,6 @@ async function removeTrackFromLiked(trackId) {
     }
 }
 
-async function removeTrackFromStation(trackId, stationId) {
-    try {
-        const station = await httpService.get(`station/${stationId}`)
-        const idx = station.tracks.findIndex(track => track.id === trackId)
-        await station.tracks.splice(idx, 1);
-        return await httpService.put(`station`, station)
-    } catch (err) {
-        throw new Error('Can not remove track from station')
-    }
-}
-// let counter = 0;
 async function saveNewStation() {
     console.log('from new station');
     try {
@@ -292,46 +280,6 @@ async function saveDataFromHero(stationId, data) {
 
     }
 }
-
-// bgc: "#282828",
-// genre: 'Hits',
-// img: this.props.hero.img,
-// title: this.props.hero.title,
-// desc: this.props.hero.desc,
-
-// async function saveDataFromHero(stationId, data) {
-//     try {
-//         console.log('saving data from hero');
-//         const station = await getById(stationId)
-
-//         const tags = data.genre;
-//         station.tags.push(tags)
-
-//         const updatedStation = {
-//             ...station,
-//             name: data.title,
-//             imgUrl: data.img || logo,
-//             description: data.desc,
-//             bgc: data.bgc || "#545454"
-//         }
-
-//         await asyncStorageService.put(STORAGE_KEY, updatedStation)
-//     } catch (err) {
-//         throw new Error('Can not save changes at station title')
-//     }
-// }
-
-async function getGenres() {
-    try {
-        return genres;
-    } catch (err) {
-        throw new Error('Can not get genres')
-    }
-}
-
-// async function _saveStationsToStorage() {
-//     await asyncStorageService.save(STORAGE_KEY, initialStations)
-// }
 
 async function addLikeTtoStation(stationId, user) {
     try {

@@ -284,7 +284,8 @@ function mapStateToProps(state) {
         tracks: state.stationModule.tracks,
         bgc: state.stationModule.bgc,
         stationName: state.stationModule.stationName,
-        currStationId: state.stationModule.station_Id
+        currStationId: state.stationModule.station_Id,
+        user: state.userModule.user
     }
 }
 const mapDispatchToProps = {
