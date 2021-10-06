@@ -3,6 +3,7 @@ import { StationList } from '../cmps/StationList.jsx'
 import { stationService } from '../services/station.service.js'
 import { MainHero } from './../cmps/MainHero';
 import { sessionService } from './../services/session.service';
+import { Loader } from './../assets/svg/loader';
 
 export class HomePage extends Component {
 
@@ -44,7 +45,7 @@ export class HomePage extends Component {
 
         if (initialEntry && initialEntry !== 'false') window.addEventListener('scroll', this.noScroll);
 
-        if (!stations.length) return <div>Loading..</div>
+        if (!stations.length) return <div className="loader-container" > <Loader /> </div>
         return (
             <main>
                 {initialEntry !== 'false' && <MainHero noScroll={this.noScroll} />}

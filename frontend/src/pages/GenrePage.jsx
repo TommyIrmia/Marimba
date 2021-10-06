@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { SearchStationList } from '../cmps/SearchStationList.jsx'
 import { stationService } from '../services/station.service.js'
+import { Loader } from './../assets/svg/loader';
 
 export class GenrePage extends Component {
 
@@ -28,7 +29,7 @@ export class GenrePage extends Component {
 
     render() {
         const { genre, stations } = this.state
-        if (!stations.length) return <div>Loading stations...</div>
+        if (!stations.length) return <div className="loader-container" > <Loader /> </div>
         return (
             <section className="GenrePage">
                 <h1 className="genre-title">{genre}</h1>

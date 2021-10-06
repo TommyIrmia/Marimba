@@ -1,30 +1,11 @@
 .SearchStationList {
-    // padding: rem(16px);
     margin: rem(24px) 0px;
 
     .stations-simple {
-        max-height: 300px;
         gap: 24px;
-        margin-bottom: 40px;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        grid-template-rows: 1fr;
-        overflow-y: auto;
+        flex-wrap: wrap;
         margin-top: rem(24px);
     }
 }
 
-.no-found-msg {
-    text-align: center;
 
-    .search{
-        padding-top: 10%;
-    }
-    h2 {
-        font-family: "gotham-bold";
-    }
-
-    p {
-        padding-top: 10px;
-        font-size: smaller;
-    }
-}

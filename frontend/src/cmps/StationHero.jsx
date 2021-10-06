@@ -5,7 +5,14 @@ import { stationService } from '../services/station.service.js'
 export class StationHero extends Component {
 
     state = {
-        station: null
+        station: null,
+        isLiked: false,
+        likesCount: 0,
+        user: {
+            fullname: 'tomas irmia',
+            imgUrl: 'something',
+            _id: 'c101'
+        }
     }
 
     componentDidMount() {
@@ -20,14 +27,47 @@ export class StationHero extends Component {
             if (stationId === "liked") station = await stationService.getTemplateStation("likedStation", stationId)
             else station = await stationService.getById(stationId)
             console.log('station in hero', station);
-            this.setState({ station })
+            this.setState({ station }, () => {
+                this.checkIsLiked()
+                this.updateLikesCount()
+            })
         } catch (err) {
             throw err
         }
     }
 
+    checkIsLiked = () => {
+        const { station } = this.state;
+        const { user } = this.state;
+        const isLiked = station.likedByUsers.some(currUser => currUser._id === user._id)
+        if (isLiked) this.setState({ isLiked })
+    }
+
+    updateLikesCount = (diff) => {
+        const likesCount = this.state.station.likedByUsers.length;
+        if (diff) this.setState({ likesCount: likesCount + diff })
+        else this.setState({ likesCount })
+    }
+
+    onLikeStation = (stationId) => {
+        const { user } = this.state;
+        this.setState({ isLiked: true }, () => {
+            stationService.addLikeTtoStation(stationId, user)
+        })
+        this.updateLikesCount(+1)
+    }
+
+    onUnlikeStation = (stationId) => {
+        const { _id } = this.state.user;
+        this.setState({ isLiked: false }, () => {
+            stationService.removeLikeFromStation(stationId, _id)
+        })
+        this.updateLikesCount(-1)
+    }
+
+
     getStationFullTime = (tracks) => {
-        if(!tracks) return ''
+        if (!tracks) return ''
         let minutes = tracks.reduce((acc, track) => acc + track.minutes, 0)
         const seconds = tracks.reduce((acc, track) => acc + +track.seconds, 0)
 
@@ -50,7 +90,8 @@ export class StationHero extends Component {
                             <h5>playlist</h5>
                             <h1 className="hero-title">{station.name}</h1>
                             <p>{station.description}</p>
-                            <p>{station.createdBy.fullname} • {station.likedByUsers.length} likes • {station.tracks.length} songs • {this.getStationFullTime(tracks)}</p>
+                            <p>{station._id !== 'liked' && station.createdBy.fullname + ' • '}
+                                {station._id !== 'liked' && station.likedByUsers.length + ' likes • '}  {station.tracks.length} songs • {this.getStationFullTime(tracks)}</p>
                         </div>
                     </div>
                 </div>

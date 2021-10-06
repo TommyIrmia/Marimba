@@ -1,7 +1,6 @@
 import { SuggestTrackPreview } from "./SuggestTrackPreview"
 import { utilService } from "../services/util.service"
 import Skeleton from 'react-loading-skeleton';
-import { Loader } from "../assets/svg/loader"
 
 export function SuggestTrackList({ tracks, onAddTrack, removeAddedTrack, isLoading, msg, isSearch }) {
     if (!tracks?.length && isLoading && !msg) return <div  > <Skeleton count={5} /> </div>
@@ -13,7 +12,7 @@ export function SuggestTrackList({ tracks, onAddTrack, removeAddedTrack, isLoadi
                 onAddTrack={onAddTrack}
                 removeAddedTrack={removeAddedTrack}
                 index={idx}
-            />) || isLoading && <div className="loader-container" > <Loader /> </div>}
+            />) }
         </section>
     )
 
