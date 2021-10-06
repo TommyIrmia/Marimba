@@ -333,8 +333,9 @@ async function saveNewStation() {
 async function saveDataFromHero(stationId, data) {
     try {
         const station = await httpService.get(`station/${stationId}`);
-        const tags = data.genre;
-        station.tags.push(tags)
+        const tags = data.genres;
+        station.tags.push(...tags)
+
 
         const stationToUpdate = {
             ...station,

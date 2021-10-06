@@ -10,11 +10,6 @@ class _StationPreview extends React.Component {
     state = {
         isLiked: false,
         likesCount: 0,
-        user: {
-            fullname: 'tomas irmia',
-            imgUrl: 'something',
-            _id: 'c101'
-        }
     }
 
     componentDidMount() {
@@ -25,7 +20,7 @@ class _StationPreview extends React.Component {
 
     checkIsLiked = () => {
         const { station } = this.props;
-        const { user } = this.state;
+        const { user } = this.props;
         const isLiked = station.likedByUsers.some(currUser => currUser._id === user._id)
         if (isLiked) this.setState({ isLiked })
     }
@@ -59,7 +54,7 @@ class _StationPreview extends React.Component {
     }
 
     onLikeStation = (stationId) => {
-        const { user } = this.state;
+        const { user } = this.props;
         this.setState({ isLiked: true }, () => {
             stationService.addLikeTtoStation(stationId, user)
         })
@@ -67,7 +62,7 @@ class _StationPreview extends React.Component {
     }
 
     onUnlikeStation = (stationId) => {
-        const { _id } = this.state.user;
+        const { _id } = this.props.user;
         this.setState({ isLiked: false }, () => {
             stationService.removeLikeFromStation(stationId, _id)
         })
@@ -126,6 +121,7 @@ function mapStateToProps(state) {
         player: state.mediaPlayerModule.player,
         stationId: state.mediaPlayerModule.stationId,
         isPlaying: state.mediaPlayerModule.isPlaying,
+        user: state.userModule.user,
     }
 }
 

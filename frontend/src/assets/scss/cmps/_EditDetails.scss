@@ -1,8 +1,8 @@
 .edit-container {
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) !important;
-  width: 550px;
+  transform: translate(-50%, -50%);
+  width: 570px;
   height: 380px;
   background-color: rgb(40, 40, 40);
   padding: 25px;
@@ -31,73 +31,86 @@
     margin-top: 40px;
 
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 13% 13%;
+    grid-template-rows: 16% 16%;
     grid-template-areas:
       "img input"
       "img select"
       "img textarea";
-    > * {
-      box-shadow: 0 0 4px #000000b5;
-    }
 
-    input,
-    textarea,
-    .select-container,
-    .options-container {
-      width: rem(240px);
+    .input-name,
+    .css-1s2u09g-control,
+    .css-1pahdxg-control,
+    textarea {
+      width: rem(260px);
       background-color: rgb(62, 62, 62);
       color: $clr7;
       border-radius: rem(6px);
     }
-    input {
-      height: rem(35px);
+    .input-name {
+      height: rem(51px);
       border: none;
-      grid-area: input;
       padding-left: 5px;
+      font-size: rem(14px);
+      grid-area: input;
+      outline: none;
     }
 
-    .select-container {
-      height: rem(35px);
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px;
-      position: relative;
+    .multi-select-container {
+      
       grid-area: select;
 
-      &:hover {
-        cursor: pointer;
+      .css-1s2u09g-control,
+      .css-1pahdxg-control {
+        border: none;
+        height: rem(51px);
       }
 
-      .options-container {
-        background-color: rgb(40, 40, 40);
-        position: absolute;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 0;
-        text-indent: 20px;
-        margin: 0;
-        top: rem(40px);
-        left: 0;
-        z-index: 1;
+      .css-1pahdxg-control {
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0);
 
-        .select-li {
-          padding: 10px 0;
-          width: 100%;
+        &:hover {
+          border: none;
+        }
+      }
 
-          &:hover {
-            cursor: pointer;
-            background-color: rgba(255, 255, 255, 0.459);
-          }
+      .css-26l3qy-menu {
+        background-color: rgb(62, 62, 62);
+        color: $clr7;
+      }
+
+      .css-1n7v3ny-option {
+        cursor: pointer;
+        background-color: rgba(255, 255, 255, 0.459);
+      }
+      .css-12jo7m5 {
+        font-size: 70%;
+        font-family: "gotham-bold";
+        color: $clr7;
+      }
+      .css-1rhbuit-multiValue {
+        background-color: rgba(255, 255, 255, 0.459);
+      }
+
+      .css-tj5bde-Svg {
+        color: $clr8;
+
+        &:hover {
+          color: $clr7;
+        }
+      }
+      .css-xb97g8 {
+        &:hover {
+          background-color: rgb(199, 110, 110);
         }
       }
     }
 
     textarea {
-      height: rem(120px);
+      height: rem(100px);
       resize: none;
       border: none;
       padding: 5px;
+      font-size: rem(14px);
       grid-area: textarea;
     }
 
@@ -156,8 +169,8 @@
     bottom: 30px;
     left: 25px;
     .color {
-      height: 20px;
-      width: 20px;
+      height: 22px;
+      width: 22px;
       border-radius: 2px;
       border: 1px whitesmoke solid;
       cursor: pointer;
@@ -169,8 +182,7 @@
 }
 
 .text-blur-in {
-  animation: text-blur-in 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53) reverse
-    both;
+  animation: text-blur-in 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53) reverse both;
 }
 
 .text-blur-out {
