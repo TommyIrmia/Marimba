@@ -14,14 +14,14 @@ function connectSockets(http, session) {
         socket.on('disconnect', socket => {
             console.log('Someone disconnected')
         })
-        socket.on('chat topic', topic => {
-            if (socket.myTopic === topic) return;
-            if (socket.myTopic) {
-                socket.leave(socket.myTopic)
-            }
-            socket.join(topic)
-            socket.myTopic = topic
-        })
+        // socket.on('chat topic', topic => {
+        //     if (socket.myTopic === topic) return;
+        //     if (socket.myTopic) {
+        //         socket.leave(socket.myTopic)
+        //     }
+        //     socket.join(topic)
+        //     socket.myTopic = topic
+        // })
         socket.on('chat newMsg', msg => {
             console.log('Emitting Chat msg', msg);
             // emits to all sockets:

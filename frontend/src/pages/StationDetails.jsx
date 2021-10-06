@@ -122,6 +122,14 @@ class _StationDetails extends Component {
         })
     }
 
+    tracksChanged=()=>{
+
+    }
+
+    onChangeTracks=()=>{
+        
+    }
+
     onSetFilter = async (filterBy) => {
         try {
             const { stationId } = this.state
