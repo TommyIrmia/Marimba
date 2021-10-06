@@ -1,14 +1,18 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Logo } from './Logo';
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router'
+import { onLogin, onLogout, onSignup, onSetMsg } from '../store/user.actions.js'
 
-export class LoginSignUp extends Component {
+export class _LoginSignUp extends Component {
 
     state = {
-        user:{
-            email: '',
+        user: {
+            username: '',
             password: '',
             fullname: '',
+            imgUrl: '',
         }
     }
 
@@ -18,50 +22,79 @@ export class LoginSignUp extends Component {
         this.setState((prevState) => ({ ...prevState, user: { ...prevState.user, [field]: value } }))
     }
 
-    showUser = (user) => {
-        console.log('user',user);
+    onLoginSignup = async (user, isLogin) => {
+        if (isLogin) {
+            const loggedinUser = await this.props.onLogin(user)
+            console.log('loggedinUser', loggedinUser);
+            if (loggedinUser) {
+                this.props.onSetMsg('success', `Welcome ${loggedinUser.fullname}`)
+                this.props.history.push("/")
+            }
+            else this.props.onSetMsg('error', 'Wrong username or password, please try again.')
+        } else {
+            this.props.onSignup(user)
+            this.props.onSetMsg('success', `Signed up successfully!`)
+            this.props.history.push("/")
+        }
     }
 
     render() {
-        const { onToggleLogin, isSignIn } = this.props;
-        const {user} = this.state;
-        const {email,password,fullname} = this.state.user;
+        const { onToggleLogin, isLogin } = this.props;
+        const { user } = this.state;
+        const { username, password, fullname } = this.state.user;
         return (
             <div className="LoginSignUp">
                 <Logo />
 
-                 <h2> { (isSignIn) ? "Sign in to continue." : "Sign up for Marimba account."} </h2>
+                <h2> {(isLogin) ? "Sign in to continue." : "Sign up for Marimba account."} </h2>
 
-                <form onSubmit={(ev)=> {
+                <form className="user-info flex" onSubmit={(ev) => {
+                    console.log('ev', ev);
                     ev.preventDefault()
-                    this.showUser(user)
-                }} className="user-info flex" >
+                    this.onLoginSignup(user, isLogin)
+                }}>
+
                     <div className="input-container flex">
-                        <input name="email" type="email" placeholder="Email or username"
-                       value={email} required onChange={this.handleChange} />
-                        <div className="far fa-envelope"></div>
+                        <input name="username" type="text" placeholder="Email or username"
+                            value={username} required onChange={this.handleChange} />
+                        <div className="fas fa-user"></div>
                     </div>
 
                     <div className="input-container flex">
                         <input name="password" type="password" placeholder="Password"
-                       value={password} required onChange={this.handleChange} />
+                            value={password} required onChange={this.handleChange} />
                         <div className="far fa-eye-slash"></div>
                     </div>
 
-                   { !isSignIn && <div className="input-container flex">
+                    {!isLogin && <div className="input-container flex">
                         <input name="fullname" type="text" placeholder="fullname"
-                        value={fullname} required onChange={this.handleChange} />
+                            value={fullname} required onChange={this.handleChange} />
                         <div className="far fa-user-circle"></div>
                     </div>}
 
-                    { !isSignIn &&<button>Sign up</button>}
-                    { isSignIn && <button>Sign in</button>}
+                    {!isLogin && <button>Sign up</button>}
+                    {isLogin && <button>Log in</button>}
                 </form>
 
                 <Link to="/" > Back </Link>
-                <div className="toggle-login">{ (isSignIn) ? "Don't have an account?" : "Already on Marimba?"}
-                 <button onClick={onToggleLogin} > { (isSignIn)? "SIGNUP" : "LOGIN"} </button> </div>
+                <div className="toggle-login">{(isLogin) ? "Don't have an account?" : "Already on Marimba?"}
+                    <button onClick={onToggleLogin} > {(isLogin) ? "SIGNUP" : "LOGIN"} </button> </div>
             </div>
         )
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        user: state.userModule.user
+    }
+}
+const mapDispatchToProps = {
+    onLogin,
+    onSignup,
+    onLogout,
+    onSetMsg
+}
+
+
+export const LoginSignUp = connect(mapStateToProps, mapDispatchToProps)(withRouter(_LoginSignUp))

@@ -14,9 +14,8 @@ export class _AppHeader extends React.Component {
     }
 
     render() {
-        const user = false;
         const { isOpen } = this.state;
-        const { bgc, stationName } = this.props
+        const { bgc, stationName, user } = this.props
         return (
             <div className="app-header" style={{ backgroundColor: bgc }} >
 
@@ -25,14 +24,14 @@ export class _AppHeader extends React.Component {
 
                 <div onClick={this.onOpenOptions} className="user-container">
                     <div className="far fa-user-circle"></div>
-                    <div className="user-name">Tommy Irmia</div>
+                    <div className="user-name">{user ? user.fullname : 'Guest'}</div>
                     <div className={(isOpen) ? 'fas fa-sort-up' : 'fas fa-sort-down'}></div>
                 </div>
 
                 {isOpen && <ul className="options-container">
-                    {!user && <li onClick={()=> {
+                    {!user && <li onClick={() => {
                         this.props.history.push('/login')
-                        this.setState({isOpen:false})
+                        this.setState({ isOpen: false })
                     }} className="clean-list user-options" >Log in</li>}
                     {user && <>
                         <li className="clean-list user-options" >Profile</li>
@@ -48,10 +47,11 @@ export class _AppHeader extends React.Component {
 function mapStateToProps(state) {
     return {
         bgc: state.stationModule.bgc,
-        stationName: state.stationModule.stationName
+        stationName: state.stationModule.stationName,
+        user: state.userModule.user
     }
 }
 const mapDispatchToProps = {
 }
 
-export const AppHeader = connect(mapStateToProps, mapDispatchToProps)( withRouter (_AppHeader))
+export const AppHeader = connect(mapStateToProps, mapDispatchToProps)(withRouter(_AppHeader))
