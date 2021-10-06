@@ -39,6 +39,15 @@
       border: none;
       outline: none;
       color: $clr7;
+      // box-shadow: inset 0 0 0 1px rgba(250, 247, 247, 0), inset 0 0 0 100px #3a3a3a;
+      
+    }
+
+    select:-webkit-autofill:focus {
+      border: none;
+      -webkit-text-fill-color: $clr7;
+      -webkit-box-shadow: 0 0 0px 1000px rgb(161, 44, 44) inset;
+      transition: background-color 5000s ease-in-out 0s;
     }
 
     button {

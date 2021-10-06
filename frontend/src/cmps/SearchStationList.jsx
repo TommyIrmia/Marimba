@@ -6,7 +6,7 @@ export function SearchStationList({ stations, isSearchPage }) {
         <div className="SearchStationList">
             {isSearchPage && <h3>Stations</h3>}
             <div className="stations-simple flex">
-                {stations.map(station => <StationPreview key={station._id} station={station} />)}
+                {stations.map(station => <StationPreview isFromSearchList={true} key={station._id} station={station} />)}
             </div>
         </div>
     )

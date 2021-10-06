@@ -76,10 +76,10 @@ class _StationPreview extends React.Component {
 
 
     render() {
-        const { station } = this.props
+        const { station,isFromSearchList } = this.props
         const { isLiked, likesCount } = this.state
         return (
-            <div className="station-preview"
+            <div className={`station-preview ${(isFromSearchList) ? 'station-search-preview' : '' }`}
                 onClick={() => {
                     this.props.setBgcAndName(station.bgc, station.name)
                     this.props.history.push(`/station/${station._id}`)

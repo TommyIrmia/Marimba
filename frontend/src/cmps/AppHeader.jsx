@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router';
 
+import {onLogout} from '../store/user.actions'
+
 export class _AppHeader extends React.Component {
 
     state = {
@@ -15,7 +17,7 @@ export class _AppHeader extends React.Component {
 
     render() {
         const { isOpen } = this.state;
-        const { bgc, stationName, user } = this.props
+        const { bgc, stationName, user,onLogout } = this.props
         return (
             <div className="app-header" style={{ backgroundColor: bgc }} >
 
@@ -36,7 +38,7 @@ export class _AppHeader extends React.Component {
                     {user && <>
                         <li className="clean-list user-options" >Profile</li>
                         <li className="clean-list user-options" >Settings</li>
-                        <li className="clean-list user-options" >Log out</li>
+                        <li onClick={onLogout} className="clean-list user-options" >Log out</li>
                     </>}
                 </ul>}
             </div>
@@ -52,6 +54,7 @@ function mapStateToProps(state) {
     }
 }
 const mapDispatchToProps = {
+    onLogout,
 }
 
 export const AppHeader = connect(mapStateToProps, mapDispatchToProps)(withRouter(_AppHeader))
