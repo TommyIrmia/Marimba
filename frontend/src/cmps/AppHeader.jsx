@@ -36,7 +36,7 @@ export class _AppHeader extends React.Component {
                         this.props.history.push('/login')
                         this.setState({ isOpen: false })
                     }} className="clean-list user-options" >Log in</li>}
-                    {!user.fullname === 'Guest' && <>
+                    {user.fullname !== 'Guest' && <>
                         <li className="clean-list user-options" >Profile</li>
                         <li className="clean-list user-options" >Settings</li>
                         <li onClick={onLogout} className="clean-list user-options" >Log out</li>
