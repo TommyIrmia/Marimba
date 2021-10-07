@@ -12,6 +12,7 @@ import { PlayerActions } from './PlayerActions.jsx';
 import { VolumeController } from './VolumeController';
 import { utilService } from '../services/util.service.js';
 import { stationService } from '../services/station.service.js';
+import { socketService } from '../services/socket.service.js'
 
 
 
@@ -39,8 +40,15 @@ export class _MediaPlayer extends Component {
         this.props.player.playVideo()
     }
 
+    componentDidMount() {
+        socketService.setup()
+        socketService.on('station tracksChanged', this.tracksChanged)
+    }
+
     componentWillUnmount() {
         clearInterval(this.timerIntervalId)
+        socketService.off('station tracksChanged', this.tracksChanged)
+        socketService.terminate()
     }
 
     onStateChange = (ev) => {
@@ -134,6 +142,19 @@ export class _MediaPlayer extends Component {
         this.props.player.playVideo()
     }
 
+    tracksChanged = async (changedStationId) => {
+        const { stationId} = this.props
+        console.log('media player is being edited by user', stationId);
+        try {
+            if (changedStationId === stationId) {
+                const station= await stationService.getById(stationId);
+                this.props.loadTracksToPlayer(station.tracks, stationId)
+            }
+        } catch (err) {
+            console.log('another user failed to edit this station songs');
+        }
+    }
+
     onVolumeChange = (ev) => {
         if (this.state.isMute) {
             this.setState({ isMute: false })
@@ -199,7 +220,7 @@ export class _MediaPlayer extends Component {
 
     render() {
         const { isMute, songLength, volume, isRepeat, isShuffle, station, isPlayerReady } = this.state
-        const { currSongIdx, currDuration, isPlaying, currentTracks, player, onRemoveTrack, currLikedTrack } = this.props
+        const { currSongIdx, currDuration, isPlaying, currentTracks, player, onRemoveTrack, currLikedTrack,user } = this.props
 
         return (
             <div className={isPlayerReady ? "media-player" : "media-player hidden"}>
@@ -221,7 +242,7 @@ export class _MediaPlayer extends Component {
                 <TrackDetails
                     onRemoveTrack={onRemoveTrack} imgSrc={imgSrc}
                     currTrack={currentTracks[currSongIdx]} station={station}
-                    player={player} isPlaying={isPlaying}
+                    player={player} isPlaying={isPlaying} user={user}
                     currLikedTrack={currLikedTrack} onSetMsg={this.props.onSetMsg}
                     updateIsLikedSong={(isLiked) => this.props.updateIsLikedSong(isLiked)}
                 />
@@ -250,7 +271,8 @@ function mapStateToProps(state) {
         stationId: state.mediaPlayerModule.stationId,
         tracks: state.stationModule.tracks,
         station_Id: state.stationModule.station_Id,
-        currLikedTrack: state.mediaPlayerModule.currLikedTrack
+        currLikedTrack: state.mediaPlayerModule.currLikedTrack,
+        user: state.userModule.user,
     }
 }
 const mapDispatchToProps = {

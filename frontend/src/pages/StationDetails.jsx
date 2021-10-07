@@ -54,12 +54,13 @@ class _StationDetails extends Component {
             this.setState({ ...this.state, isEditable, stationId }, async () => {
                 await this.loadTracks()
             })
+            socketService.setup()
+            socketService.on('station tracksChanged', this.tracksChanged)
+            socketService.emit('station id', stationId)
         } catch (err) {
             this.props.history.push('/')
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
-        socketService.setup()
-        socketService.on('station tracksChanged', this.tracksChanged)
     }
 
     async componentWillUnmount() {
@@ -98,10 +99,13 @@ class _StationDetails extends Component {
             else this.props.onSetMsg('success', 'Added to playlist')
             await this.props.onAddTrack(track, stationId, track.title, this.props.bgc, this.props.stationName);
             if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
-            this.onChangeTracks(this.props.tracks)
+
+            socketService.emit('station changeTracks', this.state.stationId);
+
         } catch (err) {
             this.props.onSetMsg('error', 'Couldn\'t add track,\n please try again')
         }
+
     }
 
     onRemoveTrack = async (trackId, trackName) => {
@@ -112,7 +116,8 @@ class _StationDetails extends Component {
             const { stationId } = this.state
             await this.props.onRemoveTrack(trackId, stationId, trackName, this.props.bgc, this.props.stationName)
             if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
-            this.onChangeTracks(this.props.tracks)
+            socketService.emit('station changeTracks', this.state.stationId);
+
         } catch (err) {
             this.props.onSetMsg('error', 'Couldn\'t remove track,\n please try again')
         }
@@ -135,22 +140,13 @@ class _StationDetails extends Component {
         })
     }
 
-    tracksChanged = async (tracks) => {
-        console.log('tracks after edit by another user', tracks);
+    tracksChanged = async (stationId) => {
+        console.log('another user is trying to edit this station', stationId);
         try {
-            const { stationId } = this.state
-            await this.loadTracks()
-            await this.props.loadTracksToPlayer(this.props.tracks, stationId)
+            await this.props.loadTracks(stationId)
+            // await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         } catch (err) {
-            console.log('another user failed to edit this station songs');
-        }
-    }
-
-    onChangeTracks = (tracks) => {
-        try{
-        socketService.emit('station changeTracks', tracks);
-        } catch(err){
-            console.log('could not emit change in tracks to other users');
+            console.log('another user failed to edit this station', stationId);
         }
     }
 
@@ -239,25 +235,31 @@ class _StationDetails extends Component {
         newTracks.splice(destination.index, 0, track)
 
         this.props.onUpdateTracks(newTracks, stationId)
-        if (this.props.stationId !== stationId) return // if dragged songs not on the playing station
+        console.log('station id in state', stationId, 'station id from props', this.props.stationId);
 
-        const { video_id } = this.props.player.getVideoData()
-        if (video_id === newTracks[destination.index].id) this.props.setSongIdx(destination.index)
+        if (this.props.stationId === stationId) { // if dragged songs not on the playing station
 
-        let newCurrSongIdx = currSongIdx;
-        if ((destination.index < currSongIdx && source.index > currSongIdx) ||
-            (destination.index > currSongIdx && source.index < currSongIdx)) {
-            const diff = source.index > destination.index ? 1 : -1
-            newCurrSongIdx += diff
-        } if (destination.index === currSongIdx && source.index < currSongIdx) {
-            newCurrSongIdx -= 1
-        } if (destination.index === currSongIdx && source.index > currSongIdx) {
-            newCurrSongIdx += 1
+            const { video_id } = this.props.player.getVideoData()
+            if (video_id === newTracks[destination.index].id) this.props.setSongIdx(destination.index)
+
+            let newCurrSongIdx = currSongIdx;
+            if ((destination.index < currSongIdx && source.index > currSongIdx) ||
+                (destination.index > currSongIdx && source.index < currSongIdx)) {
+                const diff = source.index > destination.index ? 1 : -1
+                newCurrSongIdx += diff
+            } if (destination.index === currSongIdx && source.index < currSongIdx) {
+                newCurrSongIdx -= 1
+            } if (destination.index === currSongIdx && source.index > currSongIdx) {
+                newCurrSongIdx += 1
+            }
+            newCurrSongIdx !== currSongIdx && this.props.setSongIdx(newCurrSongIdx)
+
+            this.props.loadTracksToPlayer(newTracks, stationId)
+
         }
-        newCurrSongIdx !== currSongIdx && this.props.setSongIdx(newCurrSongIdx)
 
-        this.props.loadTracksToPlayer(newTracks, stationId)
-        this.onChangeTracks(this.props.tracks)
+        socketService.emit('station changeTracks', this.state.stationId);
+
     }
 
     render() {

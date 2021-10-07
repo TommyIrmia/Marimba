@@ -4,6 +4,7 @@ import { stationService } from "../services/station.service.js";
 
 
 export function loadTracks(stationId, filterBy) {
+    console.log('loading tracks in station', stationId);
     return async (dispatch) => {
         try {
             let tracks;

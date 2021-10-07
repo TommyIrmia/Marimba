@@ -54,9 +54,9 @@ class _TrackPreview extends Component {
     }
 
     onLike = async () => {
-        const { track } = this.props;
+        const { track, user } = this.props;
         try {
-            await stationService.addTrackToLiked(track)
+            await stationService.addTrackToLiked(track, user)
             this.setState({ isLiked: true })
             if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: true })
             this.props.onSetMsg('success', 'Added to Liked Songs')
@@ -66,9 +66,9 @@ class _TrackPreview extends Component {
     }
 
     onUnLike = async (trackId) => {
-        const { stationId, track } = this.props;
+        const { stationId, track, user } = this.props;
         try {
-            await stationService.removeTrackFromLiked(trackId, 'liked')
+            await stationService.removeTrackFromLiked(trackId, user)
             this.setState({ isLiked: false })
             if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: false })
             if (stationId === 'liked') this.props.loadTracks()
@@ -80,11 +80,17 @@ class _TrackPreview extends Component {
     }
 
     checkIsLiked = async () => {
-        const { track } = this.props
-        const station = await stationService.getTemplateStation('likedStation', 'liked')
-        if (!station) return
-        const isLiked = station.tracks?.some(likedTrack => likedTrack.id === track.id)
-        if (isLiked) this.setState({ isLiked })
+        const { track, user } = this.props
+
+        if (user._id !== 'guest') {
+            const isLiked = user.likedSongs?.some(likedTrack => likedTrack.id === track.id)
+            if (isLiked) this.setState({ isLiked })
+        } else {
+            const station = await stationService.getTemplateStation('likedStation', 'liked')
+            if (!station) return
+            const isLiked = station.tracks?.some(likedTrack => likedTrack.id === track.id)
+            if (isLiked) this.setState({ isLiked })
+        }
     }
 
     checkIsPlaying = () => {
@@ -163,6 +169,7 @@ function mapStateToProps(state) {
         currStationId: state.mediaPlayerModule.stationId,
         isPlaying: state.mediaPlayerModule.isPlaying,
         currLikedTrack: state.mediaPlayerModule.currLikedTrack,
+        user: state.userModule.user,
 
 
     }
