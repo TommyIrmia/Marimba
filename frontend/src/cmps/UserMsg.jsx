@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 const _UserMsg = ({ msg }) => {
-    console.log('msg', msg)
     return (
         <div className={msg ? `shown user-msg ${msg?.type}` : 'user-msg'}>
             <h3>{msg?.txt}</h3>

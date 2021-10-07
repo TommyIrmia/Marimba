@@ -47,7 +47,6 @@ function post(entityType, newEntity) {
 }
 
 function put(entityType, updatedEntity) {
-    console.log('puting async session service');
     return query(entityType)
         .then(entities => {
             const idx = entities.findIndex(entity => entity._id === updatedEntity._id)
@@ -68,7 +67,7 @@ function remove(entityType, entityId) {
 
 
 function save(entityType, entities) {
-    console.log('entityType FROM SAVE!', entityType)
+    // console.log('entityType FROM SAVE!', entityType)
     sessionStorage.setItem(entityType, JSON.stringify(entities))
 }
 

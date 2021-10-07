@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { onUpdateTrack, onRemoveTrack } from '../store/station.actions.js'
 import {
-    setPlayer, setSongIdx, onTogglePlay, setCurrDuration, loadTracksToPlayer, updateIsLikedSong, onUpdateCurrTrack
+    setPlayer, setSongIdx, onTogglePlay, setCurrDuration, loadTracksToPlayer, updateIsLikedSong
 } from '../store/mediaplayer.actions.js'
 import { onSetMsg } from '../store/user.actions.js'
 import YouTube from 'react-youtube';
@@ -32,6 +32,12 @@ export class _MediaPlayer extends Component {
     timerIntervalId;
     getRandomTrack;
 
+    componentDidMount() {
+        socketService.on('tracksChangedMediaPlayer', this.tracksChanged)
+    }
+
+
+
     onReady = (ev) => {
         if (ev.data === 2) return // if on pause
         this.setState(prevState => ({ ...prevState, isPlayerReady: true }))
@@ -40,23 +46,16 @@ export class _MediaPlayer extends Component {
         this.props.player.playVideo()
     }
 
-    componentDidMount() {
-        socketService.setup()
-        socketService.on('station tracksChanged', this.tracksChanged)
-    }
-
     componentWillUnmount() {
         clearInterval(this.timerIntervalId)
-        socketService.off('station tracksChanged', this.tracksChanged)
-        socketService.terminate()
+        socketService.off('tracksChangedMediaPlayer', this.tracksChanged)
     }
 
     onStateChange = (ev) => {
-        console.log(ev.data)
-        if (ev.data === 3 && ev.data === -1) return
-        const songLength = ev.target.getDuration()
-        this.setState({ songLength })
-        this.getStation()
+        this.getStation(ev)
+        console.log('player state', ev.data)
+        if (ev.data === 3 || ev.data === -1) return
+
         if (ev.data === 5) ev.target.playVideo()
 
         const currTrack = { ...this.props.currentTracks[this.props.currSongIdx] }
@@ -64,11 +63,17 @@ export class _MediaPlayer extends Component {
 
         if (ev.data === 2) {
             isPlaying = false;
+            currTrack.isPlaying = isPlaying;
+            this.props.onTogglePlay(isPlaying)
+            this.props.onUpdateTrack(currTrack)
             clearInterval(this.timerIntervalId)
         }
 
         if (ev.data === 1) {
             isPlaying = true;
+            currTrack.isPlaying = isPlaying;
+            this.props.onTogglePlay(isPlaying)
+            this.props.onUpdateTrack(currTrack)
             if (this.timerIntervalId) clearInterval(this.timerIntervalId)
             this.timerIntervalId = setInterval(() => {
                 const currDuration = this.props.player.getCurrentTime()
@@ -76,10 +81,6 @@ export class _MediaPlayer extends Component {
             }, 1000)
         }
 
-        currTrack.isPlaying = isPlaying;
-        this.props.onTogglePlay(isPlaying)
-        this.props.onUpdateTrack(currTrack)
-        this.props.onUpdateCurrTrack(currTrack)
 
     }
 
@@ -109,7 +110,6 @@ export class _MediaPlayer extends Component {
     onChangeSong = (diff) => {
         const { isRepeat, isShuffle } = this.state
         const { tracks, currSongIdx, currentTracks, player, stationId, station_Id } = this.props
-
         if (!player) return
         let currIdx = tracks.findIndex(track => track.isPlaying) // find current playing IDX
         if (currIdx === -1) currIdx = currSongIdx // if not find, use the currSongIdx from store
@@ -142,13 +142,18 @@ export class _MediaPlayer extends Component {
         this.props.player.playVideo()
     }
 
-    tracksChanged = async (changedStationId) => {
-        const { stationId} = this.props
-        console.log('media player is being edited by user', stationId);
+    tracksChanged = async (dataToUpdate) => {
+        const { stationId } = this.props
+        console.log('from  media player tracks Changed', dataToUpdate, stationId)
         try {
-            if (changedStationId === stationId) {
-                const station= await stationService.getById(stationId);
-                this.props.loadTracksToPlayer(station.tracks, stationId)
+            if (dataToUpdate.stationId === stationId) {
+                // const station = await stationService.getById(dataToUpdate.stationId);
+                const videoData = this.props.player.getVideoData()
+                console.log('playing video id', videoData.video_id);
+                const newIdx = dataToUpdate.tracks.findIndex(track => track.id === videoData.video_id)
+                console.log('newIdx', newIdx);
+                await this.props.loadTracksToPlayer(dataToUpdate.tracks, stationId)
+                this.props.setSongIdx(newIdx)
             }
         } catch (err) {
             console.log('another user failed to edit this station songs');
@@ -205,13 +210,14 @@ export class _MediaPlayer extends Component {
         })
     }
 
-    getStation = async () => {
+    getStation = async (ev) => {
         try {
+            const songLength = ev.target.getDuration()
             const { stationId } = this.props
             if (!stationId) return
             const station = await stationService.getById(stationId)
             if (!station) return
-            this.setState({ station })
+            this.setState({ station, songLength })
         } catch (err) {
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
@@ -220,8 +226,8 @@ export class _MediaPlayer extends Component {
 
     render() {
         const { isMute, songLength, volume, isRepeat, isShuffle, station, isPlayerReady } = this.state
-        const { currSongIdx, currDuration, isPlaying, currentTracks, player, onRemoveTrack, currLikedTrack,user } = this.props
-
+        const { currSongIdx, currDuration, isPlaying, currentTracks, player, onRemoveTrack, currLikedTrack, user } = this.props
+        // console.log('from media player', currentTracks[currSongIdx])
         return (
             <div className={isPlayerReady ? "media-player" : "media-player hidden"}>
                 {currentTracks?.length ? <YouTube
@@ -284,7 +290,6 @@ const mapDispatchToProps = {
     loadTracksToPlayer,
     onRemoveTrack,
     updateIsLikedSong,
-    onUpdateCurrTrack,
     onSetMsg
 }
 

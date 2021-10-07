@@ -57,7 +57,6 @@ export class _LoginSignUp extends Component {
         const { onToggleLogin, isLogin } = this.props;
         const { user,isPasswordVisible } = this.state;
         const { username, password, fullname, imgUrl } = this.state.user;
-        console.log('user', user);
         return (
             <div className="LoginSignUp">
                 {isLogin && <Logo />}
@@ -76,7 +75,6 @@ export class _LoginSignUp extends Component {
                 <h2> {(isLogin) ? "Sign in to continue." : "Sign up for Marimba account."} </h2>
 
                 <form className="user-info flex" onSubmit={(ev) => {
-                    console.log('ev', ev);
                     ev.preventDefault()
                     this.onLoginSignup(user, isLogin)
                 }}>

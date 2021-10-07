@@ -1,12 +1,12 @@
 import { userService } from '../services/user.service'
 import defaultUser from "../assets/imgs/defaultuser.jpg";
+import { stationService } from './../services/station.service';
 
 let timeoutId;
 
 export const onSetMsg = (type, txt) => {
     return dispatch => {
         const msg = { type, txt }
-        console.log('msg', msg);
         dispatch({ type: 'SET_MSG', msg })
         if (timeoutId) clearTimeout(timeoutId)
         timeoutId = setTimeout(() => {
@@ -62,11 +62,12 @@ export function onLogout() {
     }
 }
 
-export function getCurrentUser() {
+export function onUpdateUser(track,user) {
     return async (dispatch) => {
         try {
-            const user = await userService.getLoggedinUser()
-            console.log('current user : ', user)
+            await stationService.addTrackToLiked(track, user)
+            // const user = await userService.getLoggedinUser()
+            // console.log('current user : ', user)
             dispatch({
                 type: 'SET_USER',
                 user

@@ -144,7 +144,6 @@ async function removeActivity(activityId) {
 
 async function _saveActivitiesToStorage(activities) {
     try {
-        console.log('saved to storage');
         await asyncStorageService.save(STORAGE_KEY, activities)
     } catch (err) {
         throw err

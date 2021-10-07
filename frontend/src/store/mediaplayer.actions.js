@@ -1,3 +1,4 @@
+import { socketService } from "../services/socket.service"
 
 export function setPlayer(player) {
     return (dispatch) => {
@@ -12,12 +13,14 @@ export function setPlayer(player) {
 export function loadTracksToPlayer(tracks, stationId) {
     return (dispatch) => {
         if (!tracks.length) return
+
         console.log('Loaded tracks to player', tracks, stationId)
         dispatch({
             type: 'SET_TRACKS_TO_PLAYER',
             tracks
         })
-        console.log('setting station id to mediaplayer actions', stationId);
+
+        // console.log('setting station id to mediaplayer actions', stationId);
         if (!stationId) return
         dispatch({
             type: 'SET_PLAYING_STATION_ID',
@@ -28,11 +31,11 @@ export function loadTracksToPlayer(tracks, stationId) {
 
 export function setSongIdx(idx) {
     return (dispatch) => {
+        console.log('Song idx is set', idx)
         dispatch({
             type: 'SET_SONG',
             currSongIdx: idx
         })
-        console.log('Song idx is set', idx)
     }
 }
 
@@ -42,16 +45,7 @@ export function onTogglePlay(isPlaying) {
             type: 'TOGGLE_ISPLAYING',
             isPlaying
         })
-        console.log('Toggles isPlaying', isPlaying)
-    }
-}
-
-export function onUpdateCurrTrack(track) {
-    return (dispatch) => {
-        dispatch({
-            type: 'UPDATE_CURR_TRACK',
-            track
-        })
+        // console.log('Toggles isPlaying', isPlaying)
     }
 }
 
