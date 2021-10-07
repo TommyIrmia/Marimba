@@ -12,6 +12,7 @@ import { TrackSearch } from '../cmps/TrackSearch';
 import { TrackList } from './../cmps/TrackList';
 import { stationService } from '../services/station.service.js';
 import { withRouter } from 'react-router'
+import { socketService } from '../services/socket.service'
 
 
 class _StationDetails extends Component {
@@ -57,6 +58,8 @@ class _StationDetails extends Component {
             this.props.history.push('/')
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
+        socketService.setup()
+        socketService.on('station tracksChanged', this.tracksChanged)
     }
 
     async componentWillUnmount() {
@@ -64,6 +67,8 @@ class _StationDetails extends Component {
         if (!this.props.history.location.pathname.includes('station')) {
             this.props.setBgcAndName('#181818', '')
         }
+        socketService.off('station tracksChanged', this.tracksChanged)
+        socketService.terminate()
     }
 
     loadTracks = async () => {
@@ -93,6 +98,7 @@ class _StationDetails extends Component {
             else this.props.onSetMsg('success', 'Added to playlist')
             await this.props.onAddTrack(track, stationId, track.title, this.props.bgc, this.props.stationName);
             if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
+            this.onChangeTracks(this.props.tracks)
         } catch (err) {
             this.props.onSetMsg('error', 'Couldn\'t add track,\n please try again')
         }
@@ -106,6 +112,7 @@ class _StationDetails extends Component {
             const { stationId } = this.state
             await this.props.onRemoveTrack(trackId, stationId, trackName, this.props.bgc, this.props.stationName)
             if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
+            this.onChangeTracks(this.props.tracks)
         } catch (err) {
             this.props.onSetMsg('error', 'Couldn\'t remove track,\n please try again')
         }
@@ -128,12 +135,23 @@ class _StationDetails extends Component {
         })
     }
 
-    tracksChanged=()=>{
-
+    tracksChanged = async (tracks) => {
+        console.log('tracks after edit by another user', tracks);
+        try {
+            const { stationId } = this.state
+            await this.loadTracks()
+            await this.props.loadTracksToPlayer(this.props.tracks, stationId)
+        } catch (err) {
+            console.log('another user failed to edit this station songs');
+        }
     }
 
-    onChangeTracks=()=>{
-        
+    onChangeTracks = (tracks) => {
+        try{
+        socketService.emit('station changeTracks', tracks);
+        } catch(err){
+            console.log('could not emit change in tracks to other users');
+        }
     }
 
     onSetFilter = async (filterBy) => {
@@ -239,6 +257,7 @@ class _StationDetails extends Component {
         newCurrSongIdx !== currSongIdx && this.props.setSongIdx(newCurrSongIdx)
 
         this.props.loadTracksToPlayer(newTracks, stationId)
+        this.onChangeTracks(this.props.tracks)
     }
 
     render() {
