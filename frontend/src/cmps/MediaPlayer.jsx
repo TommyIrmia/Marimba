@@ -12,6 +12,7 @@ import { PlayerActions } from './PlayerActions.jsx';
 import { VolumeController } from './VolumeController';
 import { utilService } from '../services/util.service.js';
 import { stationService } from '../services/station.service.js';
+import { socketService } from '../services/socket.service.js'
 
 
 
@@ -39,8 +40,15 @@ export class _MediaPlayer extends Component {
         this.props.player.playVideo()
     }
 
+    componentDidMount() {
+        socketService.setup()
+        socketService.on('station tracksChanged', this.tracksChanged)
+    }
+
     componentWillUnmount() {
         clearInterval(this.timerIntervalId)
+        socketService.off('station tracksChanged', this.tracksChanged)
+        socketService.terminate()
     }
 
     onStateChange = (ev) => {
@@ -132,6 +140,19 @@ export class _MediaPlayer extends Component {
         if (stationId === station_Id) this.props.loadTracksToPlayer(tracks, stationId)
         this.props.setSongIdx(nextIdx)
         this.props.player.playVideo()
+    }
+
+    tracksChanged = async (changedStationId) => {
+        const { stationId} = this.props
+        console.log('media player is being edited by user', stationId);
+        try {
+            if (changedStationId === stationId) {
+                const station= await stationService.getById(stationId);
+                this.props.loadTracksToPlayer(station.tracks, stationId)
+            }
+        } catch (err) {
+            console.log('another user failed to edit this station songs');
+        }
     }
 
     onVolumeChange = (ev) => {

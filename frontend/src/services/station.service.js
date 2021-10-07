@@ -198,7 +198,9 @@ async function updateTracks(tracks, stationId) {
             return newTrack
         })
         newStation.tracks = newTracks
+        console.log('updating station');
         return await httpService.put(`station`, newStation)
+        
     } catch (err) {
         throw err
     }
