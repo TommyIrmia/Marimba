@@ -59,7 +59,6 @@
         }
         .activity-info {
           padding-top: 15px;
-          
           white-space: pre-wrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -75,10 +74,9 @@
           .green {
             color: lightblue;
           }
-          &:hover {
-          }
         }
         .activity-user {
+          margin-top: 13px;
           align-self: flex-start;
           margin-inline-start: 5px;
           min-width: 25px;

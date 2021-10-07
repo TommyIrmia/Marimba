@@ -1,19 +1,35 @@
 .tracks-list {
   margin-top: 20px;
-  .add-button {
-    border: 2px solid rgba(255, 255, 255, 0.123);
-    border-radius: 30px;
-    color: #ffff;
+  .btn-container {
+    flex: 1;
     display: flex;
-    font-size: 16px;
-    font-family: gotham-light;
-    padding: 8px 28px;
-    margin-inline-end: 15px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    &:hover {
-      border: 1px solid seashell;
-      transform: scale(1.08);
+    justify-content: center;
+    min-width: 60px;
+    @include for-wide-layout {
+      min-width: 100px;
+    }
+    .add-button {
+      border: 2px solid rgba(255, 255, 255, 0.123);
+      border-radius: 30px;
+      color: #ffff;
+      max-width: 80px;
+      font-size: 16px;
+      font-family: gotham-light;
+      padding: 8px 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-inline-end: 10px;
+      &:hover {
+        border: 1px solid seashell;
+        transform: scale(1.08);
+      }
+    }
+    @include for-wide-layout {
+      .add-button {
+        padding: 8px 28px;
+        max-width: 100px;
+        margin-inline-end: 0;
+      }
     }
   }
 
@@ -25,6 +41,14 @@
     }
     .duration-info {
       margin-inline-end: 20px;
+      flex: 1;
+      width: 20px;
+      display: unset;
+      text-align: center;
+      @include for-wide-layout {
+        flex: 2;
+        width: 100px;
+      }
     }
   }
 
@@ -34,6 +58,3 @@
     }
   }
 }
-
-
-

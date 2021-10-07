@@ -12,9 +12,11 @@
   align-items: center;
   transition: transform 0.3s;
   z-index: 3;
+
   &.hidden {
     transform: translateY(100px);
   }
+
   .player-container {
     display: none;
   }
@@ -24,8 +26,10 @@
     flex-wrap: wrap;
     flex: 1;
     justify-content: center;
-    max-width: 500px;
-
+    max-width: 350px;
+    @include for-wide-layout {
+      max-width: 500px;
+    }
     .duration-controller {
       width: 100%;
       font-size: 0.8rem;
@@ -75,17 +79,34 @@
     display: flex;
     justify-content: flex-start;
     gap: 10px;
-    width: 320px;
+    width: 200px;
+    
+    @include for-wide-layout {
+      width: 320px;
+    }
     p {
-      max-width: 190px;
+      max-width: 100px;
       letter-spacing: -0.08rem;
       font-size: 1rem;
       color: $clr7;
+
+      white-space:nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      @include for-wide-layout {
+        max-width: 190px;
+        white-space:normal;
+        overflow: unset;
+        text-overflow: unset;
+      }
     }
 
     .song-actions {
       display: flex;
-      width: 50px;
+      width: 30px;
+      @include for-wide-layout {
+        width: 50px;
+      }
       button {
         margin-inline-end: 10px;
         width: 25px;
@@ -104,14 +125,20 @@
         height: 100%;
         width: 100%;
         object-fit: cover;
+        object-position: center center;
       }
     }
   }
 
   .volume-controller {
-    min-width: 150px;
+    width: 100px;
     gap: 10px;
-    padding-inline-end: 20px;
+    
+    @include for-wide-layout {
+      min-width: 150px;
+      padding-inline-end: 20px;
+    }
+
     button {
       color: $clr2;
       font-size: 1.3rem;

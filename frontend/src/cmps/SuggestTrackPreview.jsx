@@ -26,10 +26,12 @@ export class SuggestTrackPreview extends React.Component {
                         {track.title}
                     </div>
                 </section>
-
+                    
                 <p className="duration-info" >{track.minutes}:{track.seconds}</p>
-
-                <button className='add-button' onClick={() => this.onAddTrack(track)}>Add</button>
+               
+                <div className="btn-container">
+                    <button className='add-button' onClick={() => this.onAddTrack(track)}>Add</button>
+                </div>
             </section>
         )
     }

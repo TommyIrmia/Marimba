@@ -102,7 +102,7 @@
   padding: 20px;
   position: fixed;
   top: 50%;
-  left: 50%;
+  left: calc((100% + 250px) / 2);
   transform: translate(-50%, -50%);
 }
 

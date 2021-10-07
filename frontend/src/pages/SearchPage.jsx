@@ -88,7 +88,6 @@ export class SearchPage extends Component {
                 </div>}
                 {!isSearch &&
                     <section className="genre-section">
-                        <h1>Browse by collection</h1>
                         <GenreList genres={genres} />
                     </section>}
 

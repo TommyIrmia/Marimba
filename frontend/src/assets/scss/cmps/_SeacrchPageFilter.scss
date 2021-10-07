@@ -4,17 +4,22 @@
     position: fixed;
     z-index: 3;
     top: 11px;
-    width: rem(400px);
-    height: rem(40px);
+    left: 250px;
+    width: 300px;
+    height: 40px;
     border-radius: 2rem;
     background-color: $clr7;
-
+    
+    @include for-wide-layout {
+      left: 300px;
+      width: 400px;
+    }
     .search-btn {
       position: relative;
       left: 5px;
       top: 1px;
       color: rgba(0, 0, 0, 0.637);
-      font-size: rem(20px);
+      font-size: 20px;
       transform: rotate(90deg);
     }
 

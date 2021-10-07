@@ -1,12 +1,15 @@
 .StationFilter {
-  width: rem(195px);
-  height: rem(30px);
-  position: absolute;
-  right: 0;
-  top: rem(45px);
+  height: 30px;
+  position: relative;
+  bottom: 50px;
   display: flex;
-  justify-content: space-around;
   align-items: center;
+  
+  @include for-wide-layout {
+    bottom: 30px;
+    justify-content: space-around;
+    bottom: 17px;
+  }
 
   .btn-search {
     color: $clr8;
@@ -22,12 +25,12 @@
 
   input {
     background-color: rgba(255, 255, 255, 0.103);
-    height: rem(30px);
-    border-radius: rem(4.5px);
+    height: 30px;
+    border-radius: 4.5px;
     position: absolute;
     outline: none;
 
-    transition: all 0.6s;
+    transition: all 0.5s;
   }
   .unshow {
     transform: translateX(-80px);
@@ -35,7 +38,7 @@
   }
 
   .show {
-    transform: translateX(-130px);
+    transform: translateX(-137px);
     z-index: 1;
   }
 

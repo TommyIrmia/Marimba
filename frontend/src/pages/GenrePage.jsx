@@ -32,9 +32,9 @@ export class GenrePage extends Component {
         if (!stations.length) return <div className="loader-container" > <Loader /> </div>
         return (
             <section className="GenrePage">
-                <h1 className="genre-title">{genre}</h1>
-                <small className="genre-subtitle"> Here you can browse all of the playlists</small>
-                <SearchStationList stations={stations} />
+                {/* <h1 className="genre-title">{genre}</h1>
+                <small className="genre-subtitle"> Here you can browse all of the playlists</small> */}
+                <SearchStationList stations={stations} genre={genre} />
             </section>
         )
     }

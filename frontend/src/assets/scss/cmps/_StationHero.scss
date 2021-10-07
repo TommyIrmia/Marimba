@@ -35,17 +35,16 @@
 }
 
 .info-container {
-  height: 182px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  padding-bottom: 20px;
   position: absolute;
-  bottom: 26px;
   left: 250px;
-  @media (max-width: 1270px) {
-    bottom: -14px;
-  }
-  
+
   @include for-wide-layout {
     left: 300px;
-
   }
   h5 {
     text-transform: uppercase;
@@ -55,17 +54,20 @@
   .hero-title {
     text-indent: -6px;
     font-size: rem(100px);
-    font-family: gotham-bold;
+    font-family: gotham-bold, rubic;
     letter-spacing: -5px;
   }
   @media (max-width: 1270px) {
     .hero-title {
       font-size: rem(65px);
-      font-family: gotham-bold;
       letter-spacing: -3px;
     }
   }
-
+  @media (max-width: 860px) {
+    .hero-title {
+      font-size: rem(50px);
+    }
+  }
   p {
     margin-bottom: rem(15px);
   }
@@ -74,4 +76,3 @@
     margin-top: rem(20px);
   }
 }
-

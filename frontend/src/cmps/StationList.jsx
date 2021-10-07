@@ -33,12 +33,11 @@ export class StationList extends React.Component {
         return (
             <section className="station-list">
 
-                <div className="station-genre flex space-between">
-                    <Link to={`/genre/${genre}`}><h1>{genre}</h1></Link>
-                    <Link to={`/genre/${genre}`}><p>See all</p></Link>
-                </div>
-
                 <div className="stations grid">
+                    <div className="station-genre flex space-between">
+                        <Link to={`/genre/${genre}`}><h1>{genre}</h1></Link>
+                        <Link to={`/genre/${genre}`}><p>See all</p></Link>
+                    </div>
                     {stationsByGenre.map(station => <StationPreview key={station._id} station={station} />)}
                 </div>
 

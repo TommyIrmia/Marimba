@@ -1,6 +1,8 @@
 .GenrePage {
-  padding: 20px 40px 0;
-
+  padding: 0 20px 0;
+  @include for-wide-layout {
+    padding: 0 40px 0;
+  }
   .genre-title {
     font-size: rem(40px);
     font-family: gotham-bold;

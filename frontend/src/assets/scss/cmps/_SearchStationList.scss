@@ -1,11 +1,32 @@
 .SearchStationList {
-    margin: rem(24px) 0px;
+  margin: rem(24px) 0px;
 
-    .stations-simple {
-        gap: 24px;
-        flex-wrap: wrap;
-        margin-top: rem(24px);
+  .stations-simple {
+    display: grid;
+    justify-content: center;
+    grid-template-rows: 80px 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 180px));
+    justify-content: center;
+    justify-items: center;
+    gap: 24px;
+    @include for-wide-layout {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 24px;
     }
+
+    .genre-header {
+      justify-self: start;
+      grid-column: 1 / -1;
+      font-size: rem(25px);
+      .genre-subtitle {
+        font-size: rem(16px);
+        @include for-wide-layout {
+          font-size: rem(24px);
+        }
+      }
+      &.search-page {
+        align-self: flex-end;
+      }
+    }
+  }
 }
-
-

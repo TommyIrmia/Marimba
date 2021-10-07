@@ -1,7 +1,7 @@
 .TrackSearch {
   min-height: 70vh;
   position: relative;
-  padding-bottom: 70px;
+  padding-bottom: 50px;
   h4 {
     padding: 15px;
     position: absolute;
@@ -33,6 +33,10 @@
     width: 100%;
     h2 {
       padding-top: 0;
+      font-size: rem(16px);
+      @include for-wide-layout {
+        font-size: rem(25px);
+      }
     }
     .close-button {
       color: #ffff;
@@ -50,7 +54,12 @@
     color: rgba(184, 179, 179, 0.7);
     height: 40px;
     padding: 8px 10px;
-    max-width: 550px;
+    max-width: 350px;
+    
+    @include for-wide-layout {
+      max-width: 550px;
+
+    }
     button {
       justify-self: flex-start;
       padding: 10px 12px;
