@@ -132,6 +132,7 @@ const _getShuffledArr = arr => {
 
 async function getById(stationId) {
     try {
+        // console.log('station id from get by id');
         if (!stationId) return
         const station = await httpService.get(`station/${stationId}`)
         if (station.tracks.length) station.tracks.forEach(track => track.isPlaying = false)
@@ -204,7 +205,6 @@ async function updateTracks(tracks, stationId) {
             return newTrack
         })
         newStation.tracks = newTracks
-        console.log('updating station');
         return await httpService.put(`station`, newStation)
 
     } catch (err) {
@@ -241,7 +241,6 @@ async function addTrackToLiked(track,user) {
         if (user._id !== 'guest') {
             user.likedSongs.push(track)
             user = await httpService.put(`user/${user._id}`, user)
-            console.log(user.fullname, 'liked', track.title);
         } else {
             let station = await asyncSessionService.get("likedStation", "liked")
             station.tracks?.push(track)
@@ -260,7 +259,6 @@ async function removeTrackFromLiked(trackId,user) {
             const idxFromUser = likedSongs.findIndex(track => track.id === trackId)
             likedSongs.splice(idxFromUser, 1);
             user = await httpService.put(`user/${user._id}`, user)
-            console.log(user, 'after unliked', trackId);
         } else {
             let station = await asyncSessionService.get("likedStation", "liked")
             let { tracks } = station;
@@ -328,7 +326,6 @@ async function getTemplateStation(key, id) {
 
 
 async function saveNewStation() {
-    console.log('from new station');
     try {
         counter++
         let newStation = await asyncStorageService.get('newStation', 'new');
@@ -368,7 +365,6 @@ async function saveDataFromHero(stationId, data) {
 
 async function addLikeTtoStation(stationId, user) {
     try {
-        console.log('station Id', stationId, 'user', user);
         const station = await getById(stationId)
         station.likedByUsers.push(user)
         // await asyncStorageService.put(STORAGE_KEY, station)

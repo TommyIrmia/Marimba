@@ -1,3 +1,5 @@
+import { socketService } from "../services/socket.service";
+
 const initialState = {
     bgc: '#181818',
     stationName: '',
@@ -15,11 +17,17 @@ export function stationReducer(state = initialState, action) {
         case 'SET_TRACKS':
             tracks = action.tracks
             return { ...state, tracks }
+        case 'UPDATE_TRACKS':
+            tracks = action.tracks
+            socketService.emit('changeTracks', { stationId: action.stationId, tracks });
+            return { ...state, tracks }
         case 'REMOVE_TRACK':
             tracks = state.tracks.filter(track => track.id !== action.trackId)
+            socketService.emit('changeTracks', { stationId: action.stationId, tracks });
             return { ...state, tracks }
         case 'ADD_TRACK':
             tracks = [...state.tracks, action.track]
+            socketService.emit('changeTracks', { stationId: action.stationId, tracks });
             return { ...state, tracks }
         case 'UPDATE_TRACK':
             tracks = state.tracks.map(track => (track.id === action.track.id) ? action.track : { ...track, isPlaying: false })

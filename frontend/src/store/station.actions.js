@@ -4,7 +4,7 @@ import { stationService } from "../services/station.service.js";
 
 
 export function loadTracks(stationId, filterBy) {
-    console.log('loading tracks in station', stationId);
+    // console.log('loading tracks in station', stationId);
     return async (dispatch) => {
         try {
             let tracks;
@@ -29,11 +29,13 @@ export function loadTracks(stationId, filterBy) {
 export function onUpdateTracks(tracks, stationId) {
     return async (dispatch) => {
         try {
-            stationService.updateTracks(tracks, stationId)
             dispatch({
-                type: 'SET_TRACKS',
-                tracks
+                type: 'UPDATE_TRACKS',
+                tracks,
+                stationId
             })
+        
+            await stationService.updateTracks(tracks, stationId)
         } catch (err) {
             throw err
         }
@@ -46,7 +48,8 @@ export function onRemoveTrack(trackId, stationId, trackName, bgc, name) {
             await stationService.removeTrackFromStation(trackId, stationId)
             dispatch({
                 type: 'REMOVE_TRACK',
-                trackId
+                trackId,
+                stationId
             })
 
             const activityToAdd = await activityService.addActivity('remove track', { name, bgc, id: stationId }, trackName)
@@ -65,10 +68,11 @@ export function onAddTrack(track, stationId, trackName, bgc, name) {
     return async (dispatch) => {
         try {
             await stationService.addTrackToStation(track, stationId)
-            console.log('From track actions - Added track', track)
+            // console.log('From track actions - Added track', track)
             dispatch({
                 type: 'ADD_TRACK',
-                track
+                track,
+                stationId
             })
 
             const activityToAdd = await activityService.addActivity('add track', { name, bgc, id: stationId }, trackName)
@@ -90,6 +94,10 @@ export function onUpdateTrack(track) {
                 type: 'UPDATE_TRACK',
                 track
             })
+            dispatch({
+                type: 'UPDATE_CURR_TRACK',
+                track
+            })
         } catch (err) {
             throw err
         }
@@ -99,7 +107,7 @@ export function onUpdateTrack(track) {
 export function setBgcAndName(bgc, stationName) {
     return async (dispatch) => {
         try {
-            console.log('set bgc color and name to', bgc, stationName)
+            // console.log('set bgc color and name to', bgc, stationName)
             dispatch({
                 type: 'SET_BGC',
                 bgc
@@ -111,5 +119,14 @@ export function setBgcAndName(bgc, stationName) {
         } catch (err) {
             throw err
         }
+    }
+}
+
+export function updateTracksInStore(tracks) {
+    return dispatch => {
+        dispatch({
+            type: 'SET_TRACKS',
+            tracks
+        })
     }
 }

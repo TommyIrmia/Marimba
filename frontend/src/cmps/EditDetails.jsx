@@ -84,7 +84,6 @@ export default class EditDetails extends Component {
         const { isHover, hero, genres, isSelect } = this.state;
         const { img, title, desc, bgc } = this.state.hero;
         const { onEdit, onToggleEdit, saveDataFromHero, onFlip, animation } = this.props;
-        console.log('hero', hero);
         return (
             <main className={`edit-container  ${animation} `} style={{ backgroundColor: bgc }}>
 

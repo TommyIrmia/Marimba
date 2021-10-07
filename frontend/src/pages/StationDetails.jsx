@@ -4,7 +4,7 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import { addActivity } from '../store/activitylog.actions.js'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
 import { onSetMsg } from '../store/user.actions.js'
-import { setBgcAndName, loadTracks, onAddTrack, onRemoveTrack, onUpdateTracks, onUpdateTrack } from '../store/station.actions.js'
+import { setBgcAndName, loadTracks, onAddTrack, onRemoveTrack, onUpdateTracks, onUpdateTrack, updateTracksInStore } from '../store/station.actions.js'
 import { StationHero } from './../cmps/StationHero';
 import { EditHero } from './../cmps/EditHero';
 import { StationActions } from './../cmps/StationActions';
@@ -54,9 +54,8 @@ class _StationDetails extends Component {
             this.setState({ ...this.state, isEditable, stationId }, async () => {
                 await this.loadTracks()
             })
-            socketService.setup()
-            socketService.on('station tracksChanged', this.tracksChanged)
             socketService.emit('station id', stationId)
+            socketService.on('tracksChanged', this.tracksChanged)
         } catch (err) {
             this.props.history.push('/')
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
@@ -68,13 +67,11 @@ class _StationDetails extends Component {
         if (!this.props.history.location.pathname.includes('station')) {
             this.props.setBgcAndName('#181818', '')
         }
-        socketService.off('station tracksChanged', this.tracksChanged)
-        socketService.terminate()
+        socketService.off('tracksChanged', this.tracksChanged)
     }
 
     loadTracks = async () => {
         try {
-            console.log('from load tracks', this.state.stationId);
             await this.props.loadTracks(this.state.stationId)
         } catch (err) {
             console.error('Can not get tracks in station', err)
@@ -89,7 +86,6 @@ class _StationDetails extends Component {
     onAddTrack = async (track) => {
         try {
             let { stationId } = this.state
-            console.log('stationId', stationId);
             if (stationId === 'new') {
                 stationId = await stationService.saveNewStation();
                 this.props.addActivity('create playlist', { name: this.props.stationName || 'New Station', bgc: this.props.bgc, id: stationId })
@@ -100,7 +96,6 @@ class _StationDetails extends Component {
             await this.props.onAddTrack(track, stationId, track.title, this.props.bgc, this.props.stationName);
             if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
 
-            socketService.emit('station changeTracks', this.state.stationId);
 
         } catch (err) {
             this.props.onSetMsg('error', 'Couldn\'t add track,\n please try again')
@@ -116,7 +111,6 @@ class _StationDetails extends Component {
             const { stationId } = this.state
             await this.props.onRemoveTrack(trackId, stationId, trackName, this.props.bgc, this.props.stationName)
             if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
-            socketService.emit('station changeTracks', this.state.stationId);
 
         } catch (err) {
             this.props.onSetMsg('error', 'Couldn\'t remove track,\n please try again')
@@ -140,13 +134,12 @@ class _StationDetails extends Component {
         })
     }
 
-    tracksChanged = async (stationId) => {
-        console.log('another user is trying to edit this station', stationId);
+    tracksChanged = ({ tracks }) => {
         try {
-            await this.props.loadTracks(stationId)
+            this.props.updateTracksInStore(tracks)
             // await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         } catch (err) {
-            console.log('another user failed to edit this station', stationId);
+            console.log('another user failed to edit this station');
         }
     }
 
@@ -235,30 +228,28 @@ class _StationDetails extends Component {
         newTracks.splice(destination.index, 0, track)
 
         this.props.onUpdateTracks(newTracks, stationId)
-        console.log('station id in state', stationId, 'station id from props', this.props.stationId);
 
-        if (this.props.stationId === stationId) { // if dragged songs not on the playing station
 
-            const { video_id } = this.props.player.getVideoData()
-            if (video_id === newTracks[destination.index].id) this.props.setSongIdx(destination.index)
+        if (this.props.stationId !== stationId) return
 
-            let newCurrSongIdx = currSongIdx;
-            if ((destination.index < currSongIdx && source.index > currSongIdx) ||
-                (destination.index > currSongIdx && source.index < currSongIdx)) {
-                const diff = source.index > destination.index ? 1 : -1
-                newCurrSongIdx += diff
-            } if (destination.index === currSongIdx && source.index < currSongIdx) {
-                newCurrSongIdx -= 1
-            } if (destination.index === currSongIdx && source.index > currSongIdx) {
-                newCurrSongIdx += 1
-            }
-            newCurrSongIdx !== currSongIdx && this.props.setSongIdx(newCurrSongIdx)
+        const { video_id } = this.props.player.getVideoData()
+        if (video_id === newTracks[destination.index].id) this.props.setSongIdx(destination.index)
 
-            this.props.loadTracksToPlayer(newTracks, stationId)
-
+        let newCurrSongIdx = currSongIdx;
+        if ((destination.index < currSongIdx && source.index > currSongIdx) ||
+            (destination.index > currSongIdx && source.index < currSongIdx)) {
+            const diff = source.index > destination.index ? 1 : -1
+            newCurrSongIdx += diff
+        } if (destination.index === currSongIdx && source.index < currSongIdx) {
+            newCurrSongIdx -= 1
+        } if (destination.index === currSongIdx && source.index > currSongIdx) {
+            newCurrSongIdx += 1
         }
+        newCurrSongIdx !== currSongIdx && this.props.setSongIdx(newCurrSongIdx)
 
-        socketService.emit('station changeTracks', this.state.stationId);
+        this.props.loadTracksToPlayer(newTracks, stationId)
+
+
 
     }
 
@@ -329,7 +320,8 @@ const mapDispatchToProps = {
     onUpdateTrack,
     setBgcAndName,
     addActivity,
-    onSetMsg
+    onSetMsg,
+    updateTracksInStore
 }
 
 
