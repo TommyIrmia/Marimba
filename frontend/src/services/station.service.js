@@ -160,8 +160,14 @@ async function loadTracks(stationId, filterBy) {
         if (!filterBy) {
             if (stationId === "new") return []
             else if (stationId === "liked") {
-                station = await asyncSessionService.get("likedStation", "liked")
-                return station.tracks
+                const user = userService.getLoggedinUser();
+                if (user._id !== 'guest') {
+                    console.log('user', user);
+                    return user.likedSongs;
+                } else {
+                    station = await asyncSessionService.get("likedStation", "liked")
+                    return station.tracks
+                }
             }
             else {
                 station = await getById(stationId);
@@ -200,7 +206,7 @@ async function updateTracks(tracks, stationId) {
         newStation.tracks = newTracks
         console.log('updating station');
         return await httpService.put(`station`, newStation)
-        
+
     } catch (err) {
         throw err
     }
@@ -229,7 +235,8 @@ async function removeTrackFromStation(trackId, stationId) {
     }
 }
 
-async function addTrackToLiked(track, user) {
+async function addTrackToLiked(track,user) {
+    // let user = userService.getLoggedinUser()
     try {
         if (user._id !== 'guest') {
             user.likedSongs.push(track)
@@ -245,9 +252,10 @@ async function addTrackToLiked(track, user) {
     }
 }
 
-async function removeTrackFromLiked(trackId, user) {
+async function removeTrackFromLiked(trackId,user) {
+    // let user = userService.getLoggedinUser()
     try {
-        if (user._id !== 'guest' ){
+        if (user._id !== 'guest') {
             const { likedSongs } = user;
             const idxFromUser = likedSongs.findIndex(track => track.id === trackId)
             likedSongs.splice(idxFromUser, 1);
@@ -256,7 +264,7 @@ async function removeTrackFromLiked(trackId, user) {
         } else {
             let station = await asyncSessionService.get("likedStation", "liked")
             let { tracks } = station;
-            if (!station || !tracks.length ) return;
+            if (!station || !tracks.length) return;
             const idxFromStation = tracks.findIndex(track => track.id === trackId)
             tracks.splice(idxFromStation, 1);
             await asyncSessionService.put("likedStation", station)

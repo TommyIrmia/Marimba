@@ -10,6 +10,7 @@ import {GenrePage} from './pages/GenrePage'
 import { MediaPlayer } from './cmps/MediaPlayer';
 import { LoginPage } from './pages/LoginPage';
 import { UserMsg } from './cmps/UserMsg';
+import { Facebook } from './pages/facebook';
 
 export class App extends React.Component {
 
@@ -26,6 +27,7 @@ export class App extends React.Component {
             <Route path="/genre/:id"  component={GenrePage}/>
             <Route path="/station/:stationId" component={(props) => <StationDetails {...props} key={window.location.pathname}/>} />
             <Route path="/login"  component={LoginPage}/>
+            <Route path="/face"  component={Facebook}/>
           </Switch>
         </main>
         <MediaPlayer />

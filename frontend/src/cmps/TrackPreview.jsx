@@ -4,7 +4,7 @@ import { Draggable } from 'react-beautiful-dnd'
 import { utilService } from './../services/util.service';
 import { onPlayTrack, loadTracksToPlayer, updateIsLikedSong } from '../store/mediaplayer.actions.js'
 import { onUpdateTrack } from '../store/station.actions.js'
-import { onSetMsg } from '../store/user.actions.js'
+import { onSetMsg,onUpdateUser } from '../store/user.actions.js'
 import { stationService } from '../services/station.service';
 import { ConfirmMsg } from './ConfirmMsg';
 import { Audio } from '../assets/svg/audio'
@@ -53,10 +53,12 @@ class _TrackPreview extends Component {
         this.props.player.pauseVideo()
     }
 
+    
     onLike = async () => {
         const { track, user } = this.props;
         try {
             await stationService.addTrackToLiked(track, user)
+            console.log('user',user);
             this.setState({ isLiked: true })
             if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: true })
             this.props.onSetMsg('success', 'Added to Liked Songs')
@@ -69,6 +71,7 @@ class _TrackPreview extends Component {
         const { stationId, track, user } = this.props;
         try {
             await stationService.removeTrackFromLiked(trackId, user)
+            console.log('user',user);
             this.setState({ isLiked: false })
             if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: false })
             if (stationId === 'liked') this.props.loadTracks()
@@ -101,10 +104,10 @@ class _TrackPreview extends Component {
 
     render() {
         const { isHover, isLiked } = this.state
-        const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen, tracksLength } = this.props
+        const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen, tracksLength,user } = this.props
         const { title } = track
         const date = utilService.getTime(track.addedAt)
-
+        console.log('user',user);
         return (
             <main>
                 {<ConfirmMsg tracksLength={tracksLength} isConfirmMsgOpen={isConfirmMsgOpen} confirmRemove={confirmRemove} />}
@@ -180,7 +183,8 @@ const mapDispatchToProps = {
     loadTracksToPlayer,
     onUpdateTrack,
     updateIsLikedSong,
-    onSetMsg
+    onSetMsg,
+    onUpdateUser
 }
 
 

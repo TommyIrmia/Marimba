@@ -1,5 +1,6 @@
 import { userService } from '../services/user.service'
 import defaultUser from "../assets/imgs/defaultuser.jpg";
+import { stationService } from './../services/station.service';
 
 let timeoutId;
 
@@ -62,11 +63,12 @@ export function onLogout() {
     }
 }
 
-export function getCurrentUser() {
+export function onUpdateUser(track,user) {
     return async (dispatch) => {
         try {
-            const user = await userService.getLoggedinUser()
-            console.log('current user : ', user)
+            await stationService.addTrackToLiked(track, user)
+            // const user = await userService.getLoggedinUser()
+            // console.log('current user : ', user)
             dispatch({
                 type: 'SET_USER',
                 user

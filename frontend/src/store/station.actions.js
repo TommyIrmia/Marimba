@@ -86,7 +86,6 @@ export function onAddTrack(track, stationId, trackName, bgc, name) {
 export function onUpdateTrack(track) {
     return async (dispatch) => {
         try {
-            // const savedTrack = await trackService.update(track)
             dispatch({
                 type: 'UPDATE_TRACK',
                 track
