@@ -220,7 +220,7 @@ export class _MediaPlayer extends Component {
 
     render() {
         const { isMute, songLength, volume, isRepeat, isShuffle, station, isPlayerReady } = this.state
-        const { currSongIdx, currDuration, isPlaying, currentTracks, player, onRemoveTrack, currLikedTrack } = this.props
+        const { currSongIdx, currDuration, isPlaying, currentTracks, player, onRemoveTrack, currLikedTrack,user } = this.props
 
         return (
             <div className={isPlayerReady ? "media-player" : "media-player hidden"}>
@@ -242,7 +242,7 @@ export class _MediaPlayer extends Component {
                 <TrackDetails
                     onRemoveTrack={onRemoveTrack} imgSrc={imgSrc}
                     currTrack={currentTracks[currSongIdx]} station={station}
-                    player={player} isPlaying={isPlaying}
+                    player={player} isPlaying={isPlaying} user={user}
                     currLikedTrack={currLikedTrack} onSetMsg={this.props.onSetMsg}
                     updateIsLikedSong={(isLiked) => this.props.updateIsLikedSong(isLiked)}
                 />
@@ -271,7 +271,8 @@ function mapStateToProps(state) {
         stationId: state.mediaPlayerModule.stationId,
         tracks: state.stationModule.tracks,
         station_Id: state.stationModule.station_Id,
-        currLikedTrack: state.mediaPlayerModule.currLikedTrack
+        currLikedTrack: state.mediaPlayerModule.currLikedTrack,
+        user: state.userModule.user,
     }
 }
 const mapDispatchToProps = {

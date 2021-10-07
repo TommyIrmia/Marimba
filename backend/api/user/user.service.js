@@ -64,12 +64,14 @@ async function remove(userId) {
 }
 
 async function update(user) {
+    console.log('user',user);
     try {
         // peek only updatable fields!
         const userToSave = {
             _id: ObjectId(user._id), // needed for the returnd obj
             username: user.username,
-            fullname: user.fullname
+            fullname: user.fullname,
+            likedSongs:user.likedSongs
         }
         const collection = await dbService.getCollection('user')
         await collection.updateOne({ _id: userToSave._id }, { $set: userToSave })
