@@ -19,8 +19,8 @@ export class TrackDetails extends React.Component {
     onLike = async () => {
         try {
             if (!this.props.player) return
-            const { currTrack } = this.props
-            await stationService.addTrackToLiked(currTrack)
+            const { currTrack, user } = this.props
+            await stationService.addTrackToLiked(currTrack, user)
             this.props.updateIsLikedSong({ trackId: currTrack.id, isLiked: true })
             this.props.onSetMsg('success', 'Added to Liked Songs')
         } catch (err) {
@@ -30,9 +30,8 @@ export class TrackDetails extends React.Component {
 
     onUnLike = async (trackId) => {
         try {
-            const stationId = this.props.station._id;
-            if (stationId === 'liked') await this.props.onRemoveTrack(trackId)
-            else await stationService.removeTrackFromLiked(trackId)
+            const { user } = this.props
+             await stationService.removeTrackFromLiked(trackId,user)
             this.props.updateIsLikedSong({ trackId, isLiked: false })
             this.props.onSetMsg('success', 'Removed from Liked Songs')
         } catch (err) {
@@ -41,12 +40,17 @@ export class TrackDetails extends React.Component {
     }
 
     checkIsLiked = async () => {
-        const { currTrack } = this.props
+        const { currTrack, user } = this.props
         if (!currTrack) return;
         try {
-            const station = await stationService.getTemplateStation('likedStation', 'liked')
-            const isLiked = station.tracks.some(likedTrack => likedTrack.id === currTrack.id)
-            this.props.updateIsLikedSong({ trackId: currTrack.id, isLiked })
+            if (user._id !== 'guest') {
+                const isLiked = user.likedSongs?.some(likedTrack => likedTrack.id === currTrack.id)
+                if (isLiked) this.props.updateIsLikedSong({ trackId: currTrack.id, isLiked })
+            } else {
+                const station = await stationService.getTemplateStation('likedStation', 'liked')
+                const isLiked = station.tracks.some(likedTrack => likedTrack.id === currTrack.id)
+                this.props.updateIsLikedSong({ trackId: currTrack.id, isLiked })
+            }
         } catch (err) {
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
