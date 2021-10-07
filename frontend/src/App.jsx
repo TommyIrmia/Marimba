@@ -10,9 +10,19 @@ import {GenrePage} from './pages/GenrePage'
 import { MediaPlayer } from './cmps/MediaPlayer';
 import { LoginPage } from './pages/LoginPage';
 import { UserMsg } from './cmps/UserMsg';
+import { socketService } from './services/socket.service';
 
 export class App extends React.Component {
 
+  componentDidMount() {
+    socketService.setup()
+  }
+
+  componentWillUnmount() {
+    socketService.terminate()
+  }
+  
+  
 
 
   render() {

@@ -49,11 +49,8 @@ function put(entityType, updatedEntity) {
     return query(entityType)
         .then(entities => {
             const idx = entities.findIndex(entity => entity._id === updatedEntity._id)
-            console.log('from storage', idx);
             entities.splice(idx, 1, updatedEntity)
-            console.log('from storage', entities);
             save(entityType, entities)
-            console.log('from storage', updatedEntity);
             return updatedEntity
         })
 }
@@ -69,7 +66,7 @@ function remove(entityType, entityId) {
 
 
 async function save(entityType, entities) {
-    console.log('entityType FROM SAVE!', entityType)
+    // console.log('entityType FROM SAVE!', entityType)
     localStorage.setItem(entityType, JSON.stringify(entities))
 }
 
