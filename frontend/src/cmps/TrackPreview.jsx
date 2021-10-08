@@ -95,8 +95,8 @@ class _TrackPreview extends Component {
     }
 
     checkIsPlaying = () => {
-        if (this.props.stationId !== this.props.currStationId) return false
         if (!this.props.isPlaying) return false
+        if (this.props.stationId !== this.props.currStationId) return false
         const videoData = this.props.player.getVideoData()
         return videoData?.video_id === this.props.track.id
     }

@@ -6,13 +6,6 @@ export class StationActions extends Component {
 
     state = {
         station: null,
-        isLiked: false,
-        likesCount: 0,
-        user: {
-            fullname: 'tomas irmia',
-            imgUrl: 'something',
-            _id: 'c101'
-        }
     }
 
     componentDidMount() {
@@ -25,53 +18,39 @@ export class StationActions extends Component {
             let station;
             if (currStationId === "liked") station = await stationService.getTemplateStation("likedStation", currStationId)
             else station = await stationService.getById(this.props.currStationId)
-            this.setState({ station }, () => {
-                this.checkIsLiked()
-                this.updateLikesCount()
-            })
+            this.setState({ station })
         } catch (err) {
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
-    checkIsLiked = async () => {
+    onLikeStation = async () => {
         try {
-            const { station } = this.state;
             const { user } = this.props;
-            if (!station) return;
-            const isLiked = station.likedByUsers.some(currUser => currUser._id === user._id)
-            if (isLiked) this.setState({ isLiked })
+            const { station } = this.state;
+            await this.props.onLikeStation(station, user)
+            this.props.onSetMsg('success', 'Added to your library')
+
         } catch (err) {
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
-    updateLikesCount = (diff) => {
-        const { station } = this.state;
-        if (!station) return
-        const likesCount = station.likedByUsers.length;
-        if (diff) this.setState({ likesCount: likesCount + diff })
-        else this.setState({ likesCount })
+    onUnlikeStation = async () => {
+        try {
+            const { user } = this.props;
+            const { station } = this.state;
+            console.log('from unlike', user, station);
+            await this.props.onUnlikeStation(station, user)
+            this.props.onSetMsg('success', 'Removed from your library')
+        } catch (err) {
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
+        }
     }
 
-    onLikeStation = (stationId) => {
-        const { user } = this.state;
-        this.setState({ isLiked: true }, () => {
-            stationService.addLikeTtoStation(stationId, user)
-        })
-        this.updateLikesCount(+1)
-    }
-
-    onUnlikeStation = (stationId) => {
-        const { user } = this.props;
-        this.setState({ isLiked: false }, () => {
-            stationService.removeLikeFromStation(stationId, user._id)
-        })
-        this.updateLikesCount(-1)
-    }
-
-    onSetSort = (sort) => {
-        this.props.onSetFilter({ sort })
+    checkIsLiked = () => {
+        const { user, currStationId } = this.props;
+        return user.likedStations.some(stationId => currStationId === stationId)
     }
 
     isTrackPlaying = (tracks) => {
@@ -85,7 +64,6 @@ export class StationActions extends Component {
     render() {
         const { isSearch, onSearch, inputRef, onSetFilter, onPauseTrack, onPlayTrack,
             onScrollToAdd, tracks, bgc, currStationId } = this.props;
-        const { isLiked } = this.state;
 
         return (
             <main className="actions-container ">
@@ -101,8 +79,9 @@ export class StationActions extends Component {
                                 className="play-btn fas fa-pause">
                             </button>}
 
-                            {currStationId !== 'liked' && <button onClick={isLiked ? () => this.onUnlikeStation(currStationId) : () => this.onLikeStation(currStationId)}
-                                className={"btn-action " + (isLiked ? "fas fa-thumbs-up btn-liked" : "far fa-thumbs-up")}></button>}
+                            {currStationId !== 'liked' && <button
+                                onClick={this.checkIsLiked() ? () => this.onUnlikeStation(currStationId) : () => this.onLikeStation(currStationId)}
+                                className={"btn-action " + (this.checkIsLiked() ? "fas fa-thumbs-up btn-liked" : "far fa-thumbs-up")}></button>}
 
                             <button className="far fa-arrow-alt-circle-down btn-action"></button>
 
@@ -116,17 +95,16 @@ export class StationActions extends Component {
                         <StationFilter onSetFilter={onSetFilter} inputRef={inputRef} onSearch={onSearch} isSearch={isSearch} />
 
                         <div className="preview-info flex">
-
-                            <div className="info-title" onClick={() => this.onSetSort('Title')}>
+                            <div className="info-title" onClick={() => this.props.onSetFilter({ sort: 'Title' })}>
                                 <small className="title" >title</small> </div>
 
-                            <div className="info-date" onClick={() => this.onSetSort('Date added')}>
+                            <div className="info-date" onClick={() => this.props.onSetFilter({ sort: 'Date added' })}>
                                 <small className="date" >date added</small> </div>
 
-                            <div className="info-duration" onClick={() => this.onSetSort('Duration')}>
+                            <div className="info-duration" onClick={() => this.props.onSetFilter({ sort: 'Duration' })}>
                                 <small className="far fa-clock duration" ></small> </div>
-
                         </div>
+
                     </section>
                 </div>
             </main>

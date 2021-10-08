@@ -274,7 +274,7 @@ function mapStateToProps(state) {
         currentTracks: state.mediaPlayerModule.currentTracks,
         stationId: state.mediaPlayerModule.stationId,
         tracks: state.stationModule.tracks,
-        currStationId: state.stationModule.station_Id,
+        currStationId: state.stationModule.currStationId,
         currLikedTrack: state.mediaPlayerModule.currLikedTrack,
         user: state.userModule.user,
     }

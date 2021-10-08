@@ -31,6 +31,7 @@ async function logout() {
 
 async function signup(credentials) {
     try {
+        if (!credentials.imgUrl) credentials.imgUrl = defaultUser
         const user = await httpService.post('auth/signup', credentials);
         sessionStorage.setItem(STORAGE_KEY, JSON.stringify(user))
         return user
@@ -43,7 +44,6 @@ async function updateUser(user) {
     try {
         const updatedUser = await httpService.put(`user`, user)
         sessionStorage.setItem(STORAGE_KEY, JSON.stringify(updatedUser))
-        console.log('updated user from user service', updatedUser);
         return updatedUser
     } catch (err) {
         throw err

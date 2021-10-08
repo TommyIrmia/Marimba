@@ -79,12 +79,48 @@ export function onLikeTrack(track, user) {
 export function onUnlikeTrack(trackId, user) {
     return async (dispatch) => {
         try {
-            console.log('from unlike');
             const updatedUser = await stationService.removeTrackFromLiked(trackId, user)
-            console.log('updated user from unlike', updatedUser);
             dispatch({
                 type: 'SET_USER',
                 user: updatedUser
+            })
+
+        } catch (err) {
+            throw err
+        }
+    }
+}
+
+export function onLikeStation(station, user) {
+    return async (dispatch) => {
+        try {
+            console.log('from actions', station, user);
+            const updatedUser = await stationService.addLikeTtoStation(station, user)
+            dispatch({
+                type: 'SET_USER',
+                user: updatedUser
+            })
+            dispatch({
+                type: 'UPDATE_LIKES_COUNT',
+                diff: 1
+            })
+        } catch (err) {
+            throw err
+        }
+    }
+}
+
+export function onUnlikeStation(station, user) {
+    return async (dispatch) => {
+        try {
+            const updatedUser = await stationService.removeLikeFromStation(station, user)
+            dispatch({
+                type: 'SET_USER',
+                user: updatedUser
+            })
+            dispatch({
+                type: 'UPDATE_LIKES_COUNT',
+                diff: -1
             })
         } catch (err) {
             throw err

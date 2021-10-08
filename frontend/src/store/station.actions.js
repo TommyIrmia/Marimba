@@ -12,14 +12,9 @@ export function loadTracks(stationId, filterBy) {
             else tracks = await stationService.loadTracks(stationId, filterBy)
             dispatch({
                 type: 'SET_TRACKS',
-                tracks
+                tracks,
+                currStationId: stationId
             })
-            if (stationId) {
-                dispatch({
-                    type: 'SET_STATION_ID',
-                    station_Id: stationId
-                })
-            }
         } catch (err) {
             throw err
         }
@@ -32,9 +27,8 @@ export function onUpdateTracks(tracks, stationId) {
             dispatch({
                 type: 'UPDATE_TRACKS',
                 tracks,
-                stationId
+                currStationId: stationId
             })
-
             await stationService.updateTracks(tracks, stationId)
         } catch (err) {
             throw err
@@ -49,7 +43,7 @@ export function onRemoveTrack(trackId, stationId, trackName, bgc, name) {
             dispatch({
                 type: 'REMOVE_TRACK',
                 trackId,
-                stationId
+                currStationId: stationId
             })
 
             const activityToAdd = await activityService.addActivity('remove track', { name, bgc, id: stationId }, trackName)
@@ -72,7 +66,7 @@ export function onAddTrack(track, stationId, trackName, bgc, name) {
             dispatch({
                 type: 'ADD_TRACK',
                 track,
-                stationId
+                currStationId: stationId
             })
 
             const activityToAdd = await activityService.addActivity('add track', { name, bgc, id: stationId }, trackName)
@@ -124,5 +118,12 @@ export function updateTracksInStore(tracks) {
             type: 'SET_TRACKS',
             tracks
         })
+    }
+}
+
+export function setLikesCount(likesCount) {
+    return dispatch => {
+        console.log('from actions', likesCount);
+        dispatch({ type: 'SET_LIKES_COUNT', likesCount })
     }
 }
