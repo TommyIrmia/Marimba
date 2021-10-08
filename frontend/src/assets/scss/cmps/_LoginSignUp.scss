@@ -10,14 +10,15 @@
   text-align: center;
   padding: 40px;
   box-shadow: 0 0 7px #adadad3d;
+  position: relative;
 
-  .img-input-container{
+  .img-input-container {
     width: 120px;
     height: 120px;
     background-color: #3a3a3a;
     margin: 0 auto;
     border-radius: 50%;
-    margin-bottom:20px;
+    margin-bottom: 20px;
     flex-direction: column;
     justify-content: center;
     gap: 5px;
@@ -51,24 +52,21 @@
       padding-inline-end: 5px;
       border-radius: rem(7px);
     }
-    
+
     input {
-        border-radius: rem(7px);
-        width: 90%;
+      border-radius: rem(7px);
+      width: 90%;
       height: inherit;
       background-color: #3a3a3a;
       border: none;
       outline: none;
       color: $clr7;
-      // box-shadow: inset 0 0 0 1px rgba(250, 247, 247, 0), inset 0 0 0 100px #3a3a3a;
-      
+      background: transparent;
     }
 
-    select:-webkit-autofill:focus {
-      border: none;
+    input:-webkit-autofill {
       -webkit-text-fill-color: $clr7;
-      -webkit-box-shadow: 0 0 0px 1000px rgb(161, 44, 44) inset;
-      transition: background-color 5000s ease-in-out 0s;
+      -webkit-background-clip: text;
     }
 
     button {
@@ -78,6 +76,7 @@
       border-radius: rem(20px);
       background-color: #1aa049;
       font-size: rem(20px);
+      text-transform: uppercase;
 
       &:hover {
         background-color: $clr5;
@@ -85,6 +84,44 @@
       }
     }
   }
+
+  h4{
+    position: absolute;
+    left: 42%;
+    background-color: #111111;
+    width: 70px;
+  }    
+
+  hr{
+    margin-bottom: 30px;
+  }
+    
+    
+    .kep-login-facebook.metro {
+      border-radius: rem(20px);
+      margin: 0 auto;
+      margin-bottom: 20px;
+    }
+    
+    
+    .kep-login-facebook {
+      width: 80%;
+      height: rem(45px);
+      padding: 0;
+      background-color: #111111;
+      border: 0;
+      box-shadow: 0 0 4px #ffffffa3;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      
+    }
+
+  .f-a-container{
+    font-size:rem(18px);
+
+  }
+
   .toggle-login {
     margin-top: 20px;
 

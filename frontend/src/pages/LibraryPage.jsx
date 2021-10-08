@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
 import { LibraryList } from './../cmps/LibraryList';
 import { stationService } from './../services/station.service';
 
-export class LibraryPage extends Component {
+class _LibraryPage extends Component {
 
     state = {
         likedStations: [],
@@ -16,19 +18,17 @@ export class LibraryPage extends Component {
         this.loadStations()
     }
 
-    biggestNumberInArray = (arr) => {
-        const max = Math.max(...arr);
-        return max;
-    }
 
     loadStations = async () => {
+        const {user} = this.props; 
         try {
             const stations = await stationService.query()
             const likedTracks = await stationService.getTemplateStation('likedStation', 'liked')
             const likedStations = stations.filter(likedStation => likedStation.likedByUsers.length > 0)
-            const stationsByUser = stations.filter(stationBy => stationBy.createdBy._id === 'c137')
-            let recentlyaddedStations = stations.sort((a, b) => b.createdAt - a.createdAt);
+            const stationsByUser = stations.filter(stationBy => stationBy.createdBy._id === user._id)
+            let recentlyaddedStations = stations.sort((a, b) => b.createdAt.localeCompare(a.createdAt) );
             recentlyaddedStations = recentlyaddedStations.slice(0, 4);
+
 
             this.setState({ recentlyStations: recentlyaddedStations, likedTracks: likedTracks.tracks, likedStations, stationsBy: stationsByUser })
         } catch (err) {
@@ -50,3 +50,12 @@ export class LibraryPage extends Component {
         )
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        user: state.userModule.user
+    }
+}
+
+
+export const LibraryPage = connect(mapStateToProps)(_LibraryPage)

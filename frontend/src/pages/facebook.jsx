@@ -2,20 +2,38 @@ import React, { Component } from 'react'
 import FacebookLogin from 'react-facebook-login';
 
 export class Facebook extends Component {
-    responseFacebook = (response) => {
-        console.log(response);
+
+
+    state = {
+        user: {
+            username: '',
+            fullname: '',
+            imgUrl: '',
+        }
+    }
+
+
+
+    responseFacebook = (val) => {
+
+        const fullname = val.name
+        const username = val.name.split(' ').slice(0, 1)
+        const imgUrl = val.picture.data.url;
+            console.log('fullname', imgUrl);
+        this.setState({ username })
     }
     render() {
-
+        const { user } = this.state;
+        console.log('user', user);
         return (
             <div>
                 <FacebookLogin
-          appId="265486362138141"
-          autoLoad={true}
-          fields="name,email,picture"
-          scope="public_profile,user_friends,user_actions.books"
-          callback={this.responseFacebook}
-        />
+                    appId="550515812703196"
+                    autoLoad={true}
+                    fields="name,email,picture"
+                    scope="public_profile"
+                    callback={this.responseFacebook}
+                />
             </div>
         )
     }
