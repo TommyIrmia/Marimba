@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom'
 import { StationPreview } from './StationPreview';
 import Skeleton from 'react-loading-skeleton';
 
-export function LibraryList({ likedTracks, stationsBy, recentlyStations, user, mostLiked }) {
-    // console.log('station By', likedStations);
+export function LibraryList({ likedByUser, likedTracks, stationsBy, recentlyStations, user, mostLiked }) {
     return (
         <section className="LibraryList flex">
 
@@ -36,7 +35,7 @@ export function LibraryList({ likedTracks, stationsBy, recentlyStations, user, m
 
             {user.fullname !== 'Guest' && <div className="flex relative station" >
                 <h3 className="list-title" >You liked</h3>
-                {/* {user.likedStations?.map(likedBy => <StationPreview key={likedBy._id} station={likedBy} />)} */}
+                {likedByUser.map(likedBy => <StationPreview key={likedBy._id} station={likedBy} />)}
             </div>}
 
             {user.fullname === 'Guest' && <div className="flex relative station" >
