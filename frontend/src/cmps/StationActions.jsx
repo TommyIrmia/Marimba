@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { StationFilter } from './StationFilter.jsx';
 import { stationService } from './../services/station.service';
+import { WhatsappShareButton, WhatsappIcon } from 'react-share'
 import { async } from './../services/cloudinary.service';
 
 export class StationActions extends Component {
@@ -100,15 +101,18 @@ export class StationActions extends Component {
                                 className="play-btn fas fa-pause">
                             </button>}
 
-                            { currStationId !== 'liked' && <button onClick={isLiked ? () => this.onUnlikeStation(currStationId) : () => this.onLikeStation(currStationId)}
+                            {currStationId !== 'liked' && <button onClick={isLiked ? () => this.onUnlikeStation(currStationId) : () => this.onLikeStation(currStationId)}
                                 className={"btn-action " + (isLiked ? "fas fa-thumbs-up btn-liked" : "far fa-thumbs-up")}></button>}
 
                             <button className="far fa-arrow-alt-circle-down btn-action"></button>
 
-                            { currStationId !== 'liked' && <div className="add-track-btn" onClick={onScrollToAdd}>
+                            {currStationId !== 'liked' && <div className="add-track-btn" onClick={onScrollToAdd}>
                                 <span className="fas fa-plus btn-icon"></span>
                                 <span className="btn-text">Add Tracks</span>
                             </div>}
+                            <WhatsappShareButton url={`http://www.youtube.com/watch?v=9WzIACv_mxs`} title="I like to share with you this playlist from Marimba!">
+                                <WhatsappIcon round={true}/>
+                            </WhatsappShareButton>
                         </div>
 
 

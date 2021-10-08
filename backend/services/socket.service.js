@@ -24,12 +24,16 @@ function connectSockets(http, session) {
             socket.stationId = stationId
         })
         // 'station changeTracks'
-        socket.on('station changeTracks',stationId => {
+        socket.on('station changeTracks', stationId => {
             console.log('station being edit', stationId);
             // emits to all sockets:
             socket.broadcast.to(stationId).emit('station tracksChanged', stationId)
             // emits only to sockets in the same room
             // gIo.to(socket.myTopic).emit('chat addMsg', msg)
+        })
+        socket.on('newActivity', newActivity => {
+            console.log('adding new activity', newActivity);
+            socket.broadcast.emit('addActivity', newActivity);
         })
         // socket.on('user-watch', userId => {
         //     socket.join('watching:' + userId)

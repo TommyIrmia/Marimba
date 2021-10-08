@@ -4,6 +4,7 @@ import { withRouter } from 'react-router'
 import { utilService } from '../services/util.service'
 import { loadActivities } from '../store/activitylog.actions'
 import { setBgcAndName } from '../store/station.actions'
+import { socketService } from '../services/socket.service'
 import userImg from '../assets/imgs/logo.png'
 
 export class _ActivityLog extends Component {
@@ -13,6 +14,7 @@ export class _ActivityLog extends Component {
 
     componentDidMount() {
         this.loadActivities()
+        socketService.on('addActivity', this.loadActivities)
     }
 
     loadActivities = async () => {
@@ -24,10 +26,10 @@ export class _ActivityLog extends Component {
     }
 
     dynamicCmp = (activity, idx) => {
-
+        const classStr = (activity.isRead) ? "flex read" : "flex";
         switch (activity.type) {
             case 'create playlist':
-                return (<li className="flex" key={idx}
+                return (<li className={classStr} key={idx}
                     onClick={() => {
                         this.props.history.push(`/station/${activity.stationInfo.id}`)
                         this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
@@ -42,7 +44,7 @@ export class _ActivityLog extends Component {
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
             case 'add track':
-                return (<li className="flex" key={idx}
+                return (<li className={classStr} key={idx}
                     onClick={() => {
                         this.props.history.push(`/station/${activity.stationInfo.id}`)
                         this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
@@ -57,10 +59,10 @@ export class _ActivityLog extends Component {
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
             case 'remove track':
-                return (<li className="flex" key={idx} onClick={() => {
+                return (<li className={classStr} key={idx} onClick={() => {
                     this.props.history.push(`/station/${activity.stationInfo.id}`)
                     this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
-                }}>
+                }} >
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
@@ -70,12 +72,27 @@ export class _ActivityLog extends Component {
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
+            case 'like track':
+                return (<li className={classStr} key={idx} onClick={() => {
+                    this.props.history.push(`/station/${activity.stationInfo.id}`)
+                    this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
+                }}>
+                    <div className="activity-user">
+                        <img src={activity.createdBy.imgUrl} alt='user-img' />
+                    </div>
+                    <div className="activity-info">
+                        <span className="user-name"> {activity.createdBy.fullname}</span>
+                        <span className="pink"> liked💗 </span>"{activity.trackName}" from "{activity.stationInfo.name}"!
+                    </div>
+                    <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
+                </li>)
         }
     }
 
     render() {
-        const { activities } = this.props
+        let { activities } = this.props
         if (!activities.length) return <div>No Activities</div>
+        activities = activities.reverse();
 
         return (<section className="activity-log">
 
