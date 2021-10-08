@@ -49,13 +49,15 @@ class _StationDetails extends Component {
             }
             else {
                 station = await stationService.getById(stationId)
+                socketService.emit('station id', stationId)
+                socketService.on('tracksChanged', this.tracksChanged)
             }
             this.props.setBgcAndName(station.bgc, station.name)
             this.setState({ ...this.state, isEditable, stationId }, async () => {
                 await this.loadTracks()
             })
-            socketService.emit('station id', stationId)
-            socketService.on('tracksChanged', this.tracksChanged)
+            // socketService.emit('station id', stationId)
+            // socketService.on('tracksChanged', this.tracksChanged)
         } catch (err) {
             this.props.history.push('/')
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
@@ -72,7 +74,8 @@ class _StationDetails extends Component {
 
     loadTracks = async () => {
         try {
-            await this.props.loadTracks(this.state.stationId)
+            const { stationId } = this.props.match.params
+            await this.props.loadTracks(stationId)
         } catch (err) {
             console.error('Can not get tracks in station', err)
         }
@@ -126,7 +129,6 @@ class _StationDetails extends Component {
     }
 
     userConfirmation = () => {
-        const { isConfirmMsgOpen } = this.state;
         this.setState({ isConfirmMsgOpen: true })
 
         return new Promise((resolve) => {
@@ -137,9 +139,8 @@ class _StationDetails extends Component {
     tracksChanged = ({ tracks }) => {
         try {
             this.props.updateTracksInStore(tracks)
-            // await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         } catch (err) {
-            console.log('another user failed to edit this station');
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.');
         }
     }
 
@@ -255,8 +256,9 @@ class _StationDetails extends Component {
 
     render() {
         const { isSearch, isPlaying, isEditModalOpen, animation, isConfirmMsgOpen } = this.state;
-        const { tracks, bgc } = this.props
+        const { tracks, bgc, user } = this.props
         const { stationId } = this.props.match.params
+
         return (
             <main className="StationDetails">
                 <div onClick={() => {
@@ -271,21 +273,24 @@ class _StationDetails extends Component {
                 {stationId !== 'new' && <StationHero stationId={stationId} tracks={tracks} onSetMsg={this.props.onSetMsg} />}
 
                 {
-                    stationId === 'new' && <EditHero animation={animation} onFlip={this.onFlip} isEditModalOpen={isEditModalOpen} onToggleEdit={this.onToggleEdit}
-                        saveDataFromHero={this.saveDataFromHero} />
+                    stationId === 'new' &&
+                    <EditHero animation={animation} onFlip={this.onFlip} isEditModalOpen={isEditModalOpen}
+                        onToggleEdit={this.onToggleEdit} saveDataFromHero={this.saveDataFromHero} />
                 }
 
                 <StationActions onSetFilter={this.onSetFilter} inputRef={this.inputRef}
                     onSearch={this.onSearch} isSearch={isSearch} isPlaying={isPlaying}
                     onScrollToAdd={this.onScrollToAdd} playingStationId={this.props.stationId}
                     isPlayerPlaying={this.props.isPlaying} currStationId={stationId}
-                    tracks={tracks} onPlayTrack={this.onPlayTrack}
-                    onPauseTrack={this.onPauseTrack} bgc={bgc}
+                    tracks={tracks} onPlayTrack={this.onPlayTrack} onSetMsg={this.props.onSetMsg}
+                    onPauseTrack={this.onPauseTrack} bgc={bgc} user={user}
                 />
+
                 <DragDropContext onDragEnd={this.onDragEnd}>
                     <TrackList isConfirmMsgOpen={isConfirmMsgOpen} confirmRemove={this.confirmRemove} onRemoveTrack={this.onRemoveTrack}
                         tracks={tracks} stationId={stationId} loadTracks={this.loadTracks} />
                 </DragDropContext>
+
                 <section>
                     <TrackSearch addRef={this.addRef} onAddTrack={this.onAddTrack} stationId={stationId} currStationTracks={tracks} onSetMsg={this.props.onSetMsg} />
                 </section>

@@ -23,7 +23,7 @@ export class TrackSearch extends Component {
             const { searchKey } = this.state
             const tracks = await youtubeService.query(searchKey, this.props.currStationTracks)
             this.setState({ tracks: tracks });
-            if (!tracks?.length && this.state.isLoading) this.setState({ msg: `No results found for \"${searchKey}\"` });
+            if (!tracks?.length && this.state.isLoading) this.setState({ msg: `No results found for "${searchKey}"` });
             else this.setState({ msg: '' })
         } catch (err) {
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')

@@ -10,10 +10,8 @@ const initialState = {
 export function stationReducer(state = initialState, action) {
     let tracks;
     switch (action.type) {
-        case 'SET_BGC':
-            return { ...state, bgc: action.bgc }
-        case 'SET_NAME':
-            return { ...state, stationName: action.stationName }
+        case 'SET_BGC_AND_NAME':
+            return { ...state, bgc: action.bgc, stationName: action.stationName }
         case 'SET_TRACKS':
             tracks = action.tracks
             return { ...state, tracks }

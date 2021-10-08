@@ -34,7 +34,7 @@ export function onUpdateTracks(tracks, stationId) {
                 tracks,
                 stationId
             })
-        
+
             await stationService.updateTracks(tracks, stationId)
         } catch (err) {
             throw err
@@ -107,13 +107,9 @@ export function onUpdateTrack(track) {
 export function setBgcAndName(bgc, stationName) {
     return async (dispatch) => {
         try {
-            // console.log('set bgc color and name to', bgc, stationName)
             dispatch({
-                type: 'SET_BGC',
-                bgc
-            })
-            dispatch({
-                type: 'SET_NAME',
+                type: 'SET_BGC_AND_NAME',
+                bgc,
                 stationName
             })
         } catch (err) {

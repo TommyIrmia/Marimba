@@ -8,6 +8,7 @@ export const userService = {
     logout,
     signup,
     getLoggedinUser,
+    updateUser
 }
 
 async function login(credentials) {
@@ -38,9 +39,19 @@ async function signup(credentials) {
     }
 }
 
+async function updateUser(user) {
+    try {
+        const updatedUser = await httpService.put(`user`, user)
+        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(updatedUser))
+        console.log('updated user from user service', updatedUser);
+        return updatedUser
+    } catch (err) {
+        throw err
+    }
+}
+
 function getLoggedinUser() {
     const user = JSON.parse(sessionStorage.getItem(STORAGE_KEY));
     if (user) return user
-    else return { _id: 'guest', fullname: "Guest", imgUrl: defaultUser }
-
+    else return { fullname: "Guest", imgUrl: defaultUser }
 }

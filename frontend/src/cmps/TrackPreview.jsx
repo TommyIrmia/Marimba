@@ -4,7 +4,7 @@ import { Draggable } from 'react-beautiful-dnd'
 import { utilService } from './../services/util.service';
 import { onPlayTrack, loadTracksToPlayer, updateIsLikedSong } from '../store/mediaplayer.actions.js'
 import { onUpdateTrack } from '../store/station.actions.js'
-import { onSetMsg,onUpdateUser } from '../store/user.actions.js'
+import { onSetMsg, onLikeTrack, onUnlikeTrack } from '../store/user.actions.js'
 import { stationService } from '../services/station.service';
 import { ConfirmMsg } from './ConfirmMsg';
 import { Audio } from '../assets/svg/audio'
@@ -27,6 +27,7 @@ class _TrackPreview extends Component {
         }
         stationId !== 'new' && this.checkIsLiked()
     }
+
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.currLikedTrack !== this.props.currLikedTrack) {
             if (this.props.currLikedTrack?.trackId === this.props.track.id) {
@@ -53,12 +54,11 @@ class _TrackPreview extends Component {
         this.props.player.pauseVideo()
     }
 
-    
+
     onLike = async () => {
         const { track, user } = this.props;
         try {
-            await stationService.addTrackToLiked(track, user)
-            console.log('user',user);
+            await this.props.onLikeTrack(track, user)
             this.setState({ isLiked: true })
             if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: true })
             this.props.onSetMsg('success', 'Added to Liked Songs')
@@ -70,11 +70,10 @@ class _TrackPreview extends Component {
     onUnLike = async (trackId) => {
         const { stationId, track, user } = this.props;
         try {
-            await stationService.removeTrackFromLiked(trackId, user)
-            console.log('user',user);
-            this.setState({ isLiked: false })
+            await this.props.onUnlikeTrack(trackId, user)
             if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: false })
             if (stationId === 'liked') this.props.loadTracks()
+            this.setState({ isLiked: false })
             this.props.onSetMsg('success', 'Removed from Liked Songs')
         } catch (err) {
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
@@ -83,17 +82,16 @@ class _TrackPreview extends Component {
     }
 
     checkIsLiked = async () => {
-        const { track, user } = this.props
-
-        if (user._id !== 'guest') {
-            const isLiked = user.likedSongs?.some(likedTrack => likedTrack.id === track.id)
-            if (isLiked) this.setState({ isLiked })
-        } else {
+        const { track, user, stationId } = this.props
+        let isLiked;
+        if (stationId === 'liked') isLiked = true
+        else if (user._id) isLiked = user.likedSongs?.some(likedTrack => likedTrack.id === track.id)
+        else {
             const station = await stationService.getTemplateStation('likedStation', 'liked')
             if (!station) return
-            const isLiked = station.tracks?.some(likedTrack => likedTrack.id === track.id)
-            if (isLiked) this.setState({ isLiked })
+            isLiked = station.tracks?.some(likedTrack => likedTrack.id === track.id)
         }
+        if (isLiked) this.setState({ isLiked })
     }
 
     checkIsPlaying = () => {
@@ -105,10 +103,9 @@ class _TrackPreview extends Component {
 
     render() {
         const { isHover, isLiked } = this.state
-        const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen, tracksLength,user } = this.props
+        const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen, tracksLength } = this.props
         const { title } = track
         const date = utilService.getTime(track.addedAt)
-        console.log('user',user);
         return (
             <main>
                 {<ConfirmMsg tracksLength={tracksLength} isConfirmMsgOpen={isConfirmMsgOpen} confirmRemove={confirmRemove} />}
@@ -185,7 +182,8 @@ const mapDispatchToProps = {
     onUpdateTrack,
     updateIsLikedSong,
     onSetMsg,
-    onUpdateUser
+    onLikeTrack,
+    onUnlikeTrack
 }
 
 

@@ -1,9 +1,10 @@
 const stationService = require('./station.service')
-const socketService = require('../../services/socket.service')
 const logger = require('../../services/logger.service')
 
 async function getStation(req, res) {
     try {
+        console.log('station id from get', req.params.id);
+        if (req.params.id === 'liked' || req.params.id === 'new') return
         const station = await stationService.getById(req.params.id)
         res.send(station)
     } catch (err) {

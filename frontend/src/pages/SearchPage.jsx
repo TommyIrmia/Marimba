@@ -35,19 +35,6 @@ export class SearchPage extends Component {
         }
     }
 
-    // loadTracks = async () => {
-    //     try {
-    //         const { searchKey } = this.state
-    //         const tracks = await youtubeService.query(searchKey)
-    //         this.setState({ ...this.state, tracks: tracks });
-    //     } catch (err) {
-    //         throw err
-    //     }
-    // }
-
-    // debouncedLoadTracks = youtubeService.debounce(this.loadTracks, 1000)
-    // debouncedLoadStations = youtubeService.debounce(this.loadStations, 1000)
-
     loadStationsAndTracks = () => {
         clearTimeout(this.timeoutId)
         this.timeoutId = setTimeout(async () => {
@@ -57,9 +44,9 @@ export class SearchPage extends Component {
                 const stations = await stationService.query(searchKey);
                 const tracks = await youtubeService.query(searchKey)
                 this.setState({ ...this.state, stations, tracks, msg: '' })
-                if (!tracks.length) this.setState({ msg: `No results found for \"${searchKey}\"` })
+                if (!tracks.length) this.setState({ msg: `No results found for "${searchKey}"` })
             } catch (err) {
-                this.setState({ msg: `No results found for \"${searchKey}\"`, tracks: [], stations: [] })
+                this.setState({ msg: `No results found for "${searchKey}"`, tracks: [], stations: [] })
             }
         }, 400)
     }
@@ -72,8 +59,6 @@ export class SearchPage extends Component {
         }
         else this.setState(prevState => ({ ...prevState, isSearch: true, searchKey, msg: '' }), () => {
             this.loadStationsAndTracks()
-            // this.debouncedLoadStations()
-            // this.debouncedLoadTracks()
         })
     }
 

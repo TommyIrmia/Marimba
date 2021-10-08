@@ -142,7 +142,6 @@ async function getById(stationId) {
     }
 }
 
-
 async function addStation(station) {
     try {
         // if(stationId === 'new') return 
@@ -158,12 +157,13 @@ async function addStation(station) {
 async function loadTracks(stationId, filterBy) {
     try {
         let station;
+        console.log('station id from load track in service', stationId);
         if (!filterBy) {
             if (stationId === "new") return []
             else if (stationId === "liked") {
                 const user = userService.getLoggedinUser();
-                if (user._id !== 'guest') {
-                    console.log('user', user);
+                console.log('from load tracks', user);
+                if (user._id) {
                     return user.likedSongs;
                 } else {
                     station = await asyncSessionService.get("likedStation", "liked")
@@ -235,37 +235,36 @@ async function removeTrackFromStation(trackId, stationId) {
     }
 }
 
-async function addTrackToLiked(track,user) {
-    // let user = userService.getLoggedinUser()
+async function addTrackToLiked(track, user) {
     try {
-        if (user._id !== 'guest') {
+        if (user._id) {
             user.likedSongs.push(track)
-            user = await httpService.put(`user/${user._id}`, user)
+            return await userService.updateUser(user)
         } else {
-            let station = await asyncSessionService.get("likedStation", "liked")
-            station.tracks?.push(track)
-            station = await asyncSessionService.put("likedStation", station)
+            let likedStation = await asyncSessionService.get("likedStation", "liked")
+            likedStation.tracks?.push(track)
+            await asyncSessionService.put("likedStation", likedStation)
+            return user
         }
     } catch (err) {
         throw err
     }
 }
 
-async function removeTrackFromLiked(trackId,user) {
-    // let user = userService.getLoggedinUser()
+async function removeTrackFromLiked(trackId, user) {
     try {
-        if (user._id !== 'guest') {
-            const { likedSongs } = user;
-            const idxFromUser = likedSongs.findIndex(track => track.id === trackId)
-            likedSongs.splice(idxFromUser, 1);
-            user = await httpService.put(`user/${user._id}`, user)
+        if (user._id) {
+            const idx = user.likedSongs.findIndex(track => track.id === trackId)
+            console.log('idx', idx);
+            user.likedSongs.splice(idx, 1);
+            return await userService.updateUser(user)
         } else {
-            let station = await asyncSessionService.get("likedStation", "liked")
-            let { tracks } = station;
-            if (!station || !tracks.length) return;
-            const idxFromStation = tracks.findIndex(track => track.id === trackId)
-            tracks.splice(idxFromStation, 1);
-            await asyncSessionService.put("likedStation", station)
+            let likedStation = await asyncSessionService.get("likedStation", "liked")
+            if (!likedStation) return;
+            const idx = likedStation.tracks.findIndex(track => track.id === trackId)
+            likedStation.tracks.splice(idx, 1);
+            await asyncSessionService.put("likedStation", likedStation)
+            return user
         }
     } catch (err) {
         throw err
@@ -323,7 +322,6 @@ async function getTemplateStation(key, id) {
         throw err
     }
 }
-
 
 async function saveNewStation() {
     try {

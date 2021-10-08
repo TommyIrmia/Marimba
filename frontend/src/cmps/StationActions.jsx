@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { StationFilter } from './StationFilter.jsx';
 import { stationService } from './../services/station.service';
-import { async } from './../services/cloudinary.service';
 
 export class StationActions extends Component {
 
@@ -22,7 +21,10 @@ export class StationActions extends Component {
 
     loadStation = async () => {
         try {
-            const station = await stationService.getById(this.props.stationId)
+            const { currStationId } = this.props
+            let station;
+            if (currStationId === "liked") station = await stationService.getTemplateStation("likedStation", currStationId)
+            else station = await stationService.getById(this.props.currStationId)
             this.setState({ station }, () => {
                 this.checkIsLiked()
                 this.updateLikesCount()
@@ -35,9 +37,8 @@ export class StationActions extends Component {
     checkIsLiked = async () => {
         try {
             const { station } = this.state;
+            const { user } = this.props;
             if (!station) return;
-            this.setState({ station })
-            const { user } = this.state;
             const isLiked = station.likedByUsers.some(currUser => currUser._id === user._id)
             if (isLiked) this.setState({ isLiked })
         } catch (err) {
@@ -62,9 +63,9 @@ export class StationActions extends Component {
     }
 
     onUnlikeStation = (stationId) => {
-        const { _id } = this.state.user;
+        const { user } = this.props;
         this.setState({ isLiked: false }, () => {
-            stationService.removeLikeFromStation(stationId, _id)
+            stationService.removeLikeFromStation(stationId, user._id)
         })
         this.updateLikesCount(-1)
     }
@@ -100,12 +101,12 @@ export class StationActions extends Component {
                                 className="play-btn fas fa-pause">
                             </button>}
 
-                            { currStationId !== 'liked' && <button onClick={isLiked ? () => this.onUnlikeStation(currStationId) : () => this.onLikeStation(currStationId)}
+                            {currStationId !== 'liked' && <button onClick={isLiked ? () => this.onUnlikeStation(currStationId) : () => this.onLikeStation(currStationId)}
                                 className={"btn-action " + (isLiked ? "fas fa-thumbs-up btn-liked" : "far fa-thumbs-up")}></button>}
 
                             <button className="far fa-arrow-alt-circle-down btn-action"></button>
 
-                            { currStationId !== 'liked' && <div className="add-track-btn" onClick={onScrollToAdd}>
+                            {currStationId !== 'liked' && <div className="add-track-btn" onClick={onScrollToAdd}>
                                 <span className="fas fa-plus btn-icon"></span>
                                 <span className="btn-text">Add Tracks</span>
                             </div>}

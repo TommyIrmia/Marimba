@@ -4,7 +4,6 @@ import { withRouter } from 'react-router'
 import { utilService } from '../services/util.service'
 import { loadActivities } from '../store/activitylog.actions'
 import { setBgcAndName } from '../store/station.actions'
-import userImg from '../assets/imgs/logo.png'
 
 export class _ActivityLog extends Component {
 
@@ -70,6 +69,8 @@ export class _ActivityLog extends Component {
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
+            default:
+                return <div></div>
         }
     }
 

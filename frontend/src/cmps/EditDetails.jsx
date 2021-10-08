@@ -81,7 +81,7 @@ export default class EditDetails extends Component {
     }
 
     render() {
-        const { isHover, hero, genres, isSelect } = this.state;
+        const { isHover, hero, genres } = this.state;
         const { img, title, desc, bgc } = this.state.hero;
         const { onEdit, onToggleEdit, saveDataFromHero, onFlip, animation } = this.props;
         return (
