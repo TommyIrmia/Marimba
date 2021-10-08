@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { StationFilter } from './StationFilter.jsx';
 import { stationService } from './../services/station.service';
+import { WhatsappShareButton, WhatsappIcon } from 'react-share'
+import { async } from './../services/cloudinary.service';
 
 export class StationActions extends Component {
 
@@ -50,6 +52,7 @@ export class StationActions extends Component {
 
     checkIsLiked = () => {
         const { user, currStationId } = this.props;
+        if (!user.likedStations) return false
         return user.likedStations.some(stationId => currStationId === stationId)
     }
 
@@ -89,6 +92,9 @@ export class StationActions extends Component {
                                 <span className="fas fa-plus btn-icon"></span>
                                 <span className="btn-text">Add Tracks</span>
                             </div>}
+                            <WhatsappShareButton url={`http://www.youtube.com/watch?v=9WzIACv_mxs`} title="I like to share with you this playlist from Marimba!">
+                                <WhatsappIcon round={true}/>
+                            </WhatsappShareButton>
                         </div>
 
 

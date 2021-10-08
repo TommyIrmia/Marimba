@@ -29,21 +29,21 @@ export class NavBar extends Component {
                     <NavLink to="/library" activeClassName="chosen" >
                         <li>
                             <div className="symbol">||\</div>
-                            <div className="text">My Library</div>
+                            <div className="text">Library</div>
                         </li>
                     </NavLink>
 
                     <NavLink to="/station/new" activeClassName="chosen">
                         <li>
                             <div className="symbol fas fa-plus-square"></div>
-                            <div className="text">Create Playlist</div>
+                            <div className="text">Create</div>
                         </li>
                     </NavLink>
 
                     <NavLink to="/station/liked" activeClassName="chosen">
                         <li>
                             <div className="symbol fas fa-heart"></div>
-                            <div className="text">Liked Songs</div>
+                            <div className="text">Liked</div>
                         </li>
                     </NavLink>
                 </ul>

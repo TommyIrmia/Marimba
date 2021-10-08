@@ -10,6 +10,10 @@
   font-family: gotham-bold, rubic;
   cursor: pointer;
 
+  @include for-mobile-layout {
+    
+  }
+
   @include for-wide-layout {
     padding: 20px;
     width: 200px;

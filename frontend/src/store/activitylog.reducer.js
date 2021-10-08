@@ -1,3 +1,4 @@
+import { socketService } from "../services/socket.service";
 const initialState = {
     activities: [],
 }
@@ -12,6 +13,7 @@ export function activityLogReducer(state = initialState, action) {
             activities = state.activities.filter(activity => activity.id !== activity.trackId)
             return { ...state, activities }
         case 'ADD_ACTIVITY':
+            socketService.emit('newActivity', action.activity);
             activities = [action.activity, ...state.activities]
             return { ...state, activities }
         default:

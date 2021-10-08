@@ -1,6 +1,9 @@
 .activity-log {
   position: relative;
   bottom: 23px;
+  @include for-mobile-layout {
+    display: none;
+  }
   h1 {
     font-family: gotham;
     font-weight: 400;

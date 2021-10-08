@@ -1,58 +1,114 @@
 .nav-bar {
   position: fixed;
-  height: 100vh;
-  width: 220px;
-  background-color: #000;
-  padding: 20px 10px;
+  height: 100px;
+  width: 100%;
+  bottom: 0;
+  background: $clr1;
+  background: rgb(18, 18, 18);
+  background: linear-gradient(
+    180deg,
+    rgba(18, 18, 18, 0) 3%,
+    rgba(18, 18, 18, 0.1) 6%,
+    rgba(18, 18, 18, 0.4) 11%,
+    rgba(18, 18, 18, 0.6) 16%,
+    rgba(18, 18, 18, 0.8) 25%,
+    rgba(18, 18, 18, 0.9) 40%,
+    rgba(18, 18, 18, 1) 81%
+  );
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 1;
+  padding: 10px;
+
+  @include for-narrow-layout {
+    height: 100vh;
+    width: 220px;
+    bottom: unset;
+    background-color: #000;
+    flex-direction: column;
+    align-items: unset;
+    padding: 20px 10px;
+  }
 
   @include for-wide-layout {
     width: 250px;
   }
 
   .nav-list {
-    margin-top: 2rem;
-    padding-bottom: 40px;
-    border-bottom: 2px solid gray;
     position: relative;
-    bottom: 40px;
+    @include for-mobile-layout {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      padding: 0 40px;
+    }
+
+    @include for-narrow-layout {
+      border-bottom: 2px solid gray;
+      margin-top: 2rem;
+      padding-bottom: 40px;
+      bottom: 40px;
+    }
     li {
       font-family: gotham;
-      font-weight: 900;
-      font-size: 0.9rem;
       color: inherit;
       background-color: inherit;
       border-radius: 0.5rem;
-      // font-family: gotham-bold;
       transition: 0.25s;
       padding: 10px;
       display: flex;
       align-items: center;
-      gap: 1rem;
-      &:hover {
+      flex-direction: column;
+      gap: 5px;
+      font-size: 0.7rem;
+
+      @include for-mobile-layout {
+        text-align: center;
+        min-width: 75px;
+      }
+
+      @include for-narrow-layout {
+        font-size: 0.9rem;
         font-weight: 900;
+        flex-direction: row;
+        gap: 1rem;
+      }
+
+      &:hover {
         color: $clr7;
         cursor: pointer;
         text-shadow: 0 0 2px $clr7;
+        font-weight: 900;
       }
 
       .symbol {
-        font-size: rem(22px);
+        font-size: rem(18px);
         width: 26px;
+        @include for-narrow-layout {
+          font-size: rem(22px);
+        }
       }
     }
 
     a {
       color: $clr2;
+
       &.chosen {
         font-weight: 900;
         color: $clr7;
-        background-color: $clr4;
+        @include for-narrow-layout {
+          background-color: $clr4;
+        }
       }
     }
   }
   .logo {
     margin-inline-start: 50px;
+  }
+  .logo-container {
+    @include for-mobile-layout {
+      display: none;
+    }
   }
 }
