@@ -41,7 +41,10 @@ export class _AppHeader extends React.Component {
                     {user.fullname !== 'Guest' && <>
                         <li className="clean-list user-options" >Profile</li>
                         <li className="clean-list user-options" >Settings</li>
-                        <li onClick={this.onLogout} className="clean-list user-options" >Log out</li>
+                        <li onClick={()=>{
+                            this.onLogout()
+                            this.setState({ isOpen: false })
+                        }} className="clean-list user-options" >Log out</li>
                     </>}
                 </ul>}
             </div>
