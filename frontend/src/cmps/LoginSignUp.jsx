@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import FacebookLogin from 'react-facebook-login';
 import { connect } from 'react-redux'
 import { Logo } from './Logo';
 import { Link } from 'react-router-dom';
@@ -17,7 +18,7 @@ export class _LoginSignUp extends Component {
         },
         isPasswordVisible: false,
     }
-
+  
     handleChange = (ev) => {
         const field = ev.target.name;
         const value = ev.target.value;
@@ -25,6 +26,7 @@ export class _LoginSignUp extends Component {
     }
 
     onLoginSignup = async (user, isLogin) => {
+        console.log(user, isLogin);
         try {
             if (isLogin) {
                 const loggedinUser = await this.props.onLogin(user)
@@ -53,9 +55,27 @@ export class _LoginSignUp extends Component {
         }
     }
 
+    responseFacebook = (val) => {
+
+        const fullname = val.name
+        const username = val.name.split(' ').slice(0, 1)
+        const imgUrl = val.picture.data.url;
+
+        this.setState((prevState) => ({
+            ...prevState, user: {
+                ...prevState.user,
+                username: username[0],
+                password: '123',
+                fullname,
+                imgUrl,
+            }
+        }), () => this.onLoginSignup(this.state.user, this.props.isLogin))
+
+    }
+
     render() {
         const { onToggleLogin, isLogin } = this.props;
-        const { user,isPasswordVisible } = this.state;
+        const { user, isPasswordVisible } = this.state;
         const { username, password, fullname, imgUrl } = this.state.user;
         return (
             <div className="LoginSignUp">
@@ -86,10 +106,10 @@ export class _LoginSignUp extends Component {
                     </div>
 
                     <div className="input-container flex">
-                        <input name="password" type={(isPasswordVisible) ? 'text' : 'Password' } placeholder="Password"
+                        <input name="password" type={(isPasswordVisible) ? 'text' : 'Password'} placeholder="Password"
                             value={password} required onChange={this.handleChange} />
-                        <div className="far fa-eye-slash" 
-                        onClick={()=> this.setState({isPasswordVisible:!isPasswordVisible}) } ></div>
+                        <div className="far fa-eye-slash"
+                            onClick={() => this.setState({ isPasswordVisible: !isPasswordVisible })} ></div>
                     </div>
 
                     {!isLogin && <div className="input-container flex">
@@ -102,7 +122,20 @@ export class _LoginSignUp extends Component {
                     {isLogin && <button>Log in</button>}
                 </form>
 
+                <h4>OR</h4>
+                <hr />
+
+                    <FacebookLogin
+                        appId="550515812703196"
+                        // autoLoad={true}
+                        fields="name,picture"
+                        scope="public_profile"
+                        callback={this.responseFacebook}
+                        icon={<div className="fab fa-facebook f-a-container flex"></div>}
+                    />
+
                 <Link to="/" > Back </Link>
+
                 <div className="toggle-login">{(isLogin) ? "Don't have an account?" : "Already on Marimba?"}
                     <button onClick={onToggleLogin} > {(isLogin) ? "SIGNUP" : "LOGIN"} </button> </div>
             </div>
