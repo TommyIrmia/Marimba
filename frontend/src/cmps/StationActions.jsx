@@ -50,6 +50,7 @@ export class StationActions extends Component {
 
     checkIsLiked = () => {
         const { user, currStationId } = this.props;
+        if (!user.likedStations) return false
         return user.likedStations.some(stationId => currStationId === stationId)
     }
 
