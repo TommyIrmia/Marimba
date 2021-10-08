@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { onUpdateTrack, onRemoveTrack } from '../store/station.actions.js'
-import {
-    setPlayer, setSongIdx, onTogglePlay, setCurrDuration, loadTracksToPlayer, updateIsLikedSong
-} from '../store/mediaplayer.actions.js'
-import { onSetMsg } from '../store/user.actions.js'
+import { onUpdateTrack, onRemoveTrack, loadTracks } from '../store/station.actions.js'
+import { setPlayer, setSongIdx, onTogglePlay, setCurrDuration, loadTracksToPlayer, updateIsLikedSong } from '../store/mediaplayer.actions.js'
+import { onSetMsg, onLikeTrack, onUnlikeTrack } from '../store/user.actions.js'
 import YouTube from 'react-youtube';
 import imgSrc from '../assets/imgs/logo3.png';
 import { TrackDetails } from './TrackDetails.jsx';
@@ -90,7 +88,7 @@ export class _MediaPlayer extends Component {
         try {
             if (!this.state.initialPlay && !this.props.player) {
                 this.setState({ initialPlay: true }, async () => {
-                    const stationId = this.props.station_Id || this.props.stationId
+                    const stationId = this.props.currStationId || this.props.stationId
                     await this.props.loadTracksToPlayer(this.props.tracks, stationId)
                 })
             }
@@ -109,7 +107,7 @@ export class _MediaPlayer extends Component {
 
     onChangeSong = (diff) => {
         const { isRepeat, isShuffle } = this.state
-        const { tracks, currSongIdx, currentTracks, player, stationId, station_Id } = this.props
+        const { tracks, currSongIdx, currentTracks, player, stationId, currStationId } = this.props
         if (!player) return
         let currIdx = tracks.findIndex(track => track.isPlaying) // find current playing IDX
         if (currIdx === -1) currIdx = currSongIdx // if not find, use the currSongIdx from store
@@ -137,7 +135,7 @@ export class _MediaPlayer extends Component {
 
         if (nextIdx >= currentTracks.length) nextIdx = 0; // if last song on the list - go to index 0
 
-        if (stationId === station_Id) this.props.loadTracksToPlayer(tracks, stationId)
+        if (stationId === currStationId) this.props.loadTracksToPlayer(tracks, stationId)
         this.props.setSongIdx(nextIdx)
         this.props.player.playVideo()
     }
@@ -226,8 +224,7 @@ export class _MediaPlayer extends Component {
 
     render() {
         const { isMute, songLength, volume, isRepeat, isShuffle, station, isPlayerReady } = this.state
-        const { currSongIdx, currDuration, isPlaying, currentTracks, player, onRemoveTrack, currLikedTrack, user } = this.props
-        // console.log('from media player', currentTracks[currSongIdx])
+        const { currSongIdx, currDuration, isPlaying, currentTracks, player, onRemoveTrack, currLikedTrack, user, currStationId } = this.props
         return (
             <div className={isPlayerReady ? "media-player" : "media-player hidden"}>
                 {currentTracks?.length ? <YouTube
@@ -246,9 +243,10 @@ export class _MediaPlayer extends Component {
                 /> : ''}
 
                 <TrackDetails
-                    onRemoveTrack={onRemoveTrack} imgSrc={imgSrc}
+                    onRemoveTrack={onRemoveTrack} imgSrc={imgSrc} currStationId={currStationId}
+                    onLikeTrack={this.props.onLikeTrack} onUnlikeTrack={this.props.onUnlikeTrack}
                     currTrack={currentTracks[currSongIdx]} station={station}
-                    player={player} isPlaying={isPlaying} user={user}
+                    player={player} isPlaying={isPlaying} user={user} loadTracks={this.props.loadTracks}
                     currLikedTrack={currLikedTrack} onSetMsg={this.props.onSetMsg}
                     updateIsLikedSong={(isLiked) => this.props.updateIsLikedSong(isLiked)}
                 />
@@ -276,11 +274,12 @@ function mapStateToProps(state) {
         currentTracks: state.mediaPlayerModule.currentTracks,
         stationId: state.mediaPlayerModule.stationId,
         tracks: state.stationModule.tracks,
-        station_Id: state.stationModule.station_Id,
+        currStationId: state.stationModule.currStationId,
         currLikedTrack: state.mediaPlayerModule.currLikedTrack,
         user: state.userModule.user,
     }
 }
+
 const mapDispatchToProps = {
     onUpdateTrack,
     setPlayer,
@@ -290,7 +289,10 @@ const mapDispatchToProps = {
     loadTracksToPlayer,
     onRemoveTrack,
     updateIsLikedSong,
-    onSetMsg
+    onSetMsg,
+    onLikeTrack,
+    onUnlikeTrack,
+    loadTracks
 }
 
 

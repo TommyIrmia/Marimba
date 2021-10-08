@@ -113,7 +113,6 @@ async function getGenres() {
     }
 }
 
-// move to backend!!
 async function getStationsByGenre(stations, genre) {
     if (!stations) return
     const filteredStations = stations.filter(station => station.tags.includes(genre))
@@ -121,18 +120,8 @@ async function getStationsByGenre(stations, genre) {
     return shuffledStations
 }
 
-const _getShuffledArr = arr => {
-    const newArr = arr.slice()
-    for (let i = newArr.length - 1; i > 0; i--) {
-        const rand = Math.floor(Math.random() * (i + 1));
-        [newArr[i], newArr[rand]] = [newArr[rand], newArr[i]];
-    }
-    return newArr
-};
-
 async function getById(stationId) {
     try {
-        // console.log('station id from get by id');
         if (!stationId) return
         const station = await httpService.get(`station/${stationId}`)
         if (station.tracks.length) station.tracks.forEach(track => track.isPlaying = false)
@@ -141,7 +130,6 @@ async function getById(stationId) {
         throw err
     }
 }
-
 
 async function addStation(station) {
     try {
@@ -162,8 +150,7 @@ async function loadTracks(stationId, filterBy) {
             if (stationId === "new") return []
             else if (stationId === "liked") {
                 const user = userService.getLoggedinUser();
-                if (user._id !== 'guest') {
-                    console.log('user', user);
+                if (user._id) {
                     return user.likedSongs;
                 } else {
                     station = await asyncSessionService.get("likedStation", "liked")
@@ -235,43 +222,6 @@ async function removeTrackFromStation(trackId, stationId) {
     }
 }
 
-async function addTrackToLiked(track,user) {
-    // let user = userService.getLoggedinUser()
-    try {
-        if (user._id !== 'guest') {
-            user.likedSongs.push(track)
-            user = await httpService.put(`user/${user._id}`, user)
-        } else {
-            let station = await asyncSessionService.get("likedStation", "liked")
-            station.tracks?.push(track)
-            station = await asyncSessionService.put("likedStation", station)
-        }
-    } catch (err) {
-        throw err
-    }
-}
-
-async function removeTrackFromLiked(trackId,user) {
-    // let user = userService.getLoggedinUser()
-    try {
-        if (user._id !== 'guest') {
-            const { likedSongs } = user;
-            const idxFromUser = likedSongs.findIndex(track => track.id === trackId)
-            likedSongs.splice(idxFromUser, 1);
-            user = await httpService.put(`user/${user._id}`, user)
-        } else {
-            let station = await asyncSessionService.get("likedStation", "liked")
-            let { tracks } = station;
-            if (!station || !tracks.length) return;
-            const idxFromStation = tracks.findIndex(track => track.id === trackId)
-            tracks.splice(idxFromStation, 1);
-            await asyncSessionService.put("likedStation", station)
-        }
-    } catch (err) {
-        throw err
-    }
-}
-
 async function getTemplateStation(key, id) {
     try {
         const user = userService.getLoggedinUser()
@@ -324,7 +274,6 @@ async function getTemplateStation(key, id) {
     }
 }
 
-
 async function saveNewStation() {
     try {
         counter++
@@ -363,23 +312,78 @@ async function saveDataFromHero(stationId, data) {
     }
 }
 
-async function addLikeTtoStation(stationId, user) {
+async function addTrackToLiked(track, user) {
     try {
-        const station = await getById(stationId)
-        station.likedByUsers.push(user)
-        // await asyncStorageService.put(STORAGE_KEY, station)
+        if (user._id) {
+            user.likedSongs.push(track)
+            return await userService.updateUser(user)
+        } else {
+            let likedStation = await asyncSessionService.get("likedStation", "liked")
+            likedStation.tracks?.push(track)
+            await asyncSessionService.put("likedStation", likedStation)
+            return user
+        }
     } catch (err) {
         throw err
     }
 }
 
-async function removeLikeFromStation(stationId, userId) {
+async function removeTrackFromLiked(trackId, user) {
     try {
-        // const station = await asyncStorageService.get(STORAGE_KEY, stationId)
-        // const idx = station.likedByUsers.findIndex(user => user.id === userId)
-        // await station.likedByUsers.splice(idx, 1);
-        // return await asyncStorageService.put(STORAGE_KEY, station)
+        if (user._id) {
+            const idx = user.likedSongs.findIndex(track => track.id === trackId)
+            user.likedSongs.splice(idx, 1);
+            return await userService.updateUser(user)
+        } else {
+            let likedStation = await asyncSessionService.get("likedStation", "liked")
+            if (!likedStation) return;
+            const idx = likedStation.tracks.findIndex(track => track.id === trackId)
+            likedStation.tracks.splice(idx, 1);
+            await asyncSessionService.put("likedStation", likedStation)
+            return user
+        }
     } catch (err) {
         throw err
     }
 }
+
+async function addLikeTtoStation(station, user) {
+    try {
+
+        const miniUser = {
+            _id: user._id,
+            fullname: user.fullname,
+            imgUrl: user.imgUrl
+        }
+        station.likedByUsers.push(miniUser)
+        httpService.put(`station`, station)
+
+        user.likedStations.push(station._id)
+        return await userService.updateUser(user)
+    } catch (err) {
+        throw err
+    }
+}
+
+async function removeLikeFromStation(station, userToUpdate) {
+    try {
+        const stationIdx = station.likedByUsers.findIndex(user => user._id === userToUpdate._id)
+        station.likedByUsers.splice(stationIdx, 1);
+        httpService.put(`station`, station)
+
+        const userIdx = userToUpdate.likedStations.findIndex(stationId => stationId === station._id)
+        userToUpdate.likedStations.splice(userIdx, 1)
+        return await userService.updateUser(userToUpdate)
+    } catch (err) {
+        throw err
+    }
+}
+
+const _getShuffledArr = arr => {
+    const newArr = arr.slice()
+    for (let i = newArr.length - 1; i > 0; i--) {
+        const rand = Math.floor(Math.random() * (i + 1));
+        [newArr[i], newArr[rand]] = [newArr[rand], newArr[i]];
+    }
+    return newArr
+};

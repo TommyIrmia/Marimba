@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { onPlayTrack, loadTracksToPlayer, setSongIdx, updateIsLikedSong } from '../store/mediaplayer.actions.js'
 import { onUpdateTrack } from '../store/station.actions.js'
-import { onSetMsg } from '../store/user.actions.js'
+import { onSetMsg, onLikeTrack, onUnlikeTrack } from '../store/user.actions.js'
 import { stationService } from '../services/station.service';
 import { Audio } from '../assets/svg/audio'
 
@@ -39,8 +39,8 @@ export class _SearchTrackPreview extends Component {
 
     onLike = async () => {
         try {
-            const { track } = this.props;
-            await stationService.addTrackToLiked(track)
+            const { track, user } = this.props;
+            await this.props.onLikeTrack(track, user)
             this.setState({ isLiked: true })
             this.props.onSetMsg('success', 'Added to Liked Songs')
         } catch (err) {
@@ -49,11 +49,9 @@ export class _SearchTrackPreview extends Component {
     }
 
     onUnLike = async (trackId) => {
-        const { stationId, track } = this.props;
+        const { track, user } = this.props;
         try {
-            if (stationId === 'liked') {
-                await this.props.onRemoveTrack(trackId)
-            } else await stationService.removeTrackFromLiked(trackId)
+            await this.props.onUnlikeTrack(trackId, user)
             this.setState({ isLiked: false })
             if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: false })
             this.props.onSetMsg('success', 'Removed from Liked Songs')
@@ -84,7 +82,7 @@ export class _SearchTrackPreview extends Component {
 
     render() {
         const { isHover, isLiked } = this.state
-        const { track, idx, player } = this.props
+        const { track, idx } = this.props
         const { title } = track
         return (
             <section className="track-container search flex playlist-layout"
@@ -134,6 +132,7 @@ function mapStateToProps(state) {
         player: state.mediaPlayerModule.player,
         currSongIdx: state.mediaPlayerModule.currSongIdx,
         currentTracks: state.mediaPlayerModule.currentTracks,
+        user: state.userModule.user
 
     }
 }
@@ -144,7 +143,9 @@ const mapDispatchToProps = {
     onUpdateTrack,
     setSongIdx,
     updateIsLikedSong,
-    onSetMsg
+    onSetMsg,
+    onLikeTrack,
+    onUnlikeTrack
 }
 
 

@@ -18,10 +18,11 @@ export class TrackDetails extends React.Component {
 
     onLike = async () => {
         try {
-            if (!this.props.player) return
-            const { currTrack, user } = this.props
-            await stationService.addTrackToLiked(currTrack, user)
+            const { currTrack, user, player, currStationId } = this.props
+            if (!player) return
+            await this.props.onLikeTrack(currTrack, user)
             this.props.updateIsLikedSong({ trackId: currTrack.id, isLiked: true })
+            if (currStationId === 'liked') this.props.loadTracks(currStationId)
             this.props.onSetMsg('success', 'Added to Liked Songs')
         } catch (err) {
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
@@ -30,9 +31,10 @@ export class TrackDetails extends React.Component {
 
     onUnLike = async (trackId) => {
         try {
-            const { user } = this.props
-             await stationService.removeTrackFromLiked(trackId,user)
+            const { user, currStationId } = this.props
+            await this.props.onUnlikeTrack(trackId, user)
             this.props.updateIsLikedSong({ trackId, isLiked: false })
+            if (currStationId === 'liked') this.props.loadTracks(currStationId)
             this.props.onSetMsg('success', 'Removed from Liked Songs')
         } catch (err) {
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
@@ -43,7 +45,7 @@ export class TrackDetails extends React.Component {
         const { currTrack, user } = this.props
         if (!currTrack) return;
         try {
-            if (user._id !== 'guest') {
+            if (user._id) {
                 const isLiked = user.likedSongs?.some(likedTrack => likedTrack.id === currTrack.id)
                 if (isLiked) this.props.updateIsLikedSong({ trackId: currTrack.id, isLiked })
             } else {
@@ -57,7 +59,7 @@ export class TrackDetails extends React.Component {
     }
 
     render() {
-        const { imgSrc, currTrack, station, currLikedTrack, isPlaying } = this.props
+        const { imgSrc, currTrack, station, currLikedTrack, isPlaying, currStationId } = this.props
         return (
 
             <div className="song-details flex align-center">
@@ -65,7 +67,7 @@ export class TrackDetails extends React.Component {
 
                 <div className="song-info">
                     <p>{(currTrack) ? currTrack.title.replace(/\(([^)]+)\)/g, '') : 'Choose a song!'}</p>
-                    <small>{station.name}</small>
+                    <small>{currStationId === 'liked' ? 'Liked Songs' : station.name}</small>
                 </div>
 
                 <div className="song-actions">

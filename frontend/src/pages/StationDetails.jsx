@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { addActivity } from '../store/activitylog.actions.js'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
-import { onSetMsg } from '../store/user.actions.js'
-import { setBgcAndName, loadTracks, onAddTrack, onRemoveTrack, onUpdateTracks, onUpdateTrack, updateTracksInStore } from '../store/station.actions.js'
+import { onSetMsg, onLikeStation, onUnlikeStation } from '../store/user.actions.js'
+import { setBgcAndName, loadTracks, onAddTrack, onRemoveTrack, onUpdateTracks, onUpdateTrack, updateTracksInStore, setLikesCount } from '../store/station.actions.js'
 import { StationHero } from './../cmps/StationHero';
 import { EditHero } from './../cmps/EditHero';
 import { StationActions } from './../cmps/StationActions';
@@ -34,28 +34,30 @@ class _StationDetails extends Component {
 
     async componentDidMount() {
         try {
+            console.log('station did mount');
             window.scrollTo(0, 0)
             const { stationId } = this.props.match.params
             let station;
             let isEditable = false;
             if (stationId === 'new') {
-                //new sation 
                 isEditable = true;
                 station = await stationService.getTemplateStation("newStation", stationId)
             }
             else if (stationId === 'liked') {
-                // likedSongs array from user json => loggedInUser session (backend)
                 station = await stationService.getTemplateStation("likedStation", stationId)
             }
             else {
                 station = await stationService.getById(stationId)
+                socketService.emit('station id', stationId)
+                socketService.on('tracksChanged', this.tracksChanged)
             }
             this.props.setBgcAndName(station.bgc, station.name)
-            this.setState({ ...this.state, isEditable, stationId }, async () => {
+            this.props.setLikesCount(station.likedByUsers?.length)
+            this.setState({ ...this.state, isEditable, stationId, station }, async () => {
                 await this.loadTracks()
             })
-            socketService.emit('station id', stationId)
-            socketService.on('tracksChanged', this.tracksChanged)
+            // socketService.emit('station id', stationId)
+            // socketService.on('tracksChanged', this.tracksChanged)
         } catch (err) {
             this.props.history.push('/')
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
@@ -72,7 +74,8 @@ class _StationDetails extends Component {
 
     loadTracks = async () => {
         try {
-            await this.props.loadTracks(this.state.stationId)
+            const { stationId } = this.props.match.params
+            await this.props.loadTracks(stationId)
         } catch (err) {
             console.error('Can not get tracks in station', err)
         }
@@ -126,7 +129,6 @@ class _StationDetails extends Component {
     }
 
     userConfirmation = () => {
-        const { isConfirmMsgOpen } = this.state;
         this.setState({ isConfirmMsgOpen: true })
 
         return new Promise((resolve) => {
@@ -137,9 +139,8 @@ class _StationDetails extends Component {
     tracksChanged = ({ tracks }) => {
         try {
             this.props.updateTracksInStore(tracks)
-            // await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         } catch (err) {
-            console.log('another user failed to edit this station');
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.');
         }
     }
 
@@ -255,8 +256,9 @@ class _StationDetails extends Component {
 
     render() {
         const { isSearch, isPlaying, isEditModalOpen, animation, isConfirmMsgOpen } = this.state;
-        const { tracks, bgc } = this.props
+        const { tracks, bgc, user } = this.props
         const { stationId } = this.props.match.params
+
         return (
             <main className="StationDetails">
                 <div onClick={() => {
@@ -268,26 +270,39 @@ class _StationDetails extends Component {
                     this.onToggleEdit()
                 }} className={((isEditModalOpen) ? "dark screen" : "")}></div>
 
-                {stationId !== 'new' && <StationHero stationId={stationId} tracks={tracks} onSetMsg={this.props.onSetMsg} />}
-
-                {
-                    stationId === 'new' && <EditHero animation={animation} onFlip={this.onFlip} isEditModalOpen={isEditModalOpen} onToggleEdit={this.onToggleEdit}
-                        saveDataFromHero={this.saveDataFromHero} />
+                {stationId !== 'new' &&
+                    <StationHero stationId={stationId} tracks={tracks}
+                        onSetMsg={this.props.onSetMsg} likesCount={this.props.likesCount} />
                 }
 
-                <StationActions onSetFilter={this.onSetFilter} inputRef={this.inputRef}
+                {
+                    stationId === 'new' &&
+                    <EditHero animation={animation} onFlip={this.onFlip} isEditModalOpen={isEditModalOpen}
+                        onToggleEdit={this.onToggleEdit} saveDataFromHero={this.saveDataFromHero} />
+                }
+
+                <StationActions
+                    onSetFilter={this.onSetFilter} inputRef={this.inputRef}
                     onSearch={this.onSearch} isSearch={isSearch} isPlaying={isPlaying}
                     onScrollToAdd={this.onScrollToAdd} playingStationId={this.props.stationId}
                     isPlayerPlaying={this.props.isPlaying} currStationId={stationId}
-                    tracks={tracks} onPlayTrack={this.onPlayTrack}
-                    onPauseTrack={this.onPauseTrack} bgc={bgc}
+                    tracks={tracks} onPlayTrack={this.onPlayTrack} onSetMsg={this.props.onSetMsg}
+                    onPauseTrack={this.onPauseTrack} bgc={bgc} user={user}
+                    onLikeStation={this.props.onLikeStation} onUnlikeStation={this.props.onUnlikeStation}
                 />
+
                 <DragDropContext onDragEnd={this.onDragEnd}>
-                    <TrackList isConfirmMsgOpen={isConfirmMsgOpen} confirmRemove={this.confirmRemove} onRemoveTrack={this.onRemoveTrack}
-                        tracks={tracks} stationId={stationId} loadTracks={this.loadTracks} />
+                    <TrackList
+                        isConfirmMsgOpen={isConfirmMsgOpen} confirmRemove={this.confirmRemove}
+                        onRemoveTrack={this.onRemoveTrack} tracks={tracks}
+                        stationId={stationId} loadTracks={this.loadTracks} />
                 </DragDropContext>
+
                 <section>
-                    <TrackSearch addRef={this.addRef} onAddTrack={this.onAddTrack} stationId={stationId} currStationTracks={tracks} onSetMsg={this.props.onSetMsg} />
+                    <TrackSearch
+                        addRef={this.addRef} onAddTrack={this.onAddTrack}
+                        stationId={stationId} currStationTracks={tracks}
+                        onSetMsg={this.props.onSetMsg} />
                 </section>
 
             </main >
@@ -306,7 +321,8 @@ function mapStateToProps(state) {
         tracks: state.stationModule.tracks,
         bgc: state.stationModule.bgc,
         stationName: state.stationModule.stationName,
-        currStationId: state.stationModule.station_Id,
+        currStationId: state.stationModule.currStationId,
+        likesCount: state.stationModule.likesCount,
         user: state.userModule.user
     }
 }
@@ -321,7 +337,10 @@ const mapDispatchToProps = {
     setBgcAndName,
     addActivity,
     onSetMsg,
-    updateTracksInStore
+    updateTracksInStore,
+    onLikeStation,
+    onUnlikeStation,
+    setLikesCount,
 }
 
 

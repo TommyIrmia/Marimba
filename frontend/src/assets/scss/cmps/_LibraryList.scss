@@ -19,7 +19,7 @@
     color: rgba(255, 255, 255, 0.664);
 
     @include for-wide-layout {
-      min-width: 455px;
+      min-width: 425px;
       height: 280px;
     }
     &:hover {

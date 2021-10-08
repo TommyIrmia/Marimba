@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
 import { LibraryList } from './../cmps/LibraryList';
 import { stationService } from './../services/station.service';
 
-export class LibraryPage extends Component {
+class _LibraryPage extends Component {
 
     state = {
-        likedStations: [],
+        likedByUser: [],
         likedTracks: [],
         stationsBy: [],
         recentlyStations: [],
+        mostLiked: [],
     }
 
     componentDidMount() {
@@ -16,37 +19,54 @@ export class LibraryPage extends Component {
         this.loadStations()
     }
 
-    biggestNumberInArray = (arr) => {
-        const max = Math.max(...arr);
-        return max;
-    }
 
     loadStations = async () => {
+        const likedByUser = []
+        const { user } = this.props;
         try {
             const stations = await stationService.query()
             const likedTracks = await stationService.getTemplateStation('likedStation', 'liked')
-            const likedStations = stations.filter(likedStation => likedStation.likedByUsers.length > 0)
-            const stationsByUser = stations.filter(stationBy => stationBy.createdBy._id === 'c137')
-            let recentlyaddedStations = stations.sort((a, b) => b.createdAt - a.createdAt);
+            const stationsByUser = stations.filter(stationBy => stationBy.createdBy._id === user._id)
+
+             user.likedStations.map( async stationId => {
+                likedByUser.push( await stationService.getById(stationId))  
+                this.setState({likedByUser})
+            })
+
+            let recentlyaddedStations = stations.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
             recentlyaddedStations = recentlyaddedStations.slice(0, 4);
 
-            this.setState({ recentlyStations: recentlyaddedStations, likedTracks: likedTracks.tracks, likedStations, stationsBy: stationsByUser })
+            let mostLiked = stations.sort((a, b) => b.likedByUsers.length - a.likedByUsers.length);
+            mostLiked = mostLiked.slice(0, 4);
+
+            this.setState({ mostLiked, recentlyStations: recentlyaddedStations, likedTracks: likedTracks.tracks, stationsBy: stationsByUser })
         } catch (err) {
-            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
+            // this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
+            console.log(err);
         }
     }
 
     render() {
-        const { likedStations, likedTracks, stationsBy, recentlyStations } = this.state;
+        const { likedByUser, likedTracks, stationsBy, recentlyStations, mostLiked } = this.state;
+        const { user } = this.props;
         return (
             <main className="LibraryPage playlist-layout" >
                 <div className="margin-top" >
                     <h2>Library</h2>
-                    <p>Enjoy the playlists you created and liked</p>
+                    {user.fullname !== 'Guest' && <p>Enjoy the playlists you created and liked</p>}
                 </div>
 
-                <LibraryList recentlyStations={recentlyStations} stationsBy={stationsBy} likedStations={likedStations} likedTracks={likedTracks} />
+                <LibraryList mostLiked={mostLiked} user={user} recentlyStations={recentlyStations} stationsBy={stationsBy} likedByUser={likedByUser} likedTracks={likedTracks} />
             </main>
         )
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        user: state.userModule.user
+    }
+}
+
+
+export const LibraryPage = connect(mapStateToProps)(_LibraryPage)

@@ -16,7 +16,7 @@ export class PlayerActions extends Component {
 
     render() {
         const { onChangeSong, songLength, currDuration, onDurationChange, onTogglePlay,
-            currSongIdx, isPlaying, onToggleRepeat, isRepeat, onToggleShuffle, isShuffle } = this.props
+            isPlaying, onToggleRepeat, isRepeat, onToggleShuffle, isShuffle } = this.props
         return (
             <div className="player-actions flex">
                 <button onClick={() => onToggleShuffle()}

@@ -53,7 +53,7 @@ export function onLogout() {
             await userService.logout()
             dispatch({
                 type: 'SET_USER',
-                user: { _id: 'guest', fullname: "Guest", imgUrl: defaultUser }
+                user: { fullname: "Guest", imgUrl: defaultUser }
             })
             console.log('logged out!')
         } catch (err) {
@@ -62,15 +62,65 @@ export function onLogout() {
     }
 }
 
-export function onUpdateUser(track,user) {
+export function onLikeTrack(track, user) {
     return async (dispatch) => {
         try {
-            await stationService.addTrackToLiked(track, user)
-            // const user = await userService.getLoggedinUser()
-            // console.log('current user : ', user)
+            const updatedUser = await stationService.addTrackToLiked(track, user)
             dispatch({
                 type: 'SET_USER',
-                user
+                user: updatedUser
+            })
+        } catch (err) {
+            throw err
+        }
+    }
+}
+
+export function onUnlikeTrack(trackId, user) {
+    return async (dispatch) => {
+        try {
+            const updatedUser = await stationService.removeTrackFromLiked(trackId, user)
+            dispatch({
+                type: 'SET_USER',
+                user: updatedUser
+            })
+
+        } catch (err) {
+            throw err
+        }
+    }
+}
+
+export function onLikeStation(station, user) {
+    return async (dispatch) => {
+        try {
+            console.log('from actions', station, user);
+            const updatedUser = await stationService.addLikeTtoStation(station, user)
+            dispatch({
+                type: 'SET_USER',
+                user: updatedUser
+            })
+            dispatch({
+                type: 'UPDATE_LIKES_COUNT',
+                diff: 1
+            })
+        } catch (err) {
+            throw err
+        }
+    }
+}
+
+export function onUnlikeStation(station, user) {
+    return async (dispatch) => {
+        try {
+            const updatedUser = await stationService.removeLikeFromStation(station, user)
+            dispatch({
+                type: 'SET_USER',
+                user: updatedUser
+            })
+            dispatch({
+                type: 'UPDATE_LIKES_COUNT',
+                diff: -1
             })
         } catch (err) {
             throw err

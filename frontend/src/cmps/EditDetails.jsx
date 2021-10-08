@@ -81,7 +81,7 @@ export default class EditDetails extends Component {
     }
 
     render() {
-        const { isHover, hero, genres, isSelect } = this.state;
+        const { isHover, hero, genres } = this.state;
         const { img, title, desc, bgc } = this.state.hero;
         const { onEdit, onToggleEdit, saveDataFromHero, onFlip, animation } = this.props;
         return (
@@ -113,7 +113,7 @@ export default class EditDetails extends Component {
                     </label>
 
                     <input className="input-name" type="text" name="title" onChange={this.handleChange}
-                        maxLength="14" placeholder={title} value={title} autoComplete="off" />
+                        maxLength="18" placeholder={title} value={title} autoComplete="off" />
 
                     <div className="multi-select-container"> 
 

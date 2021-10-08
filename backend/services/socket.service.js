@@ -2,6 +2,7 @@ const asyncLocalStorage = require('./als.service');
 const logger = require('./logger.service');
 
 var gIo = null
+let stationSocketsMap = {}
 
 function connectSockets(http, session) {
     gIo = require('socket.io')(http, {
@@ -15,7 +16,6 @@ function connectSockets(http, session) {
             console.log('Someone disconnected')
         })
         socket.on('station id', stationId => {
-            console.log('station id in station id', stationId);
             if (socket.stationId === stationId) return;
             if (socket.stationId) {
                 socket.leave(socket.stationId)
@@ -23,12 +23,11 @@ function connectSockets(http, session) {
             socket.join(stationId)
             socket.stationId = stationId
         })
-        // 'station changeTracks'
-        socket.on('station changeTracks', stationId => {
-            console.log('station being edit', stationId);
-            // emits to all sockets:
-            socket.broadcast.to(stationId).emit('station tracksChanged', stationId)
+
+        socket.on('changeTracks', ({ stationId, tracks }) => {
             // emits only to sockets in the same room
+            socket.to(stationId).emit('tracksChanged', { stationId, tracks })
+            socket.broadcast.emit('tracksChangedMediaPlayer', { stationId, tracks })
             // gIo.to(socket.myTopic).emit('chat addMsg', msg)
         })
         socket.on('newActivity', newActivity => {
@@ -64,6 +63,8 @@ async function emitToUser({ type, data, userId }) {
     }
 }
 
+
+
 // Send to all sockets BUT not the current socket 
 async function broadcast({ type, data, room = null, userId }) {
     console.log('BROADCASTING', JSON.stringify(arguments));
@@ -91,6 +92,7 @@ async function _getAllSockets() {
     const sockets = await gIo.fetchSockets();
     return sockets;
 }
+
 // function _getAllSockets() {
 //     const socketIds = Object.keys(gIo.sockets.sockets)
 //     const sockets = socketIds.map(socketId => gIo.sockets.sockets[socketId])

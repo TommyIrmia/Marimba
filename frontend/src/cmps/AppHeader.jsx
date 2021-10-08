@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router';
-
-import {onLogout} from '../store/user.actions'
+import { onLogout, onSetMsg } from '../store/user.actions'
 
 export class _AppHeader extends React.Component {
 
@@ -15,17 +14,21 @@ export class _AppHeader extends React.Component {
         this.setState({ isOpen: !isOpen })
     }
 
+    onLogout = () => {
+        this.props.onLogout()
+        this.props.onSetMsg('success', 'Logged out successfully')
+    }
+
     render() {
         const { isOpen } = this.state;
-        const { bgc, stationName, user,onLogout } = this.props
+        const { bgc, stationName, user } = this.props
         return (
             <div className="app-header" style={{ backgroundColor: bgc }} >
 
                 <h1>{stationName}</h1>
 
-
                 <div onClick={this.onOpenOptions} className="user-container">
-                    <div className="img-container"><img src={user.imgUrl} /></div>
+                    <div className="img-container"><img src={user.imgUrl} alt='user-img' /></div>
                     <div className="user-name">{user.fullname}</div>
                     <div className={(isOpen) ? 'fas fa-sort-up' : 'fas fa-sort-down'}></div>
                 </div>
@@ -38,7 +41,10 @@ export class _AppHeader extends React.Component {
                     {user.fullname !== 'Guest' && <>
                         <li className="clean-list user-options" >Profile</li>
                         <li className="clean-list user-options" >Settings</li>
-                        <li onClick={onLogout} className="clean-list user-options" >Log out</li>
+                        <li onClick={()=>{
+                            this.onLogout()
+                            this.setState({ isOpen: false })
+                        }} className="clean-list user-options" >Log out</li>
                     </>}
                 </ul>}
             </div>
@@ -53,8 +59,10 @@ function mapStateToProps(state) {
         user: state.userModule.user
     }
 }
+
 const mapDispatchToProps = {
     onLogout,
+    onSetMsg
 }
 
 export const AppHeader = connect(mapStateToProps, mapDispatchToProps)(withRouter(_AppHeader))

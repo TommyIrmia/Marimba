@@ -1,4 +1,3 @@
-import { socketService } from "../services/socket.service"
 
 export function setPlayer(player) {
     return (dispatch) => {
