@@ -32,14 +32,14 @@ export class _ActivityLog extends Component {
                 return (<li className={classStr} key={idx}
                     onClick={() => {
                         this.props.history.push(`/station/${activity.stationInfo.id}`)
-                        this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
+                        this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo?.name)
                     }}>
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
                     <div className="activity-info">
                         <span className="user-name"> {activity.createdBy.fullname} </span>
-                        <span className="green">created a playlist</span> - "{activity.stationInfo.name}"
+                        <span className="green">created a playlist</span> - "{activity.stationInfo?.name}"
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
@@ -54,7 +54,7 @@ export class _ActivityLog extends Component {
                     </div>
                     <div className="activity-info" >
                         <span className="user-name"> {activity.createdBy.fullname} </span>
-                        <span className="green"> added </span> "{activity.trackName}" to "{activity.stationInfo.name}"!
+                        <span className="green"> added </span> "{activity.trackName}" to "{activity.stationInfo?.name}"!
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
@@ -68,7 +68,7 @@ export class _ActivityLog extends Component {
                     </div>
                     <div className="activity-info">
                         <span className="user-name"> {activity.createdBy.fullname}</span>
-                        <span className="red"> removed </span>"{activity.trackName}" from "{activity.stationInfo.name}"!
+                        <span className="red"> removed </span>"{activity.trackName}" from "{activity.stationInfo?.name}"!
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
@@ -82,7 +82,7 @@ export class _ActivityLog extends Component {
                     </div>
                     <div className="activity-info">
                         <span className="user-name"> {activity.createdBy.fullname}</span>
-                        <span className="pink"> liked💗 </span>"{activity.trackName}" from "{activity.stationInfo.name}"!
+                        <span className="pink"> liked💗 </span>"{activity.trackName}" from "{activity.stationInfo?.name}"!
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)

@@ -169,3 +169,84 @@
 .station-search-preview {
   width: 220px;
 }
+
+
+
+
+
+.PopularStationsList{
+  // flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 50px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 280px));
+}
+
+.station-most-liked-preview {
+  // width: 260px;
+  height: 70px;
+  background-color:#282828;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+  }
+  
+
+  .station-label{
+    width: 10px;
+    height: 100%;
+    background-color:rgb(248, 113, 113);
+  }
+
+  .play-btn{
+    display: none;
+  }
+
+  .station-info{
+    p{
+      display: none;
+    }
+  }
+
+  .station-like-container{
+    position:absolute;
+    right: 88px;
+    bottom: 1px;
+    
+    .station-like{
+      display: flex;
+      
+      
+      
+      h2{
+        font-size:rem(10px)
+      }
+      button{
+        color:$clr7;
+        
+        &.green {
+          color: $clr5;
+          &:hover {
+            color: darkgreen;
+          }
+        }
+      }
+    }
+  }
+
+  .station-img {
+    position: relative;
+    height: 100%;
+    width: 30%;
+    background-color:salmon;
+    order: 1;
+    img {
+      height: inherit;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+}

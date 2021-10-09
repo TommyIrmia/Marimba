@@ -16,15 +16,18 @@ export class StationList extends React.Component {
 
     loadStationsByGenre = async () => {
         try {
-            const { genre } = this.props;
-            const { stations } = this.props
+            const { genre, stations } = this.props;
             if (!stations.length) return
             const stationsByGenre = await stationService.getStationsByGenre(stations, genre)
-            this.setState({ stationsByGenre: stationsByGenre })
+            this.setState({ stationsByGenre })
         } catch (err) {
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
+
+  
+
+
 
     render() {
         const { stationsByGenre } = this.state
