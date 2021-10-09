@@ -11,19 +11,19 @@ export class StationHero extends Component {
     }
 
     async componentDidMount() {
-        await this.loadStation()
+        // await this.loadStation()
     }
 
     loadStation = async () => {
-        const { stationId } = this.props
-        try {
-            let station;
-            if (stationId === "liked") station = await stationService.getTemplateStation("likedStation", stationId)
-            else station = await stationService.getById(stationId)
-            this.setState({ station })
-        } catch (err) {
-            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
-        }
+        // const { stationId } = this.props
+        // try {
+        //     let station;
+        //     if (stationId === "liked") station = await stationService.getTemplateStation("likedStation", stationId)
+        //     else station = await stationService.getById(stationId)
+        //     this.setState({ station })
+        // } catch (err) {
+        //     this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
+        // }
     }
 
     getStationFullTime = (tracks) => {
@@ -38,9 +38,9 @@ export class StationHero extends Component {
     }
 
     render() {
-        const { station } = this.state
+        const { station } = this.props
         const { tracks, stationId, likesCount } = this.props
-        if (!station) return <div>Loading</div>
+        if (!station) return <div></div>
         return (
             <main style={{ backgroundColor: station.bgc }} className="hero-container">
                 <div className="linear-container">

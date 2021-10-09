@@ -103,6 +103,12 @@
       }
     }
 
+    &.created-by {
+      @include for-mobile-layout {
+        height: unset;
+      }
+    }
+
     @include for-mobile-layout {
       justify-content: center;
     }

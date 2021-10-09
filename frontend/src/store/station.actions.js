@@ -101,7 +101,6 @@ export function onUpdateTrack(track) {
 
 export function setBgcAndName(bgc, stationName) {
     return async (dispatch) => {
-        console.log('from setbgc and name', bgc, stationName)
         try {
             dispatch({
                 type: 'SET_BGC_AND_NAME',

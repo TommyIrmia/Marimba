@@ -49,7 +49,7 @@ async function add(activity) {
     
         const activityToAdd = {
             type: activity.type,
-            activityInfo: activity.activityInfo,
+            stationInfo: activity.stationInfo,
             isRead: false,
             createdBy: {
                 _id: activity.createdBy._id,

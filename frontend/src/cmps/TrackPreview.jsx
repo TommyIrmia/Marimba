@@ -17,7 +17,6 @@ class _TrackPreview extends Component {
     }
 
     componentDidMount() {
-        console.log(window.innerWidth)
         if (window.innerWidth < 680) {
             this.setState({ isHover: true })
         }
@@ -112,7 +111,7 @@ class _TrackPreview extends Component {
 
     render() {
         const { isHover, isLiked } = this.state
-        const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen, tracksLength } = this.props
+        const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen, tracksLength, stationId } = this.props
         const { title } = track
         const date = utilService.getTime(track.addedAt)
         return (
@@ -159,9 +158,9 @@ class _TrackPreview extends Component {
 
                                 <p className={(isHover) ? '' : 'track-duration'} >{track.minutes}:{track.seconds}</p>
 
-                                <button onClick={() => onRemoveTrack(track.id, track.title)}
+                                {stationId !== 'liked' && <button onClick={() => onRemoveTrack(track.id, track.title)}
                                     className={"far fa-trash-alt btn-remove " + (isHover ? "" : "btn-hidden")}>
-                                </button>
+                                </button>}
                             </div>
 
                         </section>
