@@ -4,12 +4,15 @@
     position: fixed;
     z-index: 3;
     top: 11px;
-    left: 250px;
-    width: 300px;
+    left: 17.5%;
+    width: 65%;
     height: 40px;
     border-radius: 2rem;
     background-color: $clr7;
-    
+    @include for-narrow-layout {
+      left: 250px;
+      width: 300px;
+    }
     @include for-wide-layout {
       left: 300px;
       width: 400px;
@@ -24,7 +27,7 @@
     }
 
     input {
-      width: 85%;
+      width: 70%;
       height: inherit;
       border-radius: inherit;
       outline: none;
@@ -35,6 +38,9 @@
         position: relative;
         right: 0px;
         cursor: pointer;
+      }
+      @include for-narrow-layout {
+        width: 85%;
       }
     }
   }

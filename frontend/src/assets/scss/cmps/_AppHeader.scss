@@ -3,9 +3,12 @@
   background-color: $bgc3;
   grid-row: 1;
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   align-items: center;
 
+  @include for-narrow-layout {
+    justify-content: space-between;
+  }
   h1 {
     line-height: 60px;
     transition: 0.6s;
@@ -15,7 +18,7 @@
     @include for-mobile-layout {
       font-family: gotham, rubic;
       font-size: rem(16px);
-      margin-inline-start: 35px;
+      margin-inline-start: 70px;
     }
 
     @include for-wide-layout {
@@ -26,21 +29,27 @@
   .user-container {
     display: flex;
     justify-content: space-around;
-    gap: 10px;
     padding: 0 10px 0 2px;
     align-items: center;
-    min-width: rem(90px);
+    min-width: rem(60px);
     height: rem(35px);
     color: $clr7;
     background-color: #121212c5;
     border-radius: 23px;
-    margin-inline-end: 20px;
-    @include for-narrow-layout {
-      min-width: rem(120px);
+    margin-inline-end: 10px;
+    cursor: pointer;
+    @include for-mobile-layout {
+      position: absolute;
+      right: 0px;
     }
-    &:hover {
-      background-color: $clr1;
-      cursor: pointer;
+    
+    @include for-narrow-layout {
+      margin-inline-end: 20px;
+      min-width: rem(120px);
+      gap: 10px;
+      &:hover {
+        background-color: $clr1;
+      }
     }
     .img-container {
       height: 30px;
@@ -56,6 +65,7 @@
     .user-name {
       font-family: gotham-bold;
       @include for-mobile-layout {
+        display: none;
         font-size: rem(14px);
       }
     }
@@ -89,6 +99,7 @@
   }
   .logo-container {
     @include for-mobile-layout {
+      opacity: 0;
       width: 50px;
       position: fixed;
       justify-content: flex-start;
@@ -116,6 +127,11 @@ html:not([data-scroll="0"]) {
     top: 0;
     z-index: 1;
     background-color: $clr3 !important;
+  }
+  @include for-mobile-layout {
+    .logo-container {
+      opacity: 1;
+    }
   }
   h1 {
     opacity: 1;

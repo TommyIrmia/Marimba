@@ -82,13 +82,13 @@ export class StationActions extends Component {
                                 className="play-btn fas fa-pause">
                             </button>}
 
-                            {currStationId !== 'liked' && <button
+                            {currStationId !== 'liked' && currStationId !== 'new' && <button
                                 onClick={this.checkIsLiked() ? () => this.onUnlikeStation(currStationId) : () => this.onLikeStation(currStationId)}
                                 className={"btn-action " + (this.checkIsLiked() ? "fas fa-thumbs-up btn-liked" : "far fa-thumbs-up")}></button>}
 
                             <button className="far fa-arrow-alt-circle-down btn-action"></button>
 
-                            {currStationId !== 'liked' && <div className="add-track-btn" onClick={onScrollToAdd}>
+                            {currStationId !== 'liked' &&  <div className="add-track-btn" onClick={onScrollToAdd}>
                                 <span className="fas fa-plus btn-icon"></span>
                                 <span className="btn-text">Add Tracks</span>
                             </div>}

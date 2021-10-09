@@ -71,7 +71,7 @@
   // width: 100%;
   padding: 0 10px;
   margin: 0 auto;
-  
+
   @include for-narrow-layout {
     width: 100%;
     padding: 0 20px;
@@ -108,8 +108,11 @@
   padding: 20px;
   position: fixed;
   top: 50%;
-  left: calc((100% + 250px) / 2);
+  left: 50%;
   transform: translate(-50%, -50%);
+  @include for-narrow-layout {
+    left: calc((100% + 250px) / 2);
+  }
 }
 
 .css-1eg0sfo-skeletonStyles-Skeleton {
