@@ -39,6 +39,10 @@ async function addActivity(type, stationInfo, trackName) {
     }
 }
 
+async function toggleRead(){
+    
+}
+
 // async function removeActivity(activityId) {
 //     try {
 //         return await asyncStorageService.put(STORAGE_KEY, activityId)

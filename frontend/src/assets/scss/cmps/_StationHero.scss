@@ -76,3 +76,11 @@
     margin-top: rem(20px);
   }
 }
+
+.share-container {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+}

@@ -73,16 +73,13 @@ export class _ActivityLog extends Component {
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
             case 'like track':
-                return (<li className={classStr} key={idx} onClick={() => {
-                    this.props.history.push(`/station/${activity.stationInfo.id}`)
-                    this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
-                }}>
+                return (<li className={classStr} key={idx}>
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
                     <div className="activity-info">
                         <span className="user-name"> {activity.createdBy.fullname}</span>
-                        <span className="pink"> liked💗 </span>"{activity.trackName}" from "{activity.stationInfo.name}"!
+                        <span className="pink"> liked💗 </span>"{activity.trackName}"!
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
