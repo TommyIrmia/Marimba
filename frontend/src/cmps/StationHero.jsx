@@ -63,7 +63,7 @@ export class StationHero extends Component {
                                 <FacebookShareButton url={`http://www.youtube.com/watch?v=9WzIACv_mxs`} title="I like to share with you this playlist from Marimba!">
                                     <FacebookIcon size={45} bgStyle={{ fill: "#00000000" }} />
                                 </FacebookShareButton>
-                                <CopyToClipboard text={`http://localhost:3000/station${stationId}`}>
+                                <CopyToClipboard text={`http://localhost:3000/station/${stationId}`}>
                                     <div className="share-btn fas fa-link"></div>
                                 </CopyToClipboard>
                             </div>

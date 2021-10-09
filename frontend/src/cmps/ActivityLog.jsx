@@ -11,11 +11,14 @@ import userImg from '../assets/imgs/logo.png'
 export class _ActivityLog extends Component {
 
     state = {
+        unRead: 0
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.loadActivities()
         socketService.on('addActivity', this.loadActivities)
+        const unRead = await activityService.getUnreadCount();
+        this.setState({ unRead })
     }
 
     loadActivities = async () => {
@@ -114,10 +117,11 @@ export class _ActivityLog extends Component {
         let { activities } = this.props
         if (!activities.length) return <div>No Activities</div>
         activities = activities.reverse();
-
+        const { unRead } = this.state;
+        console.log('unRead', unRead);
         return (<section className="activity-log">
 
-            <h1>What's New?</h1>
+            <h1>What's new?<span>{unRead}</span></h1>
 
             <div className="activity-log-container">
                 <ul className="clean-list">

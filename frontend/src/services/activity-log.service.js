@@ -5,7 +5,7 @@ export const activityService = {
     query,
     addActivity,
     read,
-    getUnreadNumber
+    getUnreadCount
 }
 
 
@@ -14,16 +14,6 @@ async function query() {
     try {
         let activites = await httpService.get('activity')
         return activites
-    } catch (err) {
-        throw err
-    }
-}
-
-async function getUnreadNumber() {
-    try {
-        let activites = await httpService.get('activity')
-        let unReadActivities = activites.filter(activity => !activity.isRead)
-        return unReadActivities.length
     } catch (err) {
         throw err
     }
@@ -54,6 +44,16 @@ async function read(activity) {
     console.log('reading activity');
     activity = { ...activity, isRead: true }
     await httpService.put('activity', activity)
+}
+
+async function getUnreadCount(){
+    try {
+        let activites = await httpService.get('activity')
+        const unRead=activites.filter(activity=>!activity.isRead)
+        return unRead.length;
+    } catch (err) {
+        throw err
+    }
 }
 
 // async function removeActivity(activityId) {
