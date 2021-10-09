@@ -6,16 +6,18 @@ import { loadActivities } from '../store/activitylog.actions'
 import { setBgcAndName } from '../store/station.actions'
 import { socketService } from '../services/socket.service'
 import { activityService } from '../services/activity-log.service'
-import userImg from '../assets/imgs/logo.png'
 
 export class _ActivityLog extends Component {
 
     state = {
+        unRead: 0
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.loadActivities()
         socketService.on('addActivity', this.loadActivities)
+        const unRead = await activityService.getUnreadCount();
+        this.setState({ unRead })
     }
 
     loadActivities = async () => {
@@ -47,7 +49,7 @@ export class _ActivityLog extends Component {
                     </div>
                     <div className="activity-info">
                         <span className="user-name"> {activity.createdBy.fullname} </span>
-                        <span className="green">created a playlist</span> - "{activity.stationInfo.name}"
+                        <span className="green">created a playlist</span> - "{activity.stationInfo?.name}"
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
@@ -67,7 +69,7 @@ export class _ActivityLog extends Component {
                     </div>
                     <div className="activity-info" >
                         <span className="user-name"> {activity.createdBy.fullname} </span>
-                        <span className="green"> added </span> "{activity.trackName}" to "{activity.stationInfo.name}"!
+                        <span className="green"> added </span> "{activity.trackName}" to "{activity.stationInfo?.name}"!
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
@@ -87,7 +89,7 @@ export class _ActivityLog extends Component {
                     </div>
                     <div className="activity-info">
                         <span className="user-name"> {activity.createdBy.fullname}</span>
-                        <span className="red"> removed </span>"{activity.trackName}" from "{activity.stationInfo.name}"!
+                        <span className="red"> removed </span>"{activity.trackName}" from "{activity.stationInfo?.name}"!
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)

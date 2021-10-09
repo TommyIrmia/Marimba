@@ -11,6 +11,12 @@ module.exports = {
     add
 }
 
+function getRandLikes() {
+    let likes = [];
+    likes.fill(1, 0, getRandomInt(20, 800))
+    return likes;
+}
+
 async function query(filterBy = {}) {
     console.log('query in back, filterBy', filterBy);
     const criteria = _buildCriteria(filterBy)
@@ -66,7 +72,7 @@ async function update(station) {
         }
         const collection = await dbService.getCollection('station')
         await collection.updateOne({ _id: stationToSave._id }, { $set: stationToSave })
-        console.log('updated station', stationToSave._id );
+        console.log('updated station', stationToSave._id);
         return stationToSave;
     } catch (err) {
         logger.error(`cannot update station ${station._id}`, err)
@@ -76,6 +82,7 @@ async function update(station) {
 
 async function add(station) {
     try {
+        station.likedByUsers = getRandLikes();
         const collection = await dbService.getCollection('station')
         await collection.insertOne(station)
         return station
@@ -101,6 +108,11 @@ function _buildCriteria(filterBy) {
     return criteria
 }
 
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+}
 
 
 

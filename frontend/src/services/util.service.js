@@ -46,7 +46,8 @@ function getRandomIntInclusive(min, max) {
 }
 
 function pickRandomColor() {
-    const colors = ['#27856a', '#8d67ab', '#e8115b', '#1e3264', '#477d95', '#af2896', '#503750', '#6BC6EE', '#148a08', '#ba5d07', '#ffc864', '#e13300', '#509bf5', '#907255', '#f59b23'];
+    const colors = ['#FFAEBC','#8585EC', '#A0E7E5', '#B4F8C8', '#FBE7C6','#E67272','#ECD282','#6BC6EE','#F09574','#F7EA7B','#c5f78c','#ddf0a8'];
+    // const colors = ['#27856a', '#8d67ab', '#e8115b', '#1e3264', '#477d95', '#af2896', '#503750', '#6BC6EE', '#148a08', '#ba5d07', '#ffc864', '#e13300', '#509bf5', '#907255', '#f59b23'];
 
     const color = colors[Math.floor(Math.random() * colors.length)];
     return color;
