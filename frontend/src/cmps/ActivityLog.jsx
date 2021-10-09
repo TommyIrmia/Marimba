@@ -28,7 +28,7 @@ export class _ActivityLog extends Component {
 
     dynamicCmp = (activity, idx) => {
         const classStr = (activity.isRead) ? "flex read" : "flex";
-        console.log('activity', activity)
+        // console.log('activity', activity)
         switch (activity.type) {
             case 'create playlist':
                 return (<li className={classStr} key={idx}
@@ -37,7 +37,7 @@ export class _ActivityLog extends Component {
                         this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
 
                     }}
-                    onMouseLeave={() => {
+                    onMouseEnter={() => {
                         activityService.read(activity);
                         this.loadActivities();
                     }}
@@ -77,7 +77,7 @@ export class _ActivityLog extends Component {
                         this.props.history.push(`/station/${activity.stationInfo.id}`)
                         this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
                     }}
-                    onMouseLeave={() => {
+                    onMouseEnter={() => {
                         activityService.read(activity);
                         this.loadActivities();
                     }}
@@ -93,7 +93,7 @@ export class _ActivityLog extends Component {
                 </li>)
             case 'like track':
                 return (<li className={classStr} key={idx}
-                    onMouseLeave={() => {
+                    onMouseEnter={() => {
                         activityService.read(activity);
                         this.loadActivities();
                     }}
@@ -103,7 +103,7 @@ export class _ActivityLog extends Component {
                     </div>
                     <div className="activity-info">
                         <span className="user-name"> {activity.createdBy.fullname}</span>
-                        <span className="pink"> liked💗 </span>"{activity.trackName}"!
+                        <span className="pink"> 💖 </span>"{activity.trackName}"!
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
@@ -113,11 +113,9 @@ export class _ActivityLog extends Component {
     render() {
         let { activities } = this.props
         if (!activities.length) return <div>No Activities</div>
-        activities = activities.reverse();
 
         return (<section className="activity-log">
-
-            <h1>What's New?</h1>
+            <h1>What's New? </h1>
 
             <div className="activity-log-container">
                 <ul className="clean-list">

@@ -3,7 +3,8 @@ import { activityService } from "../services/activity-log.service";
 export function loadActivities() {
     return async (dispatch) => {
         try {
-            const activities = await activityService.query()
+            let activities = await activityService.query()
+            activities = activities.reverse();
             dispatch({
                 type: 'SET_ACTIVITIES',
                 activities

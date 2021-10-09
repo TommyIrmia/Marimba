@@ -87,6 +87,7 @@
       font-size: rem(30px);
       letter-spacing: -1px;
       text-indent: -2px;
+      margin-bottom: 15px;
     }
   }
   p {
@@ -94,6 +95,11 @@
     @include for-mobile-layout {
       margin-bottom: rem(10px);
       font-size: rem(13px);
+    }
+  }
+  .hero-subtitle {
+    @include for-mobile-layout {
+      display: none;
     }
   }
 
@@ -109,18 +115,17 @@
   position: absolute;
   right: 20px;
   bottom: 10px;
-  .share-btns{
-  
+  .share-btns {
     .share-btn {
-      margin-top:10px;
+      margin-top: 10px;
       font-size: 22px;
-      &:hover{
+      &:hover {
         color: lightgray;
       }
     }
 
     .share-social {
-      &:hover{
+      &:hover {
         color: lightgray;
       }
     }

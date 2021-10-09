@@ -25,6 +25,7 @@ class _StationDetails extends Component {
         isEditable: false,
         isEditModalOpen: false,
         isLikedStation: false,
+        isLoading: false,
         stationId: '',
         animation: '',
         isConfirmMsgOpen: false,
@@ -51,8 +52,11 @@ class _StationDetails extends Component {
             else {
                 station = await stationService.getById(stationId)
             }
-            this.props.setBgcAndName(station.bgc, station.name)
-            this.props.setLikesCount(station.likedByUsers?.length)
+            setTimeout(() => {
+                this.setState({ isLoading: true })
+                this.props.setBgcAndName(station.bgc, station.name)
+                this.props.setLikesCount(station.likedByUsers?.length)
+            }, 700)
             this.setState({ ...this.state, isEditable, stationId, station }, async () => {
                 await this.loadTracks()
             })
@@ -250,11 +254,11 @@ class _StationDetails extends Component {
     }
 
     render() {
-        const { isSearch, isPlaying, isEditModalOpen, animation, isConfirmMsgOpen, station } = this.state;
+        const { isSearch, isPlaying, isLoading, isEditModalOpen, animation, isConfirmMsgOpen, station } = this.state;
         const { tracks, bgc, user } = this.props
         const { stationId } = this.props.match.params
         console.log(this.state.station)
-        if (!station) return <Loader />
+        if (!isLoading) return <div className="loader-container" ><Loader /> </div>
         return (
             <main className="StationDetails">
                 <div onClick={() => {

@@ -1,3 +1,9 @@
+.activity-page {
+  .activity-log {
+    display: block;
+  }
+}
+
 .activity-log {
   position: relative;
   bottom: 23px;
@@ -11,7 +17,7 @@
     text-align: center;
     font-size: 1rem;
     position: absolute;
-    top: -30px;
+    top: -28px;
     left: 50%;
     transform: translateX(-50%);
     background-color: black;
@@ -24,13 +30,16 @@
   }
 
   .activity-log-container {
-    height: calc(100vh - 495px);
+    height: 100vh;
     font-family: gotham-light;
     padding: 0 10px 10px;
     border-radius: 8px;
     background-color: $clr3;
     color: $clr2;
     overflow-y: scroll;
+    @include for-narrow-layout {
+      height: calc(100vh - 495px);
+    }
 
     ul {
       transition: 0.5s;
@@ -44,16 +53,17 @@
         gap: 5px;
         font-size: rem(14px);
         border-bottom: 0.7px solid rgb(66, 66, 66);
-        background-color: rgb(39, 39, 39);
+        background-color: rgb(66, 66, 66);
         // border-top: 0.7px solid rgb(66, 66, 66);
         // margin: 13px 0;
         position: relative;
         transition: 0.3s;
         cursor: pointer;
         border-radius: 10px;
+        min-height: 68px;
 
-        &.read{
-          background-color: $clr1;
+        &.read {
+          background-color: $clr3;
         }
 
         &:hover {
@@ -70,7 +80,7 @@
           white-space: pre-wrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          max-height: 47px;
+          max-height: 48.5px;
           margin-bottom: 17px;
           transform: height 0.3s;
           .user-name {

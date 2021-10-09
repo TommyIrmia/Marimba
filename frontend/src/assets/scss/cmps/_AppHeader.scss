@@ -27,7 +27,24 @@
       margin-inline-start: 30px;
     }
   }
-
+  .activity {
+    display: none;
+    @include for-mobile-layout {
+      height: 30px;
+      width: 30px;
+      border-radius: 50%;
+      background-color: $clr5;
+      font-size: rem(22px);
+      display: block;
+      position: fixed;
+      top: 15px;
+      right: 70px;
+      z-index: 5;
+      color: $clr7;
+      text-align: center;
+      line-height: 22px;
+    }
+  }
   .user-container {
     display: flex;
     justify-content: space-around;

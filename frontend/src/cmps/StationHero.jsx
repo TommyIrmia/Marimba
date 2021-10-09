@@ -49,7 +49,7 @@ export class StationHero extends Component {
                         <div className="info-container">
                             <h5>playlist</h5>
                             <h1 className="hero-title">{station.name}</h1>
-                            <p>{station.description}</p>
+                            <p className="hero-subtitle">{station.description}</p>
                             <p>{stationId !== 'liked' && station.createdBy.fullname + ' • '}
                                 {stationId !== 'liked' && likesCount + ' likes • '}
                                 {tracks.length} songs • {this.getStationFullTime(tracks)}</p>

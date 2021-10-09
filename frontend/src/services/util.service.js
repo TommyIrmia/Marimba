@@ -69,7 +69,7 @@ function getTime(date) {
     var interval = Math.floor(seconds / 31536000);
 
     if (interval >= 1) return createdAt
-
+    // console.log('interval', interval);
     interval = Math.floor(seconds / 2592000);
     if (interval === 1) return interval + " month ago";
     if (interval > 1) return createdAt

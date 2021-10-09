@@ -45,7 +45,6 @@ async function add(activity) {
     try {
         // peek only updatable fields!
         console.log('activity from activity service', activity);
-        console.log(activity.createdBy._id)
     
         const activityToAdd = {
             type: activity.type,
