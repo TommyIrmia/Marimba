@@ -1,17 +1,24 @@
 .station-list {
   width: 100%;
 
+  @include for-mobile-layout {
+    // width: 100vw;
+  }
   .stations {
-    max-height: 180px;
-    gap: 10px;
-    margin-bottom: 50px;
+    width: 100%;
+    height: 260px;
+    gap: 15px;
+    // margin-bottom: 30px;
     grid-template-rows: 20px 1fr;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 160px));
-    grid-auto-rows: 0;
-    overflow-y: hidden;
-    
+    grid-template-columns: repeat(auto-fill, minmax(135px, 145px));
+    // grid-auto-rows: 0;
+    @include for-mobile-layout {
+      grid-auto-flow: column;
+      overflow: auto;
+    }
+
     @include for-narrow-layout {
-      max-height: 290px;
+      height: 290px;
       margin-bottom: 50px;
       gap: 16px;
       grid-template-rows: 30px 1fr;
@@ -19,26 +26,31 @@
       grid-auto-rows: 0;
       justify-items: center;
       justify-content: center;
+      overflow-y: hidden;
     }
 
     @include for-wide-layout {
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 24px;
-      max-height: 335px;
+      height: 335px;
     }
 
     .station-genre {
-      width: 100%;
-      grid-column: 1 /-1;
+      grid-column: 1 / 11;
       font-size: rem(20px);
       padding: 10px 0 20px;
       align-items: center;
+      @include for-narrow-layout {
+        width: 100%;
+        grid-column: 1 /-1;
+      }
       a {
         &:hover {
           text-decoration: underline;
         }
       }
       p {
+        grid-column: 2;
         text-transform: uppercase;
         font-size: rem(14px);
         color: $clr2;

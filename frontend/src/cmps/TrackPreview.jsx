@@ -17,6 +17,10 @@ class _TrackPreview extends Component {
     }
 
     componentDidMount() {
+        console.log(window.innerWidth)
+        if (window.innerWidth < 680) {
+            this.setState({ isHover: true })
+        }
         const { track, player, stationId } = this.props
         if (player) {
             const { video_id } = player.getVideoData()
@@ -101,6 +105,11 @@ class _TrackPreview extends Component {
         return videoData?.video_id === this.props.track.id
     }
 
+    onToggleHover = (isHover) => {
+        if (window.innerWidth < 680) isHover = true;
+        this.setState({ isHover })
+    }
+
     render() {
         const { isHover, isLiked } = this.state
         const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen, tracksLength } = this.props
@@ -115,8 +124,8 @@ class _TrackPreview extends Component {
                         <section className=" track-container flex "
                             ref={(provided.innerRef)}
                             {...provided.draggableProps} {...provided.dragHandleProps}
-                            onMouseEnter={() => this.setState({ isHover: true })}
-                            onMouseLeave={() => this.setState({ isHover: false })}
+                            onMouseEnter={() => this.onToggleHover(true)}
+                            onMouseLeave={() => this.onToggleHover(false)}
                         >
 
                             <section title={title} className="TrackPreview flex">

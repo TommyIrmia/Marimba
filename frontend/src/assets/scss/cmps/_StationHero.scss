@@ -13,8 +13,13 @@
     height: 200px;
     width: 200px;
     position: absolute;
-    bottom: 40px;
+    bottom: 90px;
     padding: 5px;
+
+    @include for-mobile-layout {
+      left: 50%;
+      transform: translateX(-50%);
+    }
 
     img {
       width: inherit;
@@ -24,7 +29,11 @@
       box-shadow: 0 4px 60px rgb(0 0 0 / 50%);
     }
   }
-
+  @include for-narrow-layout {
+    .img-container {
+      bottom: 40px;
+    }
+  }
   @include for-wide-layout {
     height: 330px;
     .img-container {
@@ -41,8 +50,13 @@
   height: 100%;
   padding-bottom: 20px;
   position: absolute;
-  left: 250px;
-
+  left: 10px;
+  @include for-mobile-layout {
+    bottom: -20px;
+  }
+  @include for-narrow-layout {
+    left: 250px;
+  }
   @include for-wide-layout {
     left: 300px;
   }
@@ -68,8 +82,19 @@
       font-size: rem(50px);
     }
   }
+  @include for-mobile-layout {
+    .hero-title {
+      font-size: rem(30px);
+      letter-spacing: -1px;
+      text-indent: -2px;
+    }
+  }
   p {
     margin-bottom: rem(15px);
+    @include for-mobile-layout {
+      margin-bottom: rem(10px);
+      font-size: rem(13px);
+    }
   }
 
   .station-maker {

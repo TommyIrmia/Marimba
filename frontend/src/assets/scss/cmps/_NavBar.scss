@@ -107,8 +107,6 @@
     margin-inline-start: 50px;
   }
   .logo-container {
-    @include for-mobile-layout {
-      display: none;
-    }
+    display: none;
   }
 }

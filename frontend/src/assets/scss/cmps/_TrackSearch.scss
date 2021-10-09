@@ -33,7 +33,10 @@
     width: 100%;
     h2 {
       padding-top: 0;
-      font-size: rem(16px);
+      font-size: rem(14px);
+      @include for-narrow-layout {
+        font-size: rem(16px);
+      }
       @include for-wide-layout {
         font-size: rem(25px);
       }
@@ -54,11 +57,16 @@
     color: rgba(184, 179, 179, 0.7);
     height: 40px;
     padding: 8px 10px;
-    max-width: 350px;
-    
+    max-width: 300px;
+    @include for-mobile-layout {
+      // width: 100%;
+      margin: 0 auto;
+    }
+    @include for-narrow-layout {
+      max-width: 350px;
+    }
     @include for-wide-layout {
       max-width: 550px;
-
     }
     button {
       justify-self: flex-start;

@@ -1,7 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 import { onLogout, onSetMsg } from '../store/user.actions'
+import { Logo } from './Logo';
 
 export class _AppHeader extends React.Component {
 
@@ -24,7 +26,7 @@ export class _AppHeader extends React.Component {
         const { bgc, stationName, user } = this.props
         return (
             <div className="app-header" style={{ backgroundColor: bgc }} >
-
+                <Link to="/"><Logo /></Link>
                 <h1>{stationName}</h1>
 
                 <div onClick={this.onOpenOptions} className="user-container">
@@ -41,7 +43,7 @@ export class _AppHeader extends React.Component {
                     {user.fullname !== 'Guest' && <>
                         <li className="clean-list user-options" >Profile</li>
                         <li className="clean-list user-options" >Settings</li>
-                        <li onClick={()=>{
+                        <li onClick={() => {
                             this.onLogout()
                             this.setState({ isOpen: false })
                         }} className="clean-list user-options" >Log out</li>
