@@ -14,6 +14,13 @@ class _EditHero extends Component {
             desc: '',
         }
     }
+    componentDidMount() {
+        console.log(window.innerWidth)
+        if (window.innerWidth < 680) {
+            this.setState({ isHover: true })
+        }
+    }
+
 
     handleImgChange = async (ev) => {
         const field = ev.target.name;
@@ -36,8 +43,8 @@ class _EditHero extends Component {
     render() {
         const { isHover, hero } = this.state;
         const { img, title, desc } = this.state.hero;
-        const { saveDataFromHero, onToggleEdit, isEditModalOpen, bgc, animation, onFlip,user } = this.props
-        
+        const { saveDataFromHero, onToggleEdit, isEditModalOpen, bgc, animation, onFlip, user } = this.props
+
         return (
             <main className="EditHero-container" style={{ backgroundColor: bgc }}>
                 <div className="linear-container">

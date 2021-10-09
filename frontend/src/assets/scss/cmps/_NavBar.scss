@@ -20,13 +20,14 @@
   align-items: flex-end;
   z-index: 1;
   padding: 10px;
-
+  
   @include for-narrow-layout {
     height: 100vh;
     width: 220px;
     bottom: unset;
     background-color: #000;
     flex-direction: column;
+    justify-content: flex-start;
     align-items: unset;
     padding: 20px 10px;
   }
@@ -106,7 +107,9 @@
   .logo {
     margin-inline-start: 50px;
   }
-  .logo-container {
-    display: none;
+  @include for-mobile-layout {
+    .logo-container {
+      display: none;
+    }
   }
 }

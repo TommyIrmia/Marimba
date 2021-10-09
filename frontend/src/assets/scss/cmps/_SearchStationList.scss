@@ -5,10 +5,15 @@
     display: grid;
     justify-content: center;
     grid-template-rows: 80px 1fr;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 180px));
+    grid-template-columns: repeat(auto-fill, minmax(140px, 160px));
     justify-content: center;
     justify-items: center;
-    gap: 24px;
+    gap: 10px;
+    @include for-narrow-layout {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 180px));
+      gap: 24px;
+    }
+
     @include for-wide-layout {
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 24px;
@@ -18,8 +23,14 @@
       justify-self: start;
       grid-column: 1 / -1;
       font-size: rem(25px);
+      @include for-mobile-layout {
+        margin-inline-start: 10px;
+      }
       .genre-subtitle {
-        font-size: rem(16px);
+        font-size: rem(13px);
+        @include for-narrow-layout {
+          font-size: rem(16px);
+        }
         @include for-wide-layout {
           font-size: rem(24px);
         }

@@ -1,5 +1,8 @@
 .GenrePage {
-  padding: 0 20px 0;
+  padding: 0 10px 0;
+  @include for-narrow-layout {
+    padding: 0 20px 0;
+  }
   @include for-wide-layout {
     padding: 0 40px 0;
   }
@@ -11,5 +14,9 @@
   .genre-subtitle {
     color: $clr2;
     margin-inline-start: 2px;
+    font-size: rem(13px);
+    @include for-narrow-layout {
+      font-size: rem(16px);
+    }
   }
 }

@@ -33,10 +33,12 @@ class _StationDetails extends Component {
     addRef = React.createRef()
 
     async componentDidMount() {
+        const { stationId } = this.props.match.params
+        socketService.emit('station id', stationId)
+        socketService.on('tracksChanged', this.tracksChanged)
         try {
             console.log('station did mount');
             window.scrollTo(0, 0)
-            const { stationId } = this.props.match.params
             let station;
             let isEditable = false;
             if (stationId === 'new') {
@@ -48,16 +50,14 @@ class _StationDetails extends Component {
             }
             else {
                 station = await stationService.getById(stationId)
-                socketService.emit('station id', stationId)
-                socketService.on('tracksChanged', this.tracksChanged)
+                // socketService.emit('station id', stationId)
+                // socketService.on('tracksChanged', this.tracksChanged)
             }
             this.props.setBgcAndName(station.bgc, station.name)
             this.props.setLikesCount(station.likedByUsers?.length)
             this.setState({ ...this.state, isEditable, stationId, station }, async () => {
                 await this.loadTracks()
             })
-            // socketService.emit('station id', stationId)
-            // socketService.on('tracksChanged', this.tracksChanged)
         } catch (err) {
             this.props.history.push('/')
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
@@ -137,6 +137,7 @@ class _StationDetails extends Component {
     }
 
     tracksChanged = ({ tracks }) => {
+        console.log('track from station', tracks);
         try {
             this.props.updateTracksInStore(tracks)
         } catch (err) {
@@ -227,7 +228,7 @@ class _StationDetails extends Component {
         const newTracks = tracks.slice()
         const [track] = newTracks.splice(source.index, 1)
         newTracks.splice(destination.index, 0, track)
-
+            
         this.props.onUpdateTracks(newTracks, stationId)
 
 
@@ -247,11 +248,7 @@ class _StationDetails extends Component {
             newCurrSongIdx += 1
         }
         newCurrSongIdx !== currSongIdx && this.props.setSongIdx(newCurrSongIdx)
-
         this.props.loadTracksToPlayer(newTracks, stationId)
-
-
-
     }
 
     render() {
@@ -298,12 +295,12 @@ class _StationDetails extends Component {
                         stationId={stationId} loadTracks={this.loadTracks} />
                 </DragDropContext>
 
-                <section>
+                {stationId !== 'liked' && <section>
                     <TrackSearch
                         addRef={this.addRef} onAddTrack={this.onAddTrack}
                         stationId={stationId} currStationTracks={tracks}
                         onSetMsg={this.props.onSetMsg} />
-                </section>
+                </section>}
 
             </main >
 

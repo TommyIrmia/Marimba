@@ -22,10 +22,12 @@ function connectSockets(http, session) {
             }
             socket.join(stationId)
             socket.stationId = stationId
+            console.log('joined to', socket.stationId)
         })
 
         socket.on('changeTracks', ({ stationId, tracks }) => {
             // emits only to sockets in the same room
+            console.log('stationId', stationId);
             socket.to(stationId).emit('tracksChanged', { stationId, tracks })
             socket.broadcast.emit('tracksChangedMediaPlayer', { stationId, tracks })
             // gIo.to(socket.myTopic).emit('chat addMsg', msg)

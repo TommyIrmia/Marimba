@@ -124,7 +124,7 @@ async function getById(stationId) {
     try {
         if (!stationId) return
         const station = await httpService.get(`station/${stationId}`)
-        if (station.tracks.length) station.tracks.forEach(track => track.isPlaying = false)
+        if (station?.tracks.length) station.tracks.forEach(track => track.isPlaying = false)
         return station
     } catch (err) {
         throw err

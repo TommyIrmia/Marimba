@@ -18,15 +18,15 @@ export function stationReducer(state = initialState, action) {
             return { ...state, tracks, currStationId: action.currStationId }
         case 'UPDATE_TRACKS':
             tracks = action.tracks
-            socketService.emit('changeTracks', { currStationId: action.currStationId, tracks });
+            socketService.emit('changeTracks', { stationId: action.currStationId, tracks });
             return { ...state, tracks }
         case 'REMOVE_TRACK':
             tracks = state.tracks.filter(track => track.id !== action.trackId)
-            socketService.emit('changeTracks', { currStationId: action.currStationId, tracks });
+            socketService.emit('changeTracks', { stationId: action.currStationId, tracks });
             return { ...state, tracks }
         case 'ADD_TRACK':
             tracks = [...state.tracks, action.track]
-            socketService.emit('changeTracks', { currStationId: action.currStationId, tracks });
+            socketService.emit('changeTracks', { stationId: action.currStationId, tracks });
             return { ...state, tracks }
         case 'UPDATE_TRACK':
             tracks = state.tracks.map(track => (track.id === action.track.id) ? action.track : { ...track, isPlaying: false })

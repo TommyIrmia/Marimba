@@ -24,6 +24,7 @@ export function loadTracks(stationId, filterBy) {
 export function onUpdateTracks(tracks, stationId) {
     return async (dispatch) => {
         try {
+            console.log('from update', stationId);
             dispatch({
                 type: 'UPDATE_TRACKS',
                 tracks,
@@ -100,6 +101,7 @@ export function onUpdateTrack(track) {
 
 export function setBgcAndName(bgc, stationName) {
     return async (dispatch) => {
+        console.log('from setbgc and name', bgc, stationName)
         try {
             dispatch({
                 type: 'SET_BGC_AND_NAME',
