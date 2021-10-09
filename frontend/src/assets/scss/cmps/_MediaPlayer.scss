@@ -112,7 +112,6 @@
       }
     }
   }
-
   .song-details {
     position: relative;
     display: flex;
@@ -127,32 +126,37 @@
     @include for-wide-layout {
       width: 320px;
     }
-    p {
-      letter-spacing: -0.08rem;
-      font-size: rem(13px);
-      color: $clr7;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    a {
+      font-size: unset;
+      font-family: unset;
+      color: unset;
+      p {
+        letter-spacing: -0.08rem;
+        font-size: rem(13px);
+        color: $clr7;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
-      @include for-mobile-layout {
-        letter-spacing: -0.02rem;
-        font-family: gotham-light, rubic;
-        position: absolute;
-        max-width: 95px;
-        bottom: 28px;
-        left: 40px;
-        color: $clr2;
-      }
-      @include for-narrow-layout {
-        font-size: 1rem;
-        max-width: 100px;
-      }
-      @include for-wide-layout {
-        max-width: 190px;
-        white-space: normal;
-        overflow: unset;
-        text-overflow: unset;
+        @include for-mobile-layout {
+          letter-spacing: -0.02rem;
+          font-family: gotham-light, rubic;
+          position: absolute;
+          max-width: 95px;
+          bottom: 28px;
+          left: 40px;
+          color: $clr2;
+        }
+        @include for-narrow-layout {
+          font-size: 1rem;
+          max-width: 100px;
+        }
+        @include for-wide-layout {
+          max-width: 190px;
+          white-space: normal;
+          overflow: unset;
+          text-overflow: unset;
+        }
       }
     }
 

@@ -28,6 +28,7 @@ export class _ActivityLog extends Component {
 
     dynamicCmp = (activity, idx) => {
         const classStr = (activity.isRead) ? "flex read" : "flex";
+        console.log('activity', activity)
         switch (activity.type) {
             case 'create playlist':
                 return (<li className={classStr} key={idx}
@@ -56,7 +57,7 @@ export class _ActivityLog extends Component {
                         this.props.history.push(`/station/${activity.stationInfo.id}`)
                         this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
                     }}
-                    onMouseLeave={() => {
+                    onMouseEnter={() => {
                         activityService.read(activity);
                         this.loadActivities();
                     }}

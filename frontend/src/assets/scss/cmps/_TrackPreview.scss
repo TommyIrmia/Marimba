@@ -83,6 +83,11 @@
     display: flex;
     justify-content: center;
     min-width: 80px;
+    margin-inline-end: 10px;
+
+    @include for-mobile-layout {
+      padding-left: 30px;
+    }
 
     @include for-narrow-layout {
       min-width: 100px;
@@ -91,6 +96,7 @@
 
     @include for-wide-layout {
       margin-inline-start: 0;
+      max-width: 120px;
     }
     .btn-like,
     .btn-liked,
@@ -111,9 +117,9 @@
     .btn-hidden {
       visibility: hidden;
     }
-
-    .track-duration {
-      margin: auto;
+    p {
+      min-width: 35px;
     }
+
   }
 }

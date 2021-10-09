@@ -20,7 +20,9 @@
       font-size: rem(16px);
       margin-inline-start: 70px;
     }
-
+    @include for-narrow-layout {
+      position: absolute;
+    }
     @include for-wide-layout {
       margin-inline-start: 30px;
     }
@@ -42,7 +44,7 @@
       position: absolute;
       right: 0px;
     }
-    
+
     @include for-narrow-layout {
       margin-inline-end: 20px;
       min-width: rem(120px);

@@ -34,8 +34,6 @@ export class _MediaPlayer extends Component {
         socketService.on('tracksChangedMediaPlayer', this.tracksChanged)
     }
 
-
-
     onReady = (ev) => {
         if (ev.data === 2) return // if on pause
         this.setState(prevState => ({ ...prevState, isPlayerReady: true }))
@@ -142,14 +140,10 @@ export class _MediaPlayer extends Component {
 
     tracksChanged = async (dataToUpdate) => {
         const { stationId } = this.props
-        console.log('from  media player tracks Changed', dataToUpdate, stationId)
         try {
             if (dataToUpdate.stationId === stationId) {
-                // const station = await stationService.getById(dataToUpdate.stationId);
                 const videoData = this.props.player.getVideoData()
-                console.log('playing video id', videoData.video_id);
                 const newIdx = dataToUpdate.tracks.findIndex(track => track.id === videoData.video_id)
-                console.log('newIdx', newIdx);
                 await this.props.loadTracksToPlayer(dataToUpdate.tracks, stationId)
                 this.props.setSongIdx(newIdx)
             }
@@ -249,6 +243,7 @@ export class _MediaPlayer extends Component {
                     player={player} isPlaying={isPlaying} user={user} loadTracks={this.props.loadTracks}
                     currLikedTrack={currLikedTrack} onSetMsg={this.props.onSetMsg}
                     updateIsLikedSong={(isLiked) => this.props.updateIsLikedSong(isLiked)}
+                    playingStationId={this.props.stationId}
                 />
 
                 <PlayerActions onChangeSong={this.onChangeSong} currSongIdx={currSongIdx}

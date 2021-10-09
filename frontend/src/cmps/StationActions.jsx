@@ -11,25 +11,25 @@ export class StationActions extends Component {
     }
 
     componentDidMount() {
-        this.loadStation()
+        // this.loadStation()
     }
 
     loadStation = async () => {
-        try {
-            const { currStationId } = this.props
-            let station;
-            if (currStationId === "liked") station = await stationService.getTemplateStation("likedStation", currStationId)
-            else station = await stationService.getById(this.props.currStationId)
-            this.setState({ station })
-        } catch (err) {
-            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
-        }
+        // try {
+        //     const { currStationId } = this.props
+        //     let station;
+        //     if (currStationId === "liked") station = await stationService.getTemplateStation("likedStation", currStationId)
+        //     else station = await stationService.getById(this.props.currStationId)
+        //     this.setState({ station })
+        // } catch (err) {
+        //     this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
+        // }
     }
 
     onLikeStation = async () => {
         try {
-            const { user } = this.props;
-            const { station } = this.state;
+            const { user, station } = this.props;
+            // const { station } = this.state;
             await this.props.onLikeStation(station, user)
             this.props.onSetMsg('success', 'Added to your library')
 
@@ -40,8 +40,8 @@ export class StationActions extends Component {
 
     onUnlikeStation = async () => {
         try {
-            const { user } = this.props;
-            const { station } = this.state;
+            const { user, station } = this.props;
+            // const { station } = this.state;
             console.log('from unlike', user, station);
             await this.props.onUnlikeStation(station, user)
             this.props.onSetMsg('success', 'Removed from your library')
@@ -67,7 +67,7 @@ export class StationActions extends Component {
     render() {
         const { isSearch, onSearch, inputRef, onSetFilter, onPauseTrack, onPlayTrack,
             onScrollToAdd, tracks, bgc, currStationId } = this.props;
-
+        // if (!this.state.station) return <div></div>
         return (
             <main className="actions-container ">
                 <div className="linear-container playlist-layout" style={{ backgroundColor: bgc }}>
@@ -88,7 +88,7 @@ export class StationActions extends Component {
 
                             <button className="far fa-arrow-alt-circle-down btn-action"></button>
 
-                            {currStationId !== 'liked' &&  <div className="add-track-btn" onClick={onScrollToAdd}>
+                            {currStationId !== 'liked' && <div className="add-track-btn" onClick={onScrollToAdd}>
                                 <span className="fas fa-plus btn-icon"></span>
                                 <span className="btn-text">Add Tracks</span>
                             </div>}
