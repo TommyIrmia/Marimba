@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { stationService } from '../services/station.service.js'
 import { WhatsappShareButton, WhatsappIcon, FacebookShareButton, FacebookIcon } from 'react-share'
-import { SportsRugbySharp } from '@material-ui/icons'
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 
 export class StationHero extends Component {
@@ -57,12 +57,15 @@ export class StationHero extends Component {
                         <div className="share-container">
                             <h5>Share this playlist</h5>
                             <div className="share-btns flex">
-                            <WhatsappShareButton url={`http://www.youtube.com/watch?v=9WzIACv_mxs`} title="I like to share with you this playlist from Marimba!">
-                                <WhatsappIcon size={40} bgStyle={{ fill: "#00000000" }} />
-                            </WhatsappShareButton>
-                            <FacebookShareButton url={`http://www.youtube.com/watch?v=9WzIACv_mxs`} title="I like to share with you this playlist from Marimba!">
-                                <FacebookIcon size={45} bgStyle={{ fill: "#00000000" }} />
-                            </FacebookShareButton>
+                                <WhatsappShareButton url={`http://www.youtube.com/watch?v=9WzIACv_mxs`} title="I like to share with you this playlist from Marimba!">
+                                    <WhatsappIcon size={40} bgStyle={{ fill: "#00000000" }} />
+                                </WhatsappShareButton>
+                                <FacebookShareButton url={`http://www.youtube.com/watch?v=9WzIACv_mxs`} title="I like to share with you this playlist from Marimba!">
+                                    <FacebookIcon size={45} bgStyle={{ fill: "#00000000" }} />
+                                </FacebookShareButton>
+                                <CopyToClipboard text={`http://localhost:3000/station${stationId}`}>
+                                    <div className="share-btn fas fa-link"></div>
+                                </CopyToClipboard>
                             </div>
 
                         </div>

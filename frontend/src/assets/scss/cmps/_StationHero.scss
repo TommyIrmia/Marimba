@@ -109,4 +109,20 @@
   position: absolute;
   right: 20px;
   bottom: 10px;
+  .share-btns{
+  
+    .share-btn {
+      margin-top:10px;
+      font-size: 22px;
+      &:hover{
+        color: lightgray;
+      }
+    }
+
+    .share-social {
+      &:hover{
+        color: lightgray;
+      }
+    }
+  }
 }

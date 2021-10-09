@@ -4,7 +4,8 @@ import { userService } from "./user.service.js"
 export const activityService = {
     query,
     addActivity,
-    read
+    read,
+    getUnreadNumber
 }
 
 
@@ -13,6 +14,16 @@ async function query() {
     try {
         let activites = await httpService.get('activity')
         return activites
+    } catch (err) {
+        throw err
+    }
+}
+
+async function getUnreadNumber() {
+    try {
+        let activites = await httpService.get('activity')
+        let unReadActivities = activites.filter(activity => !activity.isRead)
+        return unReadActivities.length
     } catch (err) {
         throw err
     }
