@@ -13,15 +13,27 @@
   h1 {
     font-family: gotham;
     font-weight: 400;
-    width: 120px;
     text-align: center;
-    font-size: 1rem;
+    font-size: 1.5rem;
     position: absolute;
-    top: -28px;
+    top: 15px;
+    // left: 10px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: black;
-    color: #93ebb2;
+    color: $clr7;
+    @include for-mobile-layout {
+      position: fixed;
+      z-index: 6;
+    }
+    @include for-narrow-layout {
+      color: #93ebb2;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      font-size: 1rem;
+      top: -28px;
+      background-color: black;
+    }
     span {
       line-height: 1rem;
       font-size: 0.9rem;

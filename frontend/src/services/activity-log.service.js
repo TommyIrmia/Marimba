@@ -33,7 +33,6 @@ async function addActivity(type, stationInfo, trackName) {
             createdAt: Date.now(),
             trackName
         }
-        console.log('positing to http service');
         return await httpService.post('activity', activity);
     } catch (err) {
         throw err

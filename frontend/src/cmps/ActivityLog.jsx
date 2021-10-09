@@ -27,7 +27,6 @@ export class _ActivityLog extends Component {
 
     dynamicCmp = (activity, idx) => {
         const classStr = (activity.isRead) ? "flex read" : "flex";
-        // console.log('activity', activity)
         switch (activity.type) {
             case 'create playlist':
                 return (<li className={classStr} key={idx}

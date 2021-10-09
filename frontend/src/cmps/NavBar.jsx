@@ -4,9 +4,13 @@ import { ActivityLog } from './ActivityLog'
 import { Logo } from './Logo'
 
 export class NavBar extends Component {
+    state = {
+        windowWidth: window.innerWidth,
+    }
 
     render() {
-        console.log('nav bar rendered')
+        const { windowWidth } = this.state
+        console.log('nav bar rendered', this.state.windowWidth)
         return (
             <nav className="nav-bar">
                 <Link to="/"><Logo /></Link>
@@ -27,12 +31,19 @@ export class NavBar extends Component {
                         </li>
                     </NavLink>
 
-                    <NavLink to="/library" activeClassName="chosen" >
+                    {windowWidth > 680 &&<NavLink to="/library" activeClassName="chosen" >
                         <li>
                             <div className="symbol">||\</div>
                             <div className="text library">Library</div>
                         </li>
-                    </NavLink>
+                    </NavLink>}
+
+                    {windowWidth < 680 && <NavLink to="/activity" activeClassName="chosen" >
+                        <li>
+                            <div className="symbol far fa-bell"></div>
+                            <div className="text library">News</div>
+                        </li>
+                    </NavLink>}
 
                     <NavLink to="/station/new" activeClassName="chosen">
                         <li>
