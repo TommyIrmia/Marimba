@@ -11,13 +11,12 @@
     display: none;
   }
   h1 {
-    font-family: gotham;
+    font-family: gotham-bold;
     font-weight: 400;
     text-align: center;
     font-size: 1.5rem;
     position: absolute;
     top: 15px;
-    // left: 10px;
     left: 50%;
     transform: translateX(-50%);
     color: $clr7;
@@ -26,6 +25,7 @@
       z-index: 6;
     }
     @include for-narrow-layout {
+      font-family: gotham;
       color: #93ebb2;
       left: 50%;
       transform: translateX(-50%);
@@ -59,15 +59,13 @@
         margin-top: 5px;
       }
       li {
-        font-family: gotham;
+        font-family: gotham, rubic;
         color: $clr2;
         align-items: center;
         gap: 5px;
         font-size: rem(14px);
         border-bottom: 0.7px solid rgb(66, 66, 66);
-        background-color: rgb(66, 66, 66);
-        // border-top: 0.7px solid rgb(66, 66, 66);
-        // margin: 13px 0;
+        background-color: rgba(66, 66, 66, 0.5);
         position: relative;
         transition: 0.3s;
         cursor: pointer;
@@ -78,13 +76,15 @@
           background-color: $clr3;
         }
 
-        &:hover {
-          color: whitesmoke;
-          // color: #93ebb2;
-          background-color: $clr4;
-          .activity-info {
-            overflow: visible;
-            max-height: unset;
+        @include for-narrow-layout {
+          &:hover {
+            color: whitesmoke;
+            // color: #93ebb2;
+            background-color: $clr4;
+            .activity-info {
+              overflow: visible;
+              max-height: unset;
+            }
           }
         }
         .activity-info {

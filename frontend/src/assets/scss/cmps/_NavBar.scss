@@ -20,10 +20,10 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  z-index: 3;
   padding: 10px;
-
+  z-index: 3;
   @include for-narrow-layout {
+    z-index: 1;
     height: 100vh;
     width: 220px;
     bottom: unset;
@@ -103,7 +103,7 @@
         }
 
         .liked::after {
-          content: "\ Songs"
+          content: "\ Songs";
         }
       }
     }

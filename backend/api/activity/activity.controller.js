@@ -29,7 +29,6 @@ async function addActivity(req, res) {
     try {
         const activity = req.body
         const addedActivity = await activityService.add(activity)
-        console.log('added activity', addedActivity);
         res.send(addedActivity)
     } catch (err) {
         logger.error('Failed to add activity', err)

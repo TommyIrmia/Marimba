@@ -52,7 +52,8 @@ class _StationPreview extends React.Component {
 
     checkIsLiked = () => {
         const { station, user } = this.props;
-        return station.likedByUsers.some(likedByUser => likedByUser._id === user._id)
+        if (!user.likedStations?.length) return false
+        return user.likedStations.find(likedStationId => station._id === likedStationId)
     }
 
     checkFromList = () => {

@@ -35,17 +35,33 @@ export class _AppHeader extends React.Component {
                 </div>
 
                 {isOpen && <ul className="options-container">
-                    {user.fullname === 'Guest' && <li onClick={() => {
-                        this.props.history.push('/login')
-                        this.setState({ isOpen: false })
-                    }} className="clean-list user-options" >Log in</li>}
-                    {user.fullname !== 'Guest' && <>
-                        <li className="clean-list user-options" >Profile</li>
-                        <Link to={'/library'}><li className="clean-list user-options" >Library</li></Link>
-                        <li onClick={() => {
-                            this.onLogout()
+                    {!user._id && <li className="clean-list user-options"
+                        onClick={() => {
+                            this.props.history.push('/login')
                             this.setState({ isOpen: false })
-                        }} className="clean-list user-options" >Log out</li>
+                        }} >
+                        Log in
+                    </li>}
+
+                    {user._id && <>
+                        <li className="clean-list user-options" >
+                            Profile
+                        </li>
+
+                        <Link to={'/library'}>
+                            <li className="clean-list user-options"
+                                onClick={() => { this.setState({ isOpen: false }) }}>
+                                Library
+                            </li>
+                        </Link>
+
+                        <li className="clean-list user-options"
+                            onClick={() => {
+                                this.onLogout()
+                                this.setState({ isOpen: false })
+                            }}>
+                            Log out
+                        </li>
                     </>}
                 </ul>}
             </div>

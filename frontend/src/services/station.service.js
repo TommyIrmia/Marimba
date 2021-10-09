@@ -129,7 +129,7 @@ async function getById(stationId) {
     try {
         if (!stationId) return
         const station = await httpService.get(`station/${stationId}`)
-        if (station?.tracks.length) station.tracks.forEach(track => track.isPlaying = false)
+        if (station?.tracks?.length) station.tracks.forEach(track => track.isPlaying = false)
         return station
     } catch (err) {
         throw err
@@ -241,13 +241,6 @@ async function getTemplateStation(key, id) {
                 bgc: '#e24aa5',
                 tags: ["Liked"],
                 imgUrl: "http://www.whiteheart.eu/wp-content/uploads/2018/02/white-heart_2018_8.png",
-                createdAt: Date.now(),
-                createdBy: {
-                    "_id": user._id,
-                    "fullname": user.fullname,
-                    "imgUrl": user.imgUrl
-                },
-                likedByUsers: [],
                 tracks: []
             }
             asyncSessionService.save('likedStation', [likedStation]);
@@ -287,7 +280,7 @@ async function saveNewStation() {
         if (!newStation.imgUrl) newStation.imgUrl = logo
         if (!newStation.bgc) newStation.bgc = "#545454"
         delete newStation._id
-
+        console.log('new station', newStation);
         const station = await httpService.post('station', newStation);
         return station._id;
     } catch (err) {

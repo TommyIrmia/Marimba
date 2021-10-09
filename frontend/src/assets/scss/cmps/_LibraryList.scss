@@ -9,17 +9,21 @@
   }
 
   .liked-track-container {
-    min-width: 90%;
+    max-width: 80%;
     height: 180px;
     background: linear-gradient(149.46deg, #450af5, #8e8ee5 99.16%);
     position: relative;
     padding: 10px;
     color: $clr7;
+    @include for-mobile-layout {
+      margin-bottom: 50px;
+    }
     @include for-narrow-layout {
       margin-bottom: 30px;
       transition: transform 0.5s;
       padding: 20px;
-      min-width: 300px;
+      max-width: 380px;
+      // max-width: unset;
       height: 240px;
       color: rgba(255, 255, 255, 0.664);
       &:hover {
@@ -28,7 +32,7 @@
       }
     }
     @include for-wide-layout {
-      min-width: 425px;
+      max-width: 425px;
       height: 280px;
     }
 
@@ -78,6 +82,8 @@
     height: 450px;
     flex-wrap: wrap;
     @include for-mobile-layout {
+      margin-bottom: 60px;
+
       justify-content: center;
     }
     @include for-narrow-layout {

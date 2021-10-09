@@ -1,5 +1,7 @@
 import { httpService } from './http.service.js'
 import defaultUser from "../assets/imgs/defaultuser.jpg";
+import { stationService } from './station.service.js';
+import { asyncStorageService } from './async-storage.service.js';
 
 const STORAGE_KEY = 'loggedinUser'
 
@@ -15,6 +17,8 @@ async function login(credentials) {
     try {
         const user = await httpService.post('auth/login', credentials)
         sessionStorage.setItem(STORAGE_KEY, JSON.stringify(user))
+        asyncStorageService.resetStorage('newStation')
+        stationService.getTemplateStation('newStation', 'new')
         return user
     } catch (err) {
         throw err
@@ -24,6 +28,8 @@ async function logout() {
     try {
         await httpService.post('auth/logout')
         sessionStorage.removeItem(STORAGE_KEY)
+        asyncStorageService.resetStorage('newStation')
+        stationService.getTemplateStation('newStation', 'new')
     } catch (err) {
         throw err
     }
@@ -34,6 +40,8 @@ async function signup(credentials) {
         if (!credentials.imgUrl) credentials.imgUrl = defaultUser
         const user = await httpService.post('auth/signup', credentials);
         sessionStorage.setItem(STORAGE_KEY, JSON.stringify(user))
+        asyncStorageService.resetStorage('newStation')
+        stationService.getTemplateStation('newStation', 'new')
         return user
     } catch (err) {
         throw err

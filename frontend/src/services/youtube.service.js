@@ -53,6 +53,7 @@ function getTracks(videos) {
     if (!videos) return
     return videos.map((video) => {
         let title = video.snippet.title.replace(/\(([^)]+)\)/g, '');
+        title = video.snippet.title.replace(/\[([^)]+)\]/g, '');
         title = title.replace('&#39;', '\'');
         title = title.replace('&amp;', '&');
         title = title.replace(/&quot;/g, '"');
@@ -62,7 +63,6 @@ function getTracks(videos) {
             url: "youtube/song.mp4",
             imgUrl: video.snippet.thumbnails.medium.url,
             addBy: 'Naama',
-            addedAt: Date.now()
         }
     })
 }

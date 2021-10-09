@@ -6,17 +6,13 @@ export const asyncStorageService = {
     put,
     remove,
     save,
-    getIdx
+    getIdx,
+    resetStorage
 }
 
 async function query(entityType, delay = 0) {
     var entities = await JSON.parse(localStorage.getItem(entityType))
     return entities
-    // return new Promise((resolve, reject) => {
-    //     // setTimeout(() => {
-    //         resolve(entities)
-    //     // }, delay)
-    // })
 }
 
 
@@ -68,4 +64,10 @@ function remove(entityType, entityId) {
 async function save(entityType, entities) {
     // console.log('entityType FROM SAVE!', entityType)
     localStorage.setItem(entityType, JSON.stringify(entities))
+}
+
+function resetStorage(entityType) {
+    console.log('remove from storage', entityType);
+    localStorage.removeItem(entityType)
+    console.log('after remove', localStorage.getItem(entityType))
 }

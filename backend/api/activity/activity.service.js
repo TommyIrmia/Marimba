@@ -15,15 +15,8 @@ async function query(filterBy = {}) {
     const criteria = _buildCriteria(filterBy)
     try {
         const collection = await dbService.getCollection('activity')
-        var activitys = await collection.find(criteria).toArray()
-        activitys = activitys.map(activity => {
-            delete activity.password
-            activity.createdAt = ObjectId(activity._id).getTimestamp()
-            // Returning fake fresh data
-            // activity.createdAt = Date.now() - (1000 * 60 * 60 * 24 * 3) // 3 days ago
-            return activity
-        })
-        return activitys
+        return await collection.find(criteria).toArray()
+
     } catch (err) {
         logger.error('cannot find activitys', err)
         throw err
@@ -44,8 +37,7 @@ async function getById(activityId) {
 async function add(activity) {
     try {
         // peek only updatable fields!
-        console.log('activity from activity service', activity);
-    
+
         const activityToAdd = {
             type: activity.type,
             stationInfo: activity.stationInfo,
@@ -80,12 +72,12 @@ async function update(activity) {
                 fullname: activity.createdBy.fullname,
                 imgUrl: activity.createdBy.imgUrl
             },
-            createdAt: Date.now(),
+            createdAt: activity.createdAt,
             trackName: activity.trackName
         }
         const collection = await dbService.getCollection('activity')
         await collection.updateOne({ _id: activityToSave._id }, { $set: activityToSave })
-        console.log('updated activity', activityToSave._id );
+        console.log('updated activity', activityToSave._id);
         return activityToSave;
     } catch (err) {
         logger.error(`cannot update activity ${activity._id}`, err)

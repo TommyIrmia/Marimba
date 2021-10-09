@@ -28,21 +28,25 @@ export class _ActivityLog extends Component {
         }
     }
 
+    onGoToActivity = (activity) => {
+        this.onReadActivity()
+        if (activity.type === 'like track') return
+        this.props.history.push(`/station/${activity.stationInfo.id}`)
+        this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
+    }
+
+    onReadActivity = (activity) => {
+        activityService.read(activity);
+        this.loadActivities();
+    }
+
     dynamicCmp = (activity, idx) => {
         const classStr = (activity.isRead) ? "flex read" : "flex";
         switch (activity.type) {
             case 'create playlist':
                 return (<li className={classStr} key={idx}
-                    onClick={() => {
-                        this.props.history.push(`/station/${activity.stationInfo.id}`)
-                        this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
-
-                    }}
-                    onMouseEnter={() => {
-                        activityService.read(activity);
-                        this.loadActivities();
-                    }}
-                >
+                    onClick={() => this.onGoToActivity(activity)}
+                    onMouseEnter={() => this.onReadActivity(activity)}>
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
@@ -54,15 +58,8 @@ export class _ActivityLog extends Component {
                 </li>)
             case 'add track':
                 return (<li className={classStr} key={idx}
-                    onClick={() => {
-                        this.props.history.push(`/station/${activity.stationInfo.id}`)
-                        this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
-                    }}
-                    onMouseEnter={() => {
-                        activityService.read(activity);
-                        this.loadActivities();
-                    }}
-                >
+                    onClick={() => this.onGoToActivity(activity)}
+                    onMouseEnter={() => this.onReadActivity(activity)}>
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
@@ -74,15 +71,8 @@ export class _ActivityLog extends Component {
                 </li>)
             case 'remove track':
                 return (<li className={classStr} key={idx}
-                    onClick={() => {
-                        this.props.history.push(`/station/${activity.stationInfo.id}`)
-                        this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
-                    }}
-                    onMouseEnter={() => {
-                        activityService.read(activity);
-                        this.loadActivities();
-                    }}
-                >
+                    onClick={() => this.onGoToActivity(activity)}
+                    onMouseEnter={() => this.onReadActivity(activity)}>
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
@@ -94,11 +84,8 @@ export class _ActivityLog extends Component {
                 </li>)
             case 'like track':
                 return (<li className={classStr} key={idx}
-                    onMouseEnter={() => {
-                        activityService.read(activity);
-                        this.loadActivities();
-                    }}
-                >
+                    onClick={() => this.onGoToActivity(activity)}
+                    onMouseEnter={() => this.onReadActivity(activity)}>
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
@@ -116,7 +103,7 @@ export class _ActivityLog extends Component {
         if (!activities.length) return <div>No Activities</div>
 
         return (<section className="activity-log">
-            <h1>What's New? </h1>
+            <h1>What's New?</h1>
 
             <div className="activity-log-container">
                 <ul className="clean-list">
