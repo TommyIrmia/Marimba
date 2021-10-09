@@ -7,7 +7,8 @@ module.exports = {
     query,
     getById,
     add,
-    remove
+    remove,
+    update
 }
 
 async function query(filterBy = {}) {
@@ -48,7 +49,8 @@ async function add(activity) {
     
         const activityToAdd = {
             type: activity.type,
-            stationInfo: activity.stationInfo,
+            activityInfo: activity.activityInfo,
+            isRead: false,
             createdBy: {
                 _id: activity.createdBy._id,
                 fullname: activity.createdBy.fullname,
@@ -62,6 +64,32 @@ async function add(activity) {
         return activityToAdd
     } catch (err) {
         logger.error('cannot insert activity', err)
+        throw err
+    }
+}
+
+async function update(activity) {
+    try {
+        // peek only updatable fields!
+        const activityToSave = {
+            _id: ObjectId(activity._id),
+            type: activity.type,
+            activityInfo: activity.activityInfo,
+            isRead: true,
+            createdBy: {
+                _id: activity.createdBy._id,
+                fullname: activity.createdBy.fullname,
+                imgUrl: activity.createdBy.imgUrl
+            },
+            createdAt: Date.now(),
+            trackName: activity.trackName
+        }
+        const collection = await dbService.getCollection('activity')
+        await collection.updateOne({ _id: activityToSave._id }, { $set: activityToSave })
+        console.log('updated activity', activityToSave._id );
+        return activityToSave;
+    } catch (err) {
+        logger.error(`cannot update activity ${activity._id}`, err)
         throw err
     }
 }

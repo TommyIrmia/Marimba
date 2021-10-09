@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { stationService } from '../services/station.service.js'
-import { WhatsappShareButton, WhatsappIcon } from 'react-share'
+import { WhatsappShareButton, WhatsappIcon, FacebookShareButton, FacebookIcon } from 'react-share'
 import { SportsRugbySharp } from '@material-ui/icons'
 
 
@@ -55,9 +55,15 @@ export class StationHero extends Component {
                                 {tracks.length} songs • {this.getStationFullTime(tracks)}</p>
                         </div>
                         <div className="share-container">
-                        <WhatsappShareButton url={`http://www.youtube.com/watch?v=9WzIACv_mxs`} title="I like to share with you this playlist from Marimba!">
-                                <WhatsappIcon size={40} bgStyle={{fill: "#00000000"}}/>
+                            <h5>Share this playlist</h5>
+                            <div className="share-btns flex">
+                            <WhatsappShareButton url={`http://www.youtube.com/watch?v=9WzIACv_mxs`} title="I like to share with you this playlist from Marimba!">
+                                <WhatsappIcon size={40} bgStyle={{ fill: "#00000000" }} />
                             </WhatsappShareButton>
+                            <FacebookShareButton url={`http://www.youtube.com/watch?v=9WzIACv_mxs`} title="I like to share with you this playlist from Marimba!">
+                                <FacebookIcon size={45} bgStyle={{ fill: "#00000000" }} />
+                            </FacebookShareButton>
+                            </div>
 
                         </div>
                     </div>
