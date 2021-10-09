@@ -28,7 +28,6 @@ export class _AppHeader extends React.Component {
             <div className="app-header" style={{ backgroundColor: bgc }} >
                 <Link to="/"><Logo /></Link>
                 <h1>{stationName}</h1>
-                <Link to="/activity"><div className="activity far fa-bell"></div></Link>
                 <div onClick={this.onOpenOptions} className="user-container">
                     <div className="img-container"><img src={user.imgUrl} alt='user-img' /></div>
                     <div className="user-name">{user.fullname}</div>
@@ -42,7 +41,7 @@ export class _AppHeader extends React.Component {
                     }} className="clean-list user-options" >Log in</li>}
                     {user.fullname !== 'Guest' && <>
                         <li className="clean-list user-options" >Profile</li>
-                        <li className="clean-list user-options" >Settings</li>
+                        <Link to={'/library'}><li className="clean-list user-options" >Library</li></Link>
                         <li onClick={() => {
                             this.onLogout()
                             this.setState({ isOpen: false })
