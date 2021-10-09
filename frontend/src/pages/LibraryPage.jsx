@@ -37,7 +37,6 @@ class _LibraryPage extends Component {
 
             this.setState({ mostLiked, recentlyStations: recentlyaddedStations, likedTracks: likedTracks.tracks, stationsBy: stationsByUser, likedByUser })
         } catch (err) {
-            // this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
             console.log(err);
         }
     }

@@ -95,6 +95,18 @@
     }
   }
 
+  .station-img-city{
+
+    height: 82%;
+    width: 100%;
+    
+    img{
+      width: inherit;
+      height: inherit;
+      border-radius: 50%;
+    }
+  }
+
   .station-like {
     position: absolute;
     bottom: 20px;
