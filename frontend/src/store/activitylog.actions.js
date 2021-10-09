@@ -28,3 +28,17 @@ export function addActivity(type, stationInfo) {
         }
     }
 }
+
+export function getUnRead() {
+    return async (dispatch) => {
+        try {
+            const unRead = await activityService.getUnreadCount()
+            dispatch({
+                type: 'GET_UNREAD',
+                unRead: unRead
+            })
+        } catch (err) {
+            throw err
+        }
+    }
+}

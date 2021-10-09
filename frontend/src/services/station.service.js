@@ -3,6 +3,7 @@ import { httpService } from "./http.service.js"
 import logo from "../assets/imgs/default.png";
 import { asyncSessionService } from "./async-session.service.js";
 import { userService } from "./user.service.js";
+import { utilService } from "./util.service.js";
 
 
 export const stationService = {
@@ -354,17 +355,32 @@ async function removeTrackFromLiked(trackId, user) {
 
 async function addLikeTtoStation(station, user) {
     try {
+        const fakeUser = {
+            _id: 123,
+            fullname: "Puki Ben David",
+            imgUrl: ""
+        }
+        let numUsers = Array.fill(1, 0, utilService.getRandomIntInclusive(30, 800))
 
+        console.log('numUsers', numUsers);
+        let fakeUsers = numUsers.map(user => {
+            return fakeUser;
+        });
+
+        console.log(fakeUsers);
         const miniUser = {
             _id: user._id,
             fullname: user.fullname,
             imgUrl: user.imgUrl
         }
-        station.likedByUsers.push(miniUser)
+
+
+        // station.likedByUsers.push(miniUser)
+        station.likedByUsers.push(fakeUsers)
         httpService.put(`station`, station)
 
-        user.likedStations.push(station._id)
-        return await userService.updateUser(user)
+        // user.likedStations.push(station._id)
+        // return await userService.updateUser(user)
     } catch (err) {
         throw err
     }
