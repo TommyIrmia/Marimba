@@ -34,10 +34,6 @@ export class _ActivityLog extends Component {
                 return (<li className={classStr} key={idx}
                     onClick={() => {
                         this.props.history.push(`/station/${activity.stationInfo.id}`)
-<<<<<<< HEAD
-                        this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo?.name)
-                    }}>
-=======
                         this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
 
                     }}
@@ -46,7 +42,6 @@ export class _ActivityLog extends Component {
                         this.loadActivities();
                     }}
                 >
->>>>>>> 223decdca129ff5ac367993cab3f542f5bee3fb8
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
@@ -108,11 +103,7 @@ export class _ActivityLog extends Component {
                     </div>
                     <div className="activity-info">
                         <span className="user-name"> {activity.createdBy.fullname}</span>
-<<<<<<< HEAD
-                        <span className="pink"> liked💗 </span>"{activity.trackName}" from "{activity.stationInfo?.name}"!
-=======
                         <span className="pink"> liked💗 </span>"{activity.trackName}"!
->>>>>>> 223decdca129ff5ac367993cab3f542f5bee3fb8
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)

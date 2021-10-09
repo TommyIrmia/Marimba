@@ -47,7 +47,6 @@ export class HomePage extends Component {
         if (initialEntry && initialEntry !== 'false') window.addEventListener('scroll', this.noScroll);
 
         if (!stations.length) return <div className="loader-container" > <Loader /> </div>
-        console.log('station',stations);
 
         return (
             <main>

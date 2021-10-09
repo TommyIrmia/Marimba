@@ -39,7 +39,6 @@ export class PopularStationsList extends Component {
 
     render() {
         const { mostLiked } = this.state;
-        console.log(mostLiked);
         return (
             <main>
                 <div><h1>Most liked</h1></div>
