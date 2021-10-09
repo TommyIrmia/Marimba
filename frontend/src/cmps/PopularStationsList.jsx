@@ -15,7 +15,7 @@ export class PopularStationsList extends Component {
 
     loadStations = async () => {
         try {
-            const stations = await stationService.query()
+            const { stations} = this.props;
 
             let mostLiked = stations.sort((a, b) => b.likedByUsers.length - a.likedByUsers.length);
             mostLiked = mostLiked.slice(0, 6);
