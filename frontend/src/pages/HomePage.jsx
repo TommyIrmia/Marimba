@@ -4,6 +4,7 @@ import { stationService } from '../services/station.service.js'
 import { MainHero } from './../cmps/MainHero';
 import { sessionService } from './../services/session.service';
 import { Loader } from './../assets/svg/loader';
+import { PopularStationsList } from './../cmps/PopularStationsList';
 
 export class HomePage extends Component {
 
@@ -46,11 +47,13 @@ export class HomePage extends Component {
         if (initialEntry && initialEntry !== 'false') window.addEventListener('scroll', this.noScroll);
 
         if (!stations.length) return <div className="loader-container" > <Loader /> </div>
+
         return (
             <main>
                 {initialEntry !== 'false' && <MainHero noScroll={this.noScroll} />}
 
                 <section className="home-page">
+                     <PopularStationsList  stations={stations} />
                     {genres.map(genre => <StationList genre={genre.name} key={genre.name} stations={stations} />)}
                 </section>
             </main>

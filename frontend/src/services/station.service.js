@@ -26,6 +26,11 @@ export const stationService = {
 let counter = 1;
 const genres = [
     {
+        name: 'Cities',
+        imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJdmbcD7QrUPYG7W-7wFDxOxBXDhWGKSb4Hg&usqp=CAU",
+        color: "#80433b"
+    },
+    {
         name: 'All',
         imgUrl: "https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg",
         color: "#ffc864"
@@ -302,7 +307,7 @@ async function saveDataFromHero(stationId, data) {
             name: data.title,
             imgUrl: data.img || logo,
             description: data.desc,
-            bgc: data.bgc || "#545454"
+            bgc: data.bgc || "#545454",
         }
 
         const updatedStation = await httpService.put(`station`, stationToUpdate)

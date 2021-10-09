@@ -4,6 +4,7 @@ import { withRouter } from 'react-router'
 import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
 import { onSetMsg, onLikeStation, onUnlikeStation } from '../store/user.actions.js'
 import { setBgcAndName } from '../store/station.actions.js'
+import { utilService } from './../services/util.service';
 
 class _StationPreview extends React.Component {
 
@@ -54,56 +55,70 @@ class _StationPreview extends React.Component {
         return station.likedByUsers.some(likedByUser => likedByUser._id === user._id)
     }
 
+    checkFromList = () => {
+        const { isFromSearchList, isMostLikedList } = this.props
+
+        if (isFromSearchList) return 'station-search-preview'
+        if (isMostLikedList) return 'station-most-liked-preview'
+    }
+
     render() {
-        const { station, isFromSearchList } = this.props
+        const { station, isFromSearchList, isMostLikedList } = this.props
         return (
-            <section className={`station-preview ${(isFromSearchList) ? 'station-search-preview' : ''}`}
-                onClick={() => {
-                    this.props.setBgcAndName(station.bgc, station.name)
-                    this.props.history.push(`/station/${station._id}`)
-                }}>
+            <main className="preview-container" >
 
-                <section className="station-img">
-                    <img src={station.imgUrl} alt="station" />
-                    {!this.isStationPlaying() && <div className="play-btn fas fa-play"
-                        onClick={(ev) => {
-                            ev.stopPropagation()
-                            this.onPlayStation()
-                        }}>
-                    </div>}
 
-                    {this.isStationPlaying() && <div className="play-btn fas fa-pause"
-                        onClick={(ev) => {
-                            ev.stopPropagation()
-                            this.props.player.pauseVideo()
-                        }}>
-                    </div>}
+                <section className={`${(isMostLikedList) ? 'station-most-liked-preview flex' : `station-preview ${this.checkFromList} `}`}
+                    onClick={() => {
+                        this.props.setBgcAndName(station.bgc, station.name)
+                        this.props.history.push(`/station/${station._id}`)
+                    }}>
+                    <div className="station-label" style={{ backgroundColor: utilService.pickRandomColor() }} ></div>
+
+                    <section className="station-img">
+                        <img src={station.imgUrl} alt="station" />
+                        {!this.isStationPlaying() && <div className="play-btn fas fa-play"
+                            onClick={(ev) => {
+                                ev.stopPropagation()
+                                this.onPlayStation()
+                            }}>
+                        </div>}
+
+                        {this.isStationPlaying() && <div className="play-btn fas fa-pause"
+                            onClick={(ev) => {
+                                ev.stopPropagation()
+                                this.props.player.pauseVideo()
+                            }}>
+                        </div>}
+                    </section>
+
+                    <div className="station-info">
+                        <h1>{station.name}</h1>
+                        <p>{station.createdBy.fullname}</p>
+                    </div>
+                    <main className="station-like-container"  >
+
+                        <section className="station-like">
+                            {!this.checkIsLiked() && <button className="far fa-thumbs-up"
+                                onClick={(ev) => {
+                                    ev.stopPropagation()
+                                    this.onLikeStation()
+                                }}>
+                            </button>}
+
+                            {this.checkIsLiked() && <button className="fas fa-thumbs-up green"
+                                onClick={(ev) => {
+                                    ev.stopPropagation()
+                                    this.onUnlikeStation()
+                                }}>
+                            </button>}
+
+                            <h2>{station.likedByUsers.length}</h2>
+                        </section>
+                    </main>
+
                 </section>
-
-                <div className="station-info">
-                    <h1>{station.name}</h1>
-                    <p>{station.createdBy.fullname}</p>
-                </div>
-
-                <section className="station-like">
-                    {!this.checkIsLiked() && <button className="far fa-thumbs-up"
-                        onClick={(ev) => {
-                            ev.stopPropagation()
-                            this.onLikeStation()
-                        }}>
-                    </button>}
-
-                    {this.checkIsLiked() && <button className="fas fa-thumbs-up green"
-                        onClick={(ev) => {
-                            ev.stopPropagation()
-                            this.onUnlikeStation()
-                        }}>
-                    </button>}
-
-                    <h2>{station.likedByUsers.length}</h2>
-                </section>
-
-            </section>
+            </main>
         )
     }
 }
