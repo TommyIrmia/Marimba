@@ -28,7 +28,7 @@ class _LibraryPage extends Component {
             const likedTracks = await stationService.getTemplateStation('likedStation', 'liked')
             const stationsByUser = stations.filter(stationBy => stationBy.createdBy._id === user._id)
 
-             user.likedStations.map( async stationId => {
+             user.likedStations?.map( async stationId => {
                 likedByUser.push( await stationService.getById(stationId))  
                 this.setState({likedByUser})
             })
@@ -41,7 +41,6 @@ class _LibraryPage extends Component {
 
             this.setState({ mostLiked, recentlyStations: recentlyaddedStations, likedTracks: likedTracks.tracks, stationsBy: stationsByUser })
         } catch (err) {
-            // this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
             console.log(err);
         }
     }

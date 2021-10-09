@@ -55,27 +55,23 @@ class _StationPreview extends React.Component {
         return station.likedByUsers.some(likedByUser => likedByUser._id === user._id)
     }
 
-    checkFromList = () => {
-        const { isFromSearchList, isMostLikedList } = this.props
-
+    isFromSearch = () => {
+        const { isFromSearchList } = this.props
         if (isFromSearchList) return 'station-search-preview'
-        if (isMostLikedList) return 'station-most-liked-preview'
     }
 
     render() {
-        const { station, isFromSearchList, isMostLikedList } = this.props
+        const { station, isMostLikedList } = this.props
         return (
             <main className="preview-container" >
-
-
-                <section className={`${(isMostLikedList) ? 'station-most-liked-preview flex' : `station-preview ${this.checkFromList} `}`}
+                <section className={`${(isMostLikedList) ? 'station-most-liked-preview flex' : `station-preview ${this.isFromSearch} `}`}
                     onClick={() => {
                         this.props.setBgcAndName(station.bgc, station.name)
                         this.props.history.push(`/station/${station._id}`)
                     }}>
                     <div className="station-label" style={{ backgroundColor: utilService.pickRandomColor() }} ></div>
 
-                    <section className="station-img">
+                    <section className={`station-img ${(station.tags[0] === 'Cities') ? 'station-img-city' : '' } `}>
                         <img src={station.imgUrl} alt="station" />
                         {!this.isStationPlaying() && <div className="play-btn fas fa-play"
                             onClick={(ev) => {
@@ -94,7 +90,8 @@ class _StationPreview extends React.Component {
 
                     <div className="station-info">
                         <h1>{station.name}</h1>
-                        <p>{station.createdBy.fullname}</p>
+                        { station.tags[0] !== 'Cities' && <p>{station.createdBy.fullname}</p>}
+                        { station.tags[0] === 'Cities' && <p>Marimba</p>}
                     </div>
                     <main className="station-like-container"  >
 
@@ -116,7 +113,6 @@ class _StationPreview extends React.Component {
                             <h2>{station.likedByUsers.length}</h2>
                         </section>
                     </main>
-
                 </section>
             </main>
         )

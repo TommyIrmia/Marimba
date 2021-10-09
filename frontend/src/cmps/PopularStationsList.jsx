@@ -13,15 +13,6 @@ export class PopularStationsList extends Component {
         this.loadStations();
     }
 
-    //   loadStations =  () => {
-    //     const { stations } = this.props;
-    //     let mostSomthing = stations.slice()
-    //     mostSomthing.map(station => {
-    //         station.tags = []
-    //         this.setState({mostSomthing:mostSomthing.slice(0, 6)})
-    //     })   
-    // }
-
     loadStations = async () => {
         try {
             const stations = await stationService.query()
@@ -31,7 +22,6 @@ export class PopularStationsList extends Component {
 
             this.setState({ mostLiked })
         } catch (err) {
-            // this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
             console.log(err);
         }
     }
