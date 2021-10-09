@@ -26,7 +26,6 @@ export class _ActivityLog extends Component {
         }
     }
 
-<<<<<<< HEAD
     onGoToActivity = (activity) => {
         this.onReadActivity()
         if (activity.type === 'like track') return
@@ -37,35 +36,21 @@ export class _ActivityLog extends Component {
     onReadActivity = (activity) => {
         activityService.read(activity);
         this.loadActivities();
+        this.getUnRead();
     }
-=======
+
     getUnRead = async () => {
         await this.props.getUnRead()
     }
 
->>>>>>> c4b4fc3a15d4b799faf851618604d19b3ec4f7fb
 
     dynamicCmp = (activity, idx) => {
         const classStr = (activity.isRead) ? "flex read" : "flex";
         switch (activity.type) {
             case 'create playlist':
                 return (<li className={classStr} key={idx}
-<<<<<<< HEAD
                     onClick={() => this.onGoToActivity(activity)}
                     onMouseEnter={() => this.onReadActivity(activity)}>
-=======
-                    onClick={() => {
-                        this.props.history.push(`/station/${activity.stationInfo.id}`)
-                        this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
-
-                    }}
-                    onMouseEnter={() => {
-                        activityService.read(activity);
-                        this.loadActivities();
-                        this.getUnRead();
-                    }}
-                >
->>>>>>> c4b4fc3a15d4b799faf851618604d19b3ec4f7fb
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
@@ -77,21 +62,8 @@ export class _ActivityLog extends Component {
                 </li>)
             case 'add track':
                 return (<li className={classStr} key={idx}
-<<<<<<< HEAD
                     onClick={() => this.onGoToActivity(activity)}
                     onMouseEnter={() => this.onReadActivity(activity)}>
-=======
-                    onClick={() => {
-                        this.props.history.push(`/station/${activity.stationInfo.id}`)
-                        this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
-                    }}
-                    onMouseEnter={() => {
-                        activityService.read(activity);
-                        this.loadActivities();
-                        this.getUnRead();
-                    }}
-                >
->>>>>>> c4b4fc3a15d4b799faf851618604d19b3ec4f7fb
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
@@ -103,21 +75,8 @@ export class _ActivityLog extends Component {
                 </li>)
             case 'remove track':
                 return (<li className={classStr} key={idx}
-<<<<<<< HEAD
                     onClick={() => this.onGoToActivity(activity)}
                     onMouseEnter={() => this.onReadActivity(activity)}>
-=======
-                    onClick={() => {
-                        this.props.history.push(`/station/${activity.stationInfo.id}`)
-                        this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
-                    }}
-                    onMouseEnter={() => {
-                        activityService.read(activity);
-                        this.loadActivities();
-                        this.getUnRead();
-                    }}
-                >
->>>>>>> c4b4fc3a15d4b799faf851618604d19b3ec4f7fb
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
@@ -129,17 +88,8 @@ export class _ActivityLog extends Component {
                 </li>)
             case 'like track':
                 return (<li className={classStr} key={idx}
-<<<<<<< HEAD
                     onClick={() => this.onGoToActivity(activity)}
                     onMouseEnter={() => this.onReadActivity(activity)}>
-=======
-                    onMouseEnter={() => {
-                        activityService.read(activity);
-                        this.loadActivities();
-                        this.getUnRead();
-                    }}
-                >
->>>>>>> c4b4fc3a15d4b799faf851618604d19b3ec4f7fb
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
@@ -158,11 +108,7 @@ export class _ActivityLog extends Component {
         let { unRead } = this.props;
         console.log('unRead', unRead);
         return (<section className="activity-log">
-<<<<<<< HEAD
-            <h1>What's New?</h1>
-=======
             <h1>What's New? <span>{unRead}</span></h1>
->>>>>>> c4b4fc3a15d4b799faf851618604d19b3ec4f7fb
 
             <div className="activity-log-container">
                 <ul className="clean-list">
@@ -170,7 +116,7 @@ export class _ActivityLog extends Component {
                 </ul>
             </div>
 
-        </section>
+        </section >
         )
     }
 }
