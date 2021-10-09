@@ -34,7 +34,7 @@ export function getUnRead() {
         try {
             const unRead = await activityService.getUnreadCount()
             dispatch({
-                type: 'ADD_ACTIVITY',
+                type: 'GET_UNREAD',
                 unRead: unRead
             })
         } catch (err) {

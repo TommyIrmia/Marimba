@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { utilService } from '../services/util.service'
-import { loadActivities } from '../store/activitylog.actions'
+import { loadActivities, getUnRead } from '../store/activitylog.actions'
 import { setBgcAndName } from '../store/station.actions'
 import { socketService } from '../services/socket.service'
 import { activityService } from '../services/activity-log.service'
@@ -14,6 +14,7 @@ export class _ActivityLog extends Component {
 
     async componentDidMount() {
         this.loadActivities()
+        this.props.getUnRead();
         socketService.on('addActivity', this.loadActivities)
     }
 
@@ -24,6 +25,11 @@ export class _ActivityLog extends Component {
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
+
+    getUnRead = async () => {
+        await this.props.getUnRead()
+    }
+
 
     dynamicCmp = (activity, idx) => {
         const classStr = (activity.isRead) ? "flex read" : "flex";
@@ -38,6 +44,7 @@ export class _ActivityLog extends Component {
                     onMouseEnter={() => {
                         activityService.read(activity);
                         this.loadActivities();
+                        this.getUnRead();
                     }}
                 >
                     <div className="activity-user">
@@ -58,6 +65,7 @@ export class _ActivityLog extends Component {
                     onMouseEnter={() => {
                         activityService.read(activity);
                         this.loadActivities();
+                        this.getUnRead();
                     }}
                 >
                     <div className="activity-user">
@@ -78,6 +86,7 @@ export class _ActivityLog extends Component {
                     onMouseEnter={() => {
                         activityService.read(activity);
                         this.loadActivities();
+                        this.getUnRead();
                     }}
                 >
                     <div className="activity-user">
@@ -94,6 +103,7 @@ export class _ActivityLog extends Component {
                     onMouseEnter={() => {
                         activityService.read(activity);
                         this.loadActivities();
+                        this.getUnRead();
                     }}
                 >
                     <div className="activity-user">
@@ -111,9 +121,10 @@ export class _ActivityLog extends Component {
     render() {
         let { activities } = this.props
         if (!activities.length) return <div>No Activities</div>
-
+        let { unRead } = this.props;
+        console.log('unRead', unRead);
         return (<section className="activity-log">
-            <h1>What's New? </h1>
+            <h1>What's New? <span>{unRead}</span></h1>
 
             <div className="activity-log-container">
                 <ul className="clean-list">
@@ -135,6 +146,7 @@ function mapStateToProps(state) {
 }
 const mapDispatchToProps = {
     loadActivities,
+    getUnRead,
     setBgcAndName
 }
 

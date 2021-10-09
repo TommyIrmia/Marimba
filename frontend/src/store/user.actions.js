@@ -1,7 +1,7 @@
 import { userService } from '../services/user.service'
 import defaultUser from "../assets/imgs/defaultuser.jpg";
 import { stationService } from './../services/station.service';
-import {activityService} from './../services/activity-log.service';
+import { activityService } from './../services/activity-log.service';
 
 let timeoutId;
 
@@ -76,6 +76,14 @@ export function onLikeTrack(track, user) {
                 type: 'ADD_ACTIVITY',
                 activity: activityToAdd
             })
+
+
+            const unRead = await activityService.getUnreadCount()
+            dispatch({
+                type: 'GET_UNREAD',
+                unRead: unRead
+            })
+
         } catch (err) {
             throw err
         }
