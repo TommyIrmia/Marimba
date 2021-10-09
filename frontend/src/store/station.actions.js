@@ -24,6 +24,7 @@ export function loadTracks(stationId, filterBy) {
 export function onUpdateTracks(tracks, stationId) {
     return async (dispatch) => {
         try {
+            console.log('from update', stationId);
             dispatch({
                 type: 'UPDATE_TRACKS',
                 tracks,

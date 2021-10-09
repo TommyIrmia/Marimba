@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { stationService } from '../services/station.service.js'
+import { WhatsappShareButton, WhatsappIcon, FacebookShareButton, FacebookIcon } from 'react-share'
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 
 export class StationHero extends Component {
@@ -9,19 +11,19 @@ export class StationHero extends Component {
     }
 
     async componentDidMount() {
-        await this.loadStation()
+        // await this.loadStation()
     }
 
     loadStation = async () => {
-        const { stationId } = this.props
-        try {
-            let station;
-            if (stationId === "liked") station = await stationService.getTemplateStation("likedStation", stationId)
-            else station = await stationService.getById(stationId)
-            this.setState({ station })
-        } catch (err) {
-            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
-        }
+        // const { stationId } = this.props
+        // try {
+        //     let station;
+        //     if (stationId === "liked") station = await stationService.getTemplateStation("likedStation", stationId)
+        //     else station = await stationService.getById(stationId)
+        //     this.setState({ station })
+        // } catch (err) {
+        //     this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
+        // }
     }
 
     getStationFullTime = (tracks) => {
@@ -36,9 +38,9 @@ export class StationHero extends Component {
     }
 
     render() {
-        const { station } = this.state
+        const { station } = this.props
         const { tracks, stationId, likesCount } = this.props
-        if (!station) return <div>Loading</div>
+        if (!station) return <div></div>
         return (
             <main style={{ backgroundColor: station.bgc }} className="hero-container">
                 <div className="linear-container">
@@ -51,6 +53,21 @@ export class StationHero extends Component {
                             <p>{stationId !== 'liked' && station.createdBy.fullname + ' • '}
                                 {stationId !== 'liked' && likesCount + ' likes • '}
                                 {tracks.length} songs • {this.getStationFullTime(tracks)}</p>
+                        </div>
+                        <div className="share-container">
+                            <h5>Share this playlist</h5>
+                            <div className="share-btns flex">
+                                <WhatsappShareButton url={`http://www.youtube.com/watch?v=9WzIACv_mxs`} title="I like to share with you this playlist from Marimba!">
+                                    <WhatsappIcon size={40} bgStyle={{ fill: "#00000000" }} />
+                                </WhatsappShareButton>
+                                <FacebookShareButton url={`http://www.youtube.com/watch?v=9WzIACv_mxs`} title="I like to share with you this playlist from Marimba!">
+                                    <FacebookIcon size={45} bgStyle={{ fill: "#00000000" }} />
+                                </FacebookShareButton>
+                                <CopyToClipboard text={`http://localhost:3000/station${stationId}`}>
+                                    <div className="share-btn fas fa-link"></div>
+                                </CopyToClipboard>
+                            </div>
+
                         </div>
                     </div>
                 </div>

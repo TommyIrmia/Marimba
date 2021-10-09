@@ -1,5 +1,5 @@
 const express = require('express')
-const {getActivity, getActivities, addActivity} = require('./activity.controller')
+const {getActivity, getActivities, addActivity, updateActivity} = require('./activity.controller')
 const router = express.Router()
 
 // middleware that is specific to this router
@@ -8,5 +8,6 @@ const router = express.Router()
 router.get('/', getActivities)
 router.get('/:id', getActivity)
 router.post('/', addActivity)
+router.put('/', updateActivity)
 
 module.exports = router

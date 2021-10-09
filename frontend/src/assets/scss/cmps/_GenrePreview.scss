@@ -3,8 +3,14 @@
     display: grid;
     justify-content: center;
     grid-template-rows: 40px 1fr;
-    grid-template-columns: repeat(auto-fill, minmax(195px, 200px));
+    grid-template-columns: repeat(auto-fit, minmax(140px, 180px));
     gap: 15px;
+
+    @include for-narrow-layout {
+      grid-template-rows: 40px 1fr;
+      grid-template-columns: repeat(auto-fill, minmax(195px, 200px));
+      gap: 15px;
+    }
 
     .header {
       grid-column: 1 / -1;
@@ -14,10 +20,13 @@
     .GenrePreview {
       .genre-card {
         padding: 20px;
-        height: 195px;
+        height: 140px;
         position: relative;
         border-radius: rem(10px);
         overflow: hidden;
+        @include for-narrow-layout {
+          height: 195px;
+        }
         h3 {
           font-size: rem(25px);
           font-family: gotham;
@@ -36,6 +45,17 @@
         &:hover {
           cursor: pointer;
         }
+      }
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .genre-section {
+    .GenreList {
+      grid-template-columns: repeat(auto-fit, minmax(120px, 220px));
+      .header {
+        font-size: rem(16px);
       }
     }
   }

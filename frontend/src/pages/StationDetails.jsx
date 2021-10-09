@@ -13,6 +13,7 @@ import { TrackList } from './../cmps/TrackList';
 import { stationService } from '../services/station.service.js';
 import { withRouter } from 'react-router'
 import { socketService } from '../services/socket.service'
+import { Loader } from './../assets/svg/loader';
 
 
 class _StationDetails extends Component {
@@ -33,10 +34,11 @@ class _StationDetails extends Component {
     addRef = React.createRef()
 
     async componentDidMount() {
+        const { stationId } = this.props.match.params
+        socketService.emit('station id', stationId)
+        socketService.on('tracksChanged', this.tracksChanged)
         try {
-            console.log('station did mount');
             window.scrollTo(0, 0)
-            const { stationId } = this.props.match.params
             let station;
             let isEditable = false;
             if (stationId === 'new') {
@@ -48,16 +50,12 @@ class _StationDetails extends Component {
             }
             else {
                 station = await stationService.getById(stationId)
-                socketService.emit('station id', stationId)
-                socketService.on('tracksChanged', this.tracksChanged)
             }
             this.props.setBgcAndName(station.bgc, station.name)
             this.props.setLikesCount(station.likedByUsers?.length)
             this.setState({ ...this.state, isEditable, stationId, station }, async () => {
                 await this.loadTracks()
             })
-            // socketService.emit('station id', stationId)
-            // socketService.on('tracksChanged', this.tracksChanged)
         } catch (err) {
             this.props.history.push('/')
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
@@ -137,6 +135,7 @@ class _StationDetails extends Component {
     }
 
     tracksChanged = ({ tracks }) => {
+        console.log('track from station', tracks);
         try {
             this.props.updateTracksInStore(tracks)
         } catch (err) {
@@ -247,18 +246,15 @@ class _StationDetails extends Component {
             newCurrSongIdx += 1
         }
         newCurrSongIdx !== currSongIdx && this.props.setSongIdx(newCurrSongIdx)
-
         this.props.loadTracksToPlayer(newTracks, stationId)
-
-
-
     }
 
     render() {
-        const { isSearch, isPlaying, isEditModalOpen, animation, isConfirmMsgOpen } = this.state;
+        const { isSearch, isPlaying, isEditModalOpen, animation, isConfirmMsgOpen, station } = this.state;
         const { tracks, bgc, user } = this.props
         const { stationId } = this.props.match.params
-
+        console.log(this.state.station)
+        if (!station) return <Loader />
         return (
             <main className="StationDetails">
                 <div onClick={() => {
@@ -271,7 +267,7 @@ class _StationDetails extends Component {
                 }} className={((isEditModalOpen) ? "dark screen" : "")}></div>
 
                 {stationId !== 'new' &&
-                    <StationHero stationId={stationId} tracks={tracks}
+                    <StationHero stationId={stationId} tracks={tracks} station={station}
                         onSetMsg={this.props.onSetMsg} likesCount={this.props.likesCount} />
                 }
 
@@ -282,7 +278,7 @@ class _StationDetails extends Component {
                 }
 
                 <StationActions
-                    onSetFilter={this.onSetFilter} inputRef={this.inputRef}
+                    onSetFilter={this.onSetFilter} inputRef={this.inputRef} station={station}
                     onSearch={this.onSearch} isSearch={isSearch} isPlaying={isPlaying}
                     onScrollToAdd={this.onScrollToAdd} playingStationId={this.props.stationId}
                     isPlayerPlaying={this.props.isPlaying} currStationId={stationId}
@@ -298,12 +294,12 @@ class _StationDetails extends Component {
                         stationId={stationId} loadTracks={this.loadTracks} />
                 </DragDropContext>
 
-                <section>
+                {stationId !== 'liked' && <section>
                     <TrackSearch
                         addRef={this.addRef} onAddTrack={this.onAddTrack}
                         stationId={stationId} currStationTracks={tracks}
                         onSetMsg={this.props.onSetMsg} />
-                </section>
+                </section>}
 
             </main >
 

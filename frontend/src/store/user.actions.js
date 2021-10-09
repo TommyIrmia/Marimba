@@ -1,6 +1,7 @@
 import { userService } from '../services/user.service'
 import defaultUser from "../assets/imgs/defaultuser.jpg";
 import { stationService } from './../services/station.service';
+import {activityService} from './../services/activity-log.service';
 
 let timeoutId;
 
@@ -69,6 +70,11 @@ export function onLikeTrack(track, user) {
             dispatch({
                 type: 'SET_USER',
                 user: updatedUser
+            })
+            const activityToAdd = await activityService.addActivity('like track', {}, track.title)
+            dispatch({
+                type: 'ADD_ACTIVITY',
+                activity: activityToAdd
             })
         } catch (err) {
             throw err

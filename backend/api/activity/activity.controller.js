@@ -36,8 +36,20 @@ async function addActivity(req, res) {
     }
 }
 
+async function updateActivity(req, res) {
+    try {
+        const activity = req.body
+        const savedActivity = await activityService.update(activity)
+        res.send(savedActivity)
+    } catch (err) {
+        logger.error('Failed to update activity', err)
+        res.status(500).send({ err: 'Failed to update activity' })
+    }
+}
+
 module.exports = {
     getActivity,
     getActivities,
-    addActivity
+    addActivity,
+    updateActivity
 }

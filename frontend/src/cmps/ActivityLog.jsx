@@ -5,6 +5,7 @@ import { utilService } from '../services/util.service'
 import { loadActivities } from '../store/activitylog.actions'
 import { setBgcAndName } from '../store/station.actions'
 import { socketService } from '../services/socket.service'
+import { activityService } from '../services/activity-log.service'
 import userImg from '../assets/imgs/logo.png'
 
 export class _ActivityLog extends Component {
@@ -27,13 +28,25 @@ export class _ActivityLog extends Component {
 
     dynamicCmp = (activity, idx) => {
         const classStr = (activity.isRead) ? "flex read" : "flex";
+        console.log('activity', activity)
         switch (activity.type) {
             case 'create playlist':
                 return (<li className={classStr} key={idx}
                     onClick={() => {
                         this.props.history.push(`/station/${activity.stationInfo.id}`)
+<<<<<<< HEAD
                         this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo?.name)
                     }}>
+=======
+                        this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
+
+                    }}
+                    onMouseLeave={() => {
+                        activityService.read(activity);
+                        this.loadActivities();
+                    }}
+                >
+>>>>>>> 223decdca129ff5ac367993cab3f542f5bee3fb8
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
@@ -48,7 +61,12 @@ export class _ActivityLog extends Component {
                     onClick={() => {
                         this.props.history.push(`/station/${activity.stationInfo.id}`)
                         this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
-                    }}>
+                    }}
+                    onMouseEnter={() => {
+                        activityService.read(activity);
+                        this.loadActivities();
+                    }}
+                >
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
@@ -59,10 +77,16 @@ export class _ActivityLog extends Component {
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
             case 'remove track':
-                return (<li className={classStr} key={idx} onClick={() => {
-                    this.props.history.push(`/station/${activity.stationInfo.id}`)
-                    this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
-                }} >
+                return (<li className={classStr} key={idx}
+                    onClick={() => {
+                        this.props.history.push(`/station/${activity.stationInfo.id}`)
+                        this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
+                    }}
+                    onMouseLeave={() => {
+                        activityService.read(activity);
+                        this.loadActivities();
+                    }}
+                >
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
@@ -73,16 +97,22 @@ export class _ActivityLog extends Component {
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
             case 'like track':
-                return (<li className={classStr} key={idx} onClick={() => {
-                    this.props.history.push(`/station/${activity.stationInfo.id}`)
-                    this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
-                }}>
+                return (<li className={classStr} key={idx}
+                    onMouseLeave={() => {
+                        activityService.read(activity);
+                        this.loadActivities();
+                    }}
+                >
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
                     <div className="activity-info">
                         <span className="user-name"> {activity.createdBy.fullname}</span>
+<<<<<<< HEAD
                         <span className="pink"> liked💗 </span>"{activity.trackName}" from "{activity.stationInfo?.name}"!
+=======
+                        <span className="pink"> liked💗 </span>"{activity.trackName}"!
+>>>>>>> 223decdca129ff5ac367993cab3f542f5bee3fb8
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)

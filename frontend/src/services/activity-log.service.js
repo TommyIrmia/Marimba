@@ -3,7 +3,9 @@ import { userService } from "./user.service.js"
 
 export const activityService = {
     query,
-    addActivity
+    addActivity,
+    read,
+    getUnreadNumber
 }
 
 
@@ -17,13 +19,22 @@ async function query() {
     }
 }
 
+async function getUnreadNumber() {
+    try {
+        let activites = await httpService.get('activity')
+        let unReadActivities = activites.filter(activity => !activity.isRead)
+        return unReadActivities.length
+    } catch (err) {
+        throw err
+    }
+}
+
 async function addActivity(type, stationInfo, trackName) {
     const user = userService.getLoggedinUser()
     try {
         const activity = {
             type,
             stationInfo,
-            isRead: false,
             createdBy: {
                 _id: user._id,
                 fullname: user.fullname,
@@ -37,6 +48,12 @@ async function addActivity(type, stationInfo, trackName) {
     } catch (err) {
         throw err
     }
+}
+
+async function read(activity) {
+    console.log('reading activity');
+    activity = { ...activity, isRead: true }
+    await httpService.put('activity', activity)
 }
 
 // async function removeActivity(activityId) {

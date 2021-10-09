@@ -1,6 +1,6 @@
 .station-preview {
   position: relative;
-  min-width: 135px;
+  min-width: 145px;
   max-width: 145px;
   height: 200px;
   background-color: inherit;
@@ -14,8 +14,8 @@
     padding: 14px;
     font-family: gotham-bold, rubic;
     background-color: $clr3;
-    min-width: 160px;
-    max-width: 180px;
+    // min-width: 160px;
+    min-width: 180px;
     height: 240px;
   }
 
@@ -31,24 +31,29 @@
     height: 85%;
     width: 100%;
     .play-btn {
-      opacity: 0;
-      position: absolute;
-      text-align: center;
-      background-color: $clr5;
-      height: 42px;
-      line-height: 42px;
-      width: 42px;
-      border-radius: 50%;
-      transition: 0.4s;
-      bottom: 20px;
-      right: 10px;
-      &.fa-pause {
-        bottom: 35px;
-        opacity: 1;
+      display: none;
+      @include for-narrow-layout {
+        display: unset;
+        opacity: 0;
+        position: absolute;
+        text-align: center;
+        background-color: $clr5;
+        height: 42px;
+        line-height: 42px;
+        width: 42px;
+        border-radius: 50%;
+        transition: 0.4s;
+        bottom: 20px;
+        right: 10px;
+        &.fa-pause {
+          bottom: 35px;
+          opacity: 1;
+        }
+        &:hover {
+          transform: scale(1.1);
+        }
       }
-      &:hover {
-        transform: scale(1.1);
-      }
+
       @include for-wide-layout {
         bottom: 24px;
         right: 15px;

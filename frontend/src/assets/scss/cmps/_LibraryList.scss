@@ -9,22 +9,27 @@
   }
 
   .liked-track-container {
-    min-width: 300px;
-    height: 240px;
+    min-width: 90%;
+    height: 180px;
     background: linear-gradient(149.46deg, #450af5, #8e8ee5 99.16%);
     position: relative;
-    padding: 20px;
-    transition: transform 0.5s;
-    margin-bottom: 30px;
-    color: rgba(255, 255, 255, 0.664);
-
+    padding: 10px;
+    color: $clr7;
+    @include for-narrow-layout {
+      margin-bottom: 30px;
+      transition: transform 0.5s;
+      padding: 20px;
+      min-width: 300px;
+      height: 240px;
+      color: rgba(255, 255, 255, 0.664);
+      &:hover {
+        cursor: pointer;
+        color: $clr7;
+      }
+    }
     @include for-wide-layout {
       min-width: 425px;
       height: 280px;
-    }
-    &:hover {
-      cursor: pointer;
-      color: $clr7;
     }
 
     .tracks-title {
@@ -35,6 +40,11 @@
       max-height: 200px;
       -webkit-line-clamp: 5;
       -webkit-box-orient: vertical;
+      @include for-mobile-layout {
+        line-height: 14px;
+        font-family: gotham, rubic;
+        font-size: rem(14px);
+      }
 
       p {
         margin: 10px 0;
@@ -43,42 +53,76 @@
 
     .tracks-info {
       position: absolute;
-      bottom: 20px;
+      bottom: 10px;
+
+      @include for-narrow-layout {
+        bottom: 20px;
+      }
 
       > * {
-        font-family: gotham-bold;
+        font-family: gotham-bold, rubic;
       }
 
       h2 {
-        margin-bottom: 10px;
-        font-size: rem(30px);
+        @include for-narrow-layout {
+          margin-bottom: 10px;
+          font-size: rem(30px);
+        }
       }
     }
   }
 
   .library-row1 {
-    height: 340px;
     padding-top: 30px;
-    gap: 25px;
-
+    gap: 20px;
+    height: 450px;
+    flex-wrap: wrap;
+    @include for-mobile-layout {
+      justify-content: center;
+    }
+    @include for-narrow-layout {
+      gap: 25px;
+      height: 340px;
+    }
   }
 
   .station {
-    flex: 1;
-    padding-top: 30px;
+    padding-top: 50px;
     top: -30px;
-    height: 280px;
-    gap: 15px;
-    margin-bottom: 30px;
+    height: 220px;
+    gap: 20px;
     flex-wrap: wrap;
+
     &.recently-added {
+      padding-top: 30px;
       overflow-y: hidden;
+      @include for-mobile-layout {
+        margin-top: 20px;
+        gap: 15px;
+        min-width: 200px;
+      }
+    }
+
+    &.created-by {
+      @include for-mobile-layout {
+        height: unset;
+      }
+    }
+
+    @include for-mobile-layout {
+      justify-content: center;
+    }
+
+    @include for-narrow-layout {
+      flex: 1;
+      margin-bottom: 30px;
+      padding-top: 40px;
+      height: 280px;
     }
 
     @include for-wide-layout {
       height: 330px;
       gap: 25px;
-
     }
     // grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     // grid-auto-rows: 0;

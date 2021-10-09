@@ -135,10 +135,15 @@ function _setdurationToFormat(tracks) {
     })
 }
 
+let searchNames = ['Beyonce', 'Lizzo', 'Rihanna']
 function getRandomSearch() {
-    const searchNames = ['britney spears', 'christinia aguilera', 'beatles', 'queen', 'beyonce', 'justin', 'jay Z', 'drake', 'ed Sheeran', 'Amy whinehouse', 'Guns n roses', 'Coldplay', 'Maroon 5', 'James blunt', 'Arctic monkeys', 'Rihanna', 'Paul mccartney', 'Bruno Mars', 'Nicki Minaj', 'Lady Gaga']
-    const idx = Math.floor(Math.random() * searchNames.length)
-    return searchNames[idx]
+    // const searchNames = ['britney spears', 'christinia aguilera', 'beatles', 'queen', 'beyonce', 'justin', 'jay Z', 'drake', 'ed Sheeran', 'Amy whinehouse', 'Guns n roses', 'Coldplay', 'Maroon 5', 'James blunt', 'Arctic monkeys', 'Rihanna', 'Paul mccartney', 'Bruno Mars', 'Nicki Minaj', 'Lady Gaga']
+    // const idx = Math.floor(Math.random() * searchNames.length)
+    // return searchNames[idx]
+    if (!searchNames.length) searchNames = ['Beyonce', 'Lizzo', 'Rihanna']
+    const searchName = searchNames[searchNames.length - 1]
+    searchNames = searchNames.slice(0, searchNames.length - 1)
+    return searchName
 }
 
 

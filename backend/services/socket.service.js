@@ -22,6 +22,7 @@ function connectSockets(http, session) {
             }
             socket.join(stationId)
             socket.stationId = stationId
+            console.log('joined to', socket.stationId)
         })
 
         socket.on('changeTracks', ({ stationId, tracks }) => {
@@ -30,6 +31,7 @@ function connectSockets(http, session) {
             socket.broadcast.emit('tracksChangedMediaPlayer', { stationId, tracks })
             // gIo.to(socket.myTopic).emit('chat addMsg', msg)
         })
+
         socket.on('newActivity', newActivity => {
             console.log('adding new activity', newActivity);
             socket.broadcast.emit('addActivity', newActivity);

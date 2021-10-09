@@ -4,7 +4,7 @@
   .linear-container {
     background-image: linear-gradient(rgba(0, 0, 0, 0.6) 0, #121212 100%);
   }
-  
+
   .StationActions {
     height: 170px;
     border-bottom: 1px solid rgba(252, 250, 250, 0.377);
@@ -24,7 +24,7 @@
       bottom: 10px;
       align-items: center;
       justify-content: center;
-      gap:30px;
+      gap: 30px;
       @include for-wide-layout {
         gap: 30px;
         bottom: 20px;
@@ -44,8 +44,10 @@
         &.fa-play {
           text-indent: 3px;
         }
-        &:hover {
-          transform: scale(1.1);
+        @include for-narrow-layout {
+          &:hover {
+            transform: scale(1.1);
+          }
         }
       }
 
@@ -73,13 +75,15 @@
           overflow: hidden;
           text-indent: 5px;
         }
-        &:hover {
-          border: 3.5px solid $clr7;
-          color: $clr7;
-          max-width: 300px;
-          .btn-text {
+        @include for-narrow-layout {
+          &:hover {
+            border: 3.5px solid $clr7;
             color: $clr7;
-            max-width: 200px;
+            max-width: 300px;
+            .btn-text {
+              color: $clr7;
+              max-width: 200px;
+            }
           }
         }
       }
@@ -87,8 +91,10 @@
       .btn-action {
         font-size: rem(30px);
         color: $clr8;
-        &:hover {
-          color: $clr7;
+        @include for-narrow-layout {
+          &:hover {
+            color: $clr7;
+          }
         }
         &.fa-arrow-alt-circle-down {
           position: relative;
@@ -99,7 +105,7 @@
       .btn-liked {
         color: $clr5;
         &:hover {
-          color: $clr5;
+          color: darkgreen;
         }
       }
     }
