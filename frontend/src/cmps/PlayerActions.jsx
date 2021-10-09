@@ -40,7 +40,7 @@ export class PlayerActions extends Component {
                     className={"action-btn fas fa-redo " + (isRepeat ? 'green' : '')}>
                 </button>
 
-                <div className="duration-controller flex align-center">
+                <div className="duration-controller align-center">
 
                     <p>{this.getTimeFormat(currDuration)}</p>
                     <Slider

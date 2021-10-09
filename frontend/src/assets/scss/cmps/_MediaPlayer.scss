@@ -1,20 +1,35 @@
 .media-player {
   position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 100px;
-  background-color: $clr3;
+  bottom: 70px;
+  width: 95%;
+  height: 60px;
+  background-color: $clr4;
   color: $clr2;
-  border-top: $clr4 2px solid;
-  padding: 0 20px;
+  padding: 0 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   transition: transform 0.3s;
   z-index: 3;
 
+  @include for-mobile-layout {
+    left: 2.5%;
+    border-radius: 5px;
+  }
+
+  @include for-narrow-layout {
+    padding: 0 20px;
+    background-color: $clr3;
+    border-top: $clr4 2px solid;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+  }
   &.hidden {
-    transform: translateY(100px);
+    transform: translateY(200px);
+    @include for-narrow-layout {
+      transform: translateY(100px);
+    }
   }
 
   .player-container {
@@ -22,19 +37,42 @@
   }
 
   .player-actions {
-    gap: 10px;
+    gap: 3px;
     flex-wrap: wrap;
     flex: 1;
     justify-content: center;
-    max-width: 350px;
+    max-width: 250px;
+
+    @include for-mobile-layout {
+      position: relative;
+      bottom: 2px;
+    }
+    @include for-narrow-layout {
+      gap: 10px;
+      max-width: 350px;
+    }
     @include for-wide-layout {
       max-width: 500px;
     }
     .duration-controller {
-      width: 100%;
+      width: 94.5%;
       font-size: 0.8rem;
+      @include for-mobile-layout {
+        position: fixed;
+        bottom: 56px;
+        left: 2.75%;
+        p {
+          display: none;
+        }
+      }
+      @include for-narrow-layout {
+        display: flex;
+        width: 100%;
+      }
       .duration-slider {
-        margin: 0 15px;
+        @include for-narrow-layout {
+          margin: 0 15px;
+        }
         color: $clr2;
         &:hover {
           color: $clr5;
@@ -76,52 +114,86 @@
   }
 
   .song-details {
+    position: relative;
     display: flex;
     justify-content: flex-start;
     gap: 10px;
-    width: 200px;
-    
+    width: 100px;
+    @include for-mobile-layout {
+    }
+    @include for-narrow-layout {
+      width: 200px;
+    }
     @include for-wide-layout {
       width: 320px;
     }
     p {
-      max-width: 100px;
       letter-spacing: -0.08rem;
-      font-size: 1rem;
+      font-size: rem(13px);
       color: $clr7;
-
-      white-space:nowrap;
+      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+
+      @include for-mobile-layout {
+        position: absolute;
+        max-width: 100px;
+        bottom: 25px;
+      }
+      @include for-narrow-layout {
+        font-size: 1rem;
+        max-width: 100px;
+      }
       @include for-wide-layout {
         max-width: 190px;
-        white-space:normal;
+        white-space: normal;
         overflow: unset;
         text-overflow: unset;
+      }
+    }
+
+    @include for-mobile-layout {
+      small {
+        display: none;
       }
     }
 
     .song-actions {
       display: flex;
       width: 30px;
+      @include for-mobile-layout {
+        position: absolute;
+        left: 50px;
+        bottom: 0px;
+      }
       @include for-wide-layout {
         width: 50px;
       }
       button {
-        margin-inline-end: 10px;
+        margin-inline-end: 5px;
         width: 25px;
         color: $clr2;
-        font-size: 1.3rem;
+        font-size: rem(18px);
+        @include for-narrow-layout {
+          margin-inline-end: 10px;
+          font-size: 1.3rem;
+        }
         &.btn-liked {
           color: $clr5;
         }
       }
     }
     .artist-img {
-      width: 60px;
-      height: 60px;
-      background-color: white;
+      width: 40px;
+      height: 40px;
+      @include for-narrow-layout {
+        width: 60px;
+        height: 60px;
+      }
       img {
+        @include for-mobile-layout {
+          border-radius: 5px;
+        }
         height: 100%;
         width: 100%;
         object-fit: cover;
@@ -131,9 +203,13 @@
   }
 
   .volume-controller {
-    width: 100px;
-    gap: 10px;
-    
+    width: 20px;
+    margin-inline-end: 10px;
+    @include for-narrow-layout {
+      margin-inline-end: 0;
+      gap: 10px;
+      width: 100px;
+    }
     @include for-wide-layout {
       min-width: 150px;
       padding-inline-end: 20px;
@@ -145,10 +221,14 @@
       width: 30px;
     }
     .volume-slider {
-      width: 100%;
+      display: none;
       color: $clr2;
-      &:hover {
-        color: $clr5;
+      @include for-narrow-layout {
+        display: unset;
+        width: 100%;
+        &:hover {
+          color: $clr5;
+        }
       }
     }
   }

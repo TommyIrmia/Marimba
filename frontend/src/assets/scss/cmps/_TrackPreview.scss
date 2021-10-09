@@ -5,16 +5,21 @@
   &.search {
     max-width: 100%;
   }
-
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.123);
+  @include for-narrow-layout {
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.123);
+    }
   }
   .TrackPreview {
     align-items: center;
-    width: 250px;
+    width: 200px;
     margin: 10px;
     flex: 4;
 
+    @include for-narrow-layout {
+      flex: 5;
+      width: 250px;
+    }
     @include for-wide-layout {
       flex: 5;
       width: 410px;
@@ -77,8 +82,12 @@
     gap: 10px;
     display: flex;
     justify-content: center;
-    min-width: 100px;
-    margin-inline-start: 20px;
+    min-width: 80px;
+
+    @include for-narrow-layout {
+      min-width: 100px;
+      margin-inline-start: 20px;
+    }
 
     @include for-wide-layout {
       margin-inline-start: 0;
@@ -107,5 +116,4 @@
       margin: auto;
     }
   }
-  
 }

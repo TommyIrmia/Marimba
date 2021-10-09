@@ -15,13 +15,16 @@
       max-width: 80px;
       font-size: 16px;
       font-family: gotham-light;
-      padding: 8px 20px;
+      padding: 4px 15px;
       font-weight: 700;
       letter-spacing: 1px;
       margin-inline-end: 10px;
-      &:hover {
-        border: 1px solid seashell;
-        transform: scale(1.08);
+      @include for-narrow-layout {
+        padding: 8px 20px;
+        &:hover {
+          border: 1px solid seashell;
+          transform: scale(1.08);
+        }
       }
     }
     @include for-wide-layout {
@@ -32,19 +35,30 @@
       }
     }
   }
-
   .track-container {
-    &:hover {
+    @include for-narrow-layout {
+      &:hover {
+        .add-button {
+          border: 2px solid seashell;
+        }
+      }
+    }
+    @include for-mobile-layout {
       .add-button {
         border: 2px solid seashell;
       }
     }
+
     .duration-info {
-      margin-inline-end: 20px;
-      flex: 1;
-      width: 20px;
-      display: unset;
-      text-align: center;
+      display: none;
+      @include for-narrow-layout {
+        display: unset;
+        margin-inline-end: 20px;
+        flex: 1;
+        width: 20px;
+        display: unset;
+        text-align: center;
+      }
       @include for-wide-layout {
         flex: 2;
         width: 100px;

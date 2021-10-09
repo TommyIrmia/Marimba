@@ -38,7 +38,7 @@ export class StationList extends React.Component {
                         <Link to={`/genre/${genre}`}><h1>{genre}</h1></Link>
                         <Link to={`/genre/${genre}`}><p>See all</p></Link>
                     </div>
-                    {stationsByGenre.map(station => <StationPreview key={station._id} station={station} />)}
+                    {stationsByGenre.slice(0, 10).map(station => <StationPreview key={station._id} station={station} />)}
                 </div>
 
             </section>
