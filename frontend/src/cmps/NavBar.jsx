@@ -6,6 +6,7 @@ import { Logo } from './Logo'
 export class NavBar extends Component {
 
     render() {
+        console.log('nav bar rendered')
         return (
             <nav className="nav-bar">
                 <Link to="/"><Logo /></Link>

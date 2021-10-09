@@ -10,8 +10,13 @@
     line-height: 60px;
     transition: 0.6s;
     margin-inline-start: 20px;
-    font-family: gotham-bold;
+    font-family: gotham-bold, rubic;
     opacity: 0;
+    @include for-mobile-layout {
+      font-family: gotham, rubic;
+      font-size: rem(16px);
+      margin-inline-start: 35px;
+    }
 
     @include for-wide-layout {
       margin-inline-start: 30px;
@@ -24,13 +29,15 @@
     gap: 10px;
     padding: 0 10px 0 2px;
     align-items: center;
-    min-width: rem(120px);
+    min-width: rem(90px);
     height: rem(35px);
     color: $clr7;
     background-color: #121212c5;
     border-radius: 23px;
     margin-inline-end: 20px;
-
+    @include for-narrow-layout {
+      min-width: rem(120px);
+    }
     &:hover {
       background-color: $clr1;
       cursor: pointer;
@@ -48,6 +55,9 @@
     }
     .user-name {
       font-family: gotham-bold;
+      @include for-mobile-layout {
+        font-size: rem(14px);
+      }
     }
   }
   .options-container {
@@ -75,6 +85,26 @@
         cursor: pointer;
         background-color: rgba(255, 255, 255, 0.219);
       }
+    }
+  }
+  .logo-container {
+    @include for-mobile-layout {
+      width: 50px;
+      position: fixed;
+      justify-content: flex-start;
+      align-items: flex-start;
+      top: 7px;
+      margin-inline-start: 5px;
+      transition: 0.6s;
+      .logo-img {
+        width: 50px;
+      }
+      h1 {
+        display: none;
+      }
+    }
+    @include for-narrow-layout {
+      display: none;
     }
   }
 }

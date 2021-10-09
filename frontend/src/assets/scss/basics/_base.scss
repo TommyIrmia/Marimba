@@ -19,6 +19,13 @@
   background: #888;
 }
 
+@include for-mobile-layout {
+  ::-webkit-scrollbar {
+    height: 0;
+    width: 5px;
+  }
+}
+
 body {
   background-color: $clr1;
   margin: 0;
@@ -91,10 +98,10 @@ a {
   justify-content: center;
   padding: 10px;
   position: fixed;
-  bottom: 110px;
-  width: 300px;
+  bottom: 140px;
+  width: 250px;
   min-height: 55px;
-  left: calc(50% - 60px);
+  left: calc((100% - 250px) / 2);
   border-radius: 5px;
   font-family: gotham;
   font-size: 0.85rem;
@@ -105,6 +112,12 @@ a {
   pointer-events: none;
   white-space: pre-wrap;
   text-align: center;
+  
+  @include for-narrow-layout {
+    bottom: 110px;
+    width: 300px;
+    left: calc(50% - 60px);
+  }
 
   transition: 0.4s;
   &.shown {

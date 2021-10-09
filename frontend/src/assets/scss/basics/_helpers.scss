@@ -68,9 +68,15 @@
 }
 
 .playlist-layout {
-  width: 100%;
-  padding: 0 20px;
+  // width: 100%;
+  padding: 0 10px;
   margin: 0 auto;
+  
+  @include for-narrow-layout {
+    width: 100%;
+    padding: 0 20px;
+  }
+
   @include for-wide-layout {
     padding: 0 30px;
   }
