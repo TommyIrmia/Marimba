@@ -10,14 +10,11 @@ import { activityService } from '../services/activity-log.service'
 export class _ActivityLog extends Component {
 
     state = {
-        unRead: 0
     }
 
     async componentDidMount() {
         this.loadActivities()
         socketService.on('addActivity', this.loadActivities)
-        const unRead = await activityService.getUnreadCount();
-        this.setState({ unRead })
     }
 
     loadActivities = async () => {
@@ -133,6 +130,7 @@ export class _ActivityLog extends Component {
 function mapStateToProps(state) {
     return {
         activities: state.activityLogModule.activities,
+        unRead: state.activityLogModule.unRead,
         user: state.userModule.user
     }
 }
