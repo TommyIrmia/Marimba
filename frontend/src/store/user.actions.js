@@ -76,12 +76,9 @@ export function onLikeTrack(track, user) {
                 type: 'ADD_ACTIVITY',
                 activity: activityToAdd
             })
-
-
-            const unRead = await activityService.getUnreadCount()
             dispatch({
-                type: 'GET_UNREAD',
-                unRead: unRead
+                type: 'ADD_UNREAD',
+                diff: 1
             })
 
         } catch (err) {
@@ -110,14 +107,14 @@ export function onLikeStation(station, user) {
         try {
             console.log('from actions', station, user);
             const updatedUser = await stationService.addLikeTtoStation(station, user)
-            dispatch({
-                type: 'SET_USER',
-                user: updatedUser
-            })
-            dispatch({
-                type: 'UPDATE_LIKES_COUNT',
-                diff: 1
-            })
+            // dispatch({
+            //     type: 'SET_USER',
+            //     user: updatedUser
+            // })
+            // dispatch({
+            //     type: 'UPDATE_LIKES_COUNT',
+            //     diff: 1
+            // })
         } catch (err) {
             throw err
         }

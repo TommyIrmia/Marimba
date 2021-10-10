@@ -46,17 +46,14 @@ export function onRemoveTrack(trackId, stationId, trackName, bgc, name) {
                 trackId,
                 currStationId: stationId
             })
-
             const activityToAdd = await activityService.addActivity('remove track', { name, bgc, id: stationId }, trackName)
             dispatch({
                 type: 'ADD_ACTIVITY',
                 activity: activityToAdd
             })
-            
-            const unRead = await activityService.getUnreadCount()
             dispatch({
-                type: 'GET_UNREAD',
-                unRead: unRead
+                type: 'ADD_UNREAD',
+                diff: 1
             })
         } catch (err) {
             throw err
@@ -81,11 +78,9 @@ export function onAddTrack(track, stationId, trackName, bgc, name) {
                 type: 'ADD_ACTIVITY',
                 activity: activityToAdd
             })
-
-            const unRead = await activityService.getUnreadCount()
             dispatch({
-                type: 'GET_UNREAD',
-                unRead: unRead
+                type: 'ADD_UNREAD',
+                diff: 1
             })
 
         } catch (err) {

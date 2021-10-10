@@ -29,7 +29,7 @@ export class HomePage extends Component {
             const stations = await stationService.query()
             this.setState({ stations })
         } catch (err) {
-            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
+            console.error('Could not get stations', err)
         }
     }
 
@@ -38,7 +38,7 @@ export class HomePage extends Component {
             const genres = await stationService.getGenres()
             this.setState({ genres })
         } catch (err) {
-            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
+            console.error('Could not get stations', err)
         }
     }
     render() {
@@ -53,7 +53,7 @@ export class HomePage extends Component {
                 {initialEntry !== 'false' && <MainHero noScroll={this.noScroll} />}
 
                 <section className="home-page">
-                     <PopularStationsList  stations={stations} />
+                    <PopularStationsList stations={stations} />
                     {genres.map(genre => <StationList genre={genre.name} key={genre.name} stations={stations} />)}
                 </section>
             </main>

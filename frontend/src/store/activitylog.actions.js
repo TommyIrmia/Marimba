@@ -5,9 +5,11 @@ export function loadActivities() {
         try {
             let activities = await activityService.query()
             activities = activities.reverse();
+            const unRead = activities.filter(activity => !activity.isRead)
             dispatch({
                 type: 'SET_ACTIVITIES',
-                activities
+                activities,
+                unRead: unRead.length
             })
         } catch (err) {
             throw err
@@ -29,14 +31,15 @@ export function addActivity(type, stationInfo) {
     }
 }
 
-export function getUnRead() {
+export function onReadActivity(activity) {
     return async (dispatch) => {
         try {
-            const unRead = await activityService.getUnreadCount()
+            const activityToUpdate = { ...activity, isRead: true }
             dispatch({
-                type: 'GET_UNREAD',
-                unRead: unRead
+                type: 'READ_ACTIVITY',
+                activity: activityToUpdate
             })
+            activityService.updateActivity(activityToUpdate);
         } catch (err) {
             throw err
         }
