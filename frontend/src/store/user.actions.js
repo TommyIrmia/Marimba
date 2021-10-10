@@ -75,7 +75,7 @@ export function onLikeTrack(track, user) {
                 type: 'ADD_ACTIVITY',
                 activity: activityToAdd
             })
-            
+
             // dispatch({
             //     type: 'ADD_UNREAD',
             //     diff: 1
@@ -111,10 +111,10 @@ export function onLikeStation(station, user) {
                 type: 'SET_USER',
                 user: updatedUser
             })
-            // dispatch({
-            //     type: 'UPDATE_LIKES_COUNT',
-            //     diff: 1
-            // })
+            dispatch({
+                type: 'UPDATE_LIKES_COUNT',
+                diff: 1
+            })
         } catch (err) {
             throw err
         }
@@ -129,10 +129,10 @@ export function onUnlikeStation(station, user) {
                 type: 'SET_USER',
                 user: updatedUser
             })
-            // dispatch({
-            //     type: 'UPDATE_LIKES_COUNT',
-            //     diff: -1
-            // })
+            dispatch({
+                type: 'UPDATE_LIKES_COUNT',
+                diff: -1
+            })
         } catch (err) {
             throw err
         }

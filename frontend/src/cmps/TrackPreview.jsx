@@ -43,8 +43,10 @@ class _TrackPreview extends Component {
 
     onPlayTrack = async (trackIdx) => {
         try {
-            const { tracks, stationId, player } = this.props
-            await this.props.loadTracksToPlayer(tracks, stationId)
+            const { tracks, stationId, player, currStationId } = this.props
+            if (stationId !== currStationId) {
+                await this.props.loadTracksToPlayer(tracks, stationId)
+            }
             await this.props.onPlayTrack(trackIdx)
             if (player) {
                 player.playVideo()
@@ -117,7 +119,7 @@ class _TrackPreview extends Component {
 
     render() {
         const { isHover, isLiked, width } = this.state
-        const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen, tracksLength, stationId , windowWidth } = this.props
+        const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen, tracksLength, stationId, windowWidth } = this.props
         const { title } = track
         const date = utilService.getTime(track.addedAt)
         return (
