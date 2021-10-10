@@ -117,7 +117,7 @@ class _TrackPreview extends Component {
 
     render() {
         const { isHover, isLiked, width } = this.state
-        const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen, tracksLength, stationId, windowWidth } = this.props
+        const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen, tracksLength, stationId , windowWidth } = this.props
         const { title } = track
         const date = utilService.getTime(track.addedAt)
         return (

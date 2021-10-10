@@ -32,7 +32,7 @@ export class PopularStationsList extends Component {
         return (
             <main className="liked-list-container" >
                 <div><h1>Most liked</h1></div>
-                <section className="PopularStationsList grid playlist-layout" >
+                <section className="PopularStationsList grid " >
                     {mostLiked.map(station => <StationPreview isMostLikedList={true} key={station._id} station={station} />)}
                 </section>
             </main>
