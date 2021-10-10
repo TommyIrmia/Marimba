@@ -4,8 +4,7 @@ import { userService } from "./user.service.js"
 export const activityService = {
     query,
     addActivity,
-    read,
-    getUnreadCount
+    updateActivity,
 }
 
 
@@ -39,21 +38,10 @@ async function addActivity(type, stationInfo, trackName) {
     }
 }
 
-async function read(activity) {
-    console.log('reading activity');
-    activity = { ...activity, isRead: true }
+async function updateActivity(activity) {
     await httpService.put('activity', activity)
 }
 
-async function getUnreadCount(){
-    try {
-        let activites = await httpService.get('activity')
-        const unRead=activites.filter(activity=>!activity.isRead)
-        return unRead.length;
-    } catch (err) {
-        throw err
-    }
-}
 
 // async function removeActivity(activityId) {
 //     try {

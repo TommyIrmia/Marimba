@@ -6,11 +6,10 @@ const initialState = {
 
 export function activityLogReducer(state = initialState, action) {
     let activities;
-    let unRead;
     switch (action.type) {
         case 'SET_ACTIVITIES':
             activities = action.activities
-            return { ...state, activities }
+            return { ...state, activities, unRead: action.unRead }
         case 'REMOVE_ACTIVITY':
             activities = state.activities.filter(activity => activity.id !== activity.trackId)
             return { ...state, activities }
@@ -18,11 +17,14 @@ export function activityLogReducer(state = initialState, action) {
             socketService.emit('newActivity', action.activity);
             activities = [action.activity, ...state.activities]
             return { ...state, activities }
+        case 'READ_ACTIVITY':
+            activities = state.activities.map(activity => activity._id === action.activity._id ? action.activity._id : activity)
+            return { ...state, activities }
+        case 'ADD_UNREAD':
+            return { ...state, unRead: state.unRead + action.diff }
         default:
             return state;
-        case 'GET_UNREAD':
-            unRead = action.unRead;
-            return { ...state, unRead }
+
     }
 }
 

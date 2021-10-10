@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { utilService } from '../services/util.service'
-import { loadActivities, getUnRead } from '../store/activitylog.actions'
+import { loadActivities, onReadActivity } from '../store/activitylog.actions'
+import { onSetMsg } from '../store/user.actions'
 import { setBgcAndName } from '../store/station.actions'
 import { socketService } from '../services/socket.service'
-import { activityService } from '../services/activity-log.service'
 
 export class _ActivityLog extends Component {
 
@@ -14,7 +14,6 @@ export class _ActivityLog extends Component {
 
     async componentDidMount() {
         this.loadActivities()
-        this.props.getUnRead();
         socketService.on('addActivity', this.loadActivities)
     }
 
@@ -34,13 +33,9 @@ export class _ActivityLog extends Component {
     }
 
     onReadActivity = (activity) => {
-        activityService.read(activity);
+        if (activity.isRead) return
+        this.props.onReadActivity(activity);
         this.loadActivities();
-        this.getUnRead();
-    }
-
-    getUnRead = async () => {
-        await this.props.getUnRead()
     }
 
 
@@ -130,8 +125,9 @@ function mapStateToProps(state) {
 }
 const mapDispatchToProps = {
     loadActivities,
-    getUnRead,
-    setBgcAndName
+    setBgcAndName,
+    onSetMsg,
+    onReadActivity
 }
 
 

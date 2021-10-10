@@ -353,25 +353,20 @@ async function addLikeTtoStation(station, user) {
             fullname: "Puki Ben David",
             imgUrl: ""
         }
-        let numUsers = Array.fill(1, 0, utilService.getRandomIntInclusive(30, 800))
 
-        console.log('numUsers', numUsers);
-        let fakeUsers = numUsers.map(user => {
-            return fakeUser;
-        });
-
-        console.log(fakeUsers);
+        let ranNum = utilService.getRandomIntInclusive(50, 100)
+        for (let i = 0; i < ranNum; i++) {
+            station.likedByUsers.push(fakeUser)
+        }
         const miniUser = {
             _id: user._id,
             fullname: user.fullname,
             imgUrl: user.imgUrl
         }
 
-
         // station.likedByUsers.push(miniUser)
-        station.likedByUsers.push(fakeUsers)
         httpService.put(`station`, station)
-
+        return Promise.resolve(fakeUser)
         // user.likedStations.push(station._id)
         // return await userService.updateUser(user)
     } catch (err) {
