@@ -1,12 +1,13 @@
 .liked-list-container {
     h1 {
         font-family: gotham-bold;
-        margin-bottom: 30px;
+        margin-bottom: 15px;
     }
     .PopularStationsList {
+        padding:15px;
         gap: 15px;
-        margin-bottom: 50px;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 280px));
+        margin-bottom: 30px;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     }
 }
 
@@ -41,11 +42,12 @@
 
     .station-like-container {
         position: absolute;
-        right: 92px;
+        right: 33%;
         bottom: 1px;
 
         .station-like {
             display: flex;
+            align-items: center;
 
             h2 {
                 font-size: rem(10px);
