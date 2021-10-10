@@ -114,19 +114,33 @@
   justify-content: flex-end;
   position: absolute;
   right: 20px;
-  bottom: 10px;
+  bottom: 35px;
   .share-btns {
     .share-btn {
-      margin-top: 10px;
+      align-self: center;
       font-size: 22px;
+      @include for-mobile-layout {
+        font-size: 18px;
+      }
       &:hover {
         color: lightgray;
       }
     }
+    .facebook-btn {
+      height: 45px;
+      width: 45px;
+      @include for-mobile-layout {
+        height: 35px;
+        width: 35px;
+      }
+    }
 
-    .share-social {
-      &:hover {
-        color: lightgray;
+    .whatsapp-btn {
+      height: 40px;
+      width: 40px;
+      @include for-mobile-layout {
+        height: 32px;
+        width: 32px;
       }
     }
   }

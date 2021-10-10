@@ -64,19 +64,20 @@ export class StationHero extends Component {
                                 {tracks.length} songs • {this.getStationFullTime(tracks)}</p>
                         </div>
                         <div className="share-container">
-                            <h5>Share this playlist</h5>
+
                             <div className="share-btns flex">
                                 <WhatsappShareButton url={`http://www.youtube.com/watch?v=9WzIACv_mxs`} title="I like to share with you this playlist from Marimba!">
-                                    <WhatsappIcon size={40} bgStyle={{ fill: "#00000000" }} />
+                                    <WhatsappIcon className="whatsapp-btn" bgStyle={{ fill: "#00000000" }} />
                                 </WhatsappShareButton>
                                 <FacebookShareButton url={`http://www.youtube.com/watch?v=9WzIACv_mxs`} title="I like to share with you this playlist from Marimba!">
-                                    <FacebookIcon size={45} bgStyle={{ fill: "#00000000" }} />
+                                    <FacebookIcon className="facebook-btn" bgStyle={{ fill: "#00000000" }} round={true}/>
                                 </FacebookShareButton>
                                 <CopyToClipboard text={`http://localhost:3000/station/${stationId}`}>
                                     <div className="share-btn fas fa-link"></div>
                                 </CopyToClipboard>
-                            </div>
 
+                            </div>
+                            <h5>Share this playlist</h5>
                         </div>
                     </div>
                 </div>

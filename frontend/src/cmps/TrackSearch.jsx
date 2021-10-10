@@ -43,9 +43,14 @@ export class TrackSearch extends Component {
         try {
             const isSearch = !(this.state.isSearch)
             const searchKey = isSearch ? '' : await this.suggestByStationName();
-            this.setState({ ...this.state, searchKey, isSearch }, () => {
-                this.loadTracks();
-            })
+            this.setState({tracks:[]})
+
+            setTimeout(() => {
+                this.setState({ ...this.state, searchKey, isSearch }, () => {
+                    this.loadTracks();
+                })
+            }, 1000);
+           
         } catch (err) {
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }

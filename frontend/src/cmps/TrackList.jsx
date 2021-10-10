@@ -5,7 +5,7 @@ import { Droppable } from 'react-beautiful-dnd'
 export class TrackList extends React.Component {
 
     render() {
-        const { tracks, onRemoveTrack, stationId, confirmRemove, isConfirmMsgOpen, loadTracks } = this.props
+        const { tracks, onRemoveTrack, stationId, confirmRemove, isConfirmMsgOpen, loadTracks,windowWidth } = this.props
         return (<>
             <Droppable droppableId={stationId}>
                 {(provided) => (
@@ -14,7 +14,7 @@ export class TrackList extends React.Component {
                         {...provided.droppableProps}
                     >
                         {tracks.map((track, idx) => (
-                            <TrackPreview isConfirmMsgOpen={isConfirmMsgOpen} tracksLength={tracks.length}
+                            <TrackPreview windowWidth={windowWidth} isConfirmMsgOpen={isConfirmMsgOpen} tracksLength={tracks.length}
                                 confirmRemove={confirmRemove} idx={idx} onRemoveTrack={onRemoveTrack} key={track.id}
                                 track={track} stationId={stationId} loadTracks={loadTracks} />
                         ))}
