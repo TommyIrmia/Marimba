@@ -1,10 +1,13 @@
 import { activityService } from "../services/activity-log.service";
+import { userService } from "../services/user.service";
 
 export function loadActivities() {
     return async (dispatch) => {
+
         try {
+            const user = userService.getLoggedinUser()
             let activities = await activityService.query()
-            const unRead = activities.filter(activity => !activity.isRead)
+            const unRead = activities.filter(activity => !activity.isRead && activity.createdBy._id !== user._id)
             dispatch({
                 type: 'SET_ACTIVITIES',
                 activities,

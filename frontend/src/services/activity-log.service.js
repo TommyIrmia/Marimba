@@ -11,8 +11,10 @@ export const activityService = {
 
 async function query() {
     try {
-        let activites = await httpService.get('activity')
-        return activites
+        let activities = await httpService.get('activity')
+        console.log('activities from service', activities)
+        activities = activities.reverse()
+        return activities.slice(0, 31)
     } catch (err) {
         throw err
     }
