@@ -1,14 +1,14 @@
 .liked-list-container {
-    h1 {
-        font-family: gotham-bold;
-        margin-bottom: 15px;
-    }
-    .PopularStationsList {
-        padding:15px;
-        gap: 15px;
-        margin-bottom: 30px;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    }
+  h1 {
+    font-family: gotham-bold;
+    margin-bottom: 15px;
+  }
+  .PopularStationsList {
+    padding: 15px;
+    gap: 15px;
+    margin-bottom: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
 }
 
 .most-liked-preview {
@@ -33,19 +33,24 @@
   }
 
   .station-info {
+    h1 {
+      position: absolute;
+      top: 5px;
+      left: 7%;
+    }
     p {
       display: none;
     }
   }
 
-    .station-like-container {
-        position: absolute;
-        right: 33%;
-        bottom: 1px;
+  .station-like-container {
+    position: absolute;
+    right: 33%;
+    bottom: 1px;
 
-        .station-like {
-            display: flex;
-            align-items: center;
+    .station-like {
+      display: flex;
+      align-items: center;
 
       h2 {
         font-size: rem(10px);

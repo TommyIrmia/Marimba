@@ -99,7 +99,7 @@ export class _LoginSignUp extends Component {
                 }}>
 
                     <div className="input-container flex">
-                        <input name="username" type="text" placeholder="username"
+                        <input name="username" type="text" placeholder="Username"
                             value={username} required onChange={this.handleChange} />
                         <div className="fas fa-user"></div>
                     </div>

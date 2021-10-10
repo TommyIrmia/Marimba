@@ -26,7 +26,7 @@ export class HomePage extends Component {
 
     loadStations = async () => {
         try {
-            const stations = await stationService.query()
+            let stations = await stationService.query()
             this.setState({ stations })
         } catch (err) {
             console.error('Could not get stations', err)

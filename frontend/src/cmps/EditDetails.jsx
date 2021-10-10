@@ -121,9 +121,8 @@ export default class EditDetails extends Component {
                             value={genres.label}
                             isMulti
                             onChange={this.onSelect}
-                            // menuIsOpen={true}
                             options={genres}
-                            placeholder="Choose up to 3 jenres :" />
+                            placeholder="Choose up to 3 genres :" />
                     </div>
 
                     <textarea placeholder="Add an optional description"
