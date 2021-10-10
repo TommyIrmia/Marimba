@@ -34,7 +34,7 @@ export class SearchPage extends Component {
         try {
             return await stationService.getGenres();
         } catch (err) {
-            throw err
+            console.error('Problem loading geners', err)
         }
     }
 
