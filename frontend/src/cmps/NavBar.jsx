@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
 import { ActivityLog } from './ActivityLog'
 import { Logo } from './Logo'
 
-export class NavBar extends Component {
+export class _NavBar extends Component {
     state = {
         windowWidth: window.innerWidth,
     }
 
     render() {
         const { windowWidth } = this.state
-        console.log('nav bar rendered', this.state.windowWidth)
+        const { unRead } = this.props
         return (
             <nav className="nav-bar">
                 <Link to="/"><Logo /></Link>
@@ -31,7 +32,7 @@ export class NavBar extends Component {
                         </li>
                     </NavLink>
 
-                    {windowWidth > 680 &&<NavLink to="/library" activeClassName="chosen" >
+                    {windowWidth > 680 && <NavLink to="/library" activeClassName="chosen" >
                         <li>
                             <div className="symbol">||\</div>
                             <div className="text library">Library</div>
@@ -41,7 +42,9 @@ export class NavBar extends Component {
                     {windowWidth < 680 && <NavLink to="/activity" activeClassName="chosen" >
                         <li>
                             <div className="symbol far fa-bell"></div>
-                            <div className="text library">News</div>
+                            <div className="text library">News
+                                {unRead > 0 && <span className="unread shown">{this.props.unRead}</span>}
+                            </div>
                         </li>
                     </NavLink>}
 
@@ -65,3 +68,15 @@ export class NavBar extends Component {
         )
     }
 }
+
+
+function mapStateToProps(state) {
+    return {
+        unRead: state.activityLogModule.unRead,
+    }
+}
+const mapDispatchToProps = {
+}
+
+
+export const NavBar = connect(mapStateToProps, mapDispatchToProps)(_NavBar)

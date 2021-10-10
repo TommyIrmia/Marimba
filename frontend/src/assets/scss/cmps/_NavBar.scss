@@ -4,7 +4,11 @@
   width: 100%;
   bottom: 0;
   background: $clr1;
-  background: rgb(18, 18, 18);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 10px;
+  z-index: 3;
   @include for-mobile-layout {
     background: linear-gradient(
       180deg,
@@ -17,12 +21,8 @@
       rgba(18, 18, 18, 1) 81%
     );
   }
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  padding: 10px;
-  z-index: 3;
   @include for-narrow-layout {
+    background: rgb(18, 18, 18);
     z-index: 1;
     height: 100vh;
     width: 220px;
@@ -54,6 +54,7 @@
       bottom: 40px;
     }
     li {
+      position: relative;
       font-family: gotham;
       color: inherit;
       background-color: inherit;
@@ -76,13 +77,12 @@
         font-weight: 900;
         flex-direction: row;
         gap: 1rem;
-      }
-
-      &:hover {
-        color: $clr7;
-        cursor: pointer;
-        text-shadow: 0 0 2px $clr7;
-        font-weight: 900;
+        &:hover {
+          color: $clr7;
+          cursor: pointer;
+          text-shadow: 0 0 2px $clr7;
+          font-weight: 900;
+        }
       }
 
       .symbol {
@@ -104,6 +104,31 @@
 
         .liked::after {
           content: "\ Songs";
+        }
+      }
+
+      .unread {
+        @include for-narrow-layout {
+          display: none;
+        }
+        @include for-mobile-layout {
+          background-color: red;
+          color: white;
+          font-size: 0.8rem;
+          font-weight: 700;
+          width: 15px;
+          height: 15px;
+          line-height: 15px;
+          text-align: center;
+          border-radius: 50%;
+          opacity: 0;
+          transition: 0.2s;
+          position: absolute;
+          bottom: 40px;
+          left: 50%;
+          &.shown {
+            opacity: 1;
+          }
         }
       }
     }

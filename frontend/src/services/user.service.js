@@ -1,5 +1,4 @@
 import { httpService } from './http.service.js'
-import defaultUser from "../assets/imgs/defaultuser.jpg";
 import { stationService } from './station.service.js';
 import { asyncStorageService } from './async-storage.service.js';
 
@@ -37,7 +36,7 @@ async function logout() {
 
 async function signup(credentials) {
     try {
-        if (!credentials.imgUrl) credentials.imgUrl = defaultUser
+        if (!credentials.imgUrl) credentials.imgUrl = 'https://pbs.twimg.com/profile_images/746460305396371456/4QYRblQD.jpg'
         const user = await httpService.post('auth/signup', credentials);
         sessionStorage.setItem(STORAGE_KEY, JSON.stringify(user))
         asyncStorageService.resetStorage('newStation')
@@ -61,5 +60,5 @@ async function updateUser(user) {
 function getLoggedinUser() {
     const user = JSON.parse(sessionStorage.getItem(STORAGE_KEY));
     if (user) return user
-    else return { fullname: "Guest", imgUrl: defaultUser }
+    else return { fullname: "Guest", imgUrl: 'https://pbs.twimg.com/profile_images/746460305396371456/4QYRblQD.jpg' }
 }

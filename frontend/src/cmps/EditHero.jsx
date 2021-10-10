@@ -15,7 +15,6 @@ class _EditHero extends Component {
         }
     }
     componentDidMount() {
-        console.log(window.innerWidth)
         if (window.innerWidth < 680) {
             this.setState({ isHover: true })
         }

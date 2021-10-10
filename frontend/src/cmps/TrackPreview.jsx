@@ -14,11 +14,12 @@ class _TrackPreview extends Component {
     state = {
         isHover: false,
         isLiked: false,
+        width: '',
     }
 
     componentDidMount() {
         if (window.innerWidth < 680) {
-            this.setState({ isHover: true })
+            this.setState({ isHover: true, width: window.innerWidth })
         }
         const { track, player, stationId } = this.props
         if (player) {
@@ -53,6 +54,11 @@ class _TrackPreview extends Component {
         }
     }
 
+    onPlayTrackMobile = (trackIdx) => {
+        if (window.innerWidth > 680) return;
+        if (this.props.isPlaying && this.props.currSongIdx === trackIdx) this.onPauseTrack()
+        else this.onPlayTrack(trackIdx)
+    }
     onPauseTrack = () => {
         this.props.player.pauseVideo()
     }
@@ -106,11 +112,11 @@ class _TrackPreview extends Component {
 
     onToggleHover = (isHover) => {
         if (window.innerWidth < 680) isHover = true;
-        this.setState({ isHover })
+        this.setState({ isHover, width: window.innerWidth })
     }
 
     render() {
-        const { isHover, isLiked } = this.state
+        const { isHover, isLiked, width } = this.state
         const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen, tracksLength, stationId } = this.props
         const { title } = track
         const date = utilService.getTime(track.addedAt)
@@ -127,17 +133,21 @@ class _TrackPreview extends Component {
                             onMouseLeave={() => this.onToggleHover(false)}
                         >
 
-                            <section title={title} className="TrackPreview flex">
+                            <section title={title} className="TrackPreview flex" onClick={() => this.onPlayTrackMobile(idx)}>
+
+                                {width < 680 && <div className="num-idx" >
+                                    {!this.checkIsPlaying() ? (idx + 1) : <div className="audio-container" > <Audio /> </div>}
+                                </div>}
 
                                 {!isHover && <div className="num-idx" >
                                     {!this.checkIsPlaying() ? (idx + 1) : <div className="audio-container" > <Audio /> </div>}
                                 </div>}
 
-                                {isHover && this.checkIsPlaying() && <button onClick={() => this.onPauseTrack(track.id)}
+                                {isHover && width > 680 && this.checkIsPlaying() && <button onClick={() => this.onPauseTrack(track.id)}
                                     className={"play-btn fas fa-pause"}>
                                 </button>}
 
-                                {isHover && !this.checkIsPlaying() && <button onClick={() => this.onPlayTrack(idx)}
+                                {isHover && width > 680 && !this.checkIsPlaying() && <button onClick={() => this.onPlayTrack(idx)}
                                     className={"play-btn fas fa-play"}>
                                 </button>}
 
@@ -166,7 +176,7 @@ class _TrackPreview extends Component {
                         </section>
                     )}
                 </Draggable>
-            </main>
+            </main >
         )
     }
 }
@@ -179,6 +189,7 @@ function mapStateToProps(state) {
         isPlaying: state.mediaPlayerModule.isPlaying,
         currLikedTrack: state.mediaPlayerModule.currLikedTrack,
         user: state.userModule.user,
+        currSongIdx: state.mediaPlayerModule.currSongIdx
 
 
     }

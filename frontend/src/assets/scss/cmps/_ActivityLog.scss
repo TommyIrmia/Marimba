@@ -1,4 +1,5 @@
 .activity-page {
+  position: relative;
   .activity-log {
     display: block;
   }
@@ -11,7 +12,7 @@
     display: none;
   }
   h1 {
-    font-family: gotham-bold;
+    font-family: gotham-bold, rubic;
     font-weight: 400;
     text-align: center;
     font-size: 1.5rem;
@@ -20,7 +21,9 @@
     left: 50%;
     transform: translateX(-50%);
     color: $clr7;
+
     @include for-mobile-layout {
+      font-family: gotham;
       position: fixed;
       z-index: 6;
     }
@@ -34,10 +37,31 @@
       top: -28px;
       background-color: black;
     }
-    span {
-      line-height: 1rem;
-      font-size: 0.9rem;
-      margin-inline-start: 5px;
+
+    .unread {
+      background-color: red;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 700;
+      width: 15px;
+      height: 15px;
+      line-height: 15px;
+      text-align: center;
+      border-radius: 50%;
+      opacity: 0;
+      transition: 0.2s;
+      // position: fixed;
+      // top: 89.5vh;
+      // left: 78px;
+      position: absolute;
+      bottom: 8px;
+      right: -5px;
+      &.shown {
+        opacity: 1;
+      }
+      @include for-narrow-layout {
+        right: -1px;
+      }
     }
   }
 

@@ -42,7 +42,6 @@ export class StationActions extends Component {
         try {
             const { user, station } = this.props;
             // const { station } = this.state;
-            console.log('from unlike', user, station);
             await this.props.onUnlikeStation(station, user)
             this.props.onSetMsg('success', 'Removed from your library')
         } catch (err) {

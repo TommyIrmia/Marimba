@@ -49,7 +49,6 @@ export class _MediaPlayer extends Component {
 
     onStateChange = (ev) => {
         this.getStation(ev)
-        console.log('player state', ev.data)
         if (ev.data === 3 || ev.data === -1) return
 
         if (ev.data === 5) ev.target.playVideo()

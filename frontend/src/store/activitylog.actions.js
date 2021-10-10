@@ -4,7 +4,6 @@ export function loadActivities() {
     return async (dispatch) => {
         try {
             let activities = await activityService.query()
-            activities = activities.reverse();
             const unRead = activities.filter(activity => !activity.isRead)
             dispatch({
                 type: 'SET_ACTIVITIES',
@@ -34,12 +33,13 @@ export function addActivity(type, stationInfo) {
 export function onReadActivity(activity) {
     return async (dispatch) => {
         try {
-            const activityToUpdate = { ...activity, isRead: true }
+            activity.isRead = true
+            console.log('activity to update', activity);
             dispatch({
                 type: 'READ_ACTIVITY',
-                activity: activityToUpdate
+                activity
             })
-            activityService.updateActivity(activityToUpdate);
+            activityService.updateActivity(activity);
         } catch (err) {
             throw err
         }

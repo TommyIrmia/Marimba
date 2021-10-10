@@ -61,6 +61,15 @@ class _StationPreview extends React.Component {
         if (isFromSearchList) return 'station-search-preview'
     }
 
+    getLikesCount = (count) => {
+        if (count < 1000) return count
+        let countStr = '';
+        if (count > 1000) countStr += Math.floor(count / 1000)
+        if (Math.floor(count % 1000 / 100) > 0) countStr += '.' + Math.floor(count % 1000 / 100)
+        countStr += 'k'
+        return countStr
+    }
+
     render() {
         const { station, isMostLikedList } = this.props
         return (
@@ -72,7 +81,7 @@ class _StationPreview extends React.Component {
                     }}>
                     <div className="station-label" style={{ backgroundColor: utilService.pickRandomColor() }} ></div>
 
-                    <section className={`station-img ${(station.tags[0] === 'Cities') ? 'station-img-city' : '' } `}>
+                    <section className={`station-img ${(station.tags[0] === 'Cities') ? 'station-img-city' : ''} `}>
                         <img src={station.imgUrl} alt="station" />
                         {!this.isStationPlaying() && <div className="play-btn fas fa-play"
                             onClick={(ev) => {
@@ -91,8 +100,8 @@ class _StationPreview extends React.Component {
 
                     <div className="station-info">
                         <h1>{station.name}</h1>
-                        { station.tags[0] !== 'Cities' && <p>{station.createdBy.fullname}</p>}
-                        { station.tags[0] === 'Cities' && <p>Marimba</p>}
+                        {station.tags[0] !== 'Cities' && <p>{station.createdBy.fullname}</p>}
+                        {station.tags[0] === 'Cities' && <p>Marimba</p>}
                     </div>
                     <main className="station-like-container"  >
 
@@ -111,7 +120,7 @@ class _StationPreview extends React.Component {
                                 }}>
                             </button>}
 
-                            <h2>{station.likedByUsers.length}</h2>
+                            <h2>{this.getLikesCount(station.likedByUsers.length)}</h2>
                         </section>
                     </main>
                 </section>

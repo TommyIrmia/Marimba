@@ -2,6 +2,9 @@
   min-height: 70vh;
   position: relative;
   padding-bottom: 50px;
+  @include for-mobile-layout {
+    margin-bottom: 100px;
+  }
   h4 {
     padding: 15px;
     position: absolute;

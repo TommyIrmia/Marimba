@@ -50,7 +50,6 @@ export function onTogglePlay(isPlaying) {
 
 export function onPlayTrack(idx) {
     return (dispatch) => {
-        console.log('idx', idx)
         dispatch({
             type: 'SET_SONG',
             currSongIdx: idx

@@ -18,7 +18,7 @@ export function activityLogReducer(state = initialState, action) {
             activities = [action.activity, ...state.activities]
             return { ...state, activities }
         case 'READ_ACTIVITY':
-            activities = state.activities.map(activity => activity._id === action.activity._id ? action.activity._id : activity)
+            activities = state.activities.map(activity => activity._id === action.activity._id ? action.activity : activity)
             return { ...state, activities }
         case 'ADD_UNREAD':
             return { ...state, unRead: state.unRead + action.diff }

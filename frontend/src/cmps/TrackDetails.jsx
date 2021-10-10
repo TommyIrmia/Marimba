@@ -61,7 +61,6 @@ export class TrackDetails extends React.Component {
 
     render() {
         const { imgSrc, currTrack, station, currLikedTrack, isPlaying, currStationId, playingStationId } = this.props
-        console.log('from track details', playingStationId)
         return (
             <div className="song-details flex align-center">
                 <div className="artist-img"> <img src={currTrack?.imgUrl ? currTrack.imgUrl : imgSrc} alt="track" /></div>

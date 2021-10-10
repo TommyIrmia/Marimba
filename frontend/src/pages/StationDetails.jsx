@@ -139,7 +139,6 @@ class _StationDetails extends Component {
     }
 
     tracksChanged = ({ tracks }) => {
-        console.log('track from station', tracks);
         try {
             this.props.updateTracksInStore(tracks)
         } catch (err) {
@@ -257,7 +256,6 @@ class _StationDetails extends Component {
         const { isSearch, isPlaying, isLoading, isEditModalOpen, animation, isConfirmMsgOpen, station } = this.state;
         const { tracks, bgc, user } = this.props
         const { stationId } = this.props.match.params
-        console.log(this.state.station)
         if (!isLoading) return <div className="loader-container" ><Loader /> </div>
         return (
             <main className="StationDetails">

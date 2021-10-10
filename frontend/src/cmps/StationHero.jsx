@@ -37,6 +37,15 @@ export class StationHero extends Component {
         return `${hrs} hr ${minutes - hrs * 60} min`
     }
 
+    getLikesCount = (count) => {
+        if (count < 1000) return count
+        let countStr = '';
+        if (count > 1000) countStr += Math.floor(count / 1000)
+        if (Math.floor(count % 1000 / 100) > 0) countStr += '.' + Math.floor(count % 1000 / 100)
+        countStr += 'k'
+        return countStr
+    }
+
     render() {
         const { station } = this.props
         const { tracks, stationId, likesCount } = this.props
@@ -51,7 +60,7 @@ export class StationHero extends Component {
                             <h1 className="hero-title">{station.name}</h1>
                             <p className="hero-subtitle">{station.description}</p>
                             <p>{stationId !== 'liked' && station.createdBy.fullname + ' • '}
-                                {stationId !== 'liked' && likesCount + ' likes • '}
+                                {stationId !== 'liked' && this.getLikesCount(likesCount) + ' likes • '}
                                 {tracks.length} songs • {this.getStationFullTime(tracks)}</p>
                         </div>
                         <div className="share-container">

@@ -1,5 +1,4 @@
 import { userService } from '../services/user.service'
-import defaultUser from "../assets/imgs/defaultuser.jpg";
 import { stationService } from './../services/station.service';
 import { activityService } from './../services/activity-log.service';
 
@@ -54,7 +53,7 @@ export function onLogout() {
             await userService.logout()
             dispatch({
                 type: 'SET_USER',
-                user: { fullname: "Guest", imgUrl: defaultUser }
+                user: { fullname: "Guest", imgUrl: 'https://pbs.twimg.com/profile_images/746460305396371456/4QYRblQD.jpg' }
             })
             console.log('logged out!')
         } catch (err) {

@@ -26,7 +26,7 @@ export class _ActivityLog extends Component {
     }
 
     onGoToActivity = (activity) => {
-        this.onReadActivity()
+        this.onReadActivity(activity)
         if (activity.type === 'like track') return
         this.props.history.push(`/station/${activity.stationInfo.id}`)
         this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
@@ -45,7 +45,7 @@ export class _ActivityLog extends Component {
             case 'create playlist':
                 return (<li className={classStr} key={idx}
                     onClick={() => this.onGoToActivity(activity)}
-                    onMouseEnter={() => this.onReadActivity(activity)}>
+                    onMouseLeave={() => this.onReadActivity(activity)}>
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
@@ -58,7 +58,7 @@ export class _ActivityLog extends Component {
             case 'add track':
                 return (<li className={classStr} key={idx}
                     onClick={() => this.onGoToActivity(activity)}
-                    onMouseEnter={() => this.onReadActivity(activity)}>
+                    onMouseLeave={() => this.onReadActivity(activity)}>
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
@@ -71,7 +71,7 @@ export class _ActivityLog extends Component {
             case 'remove track':
                 return (<li className={classStr} key={idx}
                     onClick={() => this.onGoToActivity(activity)}
-                    onMouseEnter={() => this.onReadActivity(activity)}>
+                    onMouseLeave={() => this.onReadActivity(activity)}>
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
@@ -84,7 +84,7 @@ export class _ActivityLog extends Component {
             case 'like track':
                 return (<li className={classStr} key={idx}
                     onClick={() => this.onGoToActivity(activity)}
-                    onMouseEnter={() => this.onReadActivity(activity)}>
+                    onMouseLeave={() => this.onReadActivity(activity)}>
                     <div className="activity-user">
                         <img src={activity.createdBy.imgUrl} alt='user-img' />
                     </div>
@@ -98,14 +98,14 @@ export class _ActivityLog extends Component {
     }
 
     render() {
-        let { activities } = this.props
-        if (!activities.length) return <div>No Activities</div>
-        let { unRead } = this.props;
-        console.log('unRead', unRead);
+        const { activities, unRead } = this.props
         return (<section className="activity-log">
-            <h1>What's New? <span>{unRead}</span></h1>
+            <h1>What's New?
+                {unRead > 0 && <span className="unread shown">{unRead}</span>}
+            </h1>
 
             <div className="activity-log-container">
+                {!activities.length && <div><br /><br />No Activities</div>}
                 <ul className="clean-list">
                     {activities.map((activity, index) => this.dynamicCmp(activity, index))}
                 </ul>

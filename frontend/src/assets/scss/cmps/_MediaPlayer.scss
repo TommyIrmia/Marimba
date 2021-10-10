@@ -55,12 +55,12 @@
       max-width: 500px;
     }
     .duration-controller {
-      width: 94.5%;
+      width: 93%;
       font-size: 0.8rem;
       @include for-mobile-layout {
         position: fixed;
-        bottom: 56px;
-        left: 2.75%;
+        bottom: 48px;
+        left: 3.5%;
         p {
           display: none;
         }

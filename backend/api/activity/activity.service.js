@@ -15,8 +15,10 @@ async function query(filterBy = {}) {
     const criteria = _buildCriteria(filterBy)
     try {
         const collection = await dbService.getCollection('activity')
-        return await collection.find(criteria).toArray()
-
+        let activities = await collection.find(criteria).toArray()
+        activities = activities.reverse();
+        const idxStart = (activities.length <= 30) ? 0 : activities.length - 30
+        return activities.slice(idxStart, activities.length - 1)
     } catch (err) {
         logger.error('cannot find activitys', err)
         throw err
@@ -77,7 +79,6 @@ async function update(activity) {
         }
         const collection = await dbService.getCollection('activity')
         await collection.updateOne({ _id: activityToSave._id }, { $set: activityToSave })
-        console.log('updated activity', activityToSave._id);
         return activityToSave;
     } catch (err) {
         logger.error(`cannot update activity ${activity._id}`, err)

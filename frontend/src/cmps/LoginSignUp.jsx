@@ -18,7 +18,7 @@ export class _LoginSignUp extends Component {
         },
         isPasswordVisible: false,
     }
-  
+
     handleChange = (ev) => {
         const field = ev.target.name;
         const value = ev.target.value;
@@ -26,7 +26,6 @@ export class _LoginSignUp extends Component {
     }
 
     onLoginSignup = async (user, isLogin) => {
-        console.log(user, isLogin);
         try {
             if (isLogin) {
                 const loggedinUser = await this.props.onLogin(user)
@@ -51,7 +50,7 @@ export class _LoginSignUp extends Component {
             const value = await uploadImg(ev)
             this.setState((prevState) => ({ ...prevState, user: { ...prevState.user, [field]: value } }))
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 
@@ -125,14 +124,14 @@ export class _LoginSignUp extends Component {
                 <h4>OR</h4>
                 <hr />
 
-                    <FacebookLogin
-                        appId="550515812703196"
-                        // autoLoad={true}
-                        fields="name,picture"
-                        scope="public_profile"
-                        callback={this.responseFacebook}
-                        icon={<div className="fab fa-facebook f-a-container flex"></div>}
-                    />
+                <FacebookLogin
+                    appId="550515812703196"
+                    // autoLoad={true}
+                    fields="name,picture"
+                    scope="public_profile"
+                    callback={this.responseFacebook}
+                    icon={<div className="fab fa-facebook f-a-container flex"></div>}
+                />
 
                 <Link to="/" > Back </Link>
 
