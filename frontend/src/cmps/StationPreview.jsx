@@ -70,8 +70,14 @@ class _StationPreview extends React.Component {
         return countStr
     }
 
+    capitalizeStationName = (name) => {
+        const stationName = name.charAt(0).toUpperCase() + name.slice(1);
+        return stationName;
+    } 
+
     render() {
         const { station, isMostLikedList } = this.props
+        const stationName = this.capitalizeStationName(station.name)
         return (
             <main className="preview-container" >
                 <section className={`${(isMostLikedList) ? 'most-liked-preview flex' : `station-preview ${this.isFromSearch} `}`}
@@ -99,7 +105,7 @@ class _StationPreview extends React.Component {
                     </section>
 
                     <div className="station-info">
-                        <h1>{station.name}</h1>
+                        <h1>{stationName}</h1>
                         {station.tags[0] !== 'Cities' && <p>{station.createdBy.fullname}</p>}
                         {station.tags[0] === 'Cities' && <p>Marimba</p>}
                     </div>
