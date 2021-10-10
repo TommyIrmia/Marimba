@@ -65,7 +65,7 @@ class _StationPreview extends React.Component {
         const { station, isMostLikedList } = this.props
         return (
             <main className="preview-container" >
-                <section className={`${(isMostLikedList) ? 'station-most-liked-preview flex' : `station-preview ${this.isFromSearch} `}`}
+                <section className={`${(isMostLikedList) ? 'most-liked-preview flex' : `station-preview ${this.isFromSearch} `}`}
                     onClick={() => {
                         this.props.setBgcAndName(station.bgc, station.name)
                         this.props.history.push(`/station/${station._id}`)

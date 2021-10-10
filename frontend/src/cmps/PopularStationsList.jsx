@@ -18,7 +18,7 @@ export class PopularStationsList extends Component {
             const { stations} = this.props;
 
             let mostLiked = stations.sort((a, b) => b.likedByUsers.length - a.likedByUsers.length);
-            mostLiked = mostLiked.slice(0, 6);
+            mostLiked = mostLiked.slice(0, 8);
 
             this.setState({ mostLiked })
         } catch (err) {
@@ -30,7 +30,7 @@ export class PopularStationsList extends Component {
     render() {
         const { mostLiked } = this.state;
         return (
-            <main>
+            <main className="liked-list-container" >
                 <div><h1>Most liked</h1></div>
                 <section className="PopularStationsList grid playlist-layout" >
                     {mostLiked.map(station => <StationPreview isMostLikedList={true} key={station._id} station={station} />)}
