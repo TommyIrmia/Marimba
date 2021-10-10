@@ -82,21 +82,21 @@
     gap: 10px;
     display: flex;
     justify-content: center;
-    min-width: 80px;
-    margin-inline-end: 10px;
+    max-width: 80px;
+    margin-inline-end: 25px;
 
     @include for-mobile-layout {
       padding-left: 30px;
     }
 
     @include for-narrow-layout {
-      min-width: 100px;
+      min-width: 70px;
       margin-inline-start: 20px;
     }
 
     @include for-wide-layout {
       margin-inline-start: 0;
-      max-width: 120px;
+      max-width: 200px;
     }
     .btn-like,
     .btn-liked,

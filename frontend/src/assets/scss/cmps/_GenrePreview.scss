@@ -11,6 +11,10 @@
       grid-template-columns: repeat(auto-fill, minmax(195px, 200px));
       gap: 15px;
     }
+    
+    @include for-wide-layout {
+      grid-template-columns: repeat(auto-fill, minmax(240px, 200px));
+    }
 
     .header {
       grid-column: 1 / -1;
@@ -26,6 +30,9 @@
         overflow: hidden;
         @include for-narrow-layout {
           height: 195px;
+        }
+        @include for-wide-layout {
+          height: 240px;
         }
         h3 {
           font-size: rem(25px);

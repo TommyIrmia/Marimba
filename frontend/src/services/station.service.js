@@ -366,9 +366,9 @@ async function addLikeTtoStation(station, user) {
 
         station.likedByUsers.push(miniUser)
         httpService.put(`station`, station)
-        // return Promise.resolve(fakeUser)
         user.likedStations.push(station._id)
         return await userService.updateUser(user)
+        // return Promise.resolve(fakeUser)
     } catch (err) {
         throw err
     }

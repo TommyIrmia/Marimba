@@ -15,6 +15,7 @@ const session = expressSession({
 })
 app.use(express.json())
 app.use(session)
+app.use(express.static('public'));
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.resolve(__dirname, 'public')))
@@ -31,7 +32,7 @@ const userRoutes = require('./api/user/user.routes')
 const stationRoutes = require('./api/station/station.routes')
 const activityRoutes = require('./api/activity/activity.routes')
 
-const {connectSockets} = require('./services/socket.service')
+const { connectSockets } = require('./services/socket.service')
 
 // routes
 const setupAsyncLocalStorage = require('./middlewares/setupAls.middleware')
