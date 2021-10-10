@@ -348,27 +348,27 @@ async function removeTrackFromLiked(trackId, user) {
 
 async function addLikeTtoStation(station, user) {
     try {
-        const fakeUser = {
-            _id: 123,
-            fullname: "Puki Ben David",
-            imgUrl: ""
-        }
+        // const fakeUser = {
+        //     _id: 123,
+        //     fullname: "Puki Ben David",
+        //     imgUrl: ""
+        // }
 
-        let ranNum = utilService.getRandomIntInclusive(50, 100)
-        for (let i = 0; i < ranNum; i++) {
-            station.likedByUsers.push(fakeUser)
-        }
+        // let ranNum = utilService.getRandomIntInclusive(50, 100)
+        // for (let i = 0; i < ranNum; i++) {
+        //     station.likedByUsers.push(fakeUser)
+        // }
         const miniUser = {
             _id: user._id,
             fullname: user.fullname,
             imgUrl: user.imgUrl
         }
 
-        // station.likedByUsers.push(miniUser)
+        station.likedByUsers.push(miniUser)
         httpService.put(`station`, station)
-        return Promise.resolve(fakeUser)
-        // user.likedStations.push(station._id)
-        // return await userService.updateUser(user)
+        // return Promise.resolve(fakeUser)
+        user.likedStations.push(station._id)
+        return await userService.updateUser(user)
     } catch (err) {
         throw err
     }

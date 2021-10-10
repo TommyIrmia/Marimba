@@ -120,7 +120,6 @@ class _TrackPreview extends Component {
         const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen, tracksLength, stationId, windowWidth } = this.props
         const { title } = track
         const date = utilService.getTime(track.addedAt)
-        console.log('width', windowWidth);
         return (
             <main>
                 {<ConfirmMsg windowWidth={windowWidth} tracksLength={tracksLength} isConfirmMsgOpen={isConfirmMsgOpen} confirmRemove={confirmRemove} />}

@@ -33,7 +33,6 @@ function connectSockets(http, session) {
         })
 
         socket.on('newActivity', newActivity => {
-            console.log('adding new activity', newActivity);
             socket.broadcast.emit('addActivity', newActivity);
         })
         // socket.on('user-watch', userId => {

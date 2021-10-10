@@ -49,6 +49,9 @@
       font-size: rem(50px);
       font-family: logo2;
       // color: #93ebb2;
+      @include for-mobile-layout {
+        text-align: center;
+      }
     }
 
     p {

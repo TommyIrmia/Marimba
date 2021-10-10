@@ -185,5 +185,13 @@
 }
 
 .fas.fa-link::before {
-    content: "\f0c1";
+  content: "\f0c1";
+}
+
+.fab.fa-facebook::before {
+  content: "\f09a";
+}
+
+.fab.fa-whatsapp::before {
+  content: "\f232";
 }

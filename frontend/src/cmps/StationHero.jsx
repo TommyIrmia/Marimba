@@ -67,10 +67,10 @@ export class StationHero extends Component {
 
                             <div className="share-btns flex">
                                 <WhatsappShareButton url={`http://www.youtube.com/watch?v=9WzIACv_mxs`} title="I like to share with you this playlist from Marimba!">
-                                    <WhatsappIcon className="whatsapp-btn" bgStyle={{ fill: "#00000000" }} />
+                                    <div className="whatsapp-btn fab fa-whatsapp"></div>
                                 </WhatsappShareButton>
                                 <FacebookShareButton url={`http://www.youtube.com/watch?v=9WzIACv_mxs`} title="I like to share with you this playlist from Marimba!">
-                                    <FacebookIcon className="facebook-btn" bgStyle={{ fill: "#00000000" }} round={true}/>
+                                    <div className="facebook-btn fab fa-facebook"></div>
                                 </FacebookShareButton>
                                 <CopyToClipboard text={`http://localhost:3000/station/${stationId}`}>
                                     <div className="share-btn fas fa-link"></div>

@@ -113,12 +113,25 @@
   flex-direction: column;
   justify-content: flex-end;
   position: absolute;
-  right: 20px;
-  bottom: 35px;
+  right: 10px;
+  bottom: 10px;
+  h5 {
+    @include for-mobile-layout {
+      font-size: 0.8rem;
+    }
+  }
+  @include for-narrow-layout {
+    right: 20px;
+  }
   .share-btns {
+    justify-content: space-around;
+    margin-bottom: 5px;
+    @include for-narrow-layout {
+      margin-bottom: 1px;
+    }
     .share-btn {
       align-self: center;
-      font-size: 22px;
+      font-size: 21px;
       @include for-mobile-layout {
         font-size: 18px;
       }
@@ -127,20 +140,18 @@
       }
     }
     .facebook-btn {
-      height: 45px;
-      width: 45px;
+      font-size: 22px;
       @include for-mobile-layout {
-        height: 35px;
-        width: 35px;
+        font-size: 18px;
       }
     }
 
     .whatsapp-btn {
-      height: 40px;
-      width: 40px;
+      font-size: 24px;
       @include for-mobile-layout {
-        height: 32px;
-        width: 32px;
+        font-size: 20px;
+        position: relative;
+        top: 1px;
       }
     }
   }

@@ -58,7 +58,8 @@
     margin-inline-end: 10px;
     cursor: pointer;
     @include for-mobile-layout {
-      position: absolute;
+      // z-index: 6;
+      position: fixed;
       right: 0px;
     }
 

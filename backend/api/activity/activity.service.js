@@ -15,10 +15,7 @@ async function query(filterBy = {}) {
     const criteria = _buildCriteria(filterBy)
     try {
         const collection = await dbService.getCollection('activity')
-        let activities = await collection.find(criteria).toArray()
-        activities = activities.reverse();
-        const idxStart = (activities.length <= 30) ? 0 : activities.length - 30
-        return activities.slice(idxStart, activities.length - 1)
+        return await collection.find(criteria).toArray()
     } catch (err) {
         logger.error('cannot find activitys', err)
         throw err

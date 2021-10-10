@@ -78,10 +78,10 @@ export function onAddTrack(track, stationId, trackName, bgc, name) {
                 type: 'ADD_ACTIVITY',
                 activity: activityToAdd
             })
-            dispatch({
-                type: 'ADD_UNREAD',
-                diff: 1
-            })
+            // dispatch({
+            //     type: 'ADD_UNREAD',
+            //     diff: 1
+            // })
 
         } catch (err) {
             throw err

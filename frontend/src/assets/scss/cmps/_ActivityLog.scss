@@ -54,12 +54,13 @@
       // top: 89.5vh;
       // left: 78px;
       position: absolute;
-      bottom: 8px;
-      right: -5px;
+      bottom: 12px;
+      right: -7px;
       &.shown {
         opacity: 1;
       }
       @include for-narrow-layout {
+        bottom: 8px;
         right: -1px;
       }
     }
