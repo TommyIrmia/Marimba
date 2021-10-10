@@ -29,7 +29,7 @@ export default class EditDetails extends Component {
     onGetGenres = async () => {
         let genres = await stationService.getGenres()
         genres = genres.filter(genre => {
-            return genre.name !== 'All' || genre.name !== 'Cities'
+            return (genre.name !== 'All' && genre.name !== 'Cities')
         })
 
         const options = genres.map(genre => {

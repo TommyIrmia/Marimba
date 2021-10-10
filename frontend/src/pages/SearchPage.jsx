@@ -20,7 +20,10 @@ export class SearchPage extends Component {
     async componentDidMount() {
         window.scrollTo(0, 0)
         try {
-            const genres = await this.loadGenres()
+            let genres = await this.loadGenres()
+            genres = genres.filter(genre => {
+                return genre.name !== 'Cities'
+            })
             this.setState({ ...this.state, genres })
         } catch (err) {
             console.log(err);

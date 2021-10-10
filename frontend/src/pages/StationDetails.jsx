@@ -29,6 +29,7 @@ class _StationDetails extends Component {
         stationId: '',
         animation: '',
         isConfirmMsgOpen: false,
+        windowWidth:window.innerWidth,
     }
     userAnswer;
     inputRef = React.createRef()
@@ -131,6 +132,7 @@ class _StationDetails extends Component {
     }
 
     userConfirmation = () => {
+        this.setState({windowWidth:window.innerWidth})
         this.setState({ isConfirmMsgOpen: true })
 
         return new Promise((resolve) => {
@@ -254,10 +256,9 @@ class _StationDetails extends Component {
     }
 
     render() {
-        const { isSearch, isPlaying, isLoading, isEditModalOpen, animation, isConfirmMsgOpen, station } = this.state;
+        const { isSearch, isPlaying, isLoading, isEditModalOpen, animation, isConfirmMsgOpen, station,windowWidth } = this.state;
         const { tracks, bgc, user } = this.props
         const { stationId } = this.props.match.params
-        console.log(this.state.station)
         if (!isLoading) return <div className="loader-container" ><Loader /> </div>
         return (
             <main className="StationDetails">
@@ -294,7 +295,7 @@ class _StationDetails extends Component {
                 <DragDropContext onDragEnd={this.onDragEnd}>
                     <TrackList
                         isConfirmMsgOpen={isConfirmMsgOpen} confirmRemove={this.confirmRemove}
-                        onRemoveTrack={this.onRemoveTrack} tracks={tracks}
+                        onRemoveTrack={this.onRemoveTrack} tracks={tracks} windowWidth={windowWidth}
                         stationId={stationId} loadTracks={this.loadTracks} />
                 </DragDropContext>
 

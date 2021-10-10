@@ -111,12 +111,12 @@ class _TrackPreview extends Component {
 
     render() {
         const { isHover, isLiked } = this.state
-        const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen, tracksLength, stationId } = this.props
+        const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen, tracksLength, stationId , windowWidth } = this.props
         const { title } = track
         const date = utilService.getTime(track.addedAt)
         return (
             <main>
-                {<ConfirmMsg tracksLength={tracksLength} isConfirmMsgOpen={isConfirmMsgOpen} confirmRemove={confirmRemove} />}
+                {<ConfirmMsg windowWidth={windowWidth} tracksLength={tracksLength} isConfirmMsgOpen={isConfirmMsgOpen} confirmRemove={confirmRemove} />}
 
                 <Draggable draggableId={this.props.track.id} index={idx}>
                     {(provided) => (
