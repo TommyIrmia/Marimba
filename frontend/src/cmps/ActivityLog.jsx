@@ -40,7 +40,9 @@ export class _ActivityLog extends Component {
 
 
     dynamicCmp = (activity, idx) => {
+        const { user } = this.props
         const classStr = (activity.isRead) ? "flex read" : "flex";
+        if (activity.createdBy._id === user._id) return
         switch (activity.type) {
             case 'create playlist':
                 return (<li className={classStr} key={idx}

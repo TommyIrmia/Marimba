@@ -2,7 +2,7 @@
   position: fixed;
   bottom: 70px;
   width: 95%;
-  height: 60px;
+  height: 65px;
   background-color: $clr4;
   color: $clr2;
   padding: 0 10px;
@@ -96,19 +96,23 @@
 
     .play-btn {
       color: $clr3;
-      width: 40px;
-      height: 40px;
+      width: 35px;
+      height: 35px;
       display: flex;
       justify-content: center;
       align-items: center;
       border-radius: 50%;
       background-color: $clr7;
       font-size: 1rem;
-      &:hover {
-        transform: scale(1.1);
-      }
       &.playing {
-        text-indent: 3px;
+        text-indent: 2px;
+      }
+      @include for-narrow-layout {
+        width: 40px;
+        height: 40px;
+        &:hover {
+          transform: scale(1.1);
+        }
       }
     }
   }
@@ -117,7 +121,7 @@
     display: flex;
     justify-content: flex-start;
     gap: 10px;
-    width: 100px;
+    width: 50px;
     @include for-mobile-layout {
     }
     @include for-narrow-layout {
@@ -130,6 +134,12 @@
       font-size: unset;
       font-family: unset;
       color: unset;
+      @include for-mobile-layout {
+        position: absolute;
+        left: -90%;
+        bottom: 5px;
+        // transform: 5;
+      }
       p {
         letter-spacing: -0.08rem;
         font-size: rem(13px);
@@ -142,7 +152,7 @@
           letter-spacing: -0.02rem;
           font-family: gotham-light, rubic;
           position: absolute;
-          max-width: 95px;
+          max-width: 130px;
           bottom: 28px;
           left: 40px;
           color: $clr2;
@@ -192,13 +202,13 @@
       }
     }
     .artist-img {
-      width: 40px;
-      height: 40px;
+      width: 35px;
+      height: 35px;
 
       @include for-mobile-layout {
         position: relative;
         right: 5px;
-        bottom: 2px;
+        bottom: -5px;
       }
       @include for-narrow-layout {
         width: 60px;

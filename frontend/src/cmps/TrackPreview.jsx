@@ -117,11 +117,10 @@ class _TrackPreview extends Component {
 
     render() {
         const { isHover, isLiked, width } = this.state
-        const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen, tracksLength, stationId } = this.props
-        const { isHover, isLiked } = this.state
-        const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen, tracksLength, stationId , windowWidth } = this.props
+        const { track, onRemoveTrack, idx, confirmRemove, isConfirmMsgOpen, tracksLength, stationId, windowWidth } = this.props
         const { title } = track
         const date = utilService.getTime(track.addedAt)
+        console.log('width', windowWidth);
         return (
             <main>
                 {<ConfirmMsg windowWidth={windowWidth} tracksLength={tracksLength} isConfirmMsgOpen={isConfirmMsgOpen} confirmRemove={confirmRemove} />}
@@ -137,7 +136,7 @@ class _TrackPreview extends Component {
 
                             <section title={title} className="TrackPreview flex" onClick={() => this.onPlayTrackMobile(idx)}>
 
-                                {width < 680 && <div className="num-idx" >
+                                {windowWidth < 680 && <div className="num-idx" >
                                     {!this.checkIsPlaying() ? (idx + 1) : <div className="audio-container" > <Audio /> </div>}
                                 </div>}
 
@@ -145,11 +144,11 @@ class _TrackPreview extends Component {
                                     {!this.checkIsPlaying() ? (idx + 1) : <div className="audio-container" > <Audio /> </div>}
                                 </div>}
 
-                                {isHover && width > 680 && this.checkIsPlaying() && <button onClick={() => this.onPauseTrack(track.id)}
+                                {isHover && windowWidth > 680 && this.checkIsPlaying() && <button onClick={() => this.onPauseTrack(track.id)}
                                     className={"play-btn fas fa-pause"}>
                                 </button>}
 
-                                {isHover && width > 680 && !this.checkIsPlaying() && <button onClick={() => this.onPlayTrack(idx)}
+                                {isHover && windowWidth > 680 && !this.checkIsPlaying() && <button onClick={() => this.onPlayTrack(idx)}
                                     className={"play-btn fas fa-play"}>
                                 </button>}
 

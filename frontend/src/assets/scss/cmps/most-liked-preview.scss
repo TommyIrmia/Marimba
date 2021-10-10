@@ -1,77 +1,75 @@
 .liked-list-container {
-    h1 {
-        font-family: gotham-bold;
-        margin-bottom: 30px;
-    }
-    .PopularStationsList {
-        gap: 15px;
-        margin-bottom: 50px;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 280px));
-    }
+  h1 {
+    font-family: gotham-bold, rubic;
+    margin-bottom: 30px;
+  }
+  .PopularStationsList {
+    gap: 15px;
+    margin-bottom: 50px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 280px));
+  }
 }
 
 .most-liked-preview {
-    height: 70px;
-    background-color: #282828;
-    justify-content: space-between;
-    align-items: center;
+  height: 70px;
+  background-color: #282828;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #3d3d3d;
+  }
+
+  .station-label {
+    width: 10px;
+    height: 100%;
+  }
+
+  .play-btn {
+    display: none;
+  }
+
+  .station-info {
+    p {
+      display: none;
+    }
+  }
+
+  .station-like-container {
+    position: absolute;
+    right: 92px;
+    bottom: 1px;
+
+    .station-like {
+      display: flex;
+
+      h2 {
+        font-size: rem(10px);
+      }
+      button {
+        color: $clr7;
+
+        &.green {
+          color: $clr5;
+          &:hover {
+            color: darkgreen;
+          }
+        }
+      }
+    }
+  }
+
+  .station-img {
     position: relative;
-    
-    &:hover {
-        cursor: pointer;
-        background-color: #3d3d3d;
+    height: 100%;
+    width: 30%;
+    order: 1;
+    img {
+      height: inherit;
+      width: 100%;
+      object-fit: cover;
     }
-
-
-    
-    .station-label {
-        width: 10px;
-        height: 100%;        
-    }
-
-    .play-btn {
-        display: none;
-    }
-
-    .station-info {
-        p {
-            display: none;
-        }
-    }
-
-    .station-like-container {
-        position: absolute;
-        right: 92px;
-        bottom: 1px;
-
-        .station-like {
-            display: flex;
-
-            h2 {
-                font-size: rem(10px);
-            }
-            button {
-                color: $clr7;
-
-                &.green {
-                    color: $clr5;
-                    &:hover {
-                        color: darkgreen;
-                    }
-                }
-            }
-        }
-    }
-
-    .station-img {
-        position: relative;
-        height: 100%;
-        width: 30%;
-        order: 1;
-        img {
-            height: inherit;
-            width: 100%;
-            object-fit: cover;
-        }
-    }
+  }
 }
