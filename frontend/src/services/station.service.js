@@ -269,7 +269,8 @@ async function getTemplateStation(key, id) {
                 description: "All your liked songs are here",
                 bgc: '#e24aa5',
                 tags: ["Liked"],
-                imgUrl: "http://www.whiteheart.eu/wp-content/uploads/2018/02/white-heart_2018_8.png",
+                imgUrl: '../assets/imgs/white-heart_2018_8.png',
+                // imgUrl: "http://www.whiteheart.eu/wp-content/uploads/2018/02/white-heart_2018_8.png",
                 tracks: []
             }
             asyncSessionService.save('likedStation', [likedStation]);

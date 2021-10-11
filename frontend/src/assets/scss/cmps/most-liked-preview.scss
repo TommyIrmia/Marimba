@@ -1,4 +1,22 @@
 .liked-list-container {
+  margin-bottom: 50px;
+
+  @include for-mobile-layout {
+    padding-top: 5px;
+    margin-bottom: 15px;
+    width: 100vw;
+    grid-auto-flow: column;
+    overflow: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  @include for-narrow-layout {
+    padding: 0 20px;
+  }
+  @include for-wide-layout {
+    padding: 0;
+  }
   h1 {
     font-family: gotham-bold;
     font-size: rem(21px);
@@ -7,11 +25,13 @@
     bottom: 10px;
   }
   .PopularStationsList {
-    // padding:15px;
     gap: 15px;
     margin-bottom: 30px;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(4, 250px);
     @include for-narrow-layout {
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    }
+    @include for-wide-layout {
       grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
     }
   }
@@ -42,7 +62,16 @@
     h1 {
       position: absolute;
       top: 5px;
-      left: 4%;
+      left: 7%;
+
+      @include for-mobile-layout {
+        font-family: gotham;
+        font-size: rem(17px);
+        max-width: 150px;
+      }
+      @include for-narrow-layout {
+        left: 4%;
+      }
     }
     p {
       display: none;
@@ -54,13 +83,17 @@
     right: 31%;
     bottom: 2px;
 
-
     .station-like {
       display: flex;
       align-items: center;
       justify-content: flex-start;
       min-width: 50px;
       gap: 3px;
+      @include for-mobile-layout {
+        position: relative;
+        left: 10px;
+        bottom: 2px;
+      }
       h2 {
         color: #acacac;
         font-size: rem(10px);

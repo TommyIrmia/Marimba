@@ -3,9 +3,14 @@
   background-color: $bgc3;
   grid-row: 1;
   display: flex;
-  // justify-content: space-between;
+  transition: 0.4s;
   align-items: center;
-
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  @include for-mobile-layout {
+    z-index: 0;
+  }
   @include for-narrow-layout {
     justify-content: space-between;
   }
@@ -154,9 +159,6 @@
 
 html:not([data-scroll="0"]) {
   .app-header {
-    transition: 0.4s;
-    position: sticky;
-    top: 0;
     z-index: 1;
     background-color: $clr3 !important;
   }
@@ -167,15 +169,9 @@ html:not([data-scroll="0"]) {
   }
   h1 {
     opacity: 1;
-    // transition: 0;
+    transition: 0;
   }
   .user-container {
     background-color: #000;
-  }
-}
-
-html:not(:not([data-scroll="100"])) {
-  .app-header {
-    background-color: #121212b0;
   }
 }

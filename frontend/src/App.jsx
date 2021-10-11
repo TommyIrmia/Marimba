@@ -32,9 +32,9 @@ export class App extends React.Component {
 
   render() {
     const { initialEntry } = this.state
-    if (initialEntry && initialEntry !== 'notInitial') return <MainHero onInitialEntry={this.onInitialEntry} />
     return (
       <div className="app main-layout" >
+        {initialEntry && initialEntry !== `notInitial` && <MainHero onInitialEntry={this.onInitialEntry} />}
         <AppHeader />
         <NavBar />
         <main className="main-app">

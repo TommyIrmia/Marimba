@@ -36,7 +36,7 @@ class _StationPreview extends React.Component {
             await this.props.onLikeStation(station, user)
             this.props.onSetMsg('success', 'Added to your library')
         } catch (err) {
-            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
+            this.props.onSetMsg('error', 'Oops.. Must be a user to like a station, do it now :)')
         }
     }
 
@@ -46,7 +46,7 @@ class _StationPreview extends React.Component {
             await this.props.onUnlikeStation(station, user)
             this.props.onSetMsg('success', 'Removed from your library')
         } catch (err) {
-            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
+            this.props.onSetMsg('error', 'Oops.. Something went wrong. \n please try again.')
         }
     }
 
@@ -80,7 +80,7 @@ class _StationPreview extends React.Component {
         return (
             <main className="preview-container" >
 
-                <section className={`${(isMostLikedList) ? 'most-liked-preview flex' : `station-preview ${this.isFromSearch} `}`}
+                <section className={`${(isMostLikedList) ? 'most-liked-preview flex' : `station-preview ${this.isFromSearch()} `}`}
                     onClick={() => {
                         this.props.setBgcAndName(station.bgc, station.name)
                         this.props.history.push(`/station/${station._id}`)
@@ -114,8 +114,8 @@ class _StationPreview extends React.Component {
                     </div>
 
                     <main className="station-like-container">
-
-                        <section className="station-like">
+                        {/* ${(isMostLikedList) ? 'most-liked-preview flex' : `station-preview */}
+                        <section className={(station.tags[0] === 'Cities') ? 'station-like city' : 'station-like'}>
                             {!this.checkIsLiked() && <button className="far fa-thumbs-up"
                                 onClick={(ev) => {
                                     ev.stopPropagation()
