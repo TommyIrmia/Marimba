@@ -25,16 +25,6 @@ async function getStations(req, res) {
     }
 }
 
-async function getGenres(req, res) {
-    try {
-        const genres = await stationService.getGenres()
-        res.send(genres)
-    } catch (err) {
-        logger.error('Failed to get genres', err)
-        res.status(500).send({ err: 'Failed to get genres' })
-    }
-}
-
 async function deleteStation(req, res) {
     try {
         await stationService.remove(req.params.id)
@@ -73,5 +63,4 @@ module.exports = {
     deleteStation,
     updateStation,
     addStation,
-    getGenres
 }

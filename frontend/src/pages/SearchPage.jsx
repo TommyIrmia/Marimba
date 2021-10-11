@@ -16,17 +16,17 @@ export class SearchPage extends Component {
         isLoading: false,
         msg: ''
     }
+
     timeoutId = null
+
     async componentDidMount() {
         window.scrollTo(0, 0)
         try {
             let genres = await this.loadGenres()
-            genres = genres.filter(genre => {
-                return genre.name !== 'Cities'
-            })
+            genres = genres.filter(genre => genre.name !== 'Cities')
             this.setState({ ...this.state, genres })
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 
@@ -69,11 +69,14 @@ export class SearchPage extends Component {
         const { stations, tracks, genres, isSearch, msg, isLoading } = this.state;
         return (
             <main className="playlist-layout" >
+
                 <SearchPageFilter onSetFilter={this.onSetFilter} />
+
                 {msg && <div className="no-found-msg" >
                     <h2>{msg}</h2>
                     <p>Please make sure your words are spelled correctly or use different keywords.</p>
                 </div>}
+
                 {!isSearch &&
                     <section className="genre-section">
                         <GenreList genres={genres} />
@@ -81,7 +84,7 @@ export class SearchPage extends Component {
 
                 {isSearch && !msg && <>
                     {tracks && <SearchTrackList msg={msg} isLoading={isLoading} tracks={tracks} />}
-                    <SearchStationList stations={stations} isSearchPage={true} />
+                    {stations && <SearchStationList stations={stations} isSearchPage={true} />}
                 </>}
             </main>
         )

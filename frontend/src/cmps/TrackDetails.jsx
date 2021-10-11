@@ -63,7 +63,9 @@ export class TrackDetails extends React.Component {
         const { imgSrc, currTrack, station, currLikedTrack, isPlaying, currStationId, playingStationId } = this.props
         return (
             <div className="song-details flex align-center">
-                <div className="artist-img"> <img src={currTrack?.imgUrl ? currTrack.imgUrl : imgSrc} alt="track" /></div>
+                <div className="artist-img">
+                    <img src={currTrack?.imgUrl ? currTrack.imgUrl : imgSrc} alt="track" />
+                </div>
 
                 <Link to={`/station/${playingStationId}`}>
                     <div className="song-info">

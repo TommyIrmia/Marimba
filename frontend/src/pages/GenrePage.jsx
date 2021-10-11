@@ -23,7 +23,6 @@ export class GenrePage extends Component {
             this.setState({ ...this.state, stations: stationsByGenre })
         } catch (err) {
             console.error('Can not get station', err)
-            // add user msg - retry
         }
     }
 
@@ -32,8 +31,6 @@ export class GenrePage extends Component {
         if (!stations.length) return <Loader />
         return (
             <section className="GenrePage">
-                {/* <h1 className="genre-title">{genre}</h1>
-                <small className="genre-subtitle"> Here you can browse all of the playlists</small> */}
                 <SearchStationList stations={stations} genre={genre} />
             </section>
         )

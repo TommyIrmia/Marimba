@@ -31,11 +31,13 @@ export class StationList extends React.Component {
         return (
             <section className="station-list">
                 <div className="stations grid">
+
                     <div className="station-genre flex space-between">
-                        <Link to={`/genre/${genre}`}><h1>{(genre === 'Cities') ? 'Top 10 city charts' : genre }</h1></Link>
+                        <Link to={`/genre/${genre}`}><h1>{(genre === 'Cities') ? 'Top 10 city charts' : genre}</h1></Link>
                         <Link to={`/genre/${genre}`}><p>See all</p></Link>
                     </div>
-                    {stationsByGenre.slice(0, 10).map(station => <StationPreview  key={station._id} station={station} />)}
+
+                    {stationsByGenre.slice(0, 10).map(station => <StationPreview key={station._id} station={station} />)}
                 </div>
             </section>
         )

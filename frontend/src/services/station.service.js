@@ -138,7 +138,7 @@ async function query(filterBy) {
 
 async function getGenres() {
     try {
-        return genres;
+        return Promise.reslove(genres);
     } catch (err) {
         throw err
     }
@@ -164,13 +164,12 @@ async function getById(stationId) {
 
 async function addStation(station) {
     try {
-        // if(stationId === 'new') return 
         const addedStation = await httpService.post(`station`, station)
         if (!addedStation) return
         if (addedStation.tracks.length) addedStation.tracks.forEach(track => track.isPlaying = false)
         return addedStation
     } catch (err) {
-        throw new Error('Can not get station', station._id)
+        throw err
     }
 }
 
@@ -195,13 +194,19 @@ async function loadTracks(stationId, filterBy) {
         }
 
         const { title, sort } = filterBy
+        let tracks = []
         if (stationId === "liked") {
-            station = await asyncSessionService.get("likedStation", "liked")
+            const user = userService.getLoggedinUser();
+            if (user._id) {
+                tracks = user.likedSongs;
+            } else {
+                station = await asyncSessionService.get("likedStation", "liked")
+            }
         }
         else {
             station = await getById(stationId);
         }
-        let { tracks } = station;
+        tracks = station.tracks;
         if (title) tracks = tracks.filter(track => track.title.toLowerCase().includes(title.toLowerCase()))
         if (sort === "Title") tracks.sort((a, b) => a.title.localeCompare(b.title))
         if (sort === "Date added") tracks.sort((a, b) => a.addedAt > b.addedAt ? -1 : 1)
@@ -224,7 +229,6 @@ async function updateTracks(tracks, stationId) {
         })
         newStation.tracks = newTracks
         return await httpService.put(`station`, newStation)
-
     } catch (err) {
         throw err
     }
@@ -306,7 +310,6 @@ async function saveNewStation() {
         if (!newStation.imgUrl) newStation.imgUrl = logo
         if (!newStation.bgc) newStation.bgc = "#545454"
         delete newStation._id
-        console.log('new station', newStation);
         const station = await httpService.post('station', newStation);
         return station._id;
     } catch (err) {

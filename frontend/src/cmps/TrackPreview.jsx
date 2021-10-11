@@ -18,10 +18,10 @@ class _TrackPreview extends Component {
     }
 
     componentDidMount() {
+        const { track, player, stationId } = this.props
         if (window.innerWidth < 680) {
             this.setState({ isHover: true, width: window.innerWidth })
         }
-        const { track, player, stationId } = this.props
         if (player) {
             const { video_id } = player.getVideoData()
             if (video_id === track.id) {
@@ -32,14 +32,13 @@ class _TrackPreview extends Component {
         stationId !== 'new' && this.checkIsLiked()
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (prevProps.currLikedTrack !== this.props.currLikedTrack) {
             if (this.props.currLikedTrack?.trackId === this.props.track.id) {
                 this.setState({ isLiked: this.props.currLikedTrack.isLiked })
             }
         }
     }
-
 
     onPlayTrack = async (trackIdx) => {
         try {
@@ -61,6 +60,7 @@ class _TrackPreview extends Component {
         if (this.props.isPlaying && this.props.currSongIdx === trackIdx) this.onPauseTrack()
         else this.onPlayTrack(trackIdx)
     }
+
     onPauseTrack = () => {
         this.props.player.pauseVideo()
     }
@@ -89,7 +89,6 @@ class _TrackPreview extends Component {
         } catch (err) {
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
-
     }
 
     checkIsLiked = async () => {
@@ -136,7 +135,6 @@ class _TrackPreview extends Component {
                         >
 
                             <section title={title} className="TrackPreview flex" onClick={() => this.onPlayTrackMobile(idx)}>
-
                                 {windowWidth < 680 && <div className="num-idx" >
                                     {!this.checkIsPlaying() ? (idx + 1) : <div className="audio-container" > <Audio /> </div>}
                                 </div>}
@@ -174,7 +172,6 @@ class _TrackPreview extends Component {
                                     className={(width <= 680 ? "fas fa-times btn-remove" : "far fa-trash-alt btn-remove ") + (isHover ? "" : "btn-hidden")}>
                                 </button>}
                             </div>
-
                         </section>
                     )}
                 </Draggable>
@@ -192,8 +189,6 @@ function mapStateToProps(state) {
         currLikedTrack: state.mediaPlayerModule.currLikedTrack,
         user: state.userModule.user,
         currSongIdx: state.mediaPlayerModule.currSongIdx
-
-
     }
 }
 

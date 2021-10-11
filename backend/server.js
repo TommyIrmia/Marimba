@@ -6,7 +6,6 @@ const expressSession = require('express-session')
 const app = express()
 const http = require('http').createServer(app)
 
-// Express App Config
 const session = expressSession({
     secret: 'coding is amazing',
     resave: false,

@@ -17,19 +17,13 @@ export class _SearchTrackPreview extends Component {
         this.checkIsLiked()
     }
 
-    onPlayTrack = async (track) => {
-        try {
-            track.isPlaying = true;
-            const { player } = this.props
-            const tracks = [track]
-            this.props.setSongIdx(0)
-            this.props.loadTracksToPlayer(tracks)
-            if (player) {
-                player.playVideo()
-            }
-        } catch (err) {
-            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
-        }
+    onPlayTrack = (track) => {
+        track.isPlaying = true;
+        const { player } = this.props
+        const tracks = [track]
+        this.props.setSongIdx(0)
+        this.props.loadTracksToPlayer(tracks)
+        if (player) player.playVideo()
     }
 
     onPauseTrack = (track) => {
@@ -49,8 +43,8 @@ export class _SearchTrackPreview extends Component {
     }
 
     onUnLike = async (trackId) => {
-        const { track, user } = this.props;
         try {
+            const { track, user } = this.props;
             await this.props.onUnlikeTrack(trackId, user)
             this.setState({ isLiked: false })
             if (track.isPlaying) this.props.updateIsLikedSong({ trackId: track.id, isLiked: false })

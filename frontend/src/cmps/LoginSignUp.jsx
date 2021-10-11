@@ -45,8 +45,8 @@ export class _LoginSignUp extends Component {
     }
 
     handleImgChange = async (ev) => {
-        const field = ev.target.name;
         try {
+            const field = ev.target.name;
             const value = await uploadImg(ev)
             this.setState((prevState) => ({ ...prevState, user: { ...prevState.user, [field]: value } }))
         } catch (err) {
@@ -78,11 +78,13 @@ export class _LoginSignUp extends Component {
         const { username, password, fullname, imgUrl } = this.state.user;
         return (
             <div className="LoginSignUp">
+
                 {isLogin && <Logo />}
 
                 {!isLogin && <label className="img-input-container flex">
                     {<input hidden type="file" name="imgUrl" id="imgUrl"
                         onChange={this.handleImgChange} />}
+
                     {imgUrl && <img src={imgUrl} alt="img" />}
 
                     {!imgUrl && <>
@@ -91,7 +93,7 @@ export class _LoginSignUp extends Component {
                     </>}
                 </label>}
 
-                <h2> {(isLogin) ? "Sign in to continue." : "Sign up for Marimba account."} </h2>
+                <h2> {(isLogin) ? "Login to continue." : "Sign up for Marimba account."} </h2>
 
                 <form className="user-info flex" onSubmit={(ev) => {
                     ev.preventDefault()
@@ -126,7 +128,6 @@ export class _LoginSignUp extends Component {
 
                 <FacebookLogin
                     appId="550515812703196"
-                    // autoLoad={true}
                     fields="name,picture"
                     scope="public_profile"
                     callback={this.responseFacebook}

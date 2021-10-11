@@ -32,7 +32,7 @@ class _LibraryPage extends Component {
             if (user._id) likedByUser = stations.filter(station => user.likedStations.includes(station._id))
             this.setState({ mostLiked, recentlyStations: recentlyaddedStations, likedTracks: likedTracks.tracks, stationsBy: stationsByUser, likedByUser })
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 
@@ -41,12 +41,14 @@ class _LibraryPage extends Component {
         const { user } = this.props;
         return (
             <main className="LibraryPage playlist-layout" >
+
                 <div className="margin-top" >
                     <h2>Library</h2>
-                    {user.fullname !== 'Guest' && <p>Enjoy the playlists you created and liked</p>}
+                    {user._id && <p>Enjoy the playlists you created and liked</p>}
                 </div>
 
-                <LibraryList mostLiked={mostLiked} user={user} recentlyStations={recentlyStations} stationsBy={stationsBy} likedByUser={likedByUser} likedTracks={likedTracks} />
+                <LibraryList mostLiked={mostLiked} user={user} recentlyStations={recentlyStations}
+                    stationsBy={stationsBy} likedByUser={likedByUser} likedTracks={likedTracks} />
             </main>
         )
     }

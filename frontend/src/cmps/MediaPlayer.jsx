@@ -75,13 +75,9 @@ export class _MediaPlayer extends Component {
                 this.props.setCurrDuration(currDuration)
             }, 1000)
         }
-
-
     }
 
     onTogglePlay = async () => {
-        // if 1st time click play - check the state, and if there's a player - if none - load tracks to player
-
         try {
             if (!this.state.initialPlay && !this.props.player) {
                 this.setState({ initialPlay: true }, async () => {
@@ -106,8 +102,8 @@ export class _MediaPlayer extends Component {
         const { isRepeat, isShuffle } = this.state
         const { tracks, currSongIdx, currentTracks, player, stationId, currStationId } = this.props
         if (!player) return
-        let currIdx = tracks.findIndex(track => track.isPlaying) // find current playing IDX
-        if (currIdx === -1) currIdx = currSongIdx // if not find, use the currSongIdx from store
+        let currIdx = tracks.findIndex(track => track.isPlaying)
+        if (currIdx === -1) currIdx = currSongIdx
 
         if (isRepeat) {
             player.stopVideo()
@@ -123,14 +119,14 @@ export class _MediaPlayer extends Component {
             nextIdx = idx
         }
 
-        if (nextIdx < 0) { // if 1st song on the list, play again
+        if (nextIdx < 0) {
             player.stopVideo()
             player.playVideo()
             nextIdx = 0;
             return
         };
 
-        if (nextIdx >= currentTracks.length) nextIdx = 0; // if last song on the list - go to index 0
+        if (nextIdx >= currentTracks.length) nextIdx = 0;
 
         if (stationId === currStationId) this.props.loadTracksToPlayer(tracks, stationId)
         this.props.setSongIdx(nextIdx)
@@ -220,20 +216,21 @@ export class _MediaPlayer extends Component {
         const { currSongIdx, currDuration, isPlaying, currentTracks, player, onRemoveTrack, currLikedTrack, user, currStationId } = this.props
         return (
             <div className={isPlayerReady ? "media-player" : "media-player hidden"}>
-                {currentTracks?.length ? <YouTube
-                    opts={{
-                        playerVars: {
-                            origin: 'http://localhost:3000'
-                        }
-                    }}
-                    videoId={currentTracks[currSongIdx].id}
-                    id={currentTracks[currSongIdx].id}
-                    className="youtube-player"
-                    containerClassName={'player-container'}
-                    onReady={this.onReady}
-                    onEnd={() => this.onChangeSong(1)}
-                    onStateChange={(ev) => this.onStateChange(ev)}
-                /> : ''}
+                {currentTracks?.length ?
+                    <YouTube
+                        videoId={currentTracks[currSongIdx].id}
+                        id={currentTracks[currSongIdx].id}
+                        className="youtube-player"
+                        containerClassName={'player-container'}
+                        onReady={this.onReady}
+                        onEnd={() => this.onChangeSong(1)}
+                        onStateChange={(ev) => this.onStateChange(ev)}
+                        opts={{
+                            playerVars: {
+                                origin: 'http://localhost:3000'
+                            }
+                        }}
+                    /> : ''}
 
                 <TrackDetails
                     onRemoveTrack={onRemoveTrack} imgSrc={imgSrc} currStationId={currStationId}

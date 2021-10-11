@@ -10,9 +10,6 @@ export function activityLogReducer(state = initialState, action) {
         case 'SET_ACTIVITIES':
             activities = action.activities
             return { ...state, activities, unRead: action.unRead }
-        case 'REMOVE_ACTIVITY':
-            activities = state.activities.filter(activity => activity.id !== activity.trackId)
-            return { ...state, activities }
         case 'ADD_ACTIVITY':
             socketService.emit('newActivity', action.activity);
             activities = [action.activity, ...state.activities]
@@ -22,7 +19,6 @@ export function activityLogReducer(state = initialState, action) {
             return { ...state, activities }
         default:
             return state;
-
     }
 }
 

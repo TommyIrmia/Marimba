@@ -41,12 +41,13 @@ export class StationFilter extends Component {
                     onClick={(ev) => {
                         ev.preventDefault();
                         onSearch()
-                    }} ></button>
+                    }} >
+                </button>
 
-                <div onClick={(ev) => {
+                <div className="sort-container" onClick={(ev) => {
                     ev.preventDefault();
                     this.onToggleSort()
-                }} className="sort-container">
+                }} >
                     <div>{filterBy.sort}</div>
                     <div className={(isSort) ? 'fas fa-sort-up' : 'fas fa-sort-down'}></div>
                 </div>
@@ -61,11 +62,12 @@ export class StationFilter extends Component {
 
                 {isSort && <ul className="options-container" >
                     {customOptions.map((customOption, idx) => (
-                        <li onClick={(ev) => {
-                            ev.preventDefault();
-                            this.onSetSort(customOption)
-                        }} className="clean-list sort-li" key={idx}>{customOption}</li>
-                    ))}
+                        <li className="clean-list sort-li" key={idx}
+                            onClick={(ev) => {
+                                ev.preventDefault();
+                                this.onSetSort(customOption)
+                            }} >{customOption}
+                        </li>))}
                 </ul>}
 
             </form>

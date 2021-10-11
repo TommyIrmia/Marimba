@@ -14,10 +14,6 @@ export class TrackSearch extends Component {
         msg: '',
     }
 
-    componentDidMount() {
-        this.loadTracks();
-    }
-
     loadTracks = async () => {
         try {
             const { searchKey } = this.state
@@ -43,14 +39,14 @@ export class TrackSearch extends Component {
         try {
             const isSearch = !(this.state.isSearch)
             const searchKey = isSearch ? '' : await this.suggestByStationName();
-            this.setState({tracks:[]})
+            this.setState({ tracks: [] })
 
             setTimeout(() => {
                 this.setState({ ...this.state, searchKey, isSearch }, () => {
                     this.loadTracks();
                 })
             }, 1000);
-           
+
         } catch (err) {
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
@@ -106,7 +102,9 @@ export class TrackSearch extends Component {
         const { isSearch, searchKey, tracks, isLoading, msg } = this.state;
         const { addRef } = this.props;
         return (
+
             <div ref={addRef} className="TrackSearch playlist-layout">
+
                 {!isSearch && <div className="SuggestedTracks">
                     <h4 onClick={this.toggleSearch}>To search other tracks</h4>
                     <h2 className="search-title">Suggested</h2>
@@ -129,7 +127,6 @@ export class TrackSearch extends Component {
                                 this.setState({ isLoading: true });
                             }} />
                     </form>
-
                 </div>}
 
                 {msg && searchKey && <div className="no-found-msg" >
@@ -140,12 +137,10 @@ export class TrackSearch extends Component {
                 {searchKey && <SuggestTrackList isSearch={isSearch} msg={msg} isLoading={isLoading} tracks={tracks} onAddTrack={this.props.onAddTrack}
                     removeAddedTrack={this.removeAddedTrack} onSetMsg={this.props.onSetMsg} />}
 
-
-                {
-                    !isSearch && <button className="refresh-btn" onClick={() => this.onRefreshTracks()}>
+                {!isSearch &&
+                    <button className="refresh-btn" onClick={() => this.onRefreshTracks()}>
                         Refresh
-                    </button>
-                }
+                    </button>}
             </div >
 
         )

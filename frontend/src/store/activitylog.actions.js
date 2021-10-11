@@ -3,7 +3,6 @@ import { userService } from "../services/user.service";
 
 export function loadActivities() {
     return async (dispatch) => {
-
         try {
             const user = userService.getLoggedinUser()
             let activities = await activityService.query()
@@ -37,7 +36,6 @@ export function onReadActivity(activity) {
     return async (dispatch) => {
         try {
             activity.isRead = true
-            console.log('activity to update', activity);
             dispatch({
                 type: 'READ_ACTIVITY',
                 activity

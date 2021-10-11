@@ -7,12 +7,10 @@ module.exports = {
     query,
     getById,
     add,
-    remove,
     update
 }
 
-async function query(filterBy = {}) {
-    const criteria = _buildCriteria(filterBy)
+async function query() {
     try {
         const collection = await dbService.getCollection('activity')
         return await collection.find(criteria).toArray()
@@ -35,8 +33,6 @@ async function getById(activityId) {
 
 async function add(activity) {
     try {
-        // peek only updatable fields!
-
         const activityToAdd = {
             type: activity.type,
             stationInfo: activity.stationInfo,
@@ -60,7 +56,6 @@ async function add(activity) {
 
 async function update(activity) {
     try {
-        // peek only updatable fields!
         const activityToSave = {
             _id: ObjectId(activity._id),
             type: activity.type,
@@ -81,32 +76,6 @@ async function update(activity) {
         logger.error(`cannot update activity ${activity._id}`, err)
         throw err
     }
-}
-
-async function remove(activityId) {
-    try {
-        const collection = await dbService.getCollection('activity')
-        await collection.deleteOne({ '_id': ObjectId(activityId) })
-    } catch (err) {
-        logger.error(`cannot remove activity ${activityId}`, err)
-        throw err
-    }
-}
-
-function _buildCriteria(filterBy) {
-    const criteria = {}
-    if (filterBy.txt) {
-        const txtCriteria = { $regex: filterBy.txt, $options: 'i' }
-        criteria.$or = [
-            {
-                activityname: txtCriteria
-            },
-            {
-                fullname: txtCriteria
-            }
-        ]
-    }
-    return criteria
 }
 
 

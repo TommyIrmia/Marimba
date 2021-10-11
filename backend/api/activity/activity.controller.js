@@ -14,10 +14,7 @@ async function getActivity(req, res) {
 
 async function getActivities(req, res) {
     try {
-        const filterBy = {
-            txt: req.query?.txt || ''
-        }
-        const activities = await activityService.query(filterBy)
+        const activities = await activityService.query()
         res.send(activities)
     } catch (err) {
         logger.error('Failed to get activitys', err)

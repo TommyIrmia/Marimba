@@ -9,9 +9,6 @@ import { socketService } from '../services/socket.service'
 
 export class _ActivityLog extends Component {
 
-    state = {
-    }
-
     async componentDidMount() {
         this.loadActivities()
         socketService.on('addActivity', this.loadActivities)
@@ -102,11 +99,13 @@ export class _ActivityLog extends Component {
     render() {
         const { activities, unRead } = this.props
         return (<section className="activity-log">
+
             <h1>What's New?
                 {unRead > 0 && <span className="unread shown">{unRead}</span>}
             </h1>
 
             <div className="activity-log-container">
+
                 {!activities.length && <div><br /><br />No Activities</div>}
                 <ul className="clean-list">
                     {activities.map((activity, index) => this.dynamicCmp(activity, index))}

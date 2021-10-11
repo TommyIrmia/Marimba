@@ -36,16 +36,16 @@ export default class EditDetails extends Component {
             return {
                 value: genre.name,
                 label: genre.name,
-                className:'multi-select-options'
+                className: 'multi-select-options'
             }
         })
 
-        this.setState({ genres:options })
+        this.setState({ genres: options })
     }
 
     handleImgChange = async (ev) => {
-        const field = ev.target.name;
         try {
+            const field = ev.target.name;
             const value = await uploadImg(ev)
             this.setState((prevState) => ({ ...prevState, hero: { ...prevState.hero, [field]: value } }))
         } catch (err) {
@@ -56,19 +56,13 @@ export default class EditDetails extends Component {
     handleChange = (ev) => {
         const field = ev.target.name;
         const value = ev.target.value;
-        this.setState((prevState) => ({
-            ...prevState, hero:
-                { ...prevState.hero, [field]: value }
-        }))
+        this.setState((prevState) => ({ ...prevState, hero: { ...prevState.hero, [field]: value } }))
     }
-    
+
     onSelect = (ev) => {
         if (ev.length > 3) return;
-        let value = ev.map(val=>{
-            return val.label;
-        })
-        this.setState((prevState) => ({ ...prevState, hero: { ...prevState.hero, genres:value } }))
-        this.setState({ isSelect: false })
+        let value = ev.map(val => val.label)
+        this.setState((prevState) => ({ ...prevState, hero: { ...prevState.hero, genres: value }, isSelect: false }))
     }
 
     onToggleSelect = () => {
@@ -92,7 +86,8 @@ export default class EditDetails extends Component {
                     <button onClick={() => {
                         onFlip('text-blur-out')
                         onToggleEdit()
-                    }} >X</button>
+                    }} >X
+                    </button>
                 </div>
 
                 <section className="EditDetails grid" >
@@ -106,6 +101,7 @@ export default class EditDetails extends Component {
                             onChange={this.handleImgChange} />}
 
                         {!isHover && !img && <div className="fab fa-itunes-note img-awesome note"></div>}
+
                         {isHover && !img && <div className="img-awesome flex" >
                             <p className="fas fa-pencil-alt pencil"></p>
                             <p>Choose photo</p>
@@ -115,18 +111,15 @@ export default class EditDetails extends Component {
                     <input className="input-name" type="text" name="title" onChange={this.handleChange}
                         maxLength="18" placeholder={title} value={title} autoComplete="off" />
 
-                    <div className="multi-select-container"> 
-
-                        <Select
-                            value={genres.label}
-                            isMulti
-                            onChange={this.onSelect}
-                            options={genres}
+                    <div className="multi-select-container">
+                        <Select value={genres.label} isMulti onChange={this.onSelect}
+                            options={this.state.hero.genres.length >= 3 ? this.state.hero.genres.length : genres}
                             placeholder="Choose up to 3 genres :" />
                     </div>
 
                     <textarea placeholder="Add an optional description"
-                        maxLength="60" name="desc" value={desc} onChange={this.handleChange} ></textarea>
+                        maxLength="60" name="desc" value={desc} onChange={this.handleChange} >
+                    </textarea>
                 </section>
 
                 <ColorInput onChangeColor={this.onChangeColor} />

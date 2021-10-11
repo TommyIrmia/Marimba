@@ -10,7 +10,6 @@ let keyIdx = 0;
 const KEY = 'cacheVideos'
 export const youtubeService = {
     query,
-    setTVideoToTrack: getTracks,
     deleteTrackFromCache,
     getDuration,
     debounce,
@@ -28,7 +27,7 @@ async function query(name, existingTracks, tracksIdx = 0) {
             return tracks.slice(tracksIdx, tracksIdx + 5)
         }
         const { data } = await axios.get(url)
-        tracks = getTracks(data.items)
+        tracks = _getTracks(data.items)
         const duration = await getDuration(tracks)
         const updatedTracks = tracks.map((item, i) => Object.assign({}, item, duration[i]));
         let existingTracksIds = []
@@ -39,7 +38,6 @@ async function query(name, existingTracks, tracksIdx = 0) {
     } catch (err) {
         ++keyIdx
         if (keyIdx >= API_KEYS.length) {
-            // return console.error('Could not get videos from youtube', err)
             throw err
         }
         const tracks = query(name, existingTracks, tracksIdx = 0)
@@ -49,7 +47,7 @@ async function query(name, existingTracks, tracksIdx = 0) {
 
 
 
-function getTracks(videos) {
+function _getTracks(videos) {
     if (!videos) return
     return videos.map((video) => {
         let title = video.snippet.title.replace(/\(([^)]+)\)/g, '');

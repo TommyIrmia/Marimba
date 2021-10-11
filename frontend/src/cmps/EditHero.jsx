@@ -14,16 +14,10 @@ class _EditHero extends Component {
             desc: '',
         }
     }
-    componentDidMount() {
-        if (window.innerWidth < 680) {
-            this.setState({ isHover: true })
-        }
-    }
-
 
     handleImgChange = async (ev) => {
-        const field = ev.target.name;
         try {
+            const field = ev.target.name;
             const value = await uploadImg(ev)
             this.setState((prevState) => ({ ...prevState, hero: { ...prevState.hero, [field]: value } }))
         } catch (err) {
@@ -32,7 +26,7 @@ class _EditHero extends Component {
     }
 
     onEdit = (hero) => {
-        if (hero.bgc === '#282828') hero = { ...hero, bgc: "545454" }
+        if (hero.bgc === '#282828') hero = { ...hero, bgc: "#545454" }
         this.setState((prevState) => ({ ...prevState.hero, hero }))
         this.props.setBgcAndName(hero.bgc, hero.title)
         this.props.onToggleEdit();
@@ -59,6 +53,7 @@ class _EditHero extends Component {
                                 defaultValue={img} onChange={this.handleImgChange} />
 
                             {!isHover && !img && <div className="fab fa-itunes-note img-awesome note"></div>}
+
                             {isHover && !img && <div className="img-awesome flex" >
                                 <p className="fas fa-pencil-alt pencil"></p>
                                 <p>Choose photo</p>
@@ -71,6 +66,7 @@ class _EditHero extends Component {
                             <p>{desc}</p>
                             <p>{user.fullname}</p>
                         </div>
+
                     </section>
 
                     {isEditModalOpen && <EditDetails animation={animation} onFlip={onFlip}

@@ -10,7 +10,6 @@ export class MainHero extends Component {
 
     render() {
         const { isStart } = this.state;
-        const { noScroll } = this.props;
         return (
             <section className="MainHero">
                 <div className={`img-container flex ${(isStart) ? 'hero-gone' : ''}`} >
@@ -21,7 +20,7 @@ export class MainHero extends Component {
                         <button onClick={() => {
                             this.setState({ isStart: true }, () => {
                                 sessionService.save('initial', 'notInitial')
-                                window.removeEventListener('scroll', noScroll);
+                                this.props.onInitialEntry()
                             })
                         }} >Start listening</button>
                     </div>

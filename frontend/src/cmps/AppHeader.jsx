@@ -24,16 +24,17 @@ export class _AppHeader extends React.Component {
     capitalizeStationName = (name) => {
         const stationName = name.charAt(0).toUpperCase() + name.slice(1);
         return stationName;
-    } 
+    }
 
     render() {
         const { isOpen } = this.state;
         const { bgc, stationName, user } = this.props
-        const capitalizedName = this.capitalizeStationName(stationName)
         return (
             <div className="app-header" style={{ backgroundColor: bgc }} >
+
                 <Link to="/"><Logo /></Link>
-                <h1>{capitalizedName}</h1>
+                <h1>{this.capitalizeStationName(stationName)}</h1>
+
                 <div onClick={this.onOpenOptions} className="user-container">
                     <div className="img-container"><img src={user.imgUrl} alt='user-img' /></div>
                     <div className="user-name">{user.fullname}</div>
@@ -41,13 +42,14 @@ export class _AppHeader extends React.Component {
                 </div>
 
                 {isOpen && <ul className="options-container">
-                    {!user._id && <li className="clean-list user-options"
-                        onClick={() => {
-                            this.props.history.push('/login')
-                            this.setState({ isOpen: false })
-                        }} >
-                        Log in
-                    </li>}
+                    {!user._id &&
+                        <li className="clean-list user-options"
+                            onClick={() => {
+                                this.props.history.push('/login')
+                                this.setState({ isOpen: false })
+                            }} >
+                            Log in
+                        </li>}
 
                     {user._id && <>
                         <li className="clean-list user-options" >

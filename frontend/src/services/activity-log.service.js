@@ -7,12 +7,9 @@ export const activityService = {
     updateActivity,
 }
 
-
-
 async function query() {
     try {
         let activities = await httpService.get('activity')
-        console.log('activities from service', activities)
         activities = activities.reverse()
         return activities.slice(0, 31)
     } catch (err) {
@@ -41,22 +38,9 @@ async function addActivity(type, stationInfo, trackName) {
 }
 
 async function updateActivity(activity) {
-    await httpService.put('activity', activity)
+    try {
+        await httpService.put('activity', activity)
+    } catch (err) {
+        console.error('Couldnt update activity', err)
+    }
 }
-
-
-// async function removeActivity(activityId) {
-//     try {
-//         return await asyncStorageService.put(STORAGE_KEY, activityId)
-//     } catch (err) {
-//         throw err
-//     }
-// }
-
-// async function _saveActivitiesToStorage(activities) {
-//     try {
-//         await asyncStorageService.save(STORAGE_KEY, activities)
-//     } catch (err) {
-//         throw err
-//     }
-// }

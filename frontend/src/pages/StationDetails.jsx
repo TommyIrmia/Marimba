@@ -70,7 +70,7 @@ class _StationDetails extends Component {
     async componentWillUnmount() {
         await this.props.loadTracks()
         if (!this.props.history.location.pathname.includes('station')) {
-            this.props.setBgcAndName('#181818', '')
+            this.props.setBgcAndName()
         }
         socketService.off('tracksChanged', this.tracksChanged)
     }
@@ -80,7 +80,7 @@ class _StationDetails extends Component {
             const { stationId } = this.props.match.params
             await this.props.loadTracks(stationId)
         } catch (err) {
-            console.error('Can not get tracks in station', err)
+            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }
     }
 
@@ -100,9 +100,7 @@ class _StationDetails extends Component {
             }
             else this.props.onSetMsg('success', 'Added to playlist')
             await this.props.onAddTrack(track, stationId, track.title, this.props.bgc, this.props.stationName);
-            if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
-
-
+            if (stationId === this.props.playingStationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         } catch (err) {
             this.props.onSetMsg('error', 'Couldn\'t add track,\n please try again')
         }
@@ -116,11 +114,12 @@ class _StationDetails extends Component {
             if (!confirmRemove) return;
 
             const { stationId } = this.state
-            const { video_id } = this.props.player.getVideoData()
-            if (trackId === video_id) this.props.setSongIdx(0)
+            if (this.props.player) {
+                const { video_id } = this.props.player.getVideoData()
+                if (trackId === video_id) this.props.setSongIdx(0)
+            }
             await this.props.onRemoveTrack(trackId, stationId, trackName, this.props.bgc, this.props.stationName)
-            if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
-
+            if (stationId === this.props.playingStationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
         } catch (err) {
             this.props.onSetMsg('error', 'Couldn\'t remove track,\n please try again')
         }
@@ -144,18 +143,14 @@ class _StationDetails extends Component {
     }
 
     tracksChanged = ({ tracks }) => {
-        try {
-            this.props.updateTracksInStore(tracks)
-        } catch (err) {
-            this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.');
-        }
+        this.props.updateTracksInStore(tracks)
     }
 
     onSetFilter = async (filterBy) => {
         try {
             const { stationId } = this.state
             await this.props.loadTracks(stationId, filterBy)
-            if (filterBy.sort !== 'Custom order') { // if reSorted - replay from index 0!
+            if (filterBy.sort !== 'Custom order') {
                 await this.props.setSongIdx(0)
                 await this.props.loadTracksToPlayer(this.props.tracks, stationId)
             }
@@ -189,12 +184,10 @@ class _StationDetails extends Component {
     onPlayTrack = async () => {
         try {
             const { stationId } = this.state
-            if (this.props.stationId === stationId) { // if is on current playing station - play video!
-                this.props.player.playVideo()
-            } else { // else reload the station shown and play from index 0.
+            if (this.props.playingStationId === stationId) this.props.player.playVideo()
+            else {
                 await this.props.setSongIdx(0)
                 await this.props.loadTracksToPlayer(this.props.tracks, stationId)
-
                 if (this.props.tracks.length) this.props.onSetMsg('success', `Playing '${this.props.stationName}' playlist.`)
                 else this.props.onSetMsg('error', `Try adding tracks to play this playlist :)`)
             }
@@ -223,10 +216,10 @@ class _StationDetails extends Component {
     onDragEnd = (result) => {
         const { destination, source } = result;
 
-        if (!destination) return // if dragged out of draggable
+        if (!destination) return
 
         if (destination.droppableId === source.droppableId &&
-            destination.index === source.index) return // if stayed in the same position
+            destination.index === source.index) return
 
         const { tracks, currSongIdx } = this.props
         const { stationId } = this.props.match.params
@@ -237,8 +230,7 @@ class _StationDetails extends Component {
 
         this.props.onUpdateTracks(newTracks, stationId)
 
-
-        if (this.props.stationId !== stationId) return
+        if (this.props.playingStationId !== stationId) return
 
         const { video_id } = this.props.player.getVideoData()
         if (video_id === newTracks[destination.index].id) this.props.setSongIdx(destination.index)
@@ -248,11 +240,10 @@ class _StationDetails extends Component {
             (destination.index > currSongIdx && source.index < currSongIdx)) {
             const diff = source.index > destination.index ? 1 : -1
             newCurrSongIdx += diff
-        } if (destination.index === currSongIdx && source.index < currSongIdx) {
-            newCurrSongIdx -= 1
-        } if (destination.index === currSongIdx && source.index > currSongIdx) {
-            newCurrSongIdx += 1
         }
+        if (destination.index === currSongIdx && source.index < currSongIdx) newCurrSongIdx -= 1
+        if (destination.index === currSongIdx && source.index > currSongIdx) newCurrSongIdx += 1
+
         newCurrSongIdx !== currSongIdx && this.props.setSongIdx(newCurrSongIdx)
         this.props.loadTracksToPlayer(newTracks, stationId)
     }
@@ -264,30 +255,30 @@ class _StationDetails extends Component {
         if (!isLoading) return <Loader />
         return (
             <main className="StationDetails">
-                <div onClick={() => {
-                    this.setState({ isSearch: false });
-                    this.setState({ isConfirmMsgOpen: false })
-                }} className={(isSearch || isConfirmMsgOpen) ? `screen ${animation}` : ""}></div>
-                <div onClick={() => {
-                    this.onFlip('text-blur-out')
-                    this.onToggleEdit()
-                }} className={((isEditModalOpen) ? "dark screen" : "")}></div>
+                <div className={(isSearch || isConfirmMsgOpen) ? `screen ${animation}` : ""}
+                    onClick={() => {
+                        this.setState({ isSearch: false });
+                        this.setState({ isConfirmMsgOpen: false })
+                    }} ></div>
+                <div className={((isEditModalOpen) ? "dark screen" : "")}
+                    onClick={() => {
+                        this.onFlip('text-blur-out')
+                        this.onToggleEdit()
+                    }} >
+                </div>
 
                 {stationId !== 'new' &&
                     <StationHero stationId={stationId} tracks={tracks} station={station}
-                        onSetMsg={this.props.onSetMsg} likesCount={this.props.likesCount} />
-                }
+                        onSetMsg={this.props.onSetMsg} likesCount={this.props.likesCount} />}
 
-                {
-                    stationId === 'new' &&
+                {stationId === 'new' &&
                     <EditHero animation={animation} onFlip={this.onFlip} isEditModalOpen={isEditModalOpen}
-                        onToggleEdit={this.onToggleEdit} saveDataFromHero={this.saveDataFromHero} />
-                }
+                        onToggleEdit={this.onToggleEdit} saveDataFromHero={this.saveDataFromHero} />}
 
                 <StationActions
                     onSetFilter={this.onSetFilter} inputRef={this.inputRef} station={station}
                     onSearch={this.onSearch} isSearch={isSearch} isPlaying={isPlaying}
-                    onScrollToAdd={this.onScrollToAdd} playingStationId={this.props.stationId}
+                    onScrollToAdd={this.onScrollToAdd} playingStationId={this.props.playingStationId}
                     isPlayerPlaying={this.props.isPlaying} currStationId={stationId}
                     tracks={tracks} onPlayTrack={this.onPlayTrack} onSetMsg={this.props.onSetMsg}
                     onPauseTrack={this.onPauseTrack} bgc={bgc} user={user}
@@ -317,7 +308,7 @@ class _StationDetails extends Component {
 function mapStateToProps(state) {
     return {
         player: state.mediaPlayerModule.player,
-        stationId: state.mediaPlayerModule.stationId,
+        playingStationId: state.mediaPlayerModule.stationId,
         isPlaying: state.mediaPlayerModule.isPlaying,
         currentTracks: state.mediaPlayerModule.currentTracks,
         currSongIdx: state.mediaPlayerModule.currSongIdx,

@@ -4,7 +4,6 @@ import { stationService } from "../services/station.service.js";
 
 
 export function loadTracks(stationId, filterBy) {
-    // console.log('loading tracks in station', stationId);
     return async (dispatch) => {
         try {
             let tracks;
@@ -94,7 +93,7 @@ export function onUpdateTrack(track) {
     }
 }
 
-export function setBgcAndName(bgc, stationName) {
+export function setBgcAndName(bgc = '#181818', stationName = '') {
     return async (dispatch) => {
         try {
             dispatch({

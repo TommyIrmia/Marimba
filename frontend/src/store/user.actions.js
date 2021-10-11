@@ -19,7 +19,6 @@ export function onLogin(credentials) {
     return async (dispatch) => {
         try {
             const user = await userService.login(credentials)
-            console.log('Logged in user', user)
             dispatch({
                 type: 'SET_USER',
                 user
@@ -35,7 +34,6 @@ export function onSignup(credentials) {
     return async (dispatch) => {
         try {
             const user = await userService.signup(credentials)
-            console.log('Signed up user', user)
             dispatch({
                 type: 'SET_USER',
                 user
@@ -55,7 +53,6 @@ export function onLogout() {
                 type: 'SET_USER',
                 user: { fullname: "Guest", imgUrl: 'https://pbs.twimg.com/profile_images/746460305396371456/4QYRblQD.jpg' }
             })
-            console.log('logged out!')
         } catch (err) {
             throw err
         }
@@ -75,7 +72,6 @@ export function onLikeTrack(track, user) {
                 type: 'ADD_ACTIVITY',
                 activity: activityToAdd
             })
-
         } catch (err) {
             throw err
         }
@@ -90,7 +86,6 @@ export function onUnlikeTrack(trackId, user) {
                 type: 'SET_USER',
                 user: updatedUser
             })
-
         } catch (err) {
             throw err
         }
@@ -100,7 +95,6 @@ export function onUnlikeTrack(trackId, user) {
 export function onLikeStation(station, user) {
     return async (dispatch) => {
         try {
-            console.log('from actions', station, user);
             const updatedUser = await stationService.addLikeTtoStation(station, user)
             dispatch({
                 type: 'SET_USER',

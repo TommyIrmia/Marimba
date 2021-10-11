@@ -10,8 +10,8 @@ class _StationPreview extends React.Component {
 
     onPlayStation = async () => {
         try {
-            const { stationId, station, player } = this.props
-            if (stationId === station._id) {
+            const { playingStationId, station, player } = this.props
+            if (playingStationId === station._id) {
                 player.playVideo()
             } else {
                 this.props.setSongIdx(0)
@@ -24,10 +24,9 @@ class _StationPreview extends React.Component {
     }
 
     isStationPlaying = () => {
-        if (this.props.isPlaying) {
-            if (this.props.stationId === this.props.station._id) return true
-            else return false
-        } else return false
+        if (!this.props.isPlaying) return false
+        if (this.props.playingStationId === this.props.station._id) return true
+        else return false
     }
 
     onLikeStation = async () => {
@@ -73,43 +72,47 @@ class _StationPreview extends React.Component {
     capitalizeStationName = (name) => {
         const stationName = name.charAt(0).toUpperCase() + name.slice(1);
         return stationName;
-    } 
+    }
 
     render() {
         const { station, isMostLikedList } = this.props
-        const stationName = this.capitalizeStationName(station.name)
         return (
             <main className="preview-container" >
+
                 <section className={`${(isMostLikedList) ? 'most-liked-preview flex' : `station-preview ${this.isFromSearch} `}`}
                     onClick={() => {
                         this.props.setBgcAndName(station.bgc, station.name)
                         this.props.history.push(`/station/${station._id}`)
                     }}>
+
                     <div className="station-label" style={{ backgroundColor: utilService.pickRandomColor() }} ></div>
 
                     <section className={`station-img ${(station.tags[0] === 'Cities') ? 'station-img-city' : ''} `}>
                         <img src={station.imgUrl} alt="station" />
-                        {!this.isStationPlaying() && <div className="play-btn fas fa-play"
-                            onClick={(ev) => {
-                                ev.stopPropagation()
-                                this.onPlayStation()
-                            }}>
-                        </div>}
+                        {!this.isStationPlaying() &&
+                            <div className="play-btn fas fa-play"
+                                onClick={(ev) => {
+                                    ev.stopPropagation()
+                                    this.onPlayStation()
+                                }}>
+                            </div>}
 
-                        {this.isStationPlaying() && <div className="play-btn fas fa-pause"
-                            onClick={(ev) => {
-                                ev.stopPropagation()
-                                this.props.player.pauseVideo()
-                            }}>
-                        </div>}
+                        {this.isStationPlaying() &&
+                            <div className="play-btn fas fa-pause"
+                                onClick={(ev) => {
+                                    ev.stopPropagation()
+                                    this.props.player.pauseVideo()
+                                }}>
+                            </div>}
                     </section>
 
                     <div className="station-info">
-                        <h1>{stationName}</h1>
+                        <h1>{this.capitalizeStationName(station.name)}</h1>
                         {station.tags[0] !== 'Cities' && <p>{station.createdBy.fullname}</p>}
                         {station.tags[0] === 'Cities' && <p>Marimba</p>}
                     </div>
-                    <main className="station-like-container"  >
+
+                    <main className="station-like-container">
 
                         <section className="station-like">
                             {!this.checkIsLiked() && <button className="far fa-thumbs-up"
@@ -127,6 +130,7 @@ class _StationPreview extends React.Component {
                             </button>}
 
                             <h2>{this.getLikesCount(station.likedByUsers.length)}</h2>
+
                         </section>
                     </main>
                 </section>
@@ -138,7 +142,7 @@ class _StationPreview extends React.Component {
 function mapStateToProps(state) {
     return {
         player: state.mediaPlayerModule.player,
-        stationId: state.mediaPlayerModule.stationId,
+        playingStationId: state.mediaPlayerModule.stationId,
         isPlaying: state.mediaPlayerModule.isPlaying,
         user: state.userModule.user,
     }

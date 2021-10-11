@@ -11,22 +11,13 @@ module.exports = {
     add
 }
 
-function getRandLikes() {
-    let likes = [];
-    likes.fill(1, 0, getRandomInt(20, 800))
-    return likes;
-}
-
 async function query(filterBy = {}) {
-    console.log('query in back, filterBy', filterBy);
     const criteria = _buildCriteria(filterBy)
     try {
         const collection = await dbService.getCollection('station')
         var stations = await collection.find(criteria).toArray()
         stations = stations.map(station => {
             station.createdAt = ObjectId(station._id).getTimestamp()
-            // Returning fake fresh data
-            // station.createdAt = Date.now() - (1000 * 60 * 60 * 24 * 3) // 3 days ago
             return station
         })
         return stations
@@ -59,9 +50,8 @@ async function remove(stationId) {
 
 async function update(station) {
     try {
-        // peek only updatable fields!
         const stationToSave = {
-            _id: ObjectId(station._id), // needed for the returnd obj
+            _id: ObjectId(station._id),
             name: station.name,
             description: station.description,
             bgc: station.bgc,
@@ -72,7 +62,6 @@ async function update(station) {
         }
         const collection = await dbService.getCollection('station')
         await collection.updateOne({ _id: stationToSave._id }, { $set: stationToSave })
-        console.log('updated station', stationToSave._id);
         return stationToSave;
     } catch (err) {
         logger.error(`cannot update station ${station._id}`, err)
@@ -82,7 +71,6 @@ async function update(station) {
 
 async function add(station) {
     try {
-        station.likedByUsers = getRandLikes();
         const collection = await dbService.getCollection('station')
         await collection.insertOne(station)
         return station
@@ -108,11 +96,6 @@ function _buildCriteria(filterBy) {
     return criteria
 }
 
-function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
-}
 
 
 
