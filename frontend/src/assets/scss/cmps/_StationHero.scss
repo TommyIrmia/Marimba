@@ -138,6 +138,7 @@
     .share-btn {
       align-self: center;
       font-size: 21px;
+      cursor: pointer;
       @include for-mobile-layout {
         font-size: 18px;
         padding: 3px;

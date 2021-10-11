@@ -58,13 +58,13 @@ export class StationHero extends Component {
 
                         <div className="share-container">
                             <div className="share-btns flex" >
-                                <WhatsappShareButton url={`http://www.youtube.com/watch?v=9WzIACv_mxs`} title="I like to share with you this playlist from Marimba!">
+                                <WhatsappShareButton url={`https://marimbamusic.herokuapp.com/station/${stationId}`} title="I like to share with you this playlist from Marimba!">
                                     <div className="whatsapp-btn fab fa-whatsapp"></div>
                                 </WhatsappShareButton>
-                                <FacebookShareButton url={`http://www.youtube.com/watch?v=9WzIACv_mxs`} title="I like to share with you this playlist from Marimba!">
+                                <FacebookShareButton url={`https://marimbamusic.herokuapp.com/station/${stationId}`} title="I like to share with you this playlist from Marimba!">
                                     <div className="facebook-btn fab fa-facebook"></div>
                                 </FacebookShareButton>
-                                <CopyToClipboard text={`http://localhost:3000/station/${stationId}`}>
+                                <CopyToClipboard text={`https://marimbamusic.herokuapp.com/station/${stationId}`}>
                                     <div className="share-btn fas fa-link"></div>
                                 </CopyToClipboard>
                             </div>

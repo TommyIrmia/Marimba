@@ -1,23 +1,24 @@
 {
   "files": {
-    "main.css": "/static/css/main.6adef7d2.chunk.css",
-    "main.js": "/static/js/main.43ef1a97.chunk.js",
-    "main.js.map": "/static/js/main.43ef1a97.chunk.js.map",
+    "main.css": "/static/css/main.b9091838.chunk.css",
+    "main.js": "/static/js/main.18f69c11.chunk.js",
+    "main.js.map": "/static/js/main.18f69c11.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.c2c69d12.js",
     "runtime-main.js.map": "/static/js/runtime-main.c2c69d12.js.map",
     "static/js/2.8277b0b5.chunk.js": "/static/js/2.8277b0b5.chunk.js",
     "static/js/2.8277b0b5.chunk.js.map": "/static/js/2.8277b0b5.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.6adef7d2.chunk.css.map": "/static/css/main.6adef7d2.chunk.css.map",
+    "static/css/main.b9091838.chunk.css.map": "/static/css/main.b9091838.chunk.css.map",
     "static/js/2.8277b0b5.chunk.js.LICENSE.txt": "/static/js/2.8277b0b5.chunk.js.LICENSE.txt",
     "static/media/main.scss": "/static/media/hero.b58f7dca.svg",
     "static/media/default.7a8b1e1d.png": "/static/media/default.7a8b1e1d.png",
-    "static/media/logo3.b754c971.png": "/static/media/logo3.b754c971.png"
+    "static/media/logo3.b754c971.png": "/static/media/logo3.b754c971.png",
+    "static/media/white-heart_2018_8.e59b582e.png": "/static/media/white-heart_2018_8.e59b582e.png"
   },
   "entrypoints": [
     "static/js/runtime-main.c2c69d12.js",
     "static/js/2.8277b0b5.chunk.js",
-    "static/css/main.6adef7d2.chunk.css",
-    "static/js/main.43ef1a97.chunk.js"
+    "static/css/main.b9091838.chunk.css",
+    "static/js/main.18f69c11.chunk.js"
   ]
 }

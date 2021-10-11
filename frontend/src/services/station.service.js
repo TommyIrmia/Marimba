@@ -1,6 +1,7 @@
 import { asyncStorageService } from "./async-storage.service.js"
 import { httpService } from "./http.service.js"
 import logo from "../assets/imgs/default.png";
+import heartOfApp from "../assets/imgs/white-heart_2018_8.png"
 import { asyncSessionService } from "./async-session.service.js";
 import { userService } from "./user.service.js";
 
@@ -269,8 +270,7 @@ async function getTemplateStation(key, id) {
                 description: "All your liked songs are here",
                 bgc: '#e24aa5',
                 tags: ["Liked"],
-                imgUrl: '../assets/imgs/white-heart_2018_8.png',
-                // imgUrl: "http://www.whiteheart.eu/wp-content/uploads/2018/02/white-heart_2018_8.png",
+                imgUrl: heartOfApp,
                 tracks: []
             }
             asyncSessionService.save('likedStation', [likedStation]);
