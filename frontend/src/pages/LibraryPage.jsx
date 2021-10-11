@@ -27,7 +27,7 @@ class _LibraryPage extends Component {
             const likedTracks = await stationService.getTemplateStation('likedStation', 'liked')
             const stationsByUser = stations.filter(stationBy => stationBy.createdBy._id === user._id)
 
-            const likedByUser = stations.filter(station => user.likedStations.includes(station._id))
+            const likedByUser = stations.filter(station => user.likedStations?.includes(station._id))
 
             let recentlyaddedStations = stations.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
             recentlyaddedStations = recentlyaddedStations.slice(0, 8);
