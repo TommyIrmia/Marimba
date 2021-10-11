@@ -29,7 +29,7 @@ export class HomePage extends Component {
 
     render() {
         const { genres, stations } = this.state
-
+        
         if (!stations.length) return <Loader />
 
         return (

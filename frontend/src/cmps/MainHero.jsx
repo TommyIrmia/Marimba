@@ -8,7 +8,12 @@ export class MainHero extends Component {
         isStart: false,
     }
 
+    handleScroll = () => {
+        window.scrollTo(0, 0)
+    }
+
     render() {
+        window.addEventListener('scroll', this.handleScroll)
         const { isStart } = this.state;
         return (
             <section className="MainHero">
@@ -19,8 +24,9 @@ export class MainHero extends Component {
                         <p className="blur-out-contract-bck" >Listening is everything.</p>
                         <button onClick={() => {
                             this.setState({ isStart: true }, () => {
+                                window.removeEventListener('scroll', this.handleScroll)
                                 sessionService.save('initial', 'notInitial')
-                                this.props.onInitialEntry()
+                                setTimeout(() => this.props.onInitialEntry(), 500)
                             })
                         }} >Start listening</button>
                     </div>

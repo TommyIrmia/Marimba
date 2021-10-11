@@ -29,6 +29,9 @@ export class _AppHeader extends React.Component {
     render() {
         const { isOpen } = this.state;
         const { bgc, stationName, user } = this.props
+        document.addEventListener("scroll", () => {
+            document.documentElement.dataset.scroll = window.scrollY;
+        });
         return (
             <div className="app-header" style={{ backgroundColor: bgc }} >
 

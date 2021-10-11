@@ -30,7 +30,7 @@ export class StationList extends React.Component {
         if (!stationsByGenre?.length) return <div></div>
         return (
             <section className="station-list">
-                <div className="stations grid">
+                <div className="stations grid" onTouchMove={(ev) => { ev.stopPropagation() }}>
 
                     <div className="station-genre flex space-between">
                         <Link to={`/genre/${genre}`}><h1>{(genre === 'Cities') ? 'Top 10 city charts' : genre}</h1></Link>
