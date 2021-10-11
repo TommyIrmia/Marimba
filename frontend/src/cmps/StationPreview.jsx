@@ -32,6 +32,7 @@ class _StationPreview extends React.Component {
     onLikeStation = async () => {
         try {
             const { user, station } = this.props;
+            console.log('try to like station, user:',user,'station:', station);
             await this.props.onLikeStation(station, user)
             this.props.onSetMsg('success', 'Added to your library')
         } catch (err) {

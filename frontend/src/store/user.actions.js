@@ -96,6 +96,7 @@ export function onLikeStation(station, user) {
     return async (dispatch) => {
         try {
             const updatedUser = await stationService.addLikeTtoStation(station, user)
+            console.log('liking station in user actions, updated user:', updatedUser);
             dispatch({
                 type: 'SET_USER',
                 user: updatedUser

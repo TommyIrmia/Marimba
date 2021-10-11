@@ -40,6 +40,7 @@ export class _AppHeader extends React.Component {
                     <div className="user-name">{user.fullname}</div>
                     <div className={(isOpen) ? 'fas fa-sort-up' : 'fas fa-sort-down'}></div>
                 </div>
+                {isOpen && <div className="screen" onClick={this.onOpenOptions}></div>}
 
                 {isOpen && <ul className="options-container">
                     {!user._id &&

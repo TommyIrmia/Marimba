@@ -3,10 +3,11 @@ import { StationFilter } from './StationFilter.jsx';
 
 
 export function StationActions({ isSearch, onSearch, inputRef, onSetFilter, onPauseTrack, onPlayTrack,
-    onScrollToAdd, tracks, bgc, currStationId, onSetMsg, user, station, isPlayerPlaying, playingStationId }) {
+    onScrollToAdd, onLikeStation, onUnlikeStation, tracks, bgc, currStationId, onSetMsg, user, station, isPlayerPlaying, playingStationId }) {
 
-    const onLikeStation = async () => {
+    const LikeStation = async () => {
         try {
+            console.log('liking station');
             await onLikeStation(station, user)
             onSetMsg('success', 'Added to your library')
         } catch (err) {
@@ -14,8 +15,9 @@ export function StationActions({ isSearch, onSearch, inputRef, onSetFilter, onPa
         }
     }
 
-    const onUnlikeStation = async () => {
+    const UnlikeStation = async () => {
         try {
+            console.log('unliking station');
             await onUnlikeStation(station, user)
             onSetMsg('success', 'Removed from your library')
         } catch (err) {
@@ -24,6 +26,7 @@ export function StationActions({ isSearch, onSearch, inputRef, onSetFilter, onPa
     }
 
     const checkIsLiked = () => {
+        console.log('checking is liked');
         if (!user.likedStations) return false
         return user.likedStations.some(stationId => currStationId === stationId)
     }
@@ -52,7 +55,7 @@ export function StationActions({ isSearch, onSearch, inputRef, onSetFilter, onPa
 
                         {currStationId !== 'liked' && currStationId !== 'new' &&
                             <button
-                                onClick={checkIsLiked() ? () => onUnlikeStation(currStationId) : () => onLikeStation(currStationId)}
+                                onClick={checkIsLiked() ? () => UnlikeStation(currStationId) : () => LikeStation(currStationId)}
                                 className={"btn-action " + (checkIsLiked() ? "fas fa-thumbs-up btn-liked" : "far fa-thumbs-up")}>
                             </button>}
 

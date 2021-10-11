@@ -129,6 +129,8 @@
     margin-bottom: 5px;
     @include for-mobile-layout {
       flex-direction: column;
+      margin-bottom: 0;
+      align-content: space-between;
     }
     @include for-narrow-layout {
       margin-bottom: 1px;
@@ -138,14 +140,14 @@
       font-size: 21px;
       @include for-mobile-layout {
         font-size: 18px;
-        padding: 1px;
+        padding: 3px;
       }
     }
     .facebook-btn {
       font-size: 22px;
       @include for-mobile-layout {
         font-size: 18px;
-        padding: 1px;
+        padding: 3px;
       }
     }
 
@@ -154,7 +156,7 @@
       @include for-mobile-layout {
         font-size: 20px;
         position: relative;
-        padding: 1px;
+        padding: 3px;
         top: 1px;
       }
     }
