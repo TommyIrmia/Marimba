@@ -1,7 +1,7 @@
 import { asyncStorageService } from "./async-storage.service.js"
 import { httpService } from "./http.service.js"
 import logo from "../assets/imgs/default.png";
-import heartOfApp from "../assets/imgs/white-heart_2018_8.png"
+import heartOfApp from "../assets/imgs/heart.png"
 import { asyncSessionService } from "./async-session.service.js";
 import { userService } from "./user.service.js";
 
