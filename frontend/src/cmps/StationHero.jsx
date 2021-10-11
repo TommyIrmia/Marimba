@@ -8,10 +8,14 @@ export class StationHero extends Component {
 
     state = {
         station: null,
+        width: 1000
     }
 
     async componentDidMount() {
         // await this.loadStation()
+        if (window.innerWidth < 680) {
+            this.setState({ ...this.state, width: window.innerWidth })
+        }
     }
 
     loadStation = async () => {
@@ -49,6 +53,7 @@ export class StationHero extends Component {
     render() {
         const { station } = this.props
         const { tracks, stationId, likesCount } = this.props
+        const { width } = this.state;
         if (!station) return <div></div>
         return (
             <main style={{ backgroundColor: station.bgc }} className="hero-container">
@@ -65,7 +70,7 @@ export class StationHero extends Component {
                         </div>
                         <div className="share-container">
 
-                            <div className="share-btns flex">
+                            <div className="share-btns flex" >
                                 <WhatsappShareButton url={`http://www.youtube.com/watch?v=9WzIACv_mxs`} title="I like to share with you this playlist from Marimba!">
                                     <div className="whatsapp-btn fab fa-whatsapp"></div>
                                 </WhatsappShareButton>
@@ -77,7 +82,7 @@ export class StationHero extends Component {
                                 </CopyToClipboard>
 
                             </div>
-                            <h5>Share this playlist</h5>
+                            <h5 >Share this playlist</h5>
                         </div>
                     </div>
                 </div>

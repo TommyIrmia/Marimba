@@ -115,9 +115,10 @@
   position: absolute;
   right: 10px;
   bottom: 10px;
+
   h5 {
     @include for-mobile-layout {
-      font-size: 0.8rem;
+      display: none;
     }
   }
   @include for-narrow-layout {
@@ -126,6 +127,9 @@
   .share-btns {
     justify-content: space-around;
     margin-bottom: 5px;
+    @include for-mobile-layout {
+      flex-direction: column;
+    }
     @include for-narrow-layout {
       margin-bottom: 1px;
     }
@@ -134,15 +138,14 @@
       font-size: 21px;
       @include for-mobile-layout {
         font-size: 18px;
-      }
-      &:hover {
-        color: lightgray;
+        padding: 1px;
       }
     }
     .facebook-btn {
       font-size: 22px;
       @include for-mobile-layout {
         font-size: 18px;
+        padding: 1px;
       }
     }
 
@@ -151,6 +154,7 @@
       @include for-mobile-layout {
         font-size: 20px;
         position: relative;
+        padding: 1px;
         top: 1px;
       }
     }

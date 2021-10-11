@@ -171,7 +171,7 @@ class _TrackPreview extends Component {
                                 <p className={(isHover) ? '' : 'track-duration'} >{track.minutes}:{track.seconds}</p>
 
                                 {stationId !== 'liked' && <button onClick={() => onRemoveTrack(track.id, track.title)}
-                                    className={"far fa-trash-alt btn-remove " + (isHover ? "" : "btn-hidden")}>
+                                    className={(width <= 680 ? "fas fa-times btn-remove" : "far fa-trash-alt btn-remove ") + (isHover ? "" : "btn-hidden")}>
                                 </button>}
                             </div>
 
