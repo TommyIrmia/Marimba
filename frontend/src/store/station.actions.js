@@ -24,7 +24,6 @@ export function loadTracks(stationId, filterBy) {
 export function onUpdateTracks(tracks, stationId) {
     return async (dispatch) => {
         try {
-            console.log('from update', stationId);
             dispatch({
                 type: 'UPDATE_TRACKS',
                 tracks,
@@ -51,10 +50,6 @@ export function onRemoveTrack(trackId, stationId, trackName, bgc, name) {
                 type: 'ADD_ACTIVITY',
                 activity: activityToAdd
             })
-            dispatch({
-                type: 'ADD_UNREAD',
-                diff: 1
-            })
         } catch (err) {
             throw err
         }
@@ -66,23 +61,16 @@ export function onAddTrack(track, stationId, trackName, bgc, name) {
     return async (dispatch) => {
         try {
             await stationService.addTrackToStation(track, stationId)
-            // console.log('From track actions - Added track', track)
             dispatch({
                 type: 'ADD_TRACK',
                 track,
                 currStationId: stationId
             })
-
             const activityToAdd = await activityService.addActivity('add track', { name, bgc, id: stationId }, trackName)
             dispatch({
                 type: 'ADD_ACTIVITY',
                 activity: activityToAdd
             })
-            // dispatch({
-            //     type: 'ADD_UNREAD',
-            //     diff: 1
-            // })
-
         } catch (err) {
             throw err
         }
@@ -131,7 +119,9 @@ export function updateTracksInStore(tracks) {
 
 export function setLikesCount(likesCount) {
     return dispatch => {
-        console.log('from actions', likesCount);
-        dispatch({ type: 'SET_LIKES_COUNT', likesCount })
+        dispatch({
+            type: 'SET_LIKES_COUNT',
+            likesCount
+        })
     }
 }

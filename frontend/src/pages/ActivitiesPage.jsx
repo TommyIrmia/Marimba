@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ActivityLog } from '../cmps/ActivityLog'
 
-export default class ActivitiesPage extends Component {
+export class ActivitiesPage extends Component {
 
     state = {
     }

@@ -29,7 +29,7 @@ export class GenrePage extends Component {
 
     render() {
         const { genre, stations } = this.state
-        if (!stations.length) return <div className="loader-container" > <Loader /> </div>
+        if (!stations.length) return <Loader />
         return (
             <section className="GenrePage">
                 {/* <h1 className="genre-title">{genre}</h1>

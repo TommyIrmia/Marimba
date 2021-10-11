@@ -50,9 +50,6 @@
       border-radius: 50%;
       opacity: 0;
       transition: 0.2s;
-      // position: fixed;
-      // top: 89.5vh;
-      // left: 78px;
       position: absolute;
       bottom: 12px;
       right: -7px;
@@ -60,8 +57,8 @@
         opacity: 1;
       }
       @include for-narrow-layout {
-        bottom: 8px;
-        right: -1px;
+        bottom: 13px;
+        right: -7px;
       }
     }
   }

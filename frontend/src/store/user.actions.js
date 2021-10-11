@@ -76,11 +76,6 @@ export function onLikeTrack(track, user) {
                 activity: activityToAdd
             })
 
-            // dispatch({
-            //     type: 'ADD_UNREAD',
-            //     diff: 1
-            // })
-
         } catch (err) {
             throw err
         }

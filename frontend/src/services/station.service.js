@@ -317,7 +317,7 @@ async function addTrackToLiked(track, user) {
             user.likedSongs.push(track)
             return await userService.updateUser(user)
         } else {
-            let likedStation = await asyncSessionService.get("likedStation", "liked")
+            const likedStation = await asyncSessionService.get("likedStation", "liked")
             likedStation.tracks?.push(track)
             await asyncSessionService.put("likedStation", likedStation)
             return user

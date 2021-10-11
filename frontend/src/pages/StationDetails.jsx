@@ -29,7 +29,7 @@ class _StationDetails extends Component {
         stationId: '',
         animation: '',
         isConfirmMsgOpen: false,
-        windowWidth:window.innerWidth,
+        windowWidth: window.innerWidth,
     }
     userAnswer;
     inputRef = React.createRef()
@@ -114,7 +114,10 @@ class _StationDetails extends Component {
             const confirmRemove = await this.userConfirmation()
             this.setState({ isConfirmMsgOpen: false })
             if (!confirmRemove) return;
+
             const { stationId } = this.state
+            const { video_id } = this.props.player.getVideoData()
+            if (trackId === video_id) this.props.setSongIdx(0)
             await this.props.onRemoveTrack(trackId, stationId, trackName, this.props.bgc, this.props.stationName)
             if (stationId === this.props.stationId) await this.props.loadTracksToPlayer(this.props.tracks, stationId)
 
@@ -132,7 +135,7 @@ class _StationDetails extends Component {
     }
 
     userConfirmation = () => {
-        this.setState({windowWidth:window.innerWidth})
+        this.setState({ windowWidth: window.innerWidth })
         this.setState({ isConfirmMsgOpen: true })
 
         return new Promise((resolve) => {
@@ -255,10 +258,10 @@ class _StationDetails extends Component {
     }
 
     render() {
-        const { isSearch, isPlaying, isLoading, isEditModalOpen, animation, isConfirmMsgOpen, station,windowWidth } = this.state;
+        const { isSearch, isPlaying, isLoading, isEditModalOpen, animation, isConfirmMsgOpen, station, windowWidth } = this.state;
         const { tracks, bgc, user } = this.props
         const { stationId } = this.props.match.params
-        if (!isLoading) return <div className="loader-container" ><Loader /> </div>
+        if (!isLoading) return <Loader />
         return (
             <main className="StationDetails">
                 <div onClick={() => {

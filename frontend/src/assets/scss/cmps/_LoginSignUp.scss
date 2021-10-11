@@ -23,7 +23,7 @@
     justify-content: center;
     gap: 5px;
     cursor: pointer;
-    
+
     img {
       width: 100%;
       height: inherit;
@@ -32,7 +32,7 @@
       border-radius: inherit;
     }
   }
-  
+
   h2,
   button {
     font-family: "gotham-bold";
@@ -42,7 +42,7 @@
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    
+
     .input-container {
       width: 80%;
       height: 35px;
@@ -52,7 +52,7 @@
       padding-inline-end: 5px;
       border-radius: rem(7px);
     }
-    
+
     input {
       border-radius: rem(7px);
       width: 90%;
@@ -64,7 +64,7 @@
       background: transparent;
       padding: 0 10px;
     }
-    
+
     input:-webkit-autofill {
       -webkit-text-fill-color: $clr7;
       -webkit-background-clip: text;
