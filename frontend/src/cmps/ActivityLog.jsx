@@ -93,6 +93,7 @@ export class _ActivityLog extends Component {
                     </div>
                     <div className="activity-date">{utilService.getTime(activity.createdAt)}</div>
                 </li>)
+            default:
         }
     }
 

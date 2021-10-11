@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { stationService } from '../services/station.service.js'
-import { WhatsappShareButton, WhatsappIcon, FacebookShareButton, FacebookIcon } from 'react-share'
+import { WhatsappShareButton, FacebookShareButton } from 'react-share'
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 
