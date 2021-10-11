@@ -127,7 +127,7 @@ export class _LoginSignUp extends Component {
                 <hr />
 
                 <FacebookLogin
-                    appId="550515812703196"
+                    appId="265486362138141"
                     fields="name,picture"
                     scope="public_profile"
                     callback={this.responseFacebook}
