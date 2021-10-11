@@ -7,7 +7,6 @@ export function StationActions({ isSearch, onSearch, inputRef, onSetFilter, onPa
 
     const LikeStation = async () => {
         try {
-            console.log('liking station');
             await onLikeStation(station, user)
             onSetMsg('success', 'Added to your library')
         } catch (err) {
@@ -17,7 +16,6 @@ export function StationActions({ isSearch, onSearch, inputRef, onSetFilter, onPa
 
     const UnlikeStation = async () => {
         try {
-            console.log('unliking station');
             await onUnlikeStation(station, user)
             onSetMsg('success', 'Removed from your library')
         } catch (err) {
@@ -26,7 +24,6 @@ export function StationActions({ isSearch, onSearch, inputRef, onSetFilter, onPa
     }
 
     const checkIsLiked = () => {
-        console.log('checking is liked');
         if (!user.likedStations) return false
         return user.likedStations.some(stationId => currStationId === stationId)
     }

@@ -18,7 +18,7 @@ export class PopularStationsList extends Component {
             const mostLiked = stations.sort((a, b) => b.likedByUsers.length - a.likedByUsers.length).slice(0, 8);
             this.setState({ mostLiked })
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 

@@ -143,7 +143,7 @@ export class _MediaPlayer extends Component {
                 this.props.setSongIdx(newIdx)
             }
         } catch (err) {
-            console.log('another user failed to edit this station songs');
+            console.error('another user failed to edit this station songs');
         }
     }
 
