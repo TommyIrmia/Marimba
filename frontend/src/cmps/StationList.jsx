@@ -13,7 +13,6 @@ export class StationList extends React.Component {
         this.loadStationsByGenre();
     }
 
-
     loadStationsByGenre = async () => {
         try {
             const { genre, stations } = this.props;
@@ -25,17 +24,12 @@ export class StationList extends React.Component {
         }
     }
 
-  
-
-
-
     render() {
         const { stationsByGenre } = this.state
         const { genre } = this.props
         if (!stationsByGenre?.length) return <div></div>
         return (
             <section className="station-list">
-
                 <div className="stations grid">
                     <div className="station-genre flex space-between">
                         <Link to={`/genre/${genre}`}><h1>{(genre === 'Cities') ? 'Top 10 city charts' : genre }</h1></Link>
@@ -43,7 +37,6 @@ export class StationList extends React.Component {
                     </div>
                     {stationsByGenre.slice(0, 10).map(station => <StationPreview  key={station._id} station={station} />)}
                 </div>
-
             </section>
         )
     }

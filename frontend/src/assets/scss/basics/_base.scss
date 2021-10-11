@@ -118,7 +118,7 @@ a {
     width: 300px;
     left: calc(50% - 60px);
   }
-
+  
   transition: 0.4s;
   &.shown {
     transform: unset;
@@ -131,3 +131,4 @@ a {
     background-color: $clr5;
   }
 }
+

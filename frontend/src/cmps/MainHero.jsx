@@ -20,7 +20,7 @@ export class MainHero extends Component {
                         <p className="blur-out-contract-bck" >Listening is everything.</p>
                         <button onClick={() => {
                             this.setState({ isStart: true }, () => {
-                                sessionService.save('initial', 'false')
+                                sessionService.save('initial', 'notInitial')
                                 window.removeEventListener('scroll', noScroll);
                             })
                         }} >Start listening</button>

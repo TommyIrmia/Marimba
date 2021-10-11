@@ -50,10 +50,15 @@ export class StationHero extends Component {
         return countStr
     }
 
+    capitalizeStationName = (name) => {
+        const stationName = name.charAt(0).toUpperCase() + name.slice(1);
+        return stationName;
+    } 
+
     render() {
         const { station } = this.props
         const { tracks, stationId, likesCount } = this.props
-        const { width } = this.state;
+        const stationName = this.capitalizeStationName(station.name)
         if (!station) return <div></div>
         return (
             <main style={{ backgroundColor: station.bgc }} className="hero-container">
@@ -62,7 +67,7 @@ export class StationHero extends Component {
                         <div className="img-container"><img src={station.imgUrl} alt="img" /> </div>
                         <div className="info-container">
                             <h5>playlist</h5>
-                            <h1 className="hero-title">{station.name}</h1>
+                            <h1 className="hero-title">{stationName}</h1>
                             <p className="hero-subtitle">{station.description}</p>
                             <p>{stationId !== 'liked' && station.createdBy.fullname + ' • '}
                                 {stationId !== 'liked' && this.getLikesCount(likesCount) + ' likes • '}

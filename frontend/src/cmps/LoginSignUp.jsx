@@ -30,13 +30,13 @@ export class _LoginSignUp extends Component {
             if (isLogin) {
                 const loggedinUser = await this.props.onLogin(user)
                 if (loggedinUser) {
-                    this.props.onSetMsg('success', `Welcome ${loggedinUser.fullname}`)
+                    this.props.onSetMsg('success login', `Welcome ${loggedinUser.fullname}`)
                     this.props.history.push("/")
                 }
                 else this.props.onSetMsg('error', 'Wrong username or password, please try again.')
             } else {
                 await this.props.onSignup(user)
-                this.props.onSetMsg('success', `Signed up successfully!`)
+                this.props.onSetMsg('success login', `Signed up successfully!`)
                 this.props.history.push("/")
             }
         } catch (err) {

@@ -20,10 +20,6 @@ export class HomePage extends Component {
         this.loadStations()
     }
 
-    noScroll = () => {
-        window.scrollTo(0, 0);
-    }
-
     loadStations = async () => {
         try {
             let stations = await stationService.query()
@@ -41,16 +37,21 @@ export class HomePage extends Component {
             console.error('Could not get stations', err)
         }
     }
+
+    noScroll = () => {
+        window.scrollTo(0, 0);
+    }
+
     render() {
         const { genres, stations, initialEntry } = this.state
 
-        if (initialEntry && initialEntry !== 'false') window.addEventListener('scroll', this.noScroll);
+        if (initialEntry && initialEntry !== 'notInitial') window.addEventListener('scroll', this.noScroll);
 
-        if (!stations.length) return <div className="loader-container" > <Loader /> </div>
+        if (!stations.length) return  <Loader /> 
 
         return (
             <main>
-                {initialEntry !== 'false' && <MainHero noScroll={this.noScroll} />}
+                {initialEntry !== 'notInitial' && <MainHero noScroll={this.noScroll} />}
 
                 <section className="home-page">
                     <PopularStationsList stations={stations} />

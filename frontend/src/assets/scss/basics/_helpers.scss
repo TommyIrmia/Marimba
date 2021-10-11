@@ -113,6 +113,9 @@
   @include for-narrow-layout {
     left: calc((100% + 250px) / 2);
   }
+  @include for-wide-layout {
+    left: calc((100% + 150px) / 2);
+  }
 }
 
 .css-1eg0sfo-skeletonStyles-Skeleton {

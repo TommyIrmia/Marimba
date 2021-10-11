@@ -21,13 +21,19 @@ export class _AppHeader extends React.Component {
         this.props.onSetMsg('success', 'Logged out successfully')
     }
 
+    capitalizeStationName = (name) => {
+        const stationName = name.charAt(0).toUpperCase() + name.slice(1);
+        return stationName;
+    } 
+
     render() {
         const { isOpen } = this.state;
         const { bgc, stationName, user } = this.props
+        const capitalizedName = this.capitalizeStationName(stationName)
         return (
             <div className="app-header" style={{ backgroundColor: bgc }} >
                 <Link to="/"><Logo /></Link>
-                <h1>{stationName}</h1>
+                <h1>{capitalizedName}</h1>
                 <div onClick={this.onOpenOptions} className="user-container">
                     <div className="img-container"><img src={user.imgUrl} alt='user-img' /></div>
                     <div className="user-name">{user.fullname}</div>

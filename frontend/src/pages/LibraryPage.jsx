@@ -26,15 +26,10 @@ class _LibraryPage extends Component {
             const stations = await stationService.query()
             const likedTracks = await stationService.getTemplateStation('likedStation', 'liked')
             const stationsByUser = stations.filter(stationBy => stationBy.createdBy._id === user._id)
-
-            const likedByUser = stations.filter(station => user.likedStations.includes(station._id))
-
-            let recentlyaddedStations = stations.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
-            recentlyaddedStations = recentlyaddedStations.slice(0, 8);
-
-            let mostLiked = stations.sort((a, b) => b.likedByUsers.length - a.likedByUsers.length);
-            mostLiked = mostLiked.slice(0, 8);
-
+            const recentlyaddedStations = stations.sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 8);
+            const mostLiked = stations.sort((a, b) => b.likedByUsers.length - a.likedByUsers.length).slice(0, 8);
+            let likedByUser = []
+            if (user._id) likedByUser = stations.filter(station => user.likedStations.includes(station._id))
             this.setState({ mostLiked, recentlyStations: recentlyaddedStations, likedTracks: likedTracks.tracks, stationsBy: stationsByUser, likedByUser })
         } catch (err) {
             console.log(err);
