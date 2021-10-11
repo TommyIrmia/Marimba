@@ -4,7 +4,7 @@ import Skeleton from 'react-loading-skeleton';
 
 
 export const SearchTrackList = ({ tracks, isLoading, msg }) => {
-    if (!tracks.length && isLoading && !msg) return <div> <Skeleton count={5} /> </div>
+    if (!tracks.length && isLoading && !msg) return <div> <Skeleton className="skeleton-loader" count={5} /> </div>
     return (
 
         <section className="TrackList">
