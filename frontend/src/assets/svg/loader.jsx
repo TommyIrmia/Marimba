@@ -1,9 +1,9 @@
 import React from 'react'
 
-export function Loader() {
+export const Loader = () => {
      return (
           <div className="loader-container" >
-               <svg width="135" height="140" viewBox="0 0 135 140" xmlns="http://www.w3.org/2000/svg" fill="#1db954">
+               <svg width="135" height="140" viewBox="0 0 135 140" fill="#1db954">
                     <rect y="10" width="15" height="120" rx="6">
                          <animate attributeName="height"
                               begin="0.5s" dur="1s"

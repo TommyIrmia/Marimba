@@ -4,7 +4,7 @@ import { onPlayTrack, loadTracksToPlayer, setSongIdx, updateIsLikedSong } from '
 import { onUpdateTrack } from '../store/station.actions.js'
 import { onSetMsg, onLikeTrack, onUnlikeTrack } from '../store/user.actions.js'
 import { stationService } from '../services/station.service';
-import { Audio } from '../assets/svg/audio'
+import { Audio } from '../assets/svg/Audio'
 
 export class _SearchTrackPreview extends Component {
 

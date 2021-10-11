@@ -1,6 +1,6 @@
 const express = require('express')
 const {requireAuth} = require('../../middlewares/requireAuth.middleware')
-const {getStation, getStations, deleteStation, updateStation, addStation} = require('./Station.controller')
+const {getStation, getStations, deleteStation, updateStation, addStation} = require('./station.controller')
 const router = express.Router()
 
 // middleware that is specific to this router

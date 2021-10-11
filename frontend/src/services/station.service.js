@@ -137,7 +137,7 @@ async function query(filterBy) {
 
 async function getGenres() {
     try {
-        return Promise.reslove(genres);
+        return genres
     } catch (err) {
         throw err
     }

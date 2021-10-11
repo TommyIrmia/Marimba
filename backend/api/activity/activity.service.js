@@ -3,17 +3,10 @@ const dbService = require('../../services/db.service')
 const logger = require('../../services/logger.service')
 const ObjectId = require('mongodb').ObjectId
 
-module.exports = {
-    query,
-    getById,
-    add,
-    update
-}
-
 async function query() {
     try {
         const collection = await dbService.getCollection('activity')
-        return await collection.find(criteria).toArray()
+        return await collection.find().toArray()
     } catch (err) {
         logger.error('cannot find activitys', err)
         throw err
@@ -77,6 +70,15 @@ async function update(activity) {
         throw err
     }
 }
+
+
+module.exports = {
+    query,
+    getById,
+    add,
+    update
+}
+
 
 
 

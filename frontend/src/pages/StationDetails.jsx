@@ -13,7 +13,7 @@ import { TrackList } from './../cmps/TrackList';
 import { stationService } from '../services/station.service.js';
 import { withRouter } from 'react-router'
 import { socketService } from '../services/socket.service'
-import { Loader } from './../assets/svg/loader';
+import { Loader } from './../assets/svg/Loader';
 
 
 class _StationDetails extends Component {
@@ -215,7 +215,7 @@ class _StationDetails extends Component {
 
     onDragEnd = (result) => {
         const { destination, source } = result;
-
+        
         if (!destination) return
 
         if (destination.droppableId === source.droppableId &&

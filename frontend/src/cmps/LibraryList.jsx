@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { StationPreview } from './StationPreview';
-import { Loader } from './../assets/svg/loader';
+import { Loader } from './../assets/svg/Loader';
 
 export function LibraryList({ likedByUser, likedTracks, stationsBy, recentlyStations, user, mostLiked }) {
 

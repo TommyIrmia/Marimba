@@ -7,7 +7,7 @@ import { onUpdateTrack } from '../store/station.actions.js'
 import { onSetMsg, onLikeTrack, onUnlikeTrack } from '../store/user.actions.js'
 import { stationService } from '../services/station.service';
 import { ConfirmMsg } from './ConfirmMsg';
-import { Audio } from '../assets/svg/audio'
+import { Audio } from '../assets/svg/Audio'
 
 class _TrackPreview extends Component {
 

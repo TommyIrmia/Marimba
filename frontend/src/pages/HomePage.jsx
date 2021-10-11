@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { StationList } from '../cmps/StationList.jsx'
 import { stationService } from '../services/station.service.js'
-import { Loader } from './../assets/svg/loader';
+import { Loader } from './../assets/svg/Loader';
 import { PopularStationsList } from './../cmps/PopularStationsList';
 
 export class HomePage extends Component {

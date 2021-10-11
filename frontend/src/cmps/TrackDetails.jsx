@@ -1,6 +1,6 @@
 import React from 'react'
 import { stationService } from '../services/station.service';
-import { Audio } from '../assets/svg/audio'
+import { Audio } from '../assets/svg/Audio'
 import { Link } from 'react-router-dom';
 
 export class TrackDetails extends React.Component {

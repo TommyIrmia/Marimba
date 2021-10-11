@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { SearchStationList } from '../cmps/SearchStationList.jsx'
 import { stationService } from '../services/station.service.js'
-import { Loader } from './../assets/svg/loader';
+import { Loader } from './../assets/svg/Loader';
 
 export class GenrePage extends Component {
 
