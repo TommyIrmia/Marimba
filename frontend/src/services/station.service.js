@@ -386,16 +386,28 @@ async function addLikeTtoStation(station, user) {
         // for (let i = 0; i < ranNum; i++) {
         //     station.likedByUsers.push(fakeUser)
         // }
-        const miniUser = {
-            _id: user._id,
-            fullname: user.fullname,
-            imgUrl: user.imgUrl
-        }
+        if (user._id) {
 
-        station.likedByUsers.push(miniUser)
-        httpService.put(`station`, station)
-        user.likedStations.push(station._id)
-        return await userService.updateUser(user)
+            const miniUser = {
+                _id: user._id,
+                fullname: user.fullname,
+                imgUrl: user.imgUrl
+            }
+
+            station.likedByUsers.push(miniUser)
+            httpService.put(`station`, station)
+            user.likedStations.push(station._id)
+            return await userService.updateUser(user)
+        } else {
+            let likedStations = await asyncSessionService.get("likedStations", "liked")
+            if (!likedStations) likedStations = {
+                _id : 'liked',
+                stations: []
+            }
+            likedStations.stations?.push(station._id)
+            await asyncSessionService.put("likedStations", likedStations)
+            return user
+        }
         // return Promise.resolve(fakeUser)
     } catch (err) {
         throw err
@@ -404,13 +416,22 @@ async function addLikeTtoStation(station, user) {
 
 async function removeLikeFromStation(station, userToUpdate) {
     try {
-        const stationIdx = station.likedByUsers.findIndex(user => user._id === userToUpdate._id)
-        station.likedByUsers.splice(stationIdx, 1);
-        httpService.put(`station`, station)
-
-        const userIdx = userToUpdate.likedStations.findIndex(stationId => stationId === station._id)
-        userToUpdate.likedStations.splice(userIdx, 1)
-        return await userService.updateUser(userToUpdate)
+        if (userToUpdate._id) {
+            const stationIdx = station.likedByUsers.findIndex(user => user._id === userToUpdate._id)
+            station.likedByUsers.splice(stationIdx, 1);
+            httpService.put(`station`, station)
+            
+            const userIdx = userToUpdate.likedStations.findIndex(stationId => stationId === station._id)
+            userToUpdate.likedStations.splice(userIdx, 1)
+            return await userService.updateUser(userToUpdate)
+        } else {
+            const likedStations = await asyncSessionService.get("likedStations", "liked")
+            if (!likedStations) return;
+            const idx = likedStations.stations.findIndex(stationId => stationId === station._id)
+            likedStations.stations.splice(idx, 1);
+            await asyncSessionService.put("likedStations", likedStations)
+            return userToUpdate
+        }
     } catch (err) {
         throw err
     }

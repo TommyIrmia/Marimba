@@ -5,8 +5,18 @@ import { loadTracksToPlayer, setSongIdx } from '../store/mediaplayer.actions.js'
 import { onSetMsg, onLikeStation, onUnlikeStation } from '../store/user.actions.js'
 import { setBgcAndName } from '../store/station.actions.js'
 import { utilService } from './../services/util.service';
+import { asyncSessionService } from './../services/async-session.service';
 
 class _StationPreview extends React.Component {
+
+    state = {
+        isLiked: false,
+    }
+
+    componentDidMount() {
+        this.checkIsLiked()
+        this.checkGeustLike()
+    }
 
     onPlayStation = async () => {
         try {
@@ -32,10 +42,11 @@ class _StationPreview extends React.Component {
     onLikeStation = async () => {
         try {
             const { user, station } = this.props;
-            console.log('try to like station, user:',user,'station:', station);
             await this.props.onLikeStation(station, user)
             this.props.onSetMsg('success', 'Added to your library')
+            this.setState({isLiked:true})
         } catch (err) {
+            console.log(err);
             this.props.onSetMsg('error', 'Oops.. Must be a user to like a station, do it now :)')
         }
     }
@@ -45,6 +56,7 @@ class _StationPreview extends React.Component {
             const { user, station } = this.props;
             await this.props.onUnlikeStation(station, user)
             this.props.onSetMsg('success', 'Removed from your library')
+            this.setState({isLiked:false})
         } catch (err) {
             this.props.onSetMsg('error', 'Oops.. Something went wrong. \n please try again.')
         }
@@ -53,8 +65,22 @@ class _StationPreview extends React.Component {
     checkIsLiked = () => {
         const { station, user } = this.props;
         if (!user.likedStations?.length) return false
-        return user.likedStations.find(likedStationId => station._id === likedStationId)
+      const isLiked = user.likedStations.find(likedStationId => station._id === likedStationId)
+         if (isLiked) this.setState({isLiked:true})
     }
+
+    checkGeustLike = async () => {
+        const {station} = this.props;
+        const likedStations = await asyncSessionService.get("likedStations", "liked")
+            if (!likedStations) return
+           const isLiked = likedStations.stations?.some(likedStationId => likedStationId === station._id)
+           if (isLiked) this.setState({isLiked:true});
+    }
+    // checkIsLiked = () => {
+    //     const { station, user } = this.props;
+    //     if (!user.likedStations?.length) return false
+    //     return user.likedStations.find(likedStationId => station._id === likedStationId)
+    // }
 
     isFromSearch = () => {
         const { isFromSearchList } = this.props
@@ -77,6 +103,7 @@ class _StationPreview extends React.Component {
 
     render() {
         const { station, isMostLikedList } = this.props
+        const {isLiked} = this.state;
         return (
             <main className="preview-container" >
 
@@ -116,14 +143,14 @@ class _StationPreview extends React.Component {
                     <main className="station-like-container">
                         {/* ${(isMostLikedList) ? 'most-liked-preview flex' : `station-preview */}
                         <section className={(station.tags[0] === 'Cities') ? 'station-like city' : 'station-like'}>
-                            {!this.checkIsLiked() && <button className="far fa-thumbs-up"
+                            {!isLiked && <button className="far fa-thumbs-up"
                                 onClick={(ev) => {
                                     ev.stopPropagation()
                                     this.onLikeStation()
                                 }}>
                             </button>}
 
-                            {this.checkIsLiked() && <button className="fas fa-thumbs-up green"
+                            {isLiked && <button className="fas fa-thumbs-up green"
                                 onClick={(ev) => {
                                     ev.stopPropagation()
                                     this.onUnlikeStation()
