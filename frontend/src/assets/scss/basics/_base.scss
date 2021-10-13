@@ -19,13 +19,6 @@
   background: #888;
 }
 
-@include for-mobile-layout {
-  ::-webkit-scrollbar {
-    // height: 0;
-    // width: 5px;
-  }
-}
-
 body {
   background-color: $clr1;
   margin: 0;

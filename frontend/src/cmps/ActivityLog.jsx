@@ -9,7 +9,7 @@ import { socketService } from '../services/socket.service'
 
 export class _ActivityLog extends Component {
 
-    async componentDidMount() {
+    componentDidMount() {
         this.loadActivities()
         socketService.on('addActivity', this.loadActivities)
     }
