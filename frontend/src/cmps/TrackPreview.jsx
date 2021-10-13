@@ -134,7 +134,10 @@ class _TrackPreview extends Component {
                             onMouseLeave={() => this.onToggleHover(false)}
                         >
 
-                            <section title={title} className="TrackPreview flex" onClick={() => this.onPlayTrackMobile(idx)}>
+                            <section title={title} className="TrackPreview flex" onClick={(ev) => {
+                                ev.stopPropagation()
+                                this.onPlayTrackMobile(idx)
+                            }}>
                                 {windowWidth < 680 && <div className="num-idx" >
                                     {!this.checkIsPlaying() ? (idx + 1) : <div className="audio-container" > <Audio /> </div>}
                                 </div>}
