@@ -76,11 +76,6 @@ class _StationPreview extends React.Component {
            const isLiked = likedStations.stations?.some(likedStationId => likedStationId === station._id)
            if (isLiked) this.setState({isLiked:true});
     }
-    // checkIsLiked = () => {
-    //     const { station, user } = this.props;
-    //     if (!user.likedStations?.length) return false
-    //     return user.likedStations.find(likedStationId => station._id === likedStationId)
-    // }
 
     isFromSearch = () => {
         const { isFromSearchList } = this.props
