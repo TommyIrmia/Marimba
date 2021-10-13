@@ -55,7 +55,7 @@ export class _LoginSignUp extends Component {
     }
 
     responseFacebook = (val) => {
-
+        if (!val.fullname || !val.username) return
         const fullname = val.name
         const username = val.name.split(' ').slice(0, 1)
         const imgUrl = val.picture.data.url;

@@ -54,7 +54,6 @@ export class TrackSearch extends Component {
 
     suggestByStationName = async () => {
         try {
-            return youtubeService.getRandomSearch() // remove for REAL app
             const { stationId } = this.props
             if (!stationId || stationId === 'new') return youtubeService.getRandomSearch()
             const station = await stationService.getById(stationId)
@@ -81,10 +80,10 @@ export class TrackSearch extends Component {
             let tracksIdx = this.state.tracksIdx + 5
             let { searchKey } = this.state
 
-            // if (this.props.stationId === 'new') {
-            searchKey = await this.suggestByStationName()
-            tracksIdx = 0
-            // }
+            if (this.props.stationId === 'new') {
+                searchKey = await this.suggestByStationName()
+                tracksIdx = 0
+            }
 
             let tracks = await youtubeService.query(searchKey, this.props.currStationTracks, tracksIdx)
             if (!tracks.length) {

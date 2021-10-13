@@ -33,7 +33,7 @@ async function addActivity(type, stationInfo, trackName) {
         }
         return await httpService.post('activity', activity);
     } catch (err) {
-        console.error('couldnt add activity', err);
+        throw err
     }
 }
 
@@ -41,6 +41,6 @@ async function updateActivity(activity) {
     try {
         await httpService.put('activity', activity)
     } catch (err) {
-        console.error('Couldnt update activity', err)
+        throw err
     }
 }
