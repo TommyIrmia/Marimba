@@ -165,14 +165,14 @@ class _StationDetails extends Component {
             if (stationId === 'new') {
                 stationId = await stationService.saveNewStation();
                 this.setState({ ...this.state, stationId });
-                this.props.addActivity({
-                    type: 'create playlist', byUser: 'Guest#117',
-                    stationInfo: {
+                this.props.addActivity(
+                    'create playlist',
+                    {
                         name: data.title,
                         bgc: this.props.bgc,
                         id: stationId,
                     }
-                })
+                )
                 this.props.onSetMsg('success', 'Saved playlist to your library!')
             }
             await stationService.saveDataFromHero(stationId, data)
@@ -215,7 +215,7 @@ class _StationDetails extends Component {
 
     onDragEnd = (result) => {
         const { destination, source } = result;
-        
+
         if (!destination) return
 
         if (destination.droppableId === source.droppableId &&

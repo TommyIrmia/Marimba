@@ -24,15 +24,17 @@ export class _ActivityLog extends Component {
 
     onGoToActivity = (activity) => {
         this.onReadActivity(activity)
+        console.log('activity', activity);
         if (activity.type === 'like track') return
         this.props.history.push(`/station/${activity.stationInfo.id}`)
         this.props.setBgcAndName(activity.stationInfo.bgc, activity.stationInfo.name)
     }
 
-    onReadActivity = (activity) => {
+    onReadActivity = async (activity) => {
         if (activity.isRead) return
-        this.props.onReadActivity(activity);
+        await this.props.onReadActivity(activity);
         this.loadActivities();
+        console.log('activity', activity);
     }
 
 

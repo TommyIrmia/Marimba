@@ -43,13 +43,10 @@ class _TrackPreview extends Component {
     onPlayTrack = async (trackIdx) => {
         try {
             const { tracks, stationId, player, currStationId } = this.props
-            if (stationId !== currStationId) {
-                await this.props.loadTracksToPlayer(tracks, stationId)
-            }
+            console.log('from play', tracks, 'curr', stationId, 'playing', currStationId, trackIdx);
+            if (stationId !== currStationId) this.props.loadTracksToPlayer(tracks, stationId)
             await this.props.onPlayTrack(trackIdx)
-            if (player) {
-                player.playVideo()
-            }
+            if (player) player.playVideo()
         } catch (err) {
             this.props.onSetMsg('error', 'Oops.. something went wrong,\n please try again.')
         }

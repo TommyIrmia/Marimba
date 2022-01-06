@@ -135,7 +135,9 @@
           margin-inline-start: 5px;
           width: 25px;
           height: 25px;
-
+          @include for-narrow-layout {
+            min-width: 25px;
+          }
           img {
             border-radius: 50%;
             height: 100%;
