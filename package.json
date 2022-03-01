@@ -1,8 +1,0 @@
-{
-    "name": "marimba",
-    "description": "music app",
-    "version": "1.0.0",
-    "engines": {
-        "node": "14.x"
-    }
-}
